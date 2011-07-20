@@ -198,8 +198,7 @@ public class Bootstrap extends Job {
      
       
       float importo = 100;
-      Costo cs1 = new Costo(importo,new Date());
-      cs1.risorsa = r1;
+      Costo cs1 = new Costo(importo,new Date(),r1);
       cs1.save();
       
       

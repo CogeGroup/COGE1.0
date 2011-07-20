@@ -112,8 +112,7 @@ public class BasicTest extends UnitTest {
      cAc1.cliente=cl1;
      cAc1.save();
      float importo = 100;
-     Costo cs1 = new Costo(importo,new Date());
-     cs1.risorsa = r1;
+     Costo cs1 = new Costo(importo,new Date(),r1);
      cs1.save();
      Ruolo ruolo1 = new Ruolo("admin");
      Utente u1 = new Utente("a","a",true);
