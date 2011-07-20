@@ -1,0 +1,53 @@
+#{extends 'main.html' /}
+#{set title:'Modifica commessa: '+  commessaACorpo.codice /}
+
+<h1>Modifica commessa: ${commessaACorpo.codice }</h1>
+#{form @CommesseController.updateACorpo(idCliente)}
+	
+	#{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
+    
+	<p>
+        <label for="id">Id commessa: </label>
+        <label>${commessaACorpo.idCommessa }</label>
+    </p>
+	<p>
+        <label for="codice">Codice commessa: </label>
+        <input type="text" id="codice" name="commessaACorpo.codice" value="${commessaACorpo.codice }"/>
+    </p>
+    <p>
+        <label for="descrizione">Descrizione: </label>
+        <input type="text" id="descrizione" name="commessaACorpo.descrizione" value="${commessaACorpo.descrizione }" />
+    </p>
+    <p>
+        <label for=dataInizioCommessa>Data inizio: </label>
+        <input type="text" id="datepicker" name="commessaACorpo.dataInizioCommessa" value="${commessaACorpo.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
+    </p>
+    <p>
+        <label for=importo>Importo: </label>
+        <input type="text" id="importo" name="commessaACorpo.importo" value="${commessaACorpo.importo }"/>
+    </p>
+    #{if listaClienti.size() > 0}
+    <p>
+    	<label for="cliente">Cliente: </label><br>
+    	<select name="idCliente">
+    		#{list items:listaClienti, as:'cliente'}
+		        <option value="${cliente.idCliente }" 
+		        	#{if cliente.idCliente == commessaACorpo.cliente.idCliente }
+		        		selected="selected"
+		        	#{/if} >${cliente.nominativo }</option>
+		    #{/list} 
+    	</select>
+    </p>
+    #{/if}
+	<p>
+		<input type="hidden" name="commessaACorpo.idCommessa" value="${commessaACorpo.idCommessa }" />
+        <input type="submit" value="Salva modifiche" />
+    </p>
+    
+#{/form}
+<a href="@{CommesseController.index()}">
+	<input type="button" value="Annulla" /></a>

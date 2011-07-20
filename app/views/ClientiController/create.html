@@ -1,0 +1,27 @@
+#{extends 'main.html' /}
+#{set title:'Aggiungi nuovo cliente' /}
+
+<h1>Nuovo cliente</h1>
+#{form @ClientiController.save()}
+	
+	#{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
+	
+	<p>
+        <label for="codice">Codice cliente: </label>
+        <input type="text" id="codice" name="cliente.codice" value="${cliente.codice }"/>
+    </p>
+    <p>
+        <label for="nominativo">Nominativo: </label>
+        <input type="text" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
+    </p>
+	<p>
+        <input type="submit" value="Salva nuovo cliente" />
+    </p>
+    
+#{/form}
+<a href="@{ClientiController.index()}">
+	<input type="button" value="Annulla" /></a>
