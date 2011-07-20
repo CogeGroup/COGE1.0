@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+#{set title:'Commessa: '+  commessa.codice /}
+
+<h1>Commessa: ${commessa.codice }</h1>
+
+	<p>
+        <label for="id">Id commessa: </label>
+        <label>${commessa.idCommessa }</label>
+    </p>
+	<p>
+        <label for="codice">Codice commessa: </label>
+        <label>${commessa.codice }</label>
+    </p>
+    <p>
+        <label for="descrizione">Descrizione: </label>
+        <label>${commessa.descrizione }</label>
+    </p>
+    <p>
+        <label for="fatturabile">Fatturabile: </label>
+        <label>${commessa.fatturabile == true ? 'si' : 'no' }</label>
+    </p>
+    #{if commessa.dataInizioCommessa}
+    <p>
+        <label for=dataInizioCommessa>Data inizio: </label>
+        <label>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</label>
+    </p>
+    #{/if}
+    <p>
+        <label for="cliente">Cliente: </label>
+        <label><a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a></label>
+    </p>
+	
+<a href="@{CommesseController.delete(commessa.idCommessa)}">
+	<input type="button" value="Cancella ${commessa.codice }" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessa.codice }');" /></a>
+<br>
+<a href="@{CommesseController.index()}">
+	<input type="button" value="Indietro" /></a>

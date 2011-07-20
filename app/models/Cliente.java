@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
 
@@ -19,13 +20,17 @@ public class Cliente extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idCliente;
 	
+	@Required(message="Codice obligatorio")
 	public String codice;
 	
+	@Required(message="Nominativo obligatorio")
 	public String nominativo;
 	
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	public List<Commessa> commesse = new ArrayList<Commessa>();
 
+	public Cliente() {}
+	
 	public Cliente(String codice, String nominativo) {
 		super();
 		this.codice = codice;
@@ -46,10 +51,6 @@ public class Cliente extends GenericModel{
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		
-		
 		return importoTotale;
 	}
-	
-	
-    
 }

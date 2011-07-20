@@ -1,0 +1,63 @@
+#{extends 'main.html' /}
+#{set title:'Aggiungi nuova commessa' /}
+
+<h1>Nuova commessa</h1>
+#{if listaClienti.size() > 0}
+#{form @CommesseController.save(idCliente,aCorpo)}
+	
+	#{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
+	
+	<p>
+        <label for="codice">Codice commessa: </label>
+        <input type="text" id="codice" name="commessa.codice" value="${commessa.codice }" />
+    </p>
+    <p>
+        <label for="descrizione">Descrizione: </label>
+        <input type="text" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
+    </p>
+    <p>
+        <label for="fatturabile">Fatturabile: </label>
+        SI <input type="radio" id="descrizione" name="commessa.fatturabile" value="true" checked="checked" />
+        NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" />
+    </p>
+    <p>
+        <label for=dataInizioCommessa>Data inizio: </label>
+        <input type="text" name="commessa.dataInizioCommessa" id="datepicker" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
+    </p>
+    <p>
+    	<label for="cliente">Cliente: </label><br>
+		<select name="idCliente">
+			<option value="">- Selezionare -</option>
+    		#{list items:listaClienti, as:'cliente'}
+		        <option value="${cliente.idCliente }">${cliente.nominativo }</option>
+		    #{/list} 
+    	</select>
+    </p>
+    <hr>
+    <p>
+        <label for="aCorpo">A corpo: </label>
+        SI <input type="radio" id="aCorpo" name="aCorpo" value="si" />
+        NO <input type="radio" id="aCorpo" name="aCorpo" value="no" checked="checked" />
+    </p>
+    <p>
+        <label for=importo>Importo: </label>
+        <input type="text" name="commessaACorpo.importo"vvalue="${commessaACorpo?.importo }"/>
+    </p>
+    <p>
+        <input type="submit" value="Salva nuova commessa" />
+    </p>
+#{/form}
+#{/if}
+#{else}
+	<label>
+		Non si puo' creare una commessa, perche' non esistono clienti a cui assegnarla.
+	</label><br>
+	<a href="@{ClientiController.create()}">
+		<input type="button" value="Aggiungi nuovo Cliente" /></a><br>
+#{/else}
+<a href="@{CommesseController.index()}">
+	<input type="button" value="Annulla" /></a>

@@ -1,0 +1,31 @@
+#{extends 'main.html' /}
+#{set title:'Lista clienti' /}
+
+<h1>Lista Clienti</h1>
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
+#{if paginator.size() > 0}
+	<label>${paginator.size() } clienti</label>
+	<table border="1">
+		<tr>
+			<td>Codice cliente</td>
+			<td>Nominativo</td>
+			<td>Azioni</td>
+		</tr>
+		#{paginate.list items:paginator, as:'cliente'} 
+		<tr>
+			<td><a href="@{ClientiController.show(cliente.idCliente)}">${cliente.codice }</a></td>
+			<td>${cliente.nominativo }</td>
+			<td><a href="@{ClientiController.edit(cliente.idCliente)}">Modifica</a>
+				<a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');">Cancella</a>
+			</td>
+		</tr>
+		#{/paginate.list} 
+	</table>
+#{/if}
+#{else}
+	<label>Nessun Cliente esistente</label>
+#{/else}
+
+<p><a id="create" href="@{ClientiController.create()}"><input type="button" value="Aggiungi nuovo cliente"/></a></p>

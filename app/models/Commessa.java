@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Type;
 
 
+import play.data.binding.As;
+import play.data.validation.InFuture;
+import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
 
@@ -21,14 +24,26 @@ public class Commessa extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idCommessa;
 	
-	public String descrizione;
-	
+	@Required(message="Codice obligatorio")
 	public String codice;
+
+	@Required(message="Descrizione obligatoria")
+	public String descrizione;
 	
 	public boolean fatturabile;
 	
+/* Per il momento la data non è obligatoria, perchè nel caso in cui le commesse sono ferie, malattia, ecc 
+ * non hanno una data di inizio.
+ */
+	
+//	@Required(message="Data obligatoria")
+	@As("dd-MM-yyyy")
+	public Date dataInizioCommessa;
+	
 	@ManyToOne
 	public Cliente cliente;
+	
+	public Commessa(){}
 
 	public Commessa(String descrizione, String codice, boolean fatturabile) {
 		super();
@@ -36,15 +51,6 @@ public class Commessa extends GenericModel{
 		this.codice = codice;
 		this.fatturabile = fatturabile;
 	}
-	
-	public Commessa(){
-		
-		
-	}
-	
-	
-	public Date dataInizioCommessa;
-
 	
 	public float calcolaRicavo(String mese, String anno) {
 		
@@ -61,13 +67,6 @@ public class Commessa extends GenericModel{
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		
-		
 		return importoTotale;
 	}
-	
-	
-	
-	
-
-	
 }

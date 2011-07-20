@@ -1,0 +1,32 @@
+#{extends 'main.html' /}
+#{set title:'Modifica cliente: '+  cliente.nominativo /}
+
+<h1>Modifica cliente: ${cliente.nominativo }</h1>
+#{form @ClientiController.update()}
+	
+	#{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
+    
+	<p>
+        <label for="id">Id cliente: </label>
+        <label>${cliente.idCliente }</label>
+    </p>
+	<p>
+        <label for="codice">Codice cliente: </label>
+        <input type="text" id="codice" name="cliente.codice" value="${cliente.codice }"/>
+    </p>
+    <p>
+        <label for="nominativo">Nominativo: </label>
+        <input type="text" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
+    </p>
+	<p>
+		<input type="hidden" name="cliente.idCliente" value="${cliente.idCliente }" />
+        <input type="submit" value="Salva modifiche" />
+    </p>
+    
+#{/form}
+<a href="@{ClientiController.index()}">
+	<input type="button" value="Annulla" /></a>
