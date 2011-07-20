@@ -3,24 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.JPA;
-import play.db.jpa.Model;
 
 @javax.persistence.Entity
 public class Utente extends GenericModel {
@@ -41,7 +34,7 @@ public class Utente extends GenericModel {
 	@Required(message="scegliere abilitato")
 	public boolean abilitato;
 	
-	@ManyToMany (cascade=CascadeType.ALL)
+	@ManyToMany 
 	public List<Ruolo> ruoli = new ArrayList<Ruolo>();
 	 
     

@@ -1,5 +1,19 @@
 #{extends 'main.html' /}
-#{set title:'Gestione Ruoli' /}
+#{set title:'Gestione Utenti' /}
+
+#{ifErrors}
+    <p class="error">
+        ${flash.error}
+    </p>
+    
+#{/ifErrors}
+
+
+#{if flash.success}
+  <p class="success">
+        ${flash.success}
+    </p>
+#{/ if}
 
 #{if paginator.size() >0 }
 	<table class="gestioneaccount">
@@ -15,8 +29,8 @@
 		    	<td>${index.risorsa.matricola}</td>
 		    	<td>${index.username}</td>
 		    	<td>${index.password}</td>
-		    	<td class="edit"><a href="showUtente?idR=${index.id_utente}">Modifica</a></td>
-		    	<td class="eraser"><a href="deleteUtente?idR=${index.id_utente}">Elimina</a></td>
+		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}">Modifica</a></td>
+		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}">Elimina</a></td>
 		    </tr>
 		    #{/paginate.list}
 	</table> 
@@ -26,7 +40,7 @@
     Non vi sono utenti nel sistema
 #{/else}     
   <div>
-  	#{a @GestioneAccountController.createUtente()}Inserisci Utente#{/a}
+  	#{a @AccountController.createUtente()}Inserisci Utente#{/a}
 
   </div>
   
