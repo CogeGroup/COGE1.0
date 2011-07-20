@@ -1,0 +1,39 @@
+#{extends 'main.html' /}
+#{set title:'Lista commesse' /}
+
+<h1>Lista Commesse</h1>
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
+#{if paginator.size() > 0}
+	<label>${paginator.size() } commesse</label>
+	<table border="1">
+		<tr>
+			<td>Codice commessa</td>
+			<td>Descrizione</td>
+			<td>Cliente</td>
+			<td>Fatturabile</td>
+			<td>Data inizio</td>
+			<td>Azioni</td>
+		</tr>
+		#{paginate.list items:paginator, as:'commessa'} 
+		<tr>
+			<td>
+				<a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a></td>
+			<td>${commessa.descrizione }</td>
+			<td>${commessa.cliente.nominativo }</td>
+			<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>
+			<td>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</td>
+			<td>
+				<a href="@{CommesseController.edit(commessa.idCommessa)}">Modifica</a>
+				<a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessa.codice }');">Cancella</a>
+			</td>
+		</tr>
+		#{/paginate.list} 
+	</table>
+#{/if}
+#{else}
+	<label>Nessuna Commessa esistente</label>
+#{/else}
+
+<p><a id="create" href="@{CommesseController.create()}"><input type="button" value="Aggiungi nuova commessa"/></a></p>

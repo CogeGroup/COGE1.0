@@ -1,0 +1,62 @@
+#{extends 'main.html' /}
+#{set title:'Gestione Utente' /}
+
+
+
+
+
+
+ <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/token-input.css'}">
+ <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.autocomplete.css'}">
+<script src="@{'/public/javascripts/jquery.autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+  <script src="@{'/public/javascripts/jquery.tokeninput.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+	 <script type="text/javascript">
+			 $(document).ready(function () {
+			  		
+	                $("#ruolo").tokenInput('autocompleteRuolo', {
+	                    hintText: "Digitare la descrizione del ruolo (almeno 3 caratteri)",
+	                    noResultsText: "Nessun risultato",
+	                    searchingText: "Ricerca...",
+	                    minChars: "3",
+	                    method: "POST",
+	                    preventDuplicates: true,
+	                    prePopulate:${mylist}
+	             
+	                });
+                });
+	 </script>
+
+#{ifErrors}
+    <p class="error">
+        ${errors[0]}
+        
+    </p>
+#{/ifErrors}
+#{form @accountcontroller.updateUtente()}
+  <input type="hidden" name="utente.idUtente" value="${utente.idUtente}" />
+    <p>
+        <label for="username">Username</label>
+        <input type="text" name="utente.username" id="username" value="${utente?.username}"/>
+    </p>
+    <p>
+        <label for="password">Password</label>
+        <input type="text" name="utente.password" id="password" value="${utente?.password}"/>
+    </p>
+   
+    <p>
+    Ruolo
+    <input type="text" id="ruolo" name="ruolo" />
+    </p>
+    <p>
+     Risorsa (n° matricola)
+       <input type="text" name="risorsa" id="risorsa" value="${utente?.risorsa.matricola}"/> ${flash.error}
+    </p>
+  	<p>
+        <input type="submit" value="Modifica" />
+    </p>
+  
+  #{/form}
+  <script type="text/javascript">
+   $("#risorsa").autocomplete("autocompleteRisorsa",{minChars: 3});
+   
+   </script>

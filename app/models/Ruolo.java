@@ -16,10 +16,11 @@ import org.hibernate.criterion.Restrictions;
 
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
+import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
 
 @javax.persistence.Entity
-public class Ruolo{
+public class Ruolo extends GenericModel{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

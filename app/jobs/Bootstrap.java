@@ -156,8 +156,8 @@ public class Bootstrap extends Job {
  
       public void setup() throws ParseException{
     	  
-      Risorsa r1 = new Risorsa("a","a","pippo", "pippo",new Date());
-     // Risorsa r2 = new Risorsa("b","b","risorsa2", "risorsa2",new Date());
+      Risorsa r1 = new Risorsa("122","a","pippo", "pippo",new Date());
+     Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
       
       TipoRapportoLavoro tipoRappLav1 = new TipoRapportoLavoro("tipoRap1","cod");
       TipoRapportoLavoro tipoRappLav2 = new TipoRapportoLavoro("tipoRap2","cod2");
@@ -206,7 +206,7 @@ public class Bootstrap extends Job {
     
       
       
-      Ruolo ruolo1 = new Ruolo("admin");
+      Ruolo ruolo1 = new Ruolo("admin").save();
       Utente u1 = new Utente("a","a",true);
       u1.addRuolo(ruolo1);
       

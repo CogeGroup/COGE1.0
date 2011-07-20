@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+#{set title:'Cliente: '+  cliente.nominativo /}
+
+<h1>Cliente: ${cliente.nominativo }</h1>
+
+	<p>
+        <label for="id">Id cliente: </label>
+        <label>${cliente.idCliente }</label>
+    </p>
+	<p>
+        <label for="codice">Codice cliente: </label>
+        <label>${cliente.codice }</label>
+    </p>
+    <p>
+        <label for="nominativo">Nominativo: </label>
+        <label>${cliente.nominativo }</label>
+    </p>
+    #{if cliente.commesse.size() > 0 }
+    <p>
+        <label for="commesse">Commesse: </label>
+        <ul>
+        #{list items:cliente.commesse, as:'commessa'}
+			<li><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.descrizione }</a> - Fatturabile: ${commessa.fatturabile == true ? 'si' : 'no' }</li>
+		#{/list}
+		</ul> 
+    </p>
+    #{/if}
+	
+<a href="@{ClientiController.delete(cliente.idCliente)}">
+	<input type="button" value="Cancella ${cliente.nominativo }" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');" /></a>
+<br>
+<a href="@{ClientiController.index()}">
+	<input type="button" value="Indietro" /></a>
