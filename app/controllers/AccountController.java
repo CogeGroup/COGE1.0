@@ -9,7 +9,7 @@ import java.util.*;
 import models.*;
 public class AccountController extends Controller {
 
-    public static void home() {
+    public static void index() {
         render();
     }
     
