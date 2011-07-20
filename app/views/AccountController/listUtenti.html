@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+#{set title:'Gestione Ruoli' /}
+
+#{if paginator.size() >0 }
+	<table class="gestioneaccount">
+		<thead>
+		<th>Matricola</th>
+		<th>Username</th>
+		<th>Password</th>
+		<th>Modifica</th>
+		<th>Elimina</th>
+		</thead>
+			#{paginate.list items:paginator, as:'index'} 
+		    <tr>
+		    	<td>${index.risorsa.matricola}</td>
+		    	<td>${index.username}</td>
+		    	<td>${index.password}</td>
+		    	<td class="edit"><a href="showUtente?idR=${index.id_utente}">Modifica</a></td>
+		    	<td class="eraser"><a href="deleteUtente?idR=${index.id_utente}">Elimina</a></td>
+		    </tr>
+		    #{/paginate.list}
+	</table> 
+	    #{paginate.controls items:paginator /}
+#{/if}    
+#{else}
+    Non vi sono utenti nel sistema
+#{/else}     
+  <div>
+  	#{a @GestioneAccountController.createUtente()}Inserisci Utente#{/a}
+
+  </div>
+  
+  
