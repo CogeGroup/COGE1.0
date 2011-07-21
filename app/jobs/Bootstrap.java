@@ -83,6 +83,7 @@ public class Bootstrap extends Job {
     			 
     	 
     	 Tariffa trf2 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011"),8000.0f,r1,cm1).save();
+    	 trf2.save();
          
          
          //int oreLavorate, int giorno,Commessa commessa
@@ -112,12 +113,13 @@ public class Bootstrap extends Job {
  	Risorsa r2 = Risorsa.find("byMatricola", "b").first();
  	TipoRapportoLavoro tp1 = TipoRapportoLavoro.find("byDescrizione","tipoRap1").first();
  	TipoRapportoLavoro tp2 = TipoRapportoLavoro.find("byDescrizione","tipoRap2").first();
+ 	tp2.save();
  	
  	 Tariffa trf1 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"),3000.0f,r1,cm1);
  	 trf1.dataFine = new SimpleDateFormat("dd/MM/yyyy").parse("30/06/2011");
  	 trf1.save();		 
  	 Tariffa trf2 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011"),8000.0f,r1,cm1).save();
- 	 
+ 	 trf2.save();
  	 
  	 Tariffa trf3 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"),1000.0f,r2,cm1);
  	 trf3.dataFine = new SimpleDateFormat("dd/MM/yyyy").parse("30/06/2011");
@@ -126,7 +128,7 @@ public class Bootstrap extends Job {
  			 
  	 
  	 Tariffa trf4 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011"),8000.0f,r2,cm1).save();
-      
+ 	 trf4.save();
       
       //int oreLavorate, int giorno,Commessa commessa
       DettaglioRapportoAttivita dt1 = new DettaglioRapportoAttivita(10,1,cm1);
@@ -157,7 +159,7 @@ public class Bootstrap extends Job {
       public void setup() throws ParseException{
     	  
       Risorsa r1 = new Risorsa("122","a","pippo", "pippo",new Date());
-     Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
+      Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
       
       TipoRapportoLavoro tipoRappLav1 = new TipoRapportoLavoro("tipoRap1","cod");
       TipoRapportoLavoro tipoRappLav2 = new TipoRapportoLavoro("tipoRap2","cod2");
@@ -180,10 +182,11 @@ public class Bootstrap extends Job {
        try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+
       cm2 = new Commessa("desc","cod",true);
+
       cm1.cliente=cl1;
       cm2.cliente=cl1;
       cm1.save();
@@ -212,6 +215,12 @@ public class Bootstrap extends Job {
       
       u1.risorsa=r1;
       u1.save();
+      
+      Tariffa t1 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011"),100,r2,cm1);
+      t1.dataFine = new SimpleDateFormat("dd/MM/yyyy").parse("31/08/2011");
+      Tariffa t2 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2011"),200,r2,cm1);
+      t1.save();
+      t2.save();
       
     
       }   
