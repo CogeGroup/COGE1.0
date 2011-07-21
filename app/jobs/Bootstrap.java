@@ -183,7 +183,7 @@ public class Bootstrap extends Job {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-       cm2 = new Commessa("desc","cod",true);
+      cm2 = new Commessa("desc","cod",true);
       cm1.cliente=cl1;
       cm2.cliente=cl1;
       cm1.save();

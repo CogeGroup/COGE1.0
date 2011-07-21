@@ -2,7 +2,9 @@ package models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -70,6 +72,33 @@ public class Tariffa extends GenericModel{
 	
 	public float calcolaTariffaOraria(){
 		return this.importoGiornaliero /8;
+	}
+
+
+
+	public static List<Commessa> trovaCommessePerRisorsa(String mese,
+			String anno, Risorsa risorsa) {
+		List<Commessa> listaCommesse = new ArrayList<Commessa>();
+		
+		try {
+			Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
+			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapporto and (t.dataFine is null or t.dataFine >= :dataRapporto)");
+			query.bind("dataRapporto", dataRapporto);
+			query.bind("risorsa",risorsa);
+			List<Tariffa> listaTariffe = query.fetch();
+			if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   listaCommesse.add(t.commessa);
+		   }
+			}
+		} catch (ParseException e) {
+			return null;
+		} 		
+		
+		
+		return listaCommesse;
+				
+				
 	}
 	
 	

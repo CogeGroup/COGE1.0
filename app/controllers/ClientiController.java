@@ -4,9 +4,7 @@ import play.*;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
-
 import java.util.*;
-
 import models.*;
 
 public class ClientiController extends Controller {
