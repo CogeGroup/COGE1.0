@@ -19,7 +19,7 @@ public class CommesseController extends Controller {
     public static void list() {
     	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaCommesse);
-//		paginator.setPageSize(5);
+		paginator.setPageSize(5);
 		render(paginator);
     }
     
@@ -35,7 +35,13 @@ public class CommesseController extends Controller {
     	if(Commessa.find("byCodice", commessa.codice).first() != null){
     		validation.addError("commessa.codice", "Codice gia esistente");
     	}
+    	if(commessa.fatturabile == true && commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")) {
+    		validation.addError("commessa.dataInizioCommessa", "Una commessa fatturabile deve avere una data di inizio");
+    	}else if(aCorpo.equals("no")){
+    		commessa.dataInizioCommessa = null;
+    	}
     	if(validation.hasErrors()) {
+    		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
     		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
 	        render("CommesseController/create.html", commessa, listaClienti);
 	    }
@@ -51,11 +57,11 @@ public class CommesseController extends Controller {
     		commessaACorpo.dataInizioCommessa = commessa.dataInizioCommessa;
     		commessaACorpo.fatturabile = true;
     		commessaACorpo.cliente = Cliente.findById(idCliente);
-    		commessaACorpo.create();
+    		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
         	commessa.cliente = Cliente.findById(idCliente);
-        	commessa.create();
+        	commessa.save();
     	}
     	
     	flash.success("%s aggiunta con successo", commessa.codice);
