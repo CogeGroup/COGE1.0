@@ -178,14 +178,14 @@ public class Bootstrap extends Job {
       cl1 = new Cliente("cod","nome");
       cl1.save();
       
-       cm1 = new Commessa("desc","cod",true);
+       cm1 = new Commessa("desc","commessa1",true);
        try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
 		e.printStackTrace();
 	}
 
-      cm2 = new Commessa("desc","cod",true);
+      cm2 = new Commessa("desc","commessa2",true);
 
       cm1.cliente=cl1;
       cm2.cliente=cl1;
