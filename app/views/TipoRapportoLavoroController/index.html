@@ -1,0 +1,48 @@
+#{extends 'main.html' /}
+#{set title:'TipoRapportoLavoroController/index.html' /}
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+#{elseif flash.error}
+    <p class="error">${flash.error}</p>
+#{/elseif}
+
+#{if listaTipoRapportoLavoro != null && listaTipoRapportoLavoro.size() > 0}
+<div>
+	<table border="1">
+		<tr>
+			<td>CODICE</td>
+			<td>DESCRIZIONE</td>
+			<td></td>
+		</tr>
+		#{list items:listaTipoRapportoLavoro, as:'tipoRapportoLavoro', startIndex: 0}
+			<tr>
+    			<td>
+    				<a href="@{TipoRapportoLavoroController.show(tipoRapportoLavoro.idTipoRapportoLavoro)}"> ${tipoRapportoLavoro.codice} </a>
+    			</td>
+    			<td>${tipoRapportoLavoro.descrizione}</td>
+    			<td>
+    				<a href="@{TipoRapportoLavoroController.edit(tipoRapportoLavoro.idTipoRapportoLavoro)}"> MOD </a>
+    				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"> CANC </a>
+    			</td>
+    		</tr>
+		#{/list}
+  	</table>
+</div>
+#{/if}
+#{else}
+    <div>Nessuna Tipo Rapporto Lavoro presente</div>
+#{/else}
+
+#{form @TipoRapportoLavoroController.create()}
+    <p>
+        <input type="submit" value="Aggiungi Tipo Rapporto Lavoro" />
+    </p>
+#{/form}
+
+#{form @RisorseController.index()}
+    <p>
+        <input type="submit" value="Indietro" />
+    </p>
+#{/form}

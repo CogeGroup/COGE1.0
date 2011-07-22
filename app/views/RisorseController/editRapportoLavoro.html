@@ -1,0 +1,82 @@
+#{extends 'main.html' /}
+#{set title:'RisorseController/editRapportoLavoro.html' /}
+
+<div>
+		Risorsa: ${risorsa.matricola}
+		<br>
+		${risorsa.nome} ${risorsa.cognome}
+		<br>
+		Data In: ${risorsa.dataIn.format('dd-MM-yyyy')}
+</div>
+<hr>
+
+#{ifErrors}
+    <p class="error">${errors[0]}</p>
+#{/ifErrors}
+#{elseif flash.error}
+    <p class="error">${flash.error}</p>
+#{/elseif}
+
+#{form @RisorseController.updateRapportoLavoro()}
+    <p>
+    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro</label>
+		#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
+			#{option 0}-- Seleziona un Tipo Rapporto Lavoro --#{/option}
+		#{/select}
+	</p>
+	<p>
+    	<label for="meseInizio">Mese Inizio</label>
+		#{select 'meseInizio', value:meseInizio}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+	</p>
+	<p>
+    	<label for="annoInizio">Anno Inizio</label>
+		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
+		#{/select}
+	</p>
+	<p>
+    	<label for="meseFine">Mese Fine</label>
+		#{select 'meseFine', value:meseFine}
+			#{option -1}Seleziona un mese#{/option}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+	</p>
+	<p>
+    	<label for="annoFine">Anno Fine</label>
+		#{select 'annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
+			#{option -1}Seleziona un anno#{/option}
+		#{/select}
+	</p>
+	<p>
+        <input type="hidden" name="idRapportoLavoro" value="${idRapportoLavoro}" />
+    	<input type="submit" value="Modifica" />
+    </p>
+#{/form}
+#{form @RisorseController.listRapportoLavoro(risorsa.idRisorsa)} 
+	<p>
+		<input type="submit" value="Annulla" />
+    </p>
+#{/form}

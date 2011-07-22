@@ -60,7 +60,7 @@ public class Risorsa extends GenericModel {
 	
 	
 	 @OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
-	 List<RapportoLavoro> rapportiLavoro = new ArrayList<RapportoLavoro>();
+	 public List<RapportoLavoro> rapportiLavoro = new ArrayList<RapportoLavoro>();
 
 	
 	//constructors
