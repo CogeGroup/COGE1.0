@@ -158,8 +158,8 @@ public class Bootstrap extends Job {
  
       public void setup() throws ParseException{
     	  
-      Risorsa r1 = new Risorsa("122","a","pippo", "pippo",new Date());
-      Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
+      Risorsa r1 = new Risorsa("122","a","pippo", "pippo", new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
+      Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
       
       TipoRapportoLavoro tipoRappLav1 = new TipoRapportoLavoro("tipoRap1","cod");
       TipoRapportoLavoro tipoRappLav2 = new TipoRapportoLavoro("tipoRap2","cod2");
@@ -172,8 +172,9 @@ public class Bootstrap extends Job {
       r1.addRapportoLavoro(rl1);
       r1.addRapportoLavoro(rl2);
       r1.save();
-      
-      
+      RapportoLavoro rl3 = new RapportoLavoro(new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"),tipoRappLav1,r2);
+      r2.addRapportoLavoro(rl3);
+      r2.save();
       
       cl1 = new Cliente("cod","nome");
       cl1.save();

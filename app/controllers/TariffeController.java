@@ -29,7 +29,7 @@ public class TariffeController extends Controller {
     }
     
     public static void create(Integer idRisorsa) {
-    	Risorsa risorsa = Risorsa.findById(1);
+    	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	Tariffa tariffa = new Tariffa();
     	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
         render(risorsa.idRisorsa, tariffa, listaCommesse);

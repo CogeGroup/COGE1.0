@@ -74,4 +74,5 @@ public class Commessa extends GenericModel{
 		
 		return importoTotale;
 	}
+	
 }
