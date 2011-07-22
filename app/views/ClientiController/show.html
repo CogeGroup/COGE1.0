@@ -20,7 +20,7 @@
         <label for="commesse">Commesse: </label>
         <ul>
         #{list items:cliente.commesse, as:'commessa'}
-			<li><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.descrizione }</a> - Fatturabile: ${commessa.fatturabile == true ? 'si' : 'no' }</li>
+			<li><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a> - Fatturabile: ${commessa.fatturabile == true ? 'si' : 'no' }</li>
 		#{/list}
 		</ul> 
     </p>

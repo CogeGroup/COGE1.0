@@ -2,13 +2,20 @@ package models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import net.sf.oval.constraint.NotEqual;
+
+import play.data.binding.As;
+import play.data.validation.Min;
+import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
 
@@ -20,10 +27,15 @@ public class Tariffa extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idTariffa;
 	
+	@Required(message="Data inizio obligatoria")
+	@As("dd-MM-yyyy")
 	public Date dataInizio;
 	
+	@As("dd-MM-yyyy")
 	public Date dataFine;
 	
+	@Required(message="Importo giornaliero obligatorio")
+	@Min(message = "L'importo deve essere maggiore di 0.0",value = 0.1)
 	public float importoGiornaliero;
 
 	@ManyToOne
@@ -31,6 +43,8 @@ public class Tariffa extends GenericModel{
 	
 	@ManyToOne
 	public Commessa commessa;
+	
+	public Tariffa() {}
 
 	public Tariffa(Date dataInizio, float importoGiornaliero, Risorsa risorsa,
 			Commessa commessa) {
@@ -40,8 +54,6 @@ public class Tariffa extends GenericModel{
 		this.risorsa = risorsa;
 		this.commessa = commessa;
 	}
-	
-
 	
 	public static Tariffa calcolaTariffaRisorsaCommessa(String mese,String anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
@@ -71,7 +83,34 @@ public class Tariffa extends GenericModel{
 	public float calcolaTariffaOraria(){
 		return this.importoGiornaliero /8;
 	}
+
+
+
+	public static List<Commessa> trovaCommessePerRisorsa(String mese,
+			String anno, Risorsa risorsa) {
+		List<Commessa> listaCommesse = new ArrayList<Commessa>();
+		
+		try {
+			Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
+			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapporto and (t.dataFine is null or t.dataFine >= :dataRapporto)");
+			query.bind("dataRapporto", dataRapporto);
+			query.bind("risorsa",risorsa);
+			List<Tariffa> listaTariffe = query.fetch();
+			if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   listaCommesse.add(t.commessa);
+		   }
+			}
+		} catch (ParseException e) {
+			return null;
+		} 		
+		
+		
+		return listaCommesse;
+				
+				
+	}
 	
-	
+
 	    
 }

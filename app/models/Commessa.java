@@ -3,10 +3,12 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
@@ -42,6 +44,9 @@ public class Commessa extends GenericModel{
 	
 	@ManyToOne
 	public Cliente cliente;
+	
+	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
+	List<Tariffa> tariffe;
 	
 	public Commessa(){}
 
