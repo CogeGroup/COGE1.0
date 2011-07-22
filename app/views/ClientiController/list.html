@@ -7,7 +7,7 @@
 #{/if}
 #{if paginator.size() > 0}
 	<label>${paginator.size() } clienti</label>
-	<table border="1">
+	<table class="gestioneaccount">
 		<tr>
 			<td>Codice cliente</td>
 			<td>Nominativo</td>
@@ -23,6 +23,7 @@
 		</tr>
 		#{/paginate.list} 
 	</table>
+	#{paginate.controls items:paginator /}
 #{/if}
 #{else}
 	<label>Nessun Cliente esistente</label>

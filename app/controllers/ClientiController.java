@@ -4,9 +4,7 @@ import play.*;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
-
 import java.util.*;
-
 import models.*;
 
 public class ClientiController extends Controller {
@@ -18,7 +16,7 @@ public class ClientiController extends Controller {
     public static void list() {
     	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaClienti);
-//		paginator.setPageSize(5);
+		paginator.setPageSize(5);
 		render(paginator);
     }
     
@@ -35,7 +33,7 @@ public class ClientiController extends Controller {
 	        render("ClientiController/create.html", cliente);
 	    }
     	cliente.codice = cliente.codice.toUpperCase();
-    	cliente.create();
+    	cliente.save();
     	flash.success("%s aggiunto con successo", cliente.nominativo);
     	list();
     }

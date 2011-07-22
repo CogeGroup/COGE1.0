@@ -7,7 +7,7 @@
 #{/if}
 #{if paginator.size() > 0}
 	<label>${paginator.size() } commesse</label>
-	<table border="1">
+	<table class="gestioneaccount">
 		<tr>
 			<td>Codice commessa</td>
 			<td>Descrizione</td>
@@ -31,6 +31,7 @@
 		</tr>
 		#{/paginate.list} 
 	</table>
+	#{paginate.controls items:paginator /}
 #{/if}
 #{else}
 	<label>Nessuna Commessa esistente</label>
