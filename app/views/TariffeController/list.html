@@ -43,3 +43,9 @@
 #{/else}
 
 <p><a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuova tariffa"/></a></p>
+
+#{form @RisorseController.list()}
+    <p>
+        <input type="submit" value="Indietro" />
+    </p>
+#{/form}

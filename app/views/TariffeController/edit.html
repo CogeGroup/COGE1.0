@@ -1,37 +1,37 @@
 #{extends 'main.html' /}
 #{set title:'Modifica tariffa: ' /}
 
-<!-- CSS calendario -->
+<!-- CSS usati -->
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
 <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
-<!-- JavaScript calendario -->
-<script src="@{'/public/javascripts/jquery-1.3.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery-ui-1.7.1.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<!-- JavaScript usati -->
+<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 <script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 <script type="text/javascript">
-  		  $(function() {
-    		$.datepicker.setDefaults($.datepicker.regional['it']);
-		   	  $('#datepicker').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				yearRange:'-59:+50'
-	
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
 		});
-  });
+	});
 </script>
 <script type="text/javascript">
-  		  $(function() {
-    		$.datepicker.setDefaults($.datepicker.regional['it']);
-		   	  $('#datepicker2').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				yearRange:'-59:+50'
-	
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker2').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
 		});
-  });
+	});
 </script>
 
 <h1>Modifica tariffa</h1>
-#{form @TariffeController.update(idCommessa)}
+#{form @TariffeController.update()}
 	
 	#{ifErrors}
         <p class="error">

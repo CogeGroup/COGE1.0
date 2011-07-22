@@ -1,0 +1,17 @@
+#{extends 'main.html' /}
+#{set title:'TipoRapportoLavoroController/index.html' /}
+
+<p>
+	<label for="codice">Codice: </label>
+    ${tipoRapportoLavoro.codice}
+</p>
+<p>
+	<label for="codice">Descrizione: </label>
+    ${tipoRapportoLavoro.descrizione}
+</p>
+    
+#{form @TipoRapportoLavoroController.index()}
+    <p>
+        <input type="submit" value="Indietro" />
+    </p>
+#{/form}
