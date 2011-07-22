@@ -1,0 +1,76 @@
+#{extends 'main.html' /}
+#{set title:'Modifica tariffa: ' /}
+
+<!-- CSS calendario -->
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
+<!-- JavaScript calendario -->
+<script src="@{'/public/javascripts/jquery-1.3.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery-ui-1.7.1.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script type="text/javascript">
+  		  $(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+</script>
+<script type="text/javascript">
+  		  $(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker2').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+</script>
+
+<h1>Modifica tariffa</h1>
+#{form @TariffeController.update(idCommessa)}
+	
+	#{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
+    
+	<p>
+        <label for="id">Id tariffa: </label>
+        <label>${tariffa.idTariffa }</label>
+    </p>
+	<p>
+        <label for=dataInizio>Data inizio: </label>
+        <input type="text" name="tariffa.dataInizio" id="datepicker" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
+    </p>
+    <p>
+        <label for=dataFine>Data fine: </label>
+        <input type="text" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
+    </p>
+    <p>
+        <label for=importo>Importo giornaliero: </label>
+        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
+    </p>
+    <p>
+    	<label for="commessa">Commessa: </label><br>
+    	<select name="idCommessa">
+    		#{list items:listaCommesse, as:'commessa'}
+		        <option value="${commessa.idCommessa }" 
+		        	#{if commessa.idCommessa == tariffa.commessa.idCommessa }
+		        		selected="selected"
+		        	#{/if} >${commessa.codice }</option>
+		    #{/list} 
+    	</select>
+    </p>
+	<p>
+		<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
+        <input type="submit" value="Salva modifiche" />
+    </p>
+    
+#{/form}
+<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
+	<input type="button" value="Annulla" /></a>

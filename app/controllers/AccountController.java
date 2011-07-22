@@ -37,7 +37,7 @@ public class AccountController extends Controller {
 		 render(listaRuoli,listaRisorse);
 	    }
 	  
-	  public static void saveUtente(@Valid Utente utente,@Required(message="Inserire una risorsa") String risorsa,@Required(message="Inserire un ruolo")String ruolo) {
+	  public static void saveUtente(@Valid Utente utente,@Required(message="Inserire una risorsa") String idRisorsa,@Required(message="Inserire un ruolo")String ruolo) {
 		      
 		  if(validation.hasErrors()){
 					flash.error("");
@@ -58,14 +58,9 @@ public class AccountController extends Controller {
 						  listaRuoliUtente.add(r);
 					  }
 					  if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){
-						  String matricola = "";
-						  if(risorsa.contains("-")){
-								matricola = risorsa.split("-")[0];
-							 }else{
-								 matricola = risorsa;
-							 }
+						
 						  //find della risorsa by matricola e controllo se non esiste nessun utente associato alla risorsa
-						  Risorsa r = Risorsa.find("byMatricola", matricola).first();
+						  Risorsa r = Risorsa.findById(Integer.parseInt(idRisorsa));
 						  if(r!=null){
 							  //ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
 							  Utente u = Utente.find("byRisorsa", r).first();
@@ -84,13 +79,13 @@ public class AccountController extends Controller {
 								  flash.error("risorsa assegnata ad altro utente");
 								  	List<Ruolo> listaRuoli = Ruolo.findAll();
 									 List<Risorsa> listaRisorse = Risorsa.all().fetch();
-									render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente,risorsa);
+									render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
 							  }
 						  }else{
 							  flash.error("risorsa non trovata");
 							  List<Ruolo> listaRuoli = Ruolo.findAll();
 						      List<Risorsa> listaRisorse = Risorsa.all().fetch();
-						     render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente,risorsa);
+						     render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
 						  }					  
 					
 				  }
@@ -104,7 +99,7 @@ public class AccountController extends Controller {
 		  
 	    }
 	  
-	  public static void updateUtente(@Valid Utente utente,@Required(message="Inserire una risorsa") String risorsa,@Required(message="Inserire un ruolo")String ruolo) {
+	  public static void updateUtente(@Valid Utente utente,@Required(message="Inserire una risorsa") String idRisorsa,@Required(message="Inserire un ruolo")String ruolo) {
 		  if(validation.hasErrors()){
 				flash.error("");
 				 utente = Utente.findById(utente.idUtente);
@@ -123,14 +118,8 @@ public class AccountController extends Controller {
 					  listaRuoliUtente.add(r);
 				  }
 				  if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){
-					  String matricola = "";
-					  if(risorsa.contains("-")){
-							matricola = risorsa.split("-")[0];
-						 }else{
-							 matricola = risorsa;
-						 }
 					  //find della risorsa by matricola e controllo se non esiste nessun utente oltre al associato alla risorsa
-					  Risorsa r = Risorsa.find("byMatricola", matricola).first();
+					  Risorsa r = Risorsa.findById(Integer.parseInt(idRisorsa));
 					  
 					  
 					  if(r!=null){
@@ -151,13 +140,13 @@ public class AccountController extends Controller {
 							  flash.error("risorsa assegnata ad altro utente");
 							  utente = Utente.findById(utente.idUtente);
 							  String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
-							  render("AccountController/showUtente.html",mylist,utente,risorsa);
+							  render("AccountController/showUtente.html",mylist,utente);
 						  }
 					  }else{
 						  flash.error("risorsa non trovata");
 						  utente = Utente.findById(utente.idUtente);
 						  String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
-						  render("AccountController/showUtente.html",mylist,utente,risorsa);
+						  render("AccountController/showUtente.html",mylist,utente);
 					  }		
 				  }
 		  
@@ -182,10 +171,14 @@ public class AccountController extends Controller {
 
 	  
 	  
-	  public static void autocompleteRisorsa(String q) {
-		  List<Risorsa> listaRisorse = Risorsa.find("matricola like ?", "%"+q+"%").fetch();
-		  render(listaRisorse);
-	    }
+	  public static void autocompleteRisorsa(String term) {
+		  List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
+		  List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		  for(Risorsa r:listaRisorse){
+			  listaResult.add(new DomainWrapper(r.idRisorsa, r.matricola +" "+r.cognome));
+		  }
+		renderJSON(listaResult);
+	  }
 	  
 	  public static void autocompleteRuolo(String term) {
 		  List<Ruolo> listaRuoli = Ruolo.find("descrizione like ?", "%"+term+"%").fetch();

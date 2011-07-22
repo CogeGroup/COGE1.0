@@ -1,0 +1,64 @@
+#{extends 'main.html' /}
+#{set title:'Gestione Rapportini' /}
+
+
+	
+	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.autocomplete.css'}">
+  
+   <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+   <script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+   <script src="@{'/public/javascripts/jquery.ui.autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+
+
+					
+#{ifErrors}
+    <p class="error">
+        ${errors[0]} 
+    </p>
+#{/ifErrors}
+
+
+${flash.error}
+#{form @rapportoattivitacontroller.createRapportoAttivita()}
+    <p>
+        <label for="risorsa">Risorsa</label>
+        <input type="text" name="risorsa" id="risorsa" />
+        <input type="hidden" name="idRisorsa" id="idRisorsa" />
+    </p>
+        <input type="submit" value="Vai" />
+    </p>
+  
+  #{/form}
+  
+  
+   
+   
+   <script type="text/javascript">
+	
+		$(function() {
+		$("#risorsa").autocomplete({
+			source: "autocompleteRisorsaRapportoAttivita",
+			minLength: 3,
+			select: function( event, ui ) {
+			$("#idRisorsa").val(ui.item.value);
+			return false;
+			},
+			focus: function( event, ui ) {
+			$("#risorsa").val(ui.item.label);
+			return false;
+			}
+		});
+	});
+
+	</script>
+   
+   
+   
+   
+   
+   
+   
+
+
+
