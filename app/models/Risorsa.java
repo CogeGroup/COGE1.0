@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -51,18 +52,25 @@ public class Risorsa extends GenericModel {
 	@MaxSize(255)
 	public String cognome;
 	
-	@Required(message="data in obbligatoria")
+	@Required(message="data in obbligatoria") 
 	@As("dd-MM-yyyy")
 	public Date dataIn;
 	
 	@As("dd-MM-yyyy")
 	public Date dataOut;
 	
-	
-	 @OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
-	 public List<RapportoLavoro> rapportiLavoro = new ArrayList<RapportoLavoro>();
+	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
+	public List<RapportoLavoro> rapportiLavoro = new ArrayList<RapportoLavoro>();
 
-	
+	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
+	public List<Costo> listaCosti = new ArrayList<Costo>();
+
+	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
+	public List<Tariffa> listaTariffe = new ArrayList<Tariffa>();
+
+	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
+	public List<RapportoAttivita> rapportiAttivita = new ArrayList<RapportoAttivita>();
+
 	//constructors
 	public Risorsa() {
 	}

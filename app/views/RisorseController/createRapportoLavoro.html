@@ -25,7 +25,7 @@
 		#{/select}
 	</p>
 	<p>
-    	<label for="meseInizio">Mese Inizio</label>
+    	<label for="dataInizio">Data Inizio</label>
 		#{select 'meseInizio', value:meseInizio}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
@@ -40,9 +40,7 @@
 			#{option 10}NOV#{/option}
 			#{option 11}DIC#{/option}
 		#{/select}
-	</p>
-	<p>
-    	<label for="annoInizio">Anno Inizio</label>
+		
 		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
 		#{/select}
 	</p>

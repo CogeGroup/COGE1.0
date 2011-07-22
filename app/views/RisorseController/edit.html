@@ -1,6 +1,33 @@
 #{extends 'main.html' /}
 #{set title:'RisorseController/edit.html' /}
 
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
+<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script type="text/javascript">
+  		  $(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+  		$(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker2').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+</script>  		  
+
 #{ifErrors}
     <p class="error">${errors[0]}</p>
 #{/ifErrors}

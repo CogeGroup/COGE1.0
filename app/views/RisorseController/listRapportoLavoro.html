@@ -18,9 +18,8 @@
 #{/elseif}
 
 
-#{if risorsa.rapportiLavoro.size() > 0}
 <div>
-	<table border="1">
+	<table class="gestioneaccount">
 		<tr>
 			<td>Data Inizio</td>
 			<td>Data Fine</td>
@@ -51,10 +50,6 @@
 		#{/list}
   	</table>
 </div>
-#{/if}
-#{else}
-    <div>Nessuna Rapporto Lavoro associato alla risorsa</div>
-#{/else}
 
 #{if !risorsa.dataOut}
 	#{form @RisorseController.createRapportoLavoro(risorsa.idRisorsa)}

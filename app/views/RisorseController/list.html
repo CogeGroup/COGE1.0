@@ -10,7 +10,7 @@
 
 #{if listaRisorse.size() > 0}
 <div>
-	<table border="1">
+	<table class="gestioneaccount">
 		<tr>
 			<td>Matricola</td>
 			<td>Codice</td>
@@ -31,9 +31,9 @@
     			<td>${risorsa.dataOut?.format('dd-MM-yyyy')}</td>
     			<td>
     				<a href="@{RisorseController.edit(risorsa.idRisorsa)}">MOD</a>
-    				<a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare in modo permanente la risorsa ed i relativi rapporti di lavoro?');">CANC</a>
+    				<a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare in modo PERMANENTE la risorsa e le relative informazioni associate?');">CANC</a>
     			</td>
-    			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}"> GESTIONE RAPPORTI LAVORO</a></td>
+    			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}">RAPPORTI LAVORO</a></td>
     		</tr>
 		#{/paginate.list}
   	</table>

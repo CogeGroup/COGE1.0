@@ -25,7 +25,7 @@
 		#{/select}
 	</p>
 	<p>
-    	<label for="meseInizio">Mese Inizio</label>
+    	<label for="dataInizio">Data Inizio</label>
 		#{select 'meseInizio', value:meseInizio}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
@@ -40,14 +40,12 @@
 			#{option 10}NOV#{/option}
 			#{option 11}DIC#{/option}
 		#{/select}
-	</p>
-	<p>
-    	<label for="annoInizio">Anno Inizio</label>
+	
 		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
 		#{/select}
 	</p>
 	<p>
-    	<label for="meseFine">Mese Fine</label>
+    	<label for="dataFine">Data Fine</label>
 		#{select 'meseFine', value:meseFine}
 			#{option -1}Seleziona un mese#{/option}
 			#{option 0}GEN#{/option}
@@ -63,9 +61,7 @@
 			#{option 10}NOV#{/option}
 			#{option 11}DIC#{/option}
 		#{/select}
-	</p>
-	<p>
-    	<label for="annoFine">Anno Fine</label>
+	
 		#{select 'annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
 			#{option -1}Seleziona un anno#{/option}
 		#{/select}

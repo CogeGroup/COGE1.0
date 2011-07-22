@@ -31,7 +31,7 @@ public class TipoRapportoLavoroController extends Controller {
 			renderTemplate("TipoRapportoLavoroController/create.html", tipoRapportoLavoro);
 		}
     	if (tipoRapportoLavoro.save() != null) {
-			flash.success("Tipo Rapporto Lavoro %s inserito con successo", tipoRapportoLavoro.idTipoRapportoLavoro);
+			flash.success("Tipo Rapporto Lavoro %s inserito con successo", tipoRapportoLavoro.codice);
 		} else {
 			flash.error("Impossibile inserire il nuovo Tipo Rapporto Lavoro");
 		}
@@ -48,9 +48,9 @@ public class TipoRapportoLavoroController extends Controller {
 			renderTemplate("TipoRapportoLavoroController/edit.html", tipoRapportoLavoro);
 		}
     	if (tipoRapportoLavoro.save() != null) {
-			flash.success("Tipo Rapporto Lavoro %s modificato con successo", tipoRapportoLavoro.idTipoRapportoLavoro);
+			flash.success("Tipo Rapporto Lavoro %s modificato con successo", tipoRapportoLavoro.codice);
 		} else {
-			flash.error("Impossibile modificare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.idTipoRapportoLavoro);
+			flash.error("Impossibile modificare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.codice);
 		}
     	index();
     }
@@ -59,12 +59,12 @@ public class TipoRapportoLavoroController extends Controller {
     	TipoRapportoLavoro tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
     	try {
     		if (tipoRapportoLavoro.delete() != null) {
-    			flash.success("Tipo Rapporto Lavoro %s eliminato con successo", tipoRapportoLavoro.idTipoRapportoLavoro);
+    			flash.success("Tipo Rapporto Lavoro %s eliminato con successo", tipoRapportoLavoro.codice);
     		} else {
-    			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.idTipoRapportoLavoro);
+    			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.codice);
     		}
 		} catch (PersistenceException e) {
-			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s - Rapporti di lavoro associati", tipoRapportoLavoro.idTipoRapportoLavoro);
+			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s - Rapporti di lavoro associati", tipoRapportoLavoro.codice);
 		} finally {
 			index();
 		}
