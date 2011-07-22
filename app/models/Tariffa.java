@@ -102,6 +102,7 @@ public class Tariffa extends GenericModel{
 		   }
 			}
 		} catch (ParseException e) {
+			e.printStackTrace();
 			return null;
 		} 		
 		

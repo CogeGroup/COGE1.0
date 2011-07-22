@@ -11,7 +11,7 @@ import java.util.*;
 
 import models.*;
 
-public class RapportoAttivitaController extends Controller {
+public class RendicontoAttivitaController extends Controller {
 
     
 	
@@ -28,7 +28,7 @@ public class RapportoAttivitaController extends Controller {
 	
 	
 	
-	public static void createRapportoAttivita(@Required(message="Inserire una risorsa") String idRisorsa, String data) {
+	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") String idRisorsa, String data) {
 		
 		if(validation.hasErrors()){
 			flash.error("");
@@ -48,8 +48,7 @@ public class RapportoAttivitaController extends Controller {
 		 render(risorsa,listaCommesse,listaCommesseNonFatturabili);
    }
 	
-	public static void saveRapportoAttivita(String data) {
-		System.out.println("ciao"+data+"ciao"); 
+	public static void saveRendicontoAttivita() {
 		
 		
 		
@@ -66,16 +65,6 @@ public class RapportoAttivitaController extends Controller {
     }
 	
 	
-	public static void getInitValue(){
-		
-		List<Risorsa> r = Risorsa.findAll();
-		  List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
-		  for(Risorsa index:r){
-			  listaResult.add(new DomainWrapper(index.idRisorsa, index.matricola ));
-		  }
-		renderJSON(listaResult);
-		
-	}
 	
 	
 	

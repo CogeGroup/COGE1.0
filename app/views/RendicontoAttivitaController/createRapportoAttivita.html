@@ -37,7 +37,7 @@
 
  Lista Commesse
    #{if listaCommesse!= null}
-   #{form @rapportoattivitacontroller.saveRapportoAttivita()}
+ #{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
     <ul>
 	#{list items:listaCommesse, as:'commessa'}
     <li>${commessa.descrizione} - Totale Ore:<input type="text" name="id_${commessa.idCommessa}" /></li>
