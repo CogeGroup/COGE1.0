@@ -20,6 +20,7 @@
 			<td>Data Out</td>
 			<td></td>
 			<td></td>
+			<td></td>
 		</tr>
   		#{paginate.list items:listaRisorse, as:'risorsa'}
   			<tr>
@@ -34,6 +35,7 @@
     				<a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare in modo PERMANENTE la risorsa e le relative informazioni associate?');">CANC</a>
     			</td>
     			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}">RAPPORTI LAVORO</a></td>
+    			<td><a href="@{TariffeController.list(risorsa.idRisorsa)}">TARIFFE</a></td>
     		</tr>
 		#{/paginate.list}
   	</table>

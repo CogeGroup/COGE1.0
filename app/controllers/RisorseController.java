@@ -191,6 +191,7 @@ public class RisorseController extends Controller {
     }
     
     public static void updateRapportoLavoro(Integer idRapportoLavoro, Integer idTipoRapportoLavoro, int meseInizio, int annoInizio, int meseFine, int annoFine) {
+    	//PREMESSA si può modificare solo l'ultimo rapporto lavoro della risorsa
     	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(meseInizio, annoInizio);
     	RapportoLavoro rapportoLavoroAttuale = RapportoLavoro.findById(idRapportoLavoro);
     	Risorsa risorsa = rapportoLavoroAttuale.risorsa;
@@ -238,6 +239,7 @@ public class RisorseController extends Controller {
     }
     
     public static void deleteRapportoLavoro(Integer idRapportoLavoro) {
+    	//PREMESSA si può cancellare solo l'ultimo rapporto lavoro della risorsa e solo se non è l'unico!
     	RapportoLavoro rapportoLavoro = RapportoLavoro.findById(idRapportoLavoro);
     	if (rapportoLavoro.delete() != null) {
 			flash.success("Rapporto Lavoro %s eliminato con successo", rapportoLavoro.idRapportoLavoro);
