@@ -1,6 +1,7 @@
 package controllers;
 
 import play.*;
+import play.data.validation.Min;
 import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -26,37 +27,45 @@ public class CommesseController extends Controller {
     public static void create() {
     	Commessa commessa = new Commessa();
     	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-        render(commessa, listaClienti);
+    	String aCorpo = "no";
+    	float importo = 0;
+        render(commessa, listaClienti, aCorpo, importo);
     }
     
     public static void save(@Valid Commessa commessa, @Required(message="Selezionare un cliente") Integer idCliente, 
-    		String aCorpo, CommessaACorpo commessaACorpo) {
+    		String aCorpo, float importo) {
     	
     	if(Commessa.find("byCodice", commessa.codice).first() != null){
     		validation.addError("commessa.codice", "Codice gia esistente");
     	}
-    	if(commessa.fatturabile == true && commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")) {
+    	if(commessa.fatturabile == true && (commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals(""))) {
     		validation.addError("commessa.dataInizioCommessa", "Una commessa fatturabile deve avere una data di inizio");
-    	}else if(aCorpo.equals("no")){
-    		commessa.dataInizioCommessa = null;
     	}
     	if(validation.hasErrors()) {
     		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
     		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-	        render("CommesseController/create.html", commessa, listaClienti);
+	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
 	    }
     	
-    	if(aCorpo.equals("si")){
-    		if(commessaACorpo.importo == 0) {
-    			validation.addError("commessaACorpo.importo", "Importo obligatorio");
-    			List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-    			render("CommesseController/create.html", commessa, listaClienti);
+    	if(aCorpo != null && aCorpo.equals("si")){
+    		if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")) {
+    			validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
     		}
+    		if(importo > 0.1) {
+    			validation.addError("commessaACorpo.importo", "L'importo deve essere maggiore di 0.1");
+    		}
+    		if(validation.hasErrors()) {
+        		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
+        		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+    	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
+    	    }
+    		CommessaACorpo commessaACorpo = new CommessaACorpo();
     		commessaACorpo.codice = commessa.codice.toUpperCase();
     		commessaACorpo.descrizione = commessa.descrizione;
     		commessaACorpo.dataInizioCommessa = commessa.dataInizioCommessa;
     		commessaACorpo.fatturabile = true;
     		commessaACorpo.cliente = Cliente.findById(idCliente);
+    		commessaACorpo.importo = importo;
     		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
@@ -100,15 +109,15 @@ public class CommesseController extends Controller {
     
     public static void updateACorpo(@Valid CommessaACorpo commessaACorpo, @Required(message="Selezionare un cliente") Integer idCliente) {
     	if(CommessaACorpo.find("byCodice", commessaACorpo.codice).first() != null && Commessa.find("byCodice", commessaACorpo.codice).first() != commessaACorpo){
-    		validation.addError("commessa.codice", "Codice gia esistente");
-    		System.out.println("1");
+    		validation.addError("commessaACorpo.codice", "Codice gia esistente");
+    	}
+    	if(commessaACorpo.dataInizioCommessa == null || commessaACorpo.dataInizioCommessa.equals("")){
+    		validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
     	}
     	if(validation.hasErrors()) {
-    		System.out.println("2");
     		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-	        render("CommesseController/edit.html", commessaACorpo, listaClienti);
+	        render("CommesseController/editACorpo.html", commessaACorpo, listaClienti);
 	    }
-    	System.out.println("3");
     	commessaACorpo.codice = commessaACorpo.codice.toUpperCase();
     	commessaACorpo.cliente = Cliente.findById(idCliente);
     	commessaACorpo.save();
