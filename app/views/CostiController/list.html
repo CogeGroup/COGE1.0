@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+#{set title:'Lista clienti' /}
+
+<h1>Lista Costi</h1>
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
+#{if paginator.size() > 0}
+	<label>${paginator.size() } costi</label>
+	<table class="gestioneaccount">
+		<tr>
+			<th>Importo</th>
+			<th>Data Inizio</th>
+			<th>Data Fine</th>
+			<th>Azioni</th>
+		</tr>
+		#{paginate.list items:paginator, as:'costo'} 
+		<tr>
+			<td>${costo.importo }</td>
+			<td>${costo.dataInizio }</td>
+			<td>${costo.dataFine }</td>
+			<td><a href="@{CostiController.edit(costo.idCosto)}">Modifica</a>
+				<a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');">Cancella</a>
+			</td>
+		</tr>
+		#{/paginate.list} 
+	</table>
+	#{paginate.controls items:paginator /}
+#{/if}
+#{else}
+	<label>Nessun Costo esistente</label>
+#{/else}
+<p><a id="create" href="@{CostiController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuovo costo"/></a></p>

@@ -1,3 +1,8 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+validation.required=il campo %s è obbligatorio
+costo.importo = importo
+costo.dataInizio = dataInizio
+costo.dataFine = dataFine
+validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
