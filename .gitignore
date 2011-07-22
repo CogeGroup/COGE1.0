@@ -1,6 +1,7 @@
 .classpath
 .project
 .settings
+conf/application.conf
 eclipse
 tmp
 test-result
