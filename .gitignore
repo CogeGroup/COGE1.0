@@ -2,6 +2,8 @@
 .project
 .settings
 conf/application.conf
+application.conf
 eclipse
 tmp
 test-result
+.gitignore
