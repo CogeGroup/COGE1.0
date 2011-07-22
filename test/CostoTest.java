@@ -27,7 +27,10 @@ public class CostoTest extends UnitTest {
 	private Risorsa r1;
 	private Risorsa r2;
 	
-	
+	@Test
+	public void testInserisciCostoRisorsaSenzaCosti(){
+		Fixtures.loadModels("../conf/initial-data.yml");
+	}
 
 	@Test
 	 public void testDataFinePresente(){

@@ -59,26 +59,26 @@ public class Costo extends GenericModel {
 			}
 			return true;
 		}
-
 	}
+	
+	static class MyDataFineCheck extends Check {
+		static final String mes = "validation.costo.sovrapposto";
+		
+		public boolean isSatisfied(Object costo, Object value) {
+			if (value != null && !Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
+				setMessage(mes);
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	public static List<Costo> costiSovrapposti(Date valuableDate,Costo costo){
 		return Costo
 		.find("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?) " +
 				" or (c.dataInizio > ? and c.dataFine < ?) "+
 				") and c.risorsa = ?",
 				valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa).fetch();
-	}
-	static class MyDataFineCheck extends Check {
-		static final String mes = "validation.costo.sovrapposto";
-
-		public boolean isSatisfied(Object costo, Object value) {
-			if (value != null && Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
-				setMessage(mes);
-				return false;
-			}
-			return true;
-		}
-
 	}
 	
 }

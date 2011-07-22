@@ -29,7 +29,7 @@
        </script>
 
 <h1>Nuovo costo</h1>
-#{form @CostiController.save()}
+#{form @CostiController.update()}
 	
 	#{ifErrors}
         <p class="error">
@@ -56,8 +56,8 @@
         <input type="text" id="dataFine" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}" />
     </p>
 	<p>
-		<input type="hidden" name="costo.risorsa.idRisorsa" value="${costo?.risorsa?.idRisorsa}">
-        <input type="submit" value="Salva nuovo costo" />
+		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
+        <input type="submit" value="Aggiorna costo" />
     </p>
     
 #{/form}

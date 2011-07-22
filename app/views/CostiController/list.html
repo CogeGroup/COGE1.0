@@ -17,8 +17,8 @@
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
 			<td>${costo.importo }</td>
-			<td>${costo.dataInizio }</td>
-			<td>${costo.dataFine }</td>
+			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
+			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
 			<td><a href="@{CostiController.edit(costo.idCosto)}">Modifica</a>
 				<a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');">Cancella</a>
 			</td>
