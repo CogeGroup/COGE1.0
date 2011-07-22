@@ -1,32 +1,50 @@
-20 lug 2011 12:20:23,515 INFO  ~ Starting C:\Users\Luca\Documents\SolvingTeam\Progetti Solving Team\WorkspaceCOGE\COGE1.0
-20 lug 2011 12:20:24,208 WARN  ~ You're running Play! in DEV mode
-20 lug 2011 12:20:24,343 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
-20 lug 2011 12:20:29,964 INFO  ~ Connected to jdbc:h2:mem:play;MODE=MYSQL;LOCK_MODE=0
-20 lug 2011 12:20:31,171 INFO  ~ Application 'test' is now started !
-20 lug 2011 12:20:31,271 DEBUG ~ insert into TipoRapportoLavoro (idTipoRapportoLavoro, codice, descrizione) values (null, ?, ?)
-20 lug 2011 12:20:31,291 DEBUG ~ insert into TipoRapportoLavoro (idTipoRapportoLavoro, codice, descrizione) values (null, ?, ?)
-20 lug 2011 12:20:31,300 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
-20 lug 2011 12:20:31,304 DEBUG ~ insert into RapportoLavoro (idRapportoLavoro, dataFine, dataInizio, risorsa_idRisorsa, tipoRapportoLavoro_idTipoRapportoLavoro) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,305 DEBUG ~ insert into RapportoLavoro (idRapportoLavoro, dataFine, dataInizio, risorsa_idRisorsa, tipoRapportoLavoro_idTipoRapportoLavoro) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,321 DEBUG ~ insert into Cliente (idCliente, codice, nominativo) values (null, ?, ?)
-20 lug 2011 12:20:31,325 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, DTYPE) values (null, ?, ?, ?, ?, ?, 'Commessa')
-20 lug 2011 12:20:31,328 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, DTYPE) values (null, ?, ?, ?, ?, ?, 'Commessa')
-20 lug 2011 12:20:31,331 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, importo, DTYPE) values (null, ?, ?, ?, ?, ?, ?, 'CommessaACorpo')
-20 lug 2011 12:20:31,335 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,337 DEBUG ~ insert into Utente (idUtente, abilitato, password, risorsa_idRisorsa, username) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,338 DEBUG ~ insert into Ruolo (idRuolo, descrizione) values (null, ?)
-20 lug 2011 12:20:31,343 DEBUG ~ insert into Utente_Ruolo (utenti_idUtente, ruoli_idRuolo) values (?, ?)
-20 lug 2011 12:20:31,479 DEBUG ~ select risorsa0_.idRisorsa as idRisorsa10_, risorsa0_.codice as codice10_, risorsa0_.cognome as cognome10_, risorsa0_.dataIn as dataIn10_, risorsa0_.dataOut as dataOut10_, risorsa0_.matricola as matricola10_, risorsa0_.nome as nome10_ from Risorsa risorsa0_ where risorsa0_.matricola=? limit ?
-20 lug 2011 12:20:31,487 DEBUG ~ select risorsa0_.idRisorsa as idRisorsa10_, risorsa0_.codice as codice10_, risorsa0_.cognome as cognome10_, risorsa0_.dataIn as dataIn10_, risorsa0_.dataOut as dataOut10_, risorsa0_.matricola as matricola10_, risorsa0_.nome as nome10_ from Risorsa risorsa0_ where risorsa0_.matricola=? limit ?
-20 lug 2011 12:20:31,494 DEBUG ~ select tiporappor0_.idTipoRapportoLavoro as idTipoRa1_5_, tiporappor0_.codice as codice5_, tiporappor0_.descrizione as descrizi3_5_ from TipoRapportoLavoro tiporappor0_ where tiporappor0_.descrizione=? limit ?
-20 lug 2011 12:20:31,496 DEBUG ~ select tiporappor0_.idTipoRapportoLavoro as idTipoRa1_5_, tiporappor0_.codice as codice5_, tiporappor0_.descrizione as descrizi3_5_ from TipoRapportoLavoro tiporappor0_ where tiporappor0_.descrizione=? limit ?
-20 lug 2011 12:20:31,499 DEBUG ~ insert into Tariffa (idTariffa, commessa_idCommessa, dataFine, dataInizio, importoGiornaliero, risorsa_idRisorsa) values (null, ?, ?, ?, ?, ?)
-20 lug 2011 12:20:31,501 DEBUG ~ insert into Tariffa (idTariffa, commessa_idCommessa, dataFine, dataInizio, importoGiornaliero, risorsa_idRisorsa) values (null, ?, ?, ?, ?, ?)
-20 lug 2011 12:20:31,504 DEBUG ~ insert into Tariffa (idTariffa, commessa_idCommessa, dataFine, dataInizio, importoGiornaliero, risorsa_idRisorsa) values (null, ?, ?, ?, ?, ?)
-20 lug 2011 12:20:31,506 DEBUG ~ insert into Tariffa (idTariffa, commessa_idCommessa, dataFine, dataInizio, importoGiornaliero, risorsa_idRisorsa) values (null, ?, ?, ?, ?, ?)
-20 lug 2011 12:20:31,509 DEBUG ~ insert into RapportoAttivita (idRapportoAttivita, anno, approvato, mese, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,525 DEBUG ~ insert into DettaglioRapportoAttivita (idDettaglioRapportoAttivita, commessa_idCommessa, giorno, oreLavorate, rapportoAttivita_idRapportoAttivita) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,526 DEBUG ~ insert into DettaglioRapportoAttivita (idDettaglioRapportoAttivita, commessa_idCommessa, giorno, oreLavorate, rapportoAttivita_idRapportoAttivita) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,531 DEBUG ~ insert into RapportoAttivita (idRapportoAttivita, anno, approvato, mese, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,531 DEBUG ~ insert into DettaglioRapportoAttivita (idDettaglioRapportoAttivita, commessa_idCommessa, giorno, oreLavorate, rapportoAttivita_idRapportoAttivita) values (null, ?, ?, ?, ?)
-20 lug 2011 12:20:31,548 DEBUG ~ select rapportola0_.idRapportoLavoro as idRappor1_3_, rapportola0_.dataFine as dataFine3_, rapportola0_.dataInizio as dataInizio3_, rapportola0_.risorsa_idRisorsa as risorsa4_3_, rapportola0_.tipoRapportoLavoro_idTipoRapportoLavoro as tipoRapp5_3_ from RapportoLavoro rapportola0_ where rapportola0_.tipoRapportoLavoro_idTipoRapportoLavoro=? and rapportola0_.dataInizio<=? and (rapportola0_.dataFine is null or rapportola0_.dataFine>=?)
+22 lug 2011 09:19:51,426 INFO  ~ Starting F:\appoggio\workspace_helios\COGE1.0
+22 lug 2011 09:19:52,232 WARN  ~ You're running Play! in DEV mode
+22 lug 2011 09:19:52,473 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+22 lug 2011 09:20:45,152 INFO  ~ Connected to jdbc:h2:mem:play;MODE=MYSQL;LOCK_MODE=0
+22 lug 2011 09:20:47,048 INFO  ~ Application 'COGE1.0' is now started !
+22 lug 2011 09:20:47,199 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:47,278 DEBUG ~ insert into TipoRapportoLavoro (idTipoRapportoLavoro, codice, descrizione) values (null, ?, ?)
+22 lug 2011 09:20:47,280 DEBUG ~ insert into TipoRapportoLavoro (idTipoRapportoLavoro, codice, descrizione) values (null, ?, ?)
+22 lug 2011 09:20:47,285 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:47,286 DEBUG ~ insert into RapportoLavoro (idRapportoLavoro, dataFine, dataInizio, risorsa_idRisorsa, tipoRapportoLavoro_idTipoRapportoLavoro) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:47,288 DEBUG ~ insert into RapportoLavoro (idRapportoLavoro, dataFine, dataInizio, risorsa_idRisorsa, tipoRapportoLavoro_idTipoRapportoLavoro) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:47,299 DEBUG ~ insert into Cliente (idCliente, codice, nominativo) values (null, ?, ?)
+22 lug 2011 09:20:47,303 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, DTYPE) values (null, ?, ?, ?, ?, ?, 'Commessa')
+22 lug 2011 09:20:47,306 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, DTYPE) values (null, ?, ?, ?, ?, ?, 'Commessa')
+22 lug 2011 09:20:47,310 DEBUG ~ insert into Commessa (idCommessa, cliente_idCliente, codice, dataInizioCommessa, descrizione, fatturabile, importo, DTYPE) values (null, ?, ?, ?, ?, ?, ?, 'CommessaACorpo')
+22 lug 2011 09:20:47,315 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:47,319 DEBUG ~ insert into Ruolo (idRuolo, descrizione) values (null, ?)
+22 lug 2011 09:20:47,322 DEBUG ~ insert into Utente (idUtente, abilitato, password, risorsa_idRisorsa, username) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:47,329 DEBUG ~ insert into Utente_Ruolo (utenti_idUtente, ruoli_idRuolo) values (?, ?)
+22 lug 2011 09:20:47,935 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:47,939 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:47,943 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,246 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,372 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,383 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,387 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,390 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,396 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,399 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,408 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,411 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,414 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,419 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,425 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,432 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,435 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,443 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,448 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,464 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,467 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,475 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,479 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,482 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,491 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,494 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,531 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,533 DEBUG ~ insert into Risorsa (idRisorsa, codice, cognome, dataIn, dataOut, matricola, nome) values (null, ?, ?, ?, ?, ?, ?)
+22 lug 2011 09:20:48,536 DEBUG ~ insert into Costo (idCosto, dataFine, dataInizio, importo, risorsa_idRisorsa) values (null, ?, ?, ?, ?)
+22 lug 2011 09:20:48,540 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
+22 lug 2011 09:20:48,542 DEBUG ~ select costo0_.idCosto as idCosto5_, costo0_.dataFine as dataFine5_, costo0_.dataInizio as dataInizio5_, costo0_.importo as importo5_, costo0_.risorsa_idRisorsa as risorsa5_5_ from Costo costo0_ where (? between costo0_.dataInizio and costo0_.dataFine or (costo0_.dataFine is null) and costo0_.dataInizio<? or costo0_.dataInizio>? and costo0_.dataFine<?) and costo0_.risorsa_idRisorsa=?
