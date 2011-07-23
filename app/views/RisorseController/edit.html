@@ -1,0 +1,75 @@
+#{extends 'main.html' /}
+#{set title:'RisorseController/edit.html' /}
+
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
+<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
+<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<script type="text/javascript">
+  		  $(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+  		$(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker2').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+</script>  		  
+
+#{ifErrors}
+    <p class="error">${errors[0]}</p>
+#{/ifErrors}
+#{elseif flash.error}
+    <p class="error">${flash.error}</p>
+#{/elseif}
+
+
+#{form @RisorseController.update()}
+    <p>
+        <label for="matricola">Matricola</label>
+        <input type="text" name="risorsa.matricola" id="matricola" value="${risorsa.matricola}"/>
+    </p>
+    <p>
+        <label for="codice">Codice</label>
+        <input type="text" name="risorsa.codice" id="codice" value="${risorsa.codice}"/>
+    </p>
+    <p>
+        <label for="nome">Nome</label>
+        <input type="text" name="risorsa.nome" id="nome" value="${risorsa.nome}"/>
+    </p>
+    <p>
+        <label for="cognome">Cognome</label>
+        <input type="text" name="risorsa.cognome" id="cognome" value="${risorsa.cognome}"/>
+    </p>
+    <p>
+        <label for="dataIn">Data In (formato 'dd-MM-yyyy')</label>
+        <input type="text" name="risorsa.dataIn" id="datepicker" value="${risorsa.dataIn?.format('dd-MM-yyyy')}"/>
+    </p>
+    <p>
+        <label for="dataOut">Data Out (formato 'dd-MM-yyyy')</label>
+        <input type="text" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/>
+    </p>
+    <p>
+    	
+        <input type="submit" value="Modifica" />
+    </p>
+    <input type="hidden" name="risorsa.idRisorsa" value="${risorsa.idRisorsa}" />
+    <input type="hidden" name="matricolaOriginale" value="${matricolaOriginale}" />
+#{/form}
+#{form @RisorseController.list()} 
+	<p>
+        <input type="submit" value="Annulla" />
+    </p>
+#{/form}

@@ -11,7 +11,7 @@ import java.util.*;
 
 import models.*;
 
-public class RapportoAttivitaController extends Controller {
+public class RendicontoAttivitaController extends Controller {
 
     
 	
@@ -20,6 +20,7 @@ public class RapportoAttivitaController extends Controller {
     }
 	
 	public static void chooseRisorsa() {
+		
 		 render();
    }
 	
@@ -27,27 +28,27 @@ public class RapportoAttivitaController extends Controller {
 	
 	
 	
-	public static void createRapportoAttivita(@Required(message="Inserire una risorsa") String idRisorsa) {
+	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") String idRisorsa, String data) {
 		
 		if(validation.hasErrors()){
 			flash.error("");
 			validation.keep();
 			chooseRisorsa();
 	  }
-		Risorsa r = Risorsa.findById(Integer.parseInt(idRisorsa));
-		if(r == null){
+		Risorsa risorsa = Risorsa.findById(Integer.parseInt(idRisorsa));
+		if(risorsa == null){
 			flash.error("Risorsa non trovata");
 			validation.keep();
 			chooseRisorsa();
 		}
-		
+		String[] meseAnno = data.split("-");
 	
-		 List<Commessa> listaCommesse  = Commessa.findAll();
-		 render(r,listaCommesse);
+		 List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(meseAnno[0].trim(), meseAnno[1].trim(), risorsa);
+		 List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+		 render(risorsa,listaCommesse,listaCommesseNonFatturabili);
    }
 	
-	public static void saveRapportoAttivita(String data) {
-		System.out.println(data); 
+	public static void saveRendicontoAttivita() {
 		
 		
 		
@@ -61,8 +62,15 @@ public class RapportoAttivitaController extends Controller {
 			  listaResult.add(new DomainWrapper(r.idRisorsa, r.matricola +" "+r.cognome));
 		  }
 		renderJSON(listaResult);
-		
-        
     }
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

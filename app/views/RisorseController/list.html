@@ -1,0 +1,59 @@
+#{extends 'main.html' /}
+#{set title:'RisorseController/list.html' /}
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+#{elseif flash.error}
+    <p class="error">${flash.error}</p>
+#{/elseif}
+
+#{if listaRisorse.size() > 0}
+<div>
+	<table class="gestioneaccount">
+		<tr>
+			<td>Matricola</td>
+			<td>Codice</td>
+			<td>Nome</td>
+			<td>Cognome</td>
+			<td>Data In</td>
+			<td>Data Out</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+  		#{paginate.list items:listaRisorse, as:'risorsa'}
+  			<tr>
+    			<td><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.matricola}</a></td>
+    			<td>${risorsa.codice}</td>
+    			<td>${risorsa.nome}</td>
+    			<td>${risorsa.cognome}</td>
+    			<td>${risorsa.dataIn.format('dd-MM-yyyy')}</td>
+    			<td>${risorsa.dataOut?.format('dd-MM-yyyy')}</td>
+    			<td>
+    				<a href="@{RisorseController.edit(risorsa.idRisorsa)}">MOD</a>
+    				<a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare in modo PERMANENTE la risorsa e le relative informazioni associate?');">CANC</a>
+    			</td>
+    			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}">RAPPORTI LAVORO</a></td>
+    			<td><a href="@{TariffeController.list(risorsa.idRisorsa)}">TARIFFE</a></td>
+    		</tr>
+		#{/paginate.list}
+  	</table>
+ 	#{paginate.controls items:listaRisorse /}	
+</div>
+#{/if}
+#{else}
+    <div>Nessuna Risorsa presente</div>
+#{/else}
+
+#{form @RisorseController.create()}
+    <p>
+        <input type="submit" value="Aggiungi Risorsa" />
+    </p>
+#{/form}
+
+#{form @RisorseController.index()}
+    <p>
+        <input type="submit" value="Indietro" />
+    </p>
+#{/form}

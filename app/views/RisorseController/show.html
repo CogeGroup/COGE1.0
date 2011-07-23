@@ -1,0 +1,35 @@
+#{extends 'main.html' /}
+#{set title:'RisorseController/show.html' /}
+
+<p>
+	<label for="matricola">Matricola: </label>
+    ${risorsa.matricola}
+</p>
+<p>
+	<label for="codice">Codice: </label>
+    ${risorsa.codice}
+</p>
+<p>
+	<label for="nome">Nome: </label>
+    ${risorsa.nome}
+</p>
+<p>
+	<label for="cognome">Cognome: </label>
+    ${risorsa.cognome}
+</p>
+<p>
+	<label for="dataIn">Data In: </label>
+    ${risorsa.dataIn.format('dd-MM-yyyy')}
+</p>
+<p>
+	#{if risorsa.dataOut != null}
+		<label for="dataOut">Data Out: </label>
+    	${risorsa.dataOut.format('dd-MM-yyyy')}
+    #{/if}
+</p>
+
+#{form @RisorseController.list()} 
+	<p>
+        <input type="submit" value="Indietro" />
+    </p>
+#{/form}

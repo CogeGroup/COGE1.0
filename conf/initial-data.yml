@@ -1,8 +1,36 @@
-Risorsa():
-matricola: a
-codice: a
-nome: pippo
-cognome: pippo
-dataIn:
-
-   
+Risorsa(bonnie): 
+  matricola:  537
+  codice:  asd
+  nome:  Bonnie
+  cognome:  Smith
+  dataIn:  2009-06-14
+Costo(costo1): 
+  importo:  200f
+  dataInizio:  2011-02-01
+  dataFine: 2011-02-28
+  risorsa: bonnie
+Costo(costo2): 
+  importo: 100f
+  dataInizio: 2011-03-01
+  dataFine: 2011-05-01
+  risorsa: bonnie
+Costo(costo3): 
+  importo: 100f
+  dataInizio: 2011-05-02
+  dataFine: 2011-07-01
+  risorsa: bonnie
+Costo(costo4): 
+  importo:  200f
+  dataInizio:  2011-08-01
+  dataFine: 2011-08-28
+  risorsa: bonnie
+Costo(costo5): 
+  importo: 100f
+  dataInizio: 2011-09-01
+  dataFine: 2011-10-31
+  risorsa: bonnie
+Costo(costo6): 
+  importo: 100f
+  dataInizio: 2011-11-01
+  dataFine: 2011-12-31
+  risorsa: bonnie

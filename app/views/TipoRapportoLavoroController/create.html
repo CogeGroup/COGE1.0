@@ -1,0 +1,25 @@
+#{extends 'main.html' /}
+#{set title:'TipoRapportoLavoroController/create.html' /}
+
+#{ifErrors}
+    <p class="error">${errors[0]}</p>
+#{/ifErrors}
+
+#{form @TipoRapportoLavoroController.save()}
+    <p>
+        <label for="codice">Codice</label>
+        <input type="text" name="tipoRapportoLavoro.codice" id="codice" value="${tipoRapportoLavoro?.codice}"/>
+    </p>
+    <p>
+        <label for="descrizione">Descrizione</label>
+        <input type="text" name="tipoRapportoLavoro.descrizione" id="descrizione" value="${tipoRapportoLavoro?.descrizione}"/>
+    </p>
+    <p>
+        <input type="submit" value="Aggiungi" />
+    </p>
+#{/form}
+#{form @TipoRapportoLavoroController.index()} 
+	<p>
+        <input type="submit" value="Annulla" />
+    </p>
+#{/form}

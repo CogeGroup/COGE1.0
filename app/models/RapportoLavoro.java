@@ -8,8 +8,11 @@ import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import play.data.binding.As;
+import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
 
@@ -19,12 +22,15 @@ public class RapportoLavoro extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idRapportoLavoro;
 	
+	@Required(message="data inizio obbligatoria")
+	@As("dd-MM-yyyy")
 	public Date dataInizio;
 	
+	@As("dd-MM-yyyy")
 	public Date dataFine;
 	
 	@ManyToOne
-	TipoRapportoLavoro tipoRapportoLavoro;
+	public TipoRapportoLavoro tipoRapportoLavoro;
 	
 	
 	@ManyToOne
@@ -50,7 +56,9 @@ public class RapportoLavoro extends GenericModel{
 	   return list;
    }
 	
-	
-	
+   @Override
+   public boolean equals(Object other) {
+	   return other instanceof RapportoLavoro ? ((RapportoLavoro) other).idRapportoLavoro == this.idRapportoLavoro : false;
+   }
 	
 }

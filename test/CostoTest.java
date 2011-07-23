@@ -140,11 +140,22 @@ public class CostoTest extends UnitTest {
 		 
 	 }
 	
+	@Test
+	public void inserisciCostoSenzaRisorsa() {
+		Costo costoNew = new Costo(100f, new Date(), null);
+		assertFalse(costoNew.validateAndSave());
+	}
 	
-
+	@Test
+	public void inserisciImportoNull() {
+		Costo costoNew = new Costo(null, new Date(), r1);
+		assertFalse(costoNew.validateAndSave());
+	}
+	
 	@Before
 	public void setup() throws ParseException {
 		Fixtures.deleteAll();
+		
 
 		r1 = new Risorsa("a", "a", "pippo", "pippo", new Date());
 		r2 = new Risorsa("b", "b", "risorsa2", "risorsa2", new Date());
