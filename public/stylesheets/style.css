@@ -10,6 +10,12 @@ body {
 	background: #fff;
 	color: #444; 
 }
+.clear {
+	clear: both;
+}
+ol,ul,li {
+	list-style: none;
+}
 
 a {	color: #E60000;	background: inherit; text-decoration: none; }
 a:hover { color: #AA0001; background: inherit; text-decoration: underline; }
@@ -27,6 +33,26 @@ h3 a { font-size: 1em; }
 #top a { color: #808080; margin: 0 0 0 13px; background: #fff url(../images/toparrow.png) no-repeat center left; padding: 0 0 0 12px; }
 input.searchfield { width: 175px; padding: 6px; border: 2px solid #ccc; font-size: .9em; }
 input.searchbutton { background: #E60000; border: 0; padding: 6px; color: #fff; font-weight: bold; font-size: .9em; }
+input.submitbutton { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	padding: 6px; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+	/*font-size: .9em;*/ 
+	float:left; 
+}
+input.returnbutton { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	padding: 6px;
+	margin:10px 0 0 400px; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+	/*font-size: .9em;*/ 
+	 
+	}
+
 
 #logo { float: left; color: #808080; line-height: 25px; }
 #menu { height: 35px; padding: 7px 0 0 0; clear: both;  margin: 0 0 18px; background: #fff url(../images/menubg.gif) repeat-x; }
@@ -60,7 +86,11 @@ input.searchbutton { background: #E60000; border: 0; padding: 6px; color: #fff; 
 	#footer li { list-style: none; }
 	#fl { width: 600px; }
 	#fr { float: right; }
-	
+
+#content2 {
+ height:100px; 
+
+}	
 	table,td
 {
 	border               : 1px solid #CCC;
@@ -72,10 +102,42 @@ table
 	border                :none;
 	border                :1px solid #CCC;
 }
+.table_rapporti {
+	margin:10px 0 0 168px;
+}
+
+.table_tariffe {
+	margin:10px 0 0 130px;
+
+}
+
+.table_costi {
+	margin:10px 0 0 212px;
+
+}
+.table_clienti {
+	margin:10px 0 0 212px;
+
+}
+.table_rappLavoro {
+	margin:10px 0 0 212px;
+
+}
+.table_commesse {
+	margin:10px 0 0 212px;
+
+}
+
+.table_utenti {
+	margin:10px 0 0 274px;
+
+}
+
+
 thead th,
 tbody th
 {
-	background            : #FFF url(../images/th_bck.gif) repeat-x;
+	background            : #FFF /*url(../images/th_bck.gif) repeat-x;*/
   color                 : #666;  
 	padding               : 5px 10px;
   border-left           : 1px solid #CCC;
@@ -89,8 +151,9 @@ tbody th
 }
 tbody tr td
 {
-	padding               : 5px 10px;
+  padding               : 5px 10px;
   color                 : #666;
+  text-align:center;
 }
 tbody tr:hover
 {
@@ -141,5 +204,214 @@ tbody a:visited:after {
 	font-family: Lucida grande,sans-serif;
 
 	content: "\00A0\221A"
+}
+
+#datatable{
+ margin: 8px 0 0 230px;
+}
+#datatable_tariffe{
+ margin: 8px 0 0 275px;
+}
+#datatable_costi{
+ margin: 8px 0 0 275px;
+}
+#datatable_clienti{
+ margin: 8px 0 0 215px;
+}
+#datatable_commesse{
+ margin: 8px 0 0 335px;
+}
+#datatable_utenti{
+ margin: 8px 0 0 254px;
+}
+
+#button{
+ margin: 10px 0 0 0 ;
+ /*float: right;*/
+ padding: 2px;
+ /*width:220px;*/
+}
+#button_double{
+ margin: 10px 90px 0 0 ;
+ /*float: right;*/
+ padding: 2px;
+/* width:250px;*/
+}
+
+#button_center	{
+	display:block;
+ 	margin: 10px 0 0 372px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:200px;
+}
+#button_center_single	{
+	display:block;
+ 	margin: 10px 0 0 425px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:200px;
+}
+
+
+#button_center_wrapped	{
+	display:block;
+ 	margin: 10px 0 0 290px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:280px;
+}
+
+#show_risorsa { 
+	background: #eee;  	
+	width: 260px; 
+	padding: 16px 40px; 
+	margin: 30px 0 0 270px;
+	border:1px solid;
+}
+#show_risorsa label {
+    
+    font-weight: bold;
+	font-size: 1.2em;
+	width: 100%;
+  
+}
+#show_risorsa ul li {
+      padding:4px;
+  }
+  
+#insert { 
+	background: #eee;  	
+	width: 350px; 
+	padding: 12px 21px; 
+	margin: 0px 0 0 270px;
+	height:270px;
+	border:1px solid;
+}
+#insert label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#insert ul li {
+      padding:10px;
+  }
+
+#insert .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#insert .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#insert .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+#edit { 
+	background: #eee;  	
+	width: 350px; 
+	padding: 12px 21px; 
+	margin: 0px 0 0 270px;
+	border:1px solid;
+}
+#edit label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#edit ul li {
+      padding:10px;
+  }
+
+#edit .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#edit .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#edit .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+
+#editRapportino { 
+	background: #eee;  	
+	padding: 12px 21px; 
+	margin: 0px 0 0 190px;
+	border:1px solid;
+	width:395px;
+}
+#editRapportino label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#editRapportino ul li {
+      padding:10px;
+  }
+
+#editRapportino .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#editRapportino .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#editRapportino .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+
+#ui-datepicker-div {
+	display:none;
+}
+
+.error{
+  color:#E60000;
 
 }
+.success{
+  color:#E60000;
+
+}
+
+
+
+
+
+

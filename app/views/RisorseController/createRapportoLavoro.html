@@ -1,14 +1,14 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'RisorseController/createRapportoLavoro.html' /}
 
-<div>
-		Risorsa: ${risorsa.matricola}
-		<br>
-		${risorsa.nome} ${risorsa.cognome}
-		<br>
-		Data In: ${risorsa.dataIn.format('dd-MM-yyyy')}
-</div>
-<hr>
+<h2>Crea Rapporto Lavoro</h2>
+<div id="edit">
+<ul>
+	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Nome: </label>${risorsa.nome}</li> 
+	<li><label>Cognome: </label>${risorsa.cognome}</li>
+	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}</li>
+</ul>
 
 #{ifErrors}
     <p class="error">${errors[0]}</p>
@@ -18,39 +18,44 @@
 #{/elseif}
 
 #{form @RisorseController.saveRapportoLavoro()}
-    <p>
-    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro</label>
-		#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
-			#{option 0}-- Seleziona un Tipo Rapporto Lavoro --#{/option}
-		#{/select}
-	</p>
-	<p>
-    	<label for="dataInizio">Data Inizio</label>
-		#{select 'meseInizio', value:meseInizio}
-			#{option 0}GEN#{/option}
-			#{option 1}FEB#{/option}
-			#{option 2}MAR#{/option}
-			#{option 3}APR#{/option}
-			#{option 4}MAG#{/option}
-			#{option 5}GIU#{/option}
-			#{option 6}LUG#{/option}
-			#{option 7}AGO#{/option}
-			#{option 8}SET#{/option}
-			#{option 9}OTT#{/option}
-			#{option 10}NOV#{/option}
-			#{option 11}DIC#{/option}
-		#{/select}
-		
-		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
-		#{/select}
-	</p>
-	<p>
+	<ul>
+	    <li>
+	    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+			#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
+				#{option 0}-- Seleziona --#{/option}
+			#{/select}
+		</li>
+		<li>
+	    	<label for="dataInizio">Data Inizio:</label>
+			#{select 'meseInizio', value:meseInizio}
+				#{option 0}GEN#{/option}
+				#{option 1}FEB#{/option}
+				#{option 2}MAR#{/option}
+				#{option 3}APR#{/option}
+				#{option 4}MAG#{/option}
+				#{option 5}GIU#{/option}
+				#{option 6}LUG#{/option}
+				#{option 7}AGO#{/option}
+				#{option 8}SET#{/option}
+				#{option 9}OTT#{/option}
+				#{option 10}NOV#{/option}
+				#{option 11}DIC#{/option}
+			#{/select}
+			
+			#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
+			#{/select}
+		</li>
+	</ul>
+</div>
+<div id="button_center">
+	
         <input type="hidden" name="idRisorsa" value="${risorsa.idRisorsa}" />
-    	<input type="submit" value="Aggiungi" />
-    </p>
+    	<input type="submit" class="submitbutton" value="Aggiungi" />
+   
 #{/form}
 #{form @RisorseController.listRapportoLavoro(risorsa.idRisorsa)} 
-	<p>
-		<input type="submit" value="Annulla" />
-    </p>
+	
+		<input type="submit" class="submitbutton" value="Annulla" />
+   
 #{/form}
+</div>

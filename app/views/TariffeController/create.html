@@ -1,18 +1,19 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Aggiungi nuova tariffa' /}
 
-<!-- CSS usati -->
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
-<!-- JavaScript usati -->
-<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<!-- CSS -->
+#{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker').datepicker({
+		$('#datepicker1').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -21,7 +22,11 @@
 </script>
 
 <h1>Nuova tariffa</h1>
+
+
+
 #{if listaCommesse.size() > 0}
+<div id="edit">
 #{form @tariffeController.save()}
 	
 	#{ifErrors}
@@ -29,38 +34,41 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
-	
-	<p>
-        <label for=dataInizio>Data inizio: </label>
-        <input type="text" name="tariffa.dataInizio" id="datepicker" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
-    </p>
-    <p>
-        <label for=importo>Importo giornaliero: </label>
-        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-    </p>
-    <p>
-    	<label for="commessa">Commessa: </label><br>
-		<select name="idCommessa">
-			<option value="">- Selezionare -</option>
-    		#{list items:listaCommesse, as:'commessa'}
-		        <option value="${commessa.idCommessa }" #{if commessa.idCommessa == tariffa?.commessa?.idCommessa }
-		        		selected="selected"
-		        	#{/if} >${commessa.codice }</option>
-		    #{/list} 
-    	</select>
-    </p>
-    <p>
+	<ul>
+		<li>
+	        <label for=dataInizio>Data inizio:</label>
+	        <input type="text" class="txt_date" name="tariffa.dataInizio" id="datepicker1" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
+	    </li>
+	    <li>
+	        <label for=importo>Importo giornaliero:</label>
+	        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
+	    </li>
+	    <li>
+	    	<label for="commessa">Commessa:</label>
+			<select name="idCommessa">
+				<option value="">- Selezionare -</option>
+	    		#{list items:listaCommesse, as:'commessa'}
+			        <option value="${commessa.idCommessa }" #{if commessa.idCommessa == tariffa?.commessa?.idCommessa }
+			        		selected="selected"
+			        	#{/if} >${commessa.codice }</option>
+			    #{/list} 
+	    	</select>
+	    </li>
+    </ul>
+</div>
+<div id="button_center">
+    
      	<input type="hidden" name="idRisorsa" value="${idRisorsa }"/>
-        <input type="submit" value="Salva nuova tariffa" />
-    </p>
+        <input type="submit" class="submitbutton" value="Salva" />
+    
 #{/form}
 #{/if}
 #{else}
-	<label>
-		Non si puo' creare una tariffa, perche' non esistono commesse a cui assegnarla.
-	</label><br>
+	
+		<h3>Non si puo' creare una tariffa, perche' non esistono commesse a cui assegnarla.</h3><br />
 	<a href="@{CommesseController.create()}">
-		<input type="button" value="Aggiungi nuovo Commessa" /></a><br>
+		<input type="button" class="submitbutton" value="Aggiungi nuovo Commessa" /></a>
 #{/else}
 <a href="@{TariffeController.index(idRisorsa)}">
-	<input type="button" value="Annulla" /></a>
+	<input type="button" class="submitbutton" value="Indietro" /></a>
+</div>

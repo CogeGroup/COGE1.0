@@ -1,7 +1,8 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Aggiungi nuovo cliente' /}
 
-<h1>Nuovo cliente</h1>
+<h2>Nuovo cliente</h2>
+<div id="edit">
 #{form @ClientiController.save()}
 	
 	#{ifErrors}
@@ -9,19 +10,19 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
-	
-	<p>
-        <label for="codice">Codice cliente: </label>
-        <input type="text" id="codice" name="cliente.codice" value="${cliente.codice }"/>
-    </p>
-    <p>
-        <label for="nominativo">Nominativo: </label>
-        <input type="text" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
-    </p>
-	<p>
-        <input type="submit" value="Salva nuovo cliente" />
-    </p>
-    
-#{/form}
-<a href="@{ClientiController.index()}">
-	<input type="button" value="Annulla" /></a>
+  <ul>
+		<li>
+	        <label for="codice">Codice cliente:</label>
+	        <input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/>
+	    </li>
+	    <li>
+	        <label for="nominativo">Nominativo:</label>
+	        <input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
+	    </li>
+   </ul>
+</div>
+<div id="button_center">
+        <input type="submit" class="submitbutton" value="Salva" />
+	#{/form}
+		<a href="@{ClientiController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>

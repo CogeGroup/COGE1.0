@@ -1,37 +1,34 @@
-#{extends 'main.html' /}
-#{set title:'Commessa: '+  commessa.codice /}
+#{extends 'menu.html' /}
+#{set title:'Dettaglio Commessa'/}
 
-<h1>Commessa: ${commessa.codice }</h1>
+<h2>Commessa</h2>
 
-	<p>
-        <label for="id">Id commessa: </label>
-        <label>${commessa.idCommessa }</label>
-    </p>
-	<p>
-        <label for="codice">Codice commessa: </label>
-        <label>${commessa.codice }</label>
-    </p>
-    <p>
-        <label for="descrizione">Descrizione: </label>
-        <label>${commessa.descrizione }</label>
-    </p>
-    <p>
-        <label for="fatturabile">Fatturabile: </label>
-        <label>${commessa.fatturabile == true ? 'si' : 'no' }</label>
-    </p>
+<div id="edit">
+   <ul>	
+	<li>
+        <label for="codice">Codice commessa:</label>
+        	${commessa.codice }
+    </li>
+    <li>
+        <label for="descrizione">Descrizione:</label>
+       		${commessa.descrizione }
+    </li>
+    <li>
+        <label for="fatturabile">Fatturabile:</label>
+        	${commessa.fatturabile == true ? 'si' : 'no' }
+    </li>
     #{if commessa.dataInizioCommessa}
-    <p>
-        <label for=dataInizioCommessa>Data inizio: </label>
-        <label>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</label>
-    </p>
+    <li>
+        <label for=dataInizioCommessa>Data inizio:</label>
+       	 ${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }
+    </li>
     #{/if}
-    <p>
-        <label for="cliente">Cliente: </label>
-        <label><a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a></label>
-    </p>
-	
-<a href="@{CommesseController.delete(commessa.idCommessa)}">
-	<input type="button" value="Cancella ${commessa.codice }" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessa.codice }');" /></a>
-<br>
-<a href="@{CommesseController.index()}">
-	<input type="button" value="Indietro" /></a>
+    <li>
+        <label for="cliente">Cliente:</label>
+       <a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a>
+    </li>
+  </ul>
+</div>	
+<div id="button_center_single">
+	<a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>

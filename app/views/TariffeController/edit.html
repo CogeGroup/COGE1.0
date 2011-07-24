@@ -1,18 +1,18 @@
-#{extends 'main.html' /}
-#{set title:'Modifica tariffa: ' /}
+#{extends 'menu.html' /}
+#{set title:'Modifica tariffa' /}
 
-<!-- CSS usati -->
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
-<!-- JavaScript usati -->
-<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<!-- CSS -->
+#{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker').datepicker({
+		$('#datepicker1').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -30,7 +30,14 @@
 	});
 </script>
 
-<h1>Modifica tariffa</h1>
+<h2>Modifica Tariffa</h2>
+<div id="edit">
+<ul>
+	<li><label>Risorsa:</label> ${tariffa.risorsa.matricola}</li>
+	<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
+</ul>
+
 #{form @TariffeController.update()}
 	
 	#{ifErrors}
@@ -38,25 +45,21 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
-    
-	<p>
-        <label for="id">Id tariffa: </label>
-        <label>${tariffa.idTariffa }</label>
-    </p>
-	<p>
-        <label for=dataInizio>Data inizio: </label>
-        <input type="text" name="tariffa.dataInizio" id="datepicker" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
-    </p>
-    <p>
-        <label for=dataFine>Data fine: </label>
-        <input type="text" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
-    </p>
-    <p>
-        <label for=importo>Importo giornaliero: </label>
-        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-    </p>
-    <p>
-    	<label for="commessa">Commessa: </label><br>
+    <ul>
+	<li>
+        <label for=dataInizio>Data inizio:</label>
+        <input type="text" class="txt_date" name="tariffa.dataInizio" id="datepicker1" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
+    </li>
+    <li>
+        <label for=dataFine>Data fine:</label>
+        <input type="text" class="txt_date" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
+    </li>
+    <li>
+        <label for=importo>Importo giornaliero:</label>
+        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
+    </li>
+    <li>
+    	<label for="commessa">Commessa:</label>
     	<select name="idCommessa">
     		#{list items:listaCommesse, as:'commessa'}
 		        <option value="${commessa.idCommessa }" 
@@ -65,12 +68,15 @@
 		        	#{/if} >${commessa.codice }</option>
 		    #{/list} 
     	</select>
-    </p>
-	<p>
+    </li>
+</ul>
+</div>
+<div id="button_center">
 		<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
-        <input type="submit" value="Salva modifiche" />
-    </p>
+        <input type="submit" class="submitbutton" value="Salva" />
     
 #{/form}
 <a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
-	<input type="button" value="Annulla" /></a>
+	<input type="button" class="submitbutton" value="Indietro" /></a>
+</div>
+	
