@@ -1,8 +1,12 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'RisorseController/index.html' /}
 
 
-#{a @RisorseController.list()}Gestione Risorsa#{/a}
 
 
-#{a @TipoRapportoLavoroController.index()}Gestione TipoRapportoLavoro#{/a}
+
+
+		<ul>
+			<li>#{a @RisorseController.list()}Anagrafica Risorsa#{/a}</li>
+			<li>#{a @TipoRapportoLavoroController.index()}Gestione TipoRapportoLavoro#{/a}</li>
+		</ul>

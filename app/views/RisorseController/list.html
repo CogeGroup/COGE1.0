@@ -1,4 +1,4 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'RisorseController/list.html' /}
 
 #{if flash.success}
@@ -10,18 +10,26 @@
 
 #{if listaRisorse.size() > 0}
 <div>
-	<table class="gestioneaccount">
+	<table id="itsthetable">
+	  <caption>
+	    <h3>Risorse</h3>
+	   </caption>
+	   <thead>
 		<tr>
-			<td>Matricola</td>
-			<td>Codice</td>
-			<td>Nome</td>
-			<td>Cognome</td>
-			<td>Data In</td>
-			<td>Data Out</td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<th scope="col">Matricola</th>
+			<th scope="col">Codice</th>
+			<th scope="col">Nome</th>
+			<th scope="col">Cognome</th>
+			<th scope="col">Data In</th>
+			<th scope="col">Data Out</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
+			<th scope="col">Rapporto Lavoro</th>
+			<th scope="col">Tariffa</th>
+			<th scope="col">Costo</th>
 		</tr>
+		</thead>
+		
   		#{paginate.list items:listaRisorse, as:'risorsa'}
   			<tr>
     			<td><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.matricola}</a></td>
@@ -30,30 +38,29 @@
     			<td>${risorsa.cognome}</td>
     			<td>${risorsa.dataIn.format('dd-MM-yyyy')}</td>
     			<td>${risorsa.dataOut?.format('dd-MM-yyyy')}</td>
-    			<td>
-    				<a href="@{RisorseController.edit(risorsa.idRisorsa)}">MOD</a>
-    				<a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare in modo PERMANENTE la risorsa e le relative informazioni associate?');">CANC</a>
-    			</td>
-    			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}">RAPPORTI LAVORO</a></td>
-    			<td><a href="@{TariffeController.list(risorsa.idRisorsa)}">TARIFFE</a></td>
+    			<td><a href="@{RisorseController.edit(risorsa.idRisorsa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+    		    <td><a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare la risorsa e le relative informazioni associate?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+    			<td><a href="@{RisorseController.listRapportoLavoro(risorsa.idRisorsa)}"><img src="@{'/public/images/rapp.png'}" alt="rapporto lavoro" /></a></td>
+    			<td><a href="@{TariffeController.list(risorsa.idRisorsa)}"><img src="@{'/public/images/tariffe.png'}" alt="tariffe" /></a></td>
+    			<td><a href="@{CostiController.index(risorsa.idRisorsa)}"><img src="@{'/public/images/costo.gif'}" alt="costo" /></a></td>
     		</tr>
 		#{/paginate.list}
   	</table>
- 	#{paginate.controls items:listaRisorse /}	
+  	<div id="datatable">
+ 	#{paginate.controls items:listaRisorse /}
+ 	</div>	
 </div>
 #{/if}
 #{else}
     <div>Nessuna Risorsa presente</div>
 #{/else}
 
+<div id="button">
 #{form @RisorseController.create()}
     <p>
-        <input type="submit" value="Aggiungi Risorsa" />
+        <input type="submit" class="submitbutton" value="Aggiungi Risorsa" />
     </p>
 #{/form}
 
-#{form @RisorseController.index()}
-    <p>
-        <input type="submit" value="Indietro" />
-    </p>
-#{/form}
+
+<div>
