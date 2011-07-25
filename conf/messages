@@ -6,6 +6,7 @@ costo.importo = importo
 costo.dataInizio = dataInizio
 costo.dataFine = dataFine
 validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
+validation.costo.dataFine.lt.dataInizio = la data fine &egrave; precedente alla data inizio
 
 #play-paginate.name=play-paginate
 

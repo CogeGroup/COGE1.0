@@ -137,6 +137,13 @@ public class Risorsa extends GenericModel {
 		
 		return ret;
 	}
+	
+	public Costo extractLastCosto(){
+		if(listaCosti == null || listaCosti.isEmpty()){
+			return null;
+		}
+		return listaCosti.get(listaCosti.size()-1);
+	}
 
 
 
