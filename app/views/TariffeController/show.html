@@ -1,37 +1,35 @@
-#{extends 'main.html' /}
-#{set title:'Tariffa ' /}
+#{extends 'menu.html' /}
+#{set title:'Gestione Tariffe ' /}
 
-<h1>Tariffa</h1>
+<h2>Dettaglio Tariffa</h2>
 
-	<p>
-        <label for="id">Id Tariffa: </label>
-        <label>${tariffa.idTariffa }</label>
-    </p>
-	<p>
-        <label for="dataInizio">Data Inizio: </label>
-        <label>${tariffa.dataInizio?.format('dd-MM-yyyy') }</label>
-    </p>
-    #{if tariffa.dataFine}
-    <p>
-        <label for="dataFine">Data Fine: </label>
-        <label>${tariffa.dataFine?.format('dd-MM-yyyy') }</label>
-    </p>
-    #{/if}
-    <p>
-        <label for="importo">Importo giornaliero: </label>
-        <label>${tariffa.importoGiornaliero }</label>
-    </p>
-    <p>
-        <label for="risorsa">Risorsa: </label>
-        <label>${tariffa.risorsa.cognome }</label>
-    </p>
-    <p>
-        <label for=commessa>Commessa: </label>
-        <label><a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice }</a></label>
-    </p>
-	
-<a href="@{TariffeController.delete(tariffa.idTariffa)}">
-	<input type="button" value="Cancella" onclick="return confirm('Continuare con la cancellazzione della tariffa');" /></a>
-<br>
-<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
-	<input type="button" value="Indietro" /></a>
+<div id="edit">
+   <ul>
+		<li>
+	        <label for="dataInizio">Data Inizio:</label>
+	        ${tariffa.dataInizio?.format('dd-MM-yyyy') }
+	    </li>
+	    #{if tariffa.dataFine}
+	    <li>
+	        <label for="dataFine">Data Fine:</label>
+	        ${tariffa.dataFine?.format('dd-MM-yyyy') }
+	    </li>
+	    #{/if}
+	    <li>
+	        <label for="importo">Importo giornaliero:</label>
+	        ${tariffa.importoGiornaliero }
+	    </li>
+	    <li>
+	        <label for="risorsa">Risorsa:</label>
+	         ${tariffa.risorsa.cognome }
+	    </li>
+	    <li>
+	        <label for=commessa>Commessa:</label>
+	        <a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice }</a>
+	    </li>
+  </ul>
+
+</div>
+<div id="button_center_single">	
+	<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>

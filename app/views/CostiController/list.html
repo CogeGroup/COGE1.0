@@ -1,33 +1,43 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Lista clienti' /}
 
-<h1>Lista Costi</h1>
+<h1>Costi</h1>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
 #{if paginator.size() > 0}
-	<label>${paginator.size() } costi</label>
-	<table class="gestioneaccount">
+	<table class="table_costi">
+	<thead>
 		<tr>
-			<th>Importo</th>
-			<th>Data Inizio</th>
-			<th>Data Fine</th>
-			<th>Azioni</th>
+			<th scope="col">Importo</th>
+			<th scope="col">Data Inizio</th>
+			<th scope="col">Data Fine</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
 		</tr>
+	</thead>
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
 			<td>${costo.importo }</td>
 			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
 			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
-			<td><a href="@{CostiController.edit(costo.idCosto)}">Modifica</a>
-				<a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');">Cancella</a>
+			<td>
+				<a href="@{CostiController.edit(costo.idCosto)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a>
+			</td>
+			<td>
+				<a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
 			</td>
 		</tr>
 		#{/paginate.list} 
 	</table>
+	<div id="datatable_costi">
 	#{paginate.controls items:paginator /}
+	</div>
 #{/if}
 #{else}
-	<label>Nessun Costo esistente</label>
+	<h3>Nessun Costo esistente</h3>
 #{/else}
-<p><a id="create" href="@{CostiController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuovo costo"/></a></p>
+<div id="button_center">
+	<a id="create" href="@{CostiController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+	<a href="@{RisorseController.list()}"><input type="button" class="submitbutton" value="Indietro"/></a>
+</div>

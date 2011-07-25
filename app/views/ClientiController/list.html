@@ -1,32 +1,41 @@
-#{extends 'main.html' /}
-#{set title:'Lista clienti' /}
+#{extends 'menu.html' /}
+#{set title:'Gestione clienti' /}
 
-<h1>Lista Clienti</h1>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
+
 #{if paginator.size() > 0}
-	<label>${paginator.size() } clienti</label>
-	<table class="gestioneaccount">
+
+	<table class="table_clienti">
+	 <caption>
+	    <h3>Clienti</h3>
+	   </caption>
+	<thead>
 		<tr>
-			<td>Codice cliente</td>
-			<td>Nominativo</td>
-			<td>Azioni</td>
+			<th scope="col">Codice cliente</th>
+			<th scope="col">Nominativo</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
 		</tr>
+	</thead>
 		#{paginate.list items:paginator, as:'cliente'} 
 		<tr>
 			<td><a href="@{ClientiController.show(cliente.idCliente)}">${cliente.codice }</a></td>
 			<td>${cliente.nominativo }</td>
-			<td><a href="@{ClientiController.edit(cliente.idCliente)}">Modifica</a>
-				<a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');">Cancella</a>
-			</td>
+			<td><a href="@{ClientiController.edit(cliente.idCliente)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+			<td><a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			
 		</tr>
 		#{/paginate.list} 
 	</table>
+	<div id="datatable_clienti">
 	#{paginate.controls items:paginator /}
+	</div>
 #{/if}
 #{else}
-	<label>Nessun Cliente esistente</label>
+	<center><h2>Nessun Cliente esistente</h2></center>
 #{/else}
-
-<p><a id="create" href="@{ClientiController.create()}"><input type="button" value="Aggiungi nuovo cliente"/></a></p>
+<div id="button">
+	<a id="create" href="@{ClientiController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuovo cliente"/></a></p>
+</div>
