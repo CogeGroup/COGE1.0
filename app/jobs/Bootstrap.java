@@ -179,17 +179,26 @@ public class Bootstrap extends Job {
       r2.addRapportoLavoro(rl3);
       r2.save();
       
-      cl1 = new Cliente("cod","nome");
+      cl1 = new Cliente("COD","nome");
+      cl1.attivo = true;
       cl1.save();
       
-       cm1 = new Commessa("desc","commessa1",true);
+       cm1 = new Commessa("desc","COMMESSA1",true);
+       cm1.attivo = true;
        try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
 		e.printStackTrace();
 	}
 
-      cm2 = new Commessa("desc","commessa2",true);
+      cm2 = new Commessa("desc","COMMESSA2",true);
+      cm2.attivo = true;
+      
+      try {
+  		cm2.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2011");
+  	} catch (ParseException e) {
+  		e.printStackTrace();
+  	}
 
       cm1.cliente=cl1;
       cm2.cliente=cl1;
@@ -197,7 +206,13 @@ public class Bootstrap extends Job {
       cm2.save();
       
       
-      CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","codCorpo",true,200.00f);
+      CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","ACORPO",true,200.00f);
+      cAc1.attivo = true;
+      try {
+    	  cAc1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011");
+    	} catch (ParseException e) {
+    		e.printStackTrace();
+    	}
       cAc1.cliente=cl1;
       cAc1.save();
       

@@ -26,7 +26,6 @@
        $('#'+a).remove();
    	}
  </script>
- 
 
 <h2>Inserimento Rapportino (2/2)</h2>
 
@@ -63,34 +62,20 @@
  	#{else}
    		<center><h3> Non vi sono commesse non fatturabili.</h3></center>
 	#{/else}    
-     
-    
-    
     
   <div id="result"></div>
-
         
         <input type="hidden" name="anno" value="${meseAnno[1].trim()}"/>
         <input type="hidden" name="mese" value="${meseAnno[0].trim()}"/>
         <input type="hidden" name="idRisorsa" value="${idRisorsa}"/>
- 
 
 </div>
   <div id="button_center">       
  	<input type="submit" class="submitbutton" value="Salva" />
  </div>
-
-        
      
 #{/form}
  #{/if}
  #{else}
    <center><h3> Non vi sono commesse.</h3></center>
 #{/else}
-
- 
-    
-    
-    
- 
-    

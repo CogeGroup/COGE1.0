@@ -31,7 +31,7 @@ public class TariffeController extends Controller {
     public static void create(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	Tariffa tariffa = new Tariffa();
-    	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+    	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
         render(risorsa.idRisorsa, tariffa, listaCommesse);
     }
     
@@ -42,7 +42,7 @@ public class TariffeController extends Controller {
     public static void save(@Valid Tariffa tariffa, Integer idRisorsa, @Required(message="Selezionare una commessa") Integer idCommessa) {
     	// Validazione del form
     	if(validation.hasErrors()) {
-        	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 	        render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse);
     	}
         Commessa commessa = Commessa.findById(idCommessa);
@@ -54,7 +54,7 @@ public class TariffeController extends Controller {
         if(tariffa.commessa.fatturabile == false) {
         	tariffa.importoGiornaliero = 0;
         }else{
-        	if(tariffa.importoGiornaliero > 0) {
+        	if(tariffa.importoGiornaliero < 0) {
         		validation.addError("tariffa.importoGiornaliero", "Importo obligatorio");
         	}
         }
@@ -64,7 +64,7 @@ public class TariffeController extends Controller {
         if(commessa.dataInizioCommessa != null && tariffa.dataInizio.before(commessa.dataInizioCommessa)){
         	validation.addError("tariffa.dataInizio", "La data inizio per la commessa "
         			+ commessa.codice + " non puo' essere inferione al: " + new SimpleDateFormat("dd/MM/yyyy").format(commessa.dataInizioCommessa));
-        	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 	        render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse);
         }
         // dataFine a null
@@ -78,7 +78,7 @@ public class TariffeController extends Controller {
         	Date data = c.getTime();
         	// Controlla se la data inizio della tariffa nuova è maggiore di almeno 1 giorno della data inizio dell'ultima tareffa
         	if(!tariffa.dataInizio.after(data)){
-        		List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+        		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
             	validation.addError("tariffa.dataInizio", "La data inizio per la commessa "
 		        			+ commessa.codice + " non puo' essere inferione o uguale al: " + new SimpleDateFormat("dd/MM/yyyy").format(data));
     	        render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse);
@@ -94,7 +94,7 @@ public class TariffeController extends Controller {
 		    	Tariffa t = lista.get(lista.size()-1);
 		    	// controlla se la data inizio della nuova tariffa è maggiore della data fine dell'ultima tariffa
 			    if(tariffa.dataInizio.before(t.dataFine)){
-			     	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+			    	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 			       	validation.addError("tariffa.dataInizio", "La data inizio per la commessa "
 			       			+ commessa.codice + " non puo essere inferione al: " + new SimpleDateFormat("dd/MM/yyyy").format(t.dataFine));
 				    render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse);
@@ -127,14 +127,14 @@ public class TariffeController extends Controller {
 				}
 			}
         }
-    	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+        List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
         render(tariffa, listaCommesse);
     }
     
     public static void update(@Valid Tariffa tariffa, Integer idCommessa) {
     	// Validazione del form
     	if(validation.hasErrors()) {
-        	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 	        render("TariffeController/edit.html", tariffa, listaCommesse);
     	}
     	Commessa commessa = Commessa.findById(idCommessa);
@@ -144,7 +144,7 @@ public class TariffeController extends Controller {
         if(commessa.dataInizioCommessa != null && tariffa.dataInizio.before(commessa.dataInizioCommessa)){
         	validation.addError("tariffa.dataInizio", "La data inizio per la commessa "
         			+ commessa.codice + " non puo' essere inferione al: " + new SimpleDateFormat("dd/MM/yyyy").format(commessa.dataInizioCommessa));
-        	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 	        render("TariffeController/edit.html", tariffa, listaCommesse);
         }
         List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa",commessa, tariffa.risorsa).fetch();
@@ -155,7 +155,7 @@ public class TariffeController extends Controller {
         	if(lista.size() > 1){
         		System.out.println(t.idTariffa + " " + tariffa.idTariffa);
 			    if(!tariffa.dataInizio.after(t.dataFine)){
-			      	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+			    	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 			       	validation.addError("dataInizio", "La data inizio non puo' essere minore o uguale " +
 			       			"al: " + new SimpleDateFormat("dd/MM/yyyy").format(t.dataFine));
 			       	render("TariffeController/edit.html", tariffa, listaCommesse);
@@ -168,7 +168,7 @@ public class TariffeController extends Controller {
 		    	c.add(Calendar.DAY_OF_MONTH, 1);
 		    	Date dataInizio = c.getTime();
 		        if(tariffa.dataFine.before(dataInizio)){
-		        	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
+		        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.attivo = ? order by codice asc", true).fetch();
 		        	validation.addError("date", "La data fine non puo essere minore o uguale della data inizio");
 		        	render("TariffeController/edit.html", tariffa, listaCommesse);
 		        }
@@ -188,7 +188,8 @@ public class TariffeController extends Controller {
     public static void delete(Integer idTariffa) {
     	Tariffa tariffa = Tariffa.findById(idTariffa);
     	Integer idRisorsa = tariffa.risorsa.idRisorsa;
-    	tariffa.delete();
+    	tariffa.dataFine = new Date();
+    	tariffa.save();
         list(idRisorsa);
     }
 }

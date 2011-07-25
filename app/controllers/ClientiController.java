@@ -52,7 +52,6 @@ public class ClientiController extends Controller {
 	        render("ClientiController/edit.html", cliente);
 	    }
     	cliente.codice = cliente.codice.toUpperCase();
-    	System.out.println(cliente.attivo);
     	cliente.save();
     	flash.success("%s modificato con successo", cliente.nominativo);
         list();
@@ -66,37 +65,10 @@ public class ClientiController extends Controller {
     public static void delete(Integer id) {
     	Cliente cliente = Cliente.findById(id);
     	cliente.attivo = false;
+    	Commessa.chiudiCommesseByCliente(cliente);
     	cliente.save();
-    	chiudiCommesseByCliente(cliente);
     	flash.success("%s cancellato con successo", cliente.nominativo);
     	list();
-    }
-    
-    private static void chiudiCommesseByCliente(Cliente cliente) {
-    	for (Commessa commessa : cliente.commesse) {
-    		if(commessa.dataFineCommessa == null){
-				commessa.dataFineCommessa = new Date();
-	    		commessa.save();
-	    		chiudiTariffeByCommessa(commessa);
-    		}
-    		// se c'è una commessa che comincia dopo oggi?
-    		if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.after(new Date())){
-    			commessa.delete();
-    		}
-		}
-    }
-    
-    private static void chiudiTariffeByCommessa(Commessa commessa) {
-    	for (Tariffa tariffa : commessa.tariffe) {
-    		if(tariffa.dataFine == null) {
-	    		tariffa.dataFine = new Date();
-	    		tariffa.save();
-    		}
-//    		// se c'è una tariffa che comincia dopo oggi?
-    		if(tariffa.dataInizio.after(new Date())){
-				tariffa.delete();
-			}
-		}
     }
 
 }

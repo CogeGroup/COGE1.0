@@ -15,6 +15,7 @@
 		<tr>
 			<th scope="col">Codice cliente</th>
 			<th scope="col">Nominativo</th>
+			<th scope="col">Attivo</th>
 			<th scope="col">Modifica</th>
 			<th scope="col">Elimina</th>
 		</tr>
@@ -23,6 +24,7 @@
 		<tr>
 			<td><a href="@{ClientiController.show(cliente.idCliente)}">${cliente.codice }</a></td>
 			<td>${cliente.nominativo }</td>
+			<td>${cliente.attivo == true ? 'si' : 'no' }</td>
 			<td><a href="@{ClientiController.edit(cliente.idCliente)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 			<td><a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			

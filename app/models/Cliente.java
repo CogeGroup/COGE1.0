@@ -37,7 +37,6 @@ public class Cliente extends GenericModel{
 		super();
 		this.codice = codice;
 		this.nominativo = nominativo;
-		this.attivo = true;
 	}
 
 	public float calcolaRicavo(String mese, String anno) {
@@ -53,7 +52,6 @@ public class Cliente extends GenericModel{
 			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
-		
 		return importoTotale;
 	}
 }
