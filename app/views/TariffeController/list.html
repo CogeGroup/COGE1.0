@@ -1,5 +1,14 @@
-#{extends 'main.html' /}
-#{set title:'Lista Tariffe di ' + risorsa.cognome /}
+#{extends 'menu.html' /}
+#{set title:'Gestione Tariffe'/}
+
+<h2>Gestione Tariffe</h2>
+<div id="edit">
+<ul>
+	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Nome: </label>${risorsa.nome}</li> 
+	<li><label>Cognome: </label>${risorsa.cognome}</li>
+</ul>
+</div>
 
 
 <div>
@@ -20,18 +29,21 @@
 	</p>
 #{/ifErrors}
 #{if paginator.size() > 0}
-	<label>${paginator.size() } Tariffe</label>
-	<table class="gestioneaccount">
+	
+	<table class="table_tariffe">
+	<thead>
 		<tr>
-			<td>Id Tariffa</td>
-			<td>Data Inizio</td>
-			<td>Data Fine</td>
-			<td>Importo Giornaliero</td>
-			<td>Commessa</td>
+			<th scope="col">Id Tariffa</th>
+			<th scope="col">Data Inizio</th>
+			<th scope="col">Data Fine</th>
+			<th scope="col">Importo Giornaliero</th>
+			<th scope="col">Commessa</th>
 			#{if !risorsa.dataOut}
-				<td>Azioni</td>
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
 			#{/if}
 		</tr>
+	</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
 		<tr>
 			<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
@@ -40,28 +52,26 @@
 			<td>${tariffa.importoGiornaliero }</td>
 			<td>${tariffa.commessa.codice }</td>
 			#{if !risorsa.dataOut}
-				<td>
-					<a href="@{TariffeController.edit(tariffa.idTariffa)}">Modifica</a>
-					<a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');">Cancella</a>
-				</td>
+				<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+				<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			#{/if}
 		</tr>
 		#{/paginate.list} 
 	</table>
+	<div id="datatable_tariffe">
 	#{paginate.controls items:paginator /}
+	</div>
 #{/if}
 #{else}
-	<label>Nessuna Tariffa esistente</label>
+	<center><h3>Nessuna Tariffa esistente</h3></center>
 #{/else}
 
-#{if !risorsa.dataOut}
-	<p>
-		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuova tariffa"/></a>
-	</p>
-#{/if}
-
-#{form @RisorseController.list()}
-    <p>
-        <input type="submit" value="Indietro" />
-    </p>
-#{/form}
+	#{if !risorsa.dataOut}
+		<div id="button_center">
+		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+	#{/if}
+	
+	#{form @RisorseController.list()}
+		        <input type="submit" class="submitbutton" value="Indietro" />   
+	#{/form}
+</div>

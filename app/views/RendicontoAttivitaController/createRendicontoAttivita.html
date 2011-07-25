@@ -1,10 +1,9 @@
-#{extends 'main.html' /}
-#{set title:'Gestione Rapportini' /}
+#{extends 'menu.html' /}
+#{set title:'Inserisci Rapportini' /}
 
-	<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
- 
- 
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+
  <script type="text/javascript">
  $(document).ready(function() {
                $("#addComm").click(function() {
@@ -13,7 +12,7 @@
                     if($('#id_'+valoreCommessa).size() == 0){
 	                   if(valoreCommessa != 0){
 	                   var descrizione = $("#addCommessa option:selected").text();
-	                   html=$("<li id=\"id_"+valoreCommessa+"\">"+descrizione+" - Totale ore:<input type=\"text\" id=\"id_"+valoreCommessa+"\"  name=\"id_"+valoreCommessa+"\" /> <input type=\"button\" id=\"id_"+valoreCommessa+"\" value=\"Elimina\" onclick=\"javascript:elimina(this);\" /></li>");
+	                   html=$("<li id=\"id_"+valoreCommessa+"\"><label>"+descrizione+" - Totale Ore: </label><input type=\"text\" id=\"id_"+valoreCommessa+"\"  name=\"id_"+valoreCommessa+"\" class=\"txt_s\"/> <input type=\"button\" id=\"id_"+valoreCommessa+"\" value=\"Elimina\" onclick=\"javascript:elimina(this);\" /></li>");
 	                   $('#result').append(html);
 	                  }
                   }
@@ -29,48 +28,50 @@
  </script>
  
 
+<h2>Inserimento Rapportino (2/2)</h2>
 
+<div id="editRapportino">
 
-
-
-
-
- Lista Commesse
    #{if listaCommesse!= null}
- #{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
+    <h3>Lista Commesse</h3>
+ 	#{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
     <ul>
 	#{list items:listaCommesse, as:'commessa'}
-    <li>${commessa.descrizione} - Totale Ore:<input type="text" name="id_${commessa.idCommessa}" /></li>
+    <li><label>${commessa.descrizione}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" /></li>
 	#{/list}
     </ul>
-    
-  
-
-    
-    
-    #{select 'comm', value:idCommessa, id:'addCommessa'}  
-    #{option 0}----#{/option}
-    #{list items:listaCommesseNonFatturabili, as:'commessa'}
-	#{option commessa.idCommessa}${commessa.descrizione}#{/option}
-	#{/list}
-
-	#{/select}
-    
-     <input type="button" id="addComm" value="Aggiungi"/>
+    #{if listaCommesseNonFatturabili!= null}
+    <hr>
+    <li><label>Commesse non Fatturabili<label>
+	    #{select 'comm', value:idCommessa, id:'addCommessa'}  
+	    #{option 0}--Seleziona--#{/option}
+	    #{list items:listaCommesseNonFatturabili, as:'commessa'}
+		#{option commessa.idCommessa}${commessa.descrizione}#{/option}
+		#{/list}
+		#{/select}
+		<input type="button" id="addComm" value="Aggiungi"/>
+	</li>
+	#{/if}
+ 	#{else}
+   		<center><h3> Non vi sono commesse non fatturabili.</h3></center>
+	#{/else}    
+     
     
     
     
   <div id="result"></div>
-        
-        
-        <br /><input type="submit" value="Salva" />
+</div>
+  <div id="button_center">       
+ 	<input type="submit" class="submitbutton" value="Salva" />
+ </div>
         
      
 #{/form}
  #{/if}
  #{else}
-    Non vi sono Commesse
+   <center><h3> Non vi sono commesse.</h3></center>
 #{/else}
+
  
     
     

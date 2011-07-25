@@ -19,9 +19,12 @@ public class Bootstrap extends Job {
 	    
     public void doJob() {
     	
-    	//leggo file YAML
+    	Fixtures.deleteDatabase();
     	
-    	//Fixtures.load("initial-data.yml");
+    	//leggo file YAML
+    	if(Risorsa.count()==0){
+    		Fixtures.loadModels("initial-data.yml");
+    	}
     	
     	
 //      System.out.println(".....init"); 
