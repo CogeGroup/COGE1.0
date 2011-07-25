@@ -16,6 +16,7 @@ import models.Tariffa;
 import models.TipoRapportoLavoro;
 import models.Utente;
 
+import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,121 +27,60 @@ public class CostoTest extends UnitTest {
 	
 	private Risorsa r1;
 	private Risorsa r2;
-	
-	@Test
-	public void testInserisciCostoRisorsaSenzaCosti(){
-		Fixtures.loadModels("../conf/initial-data.yml");
-	}
 
 	@Test
-	 public void testDataFinePresente(){
-		
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		cal.add(Calendar.DATE, 1);
-		
-		 Costo costo = new Costo(60.0f, now, r1);
-		 costo.dataFine = cal.getTime();
-		 costo.save();
-		 Costo costo2 = new Costo(50.0f, now, r1);
-		 assertFalse(costo2.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+	 public void testDataCostoDentroPeriodoChiuso(){
+		 Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		 Costo costo = new Costo(50.0f, new DateMidnight(2011,10,30).toDate(), bob);
+		 assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineNull(){
-		
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		cal.add(Calendar.DATE, 1);
-		
-		 Costo costo = new Costo(60.0f, now, r1);
-		 costo.save();
-		 Costo costo2 = new Costo(50.0f, cal.getTime(), r1);
-		 assertFalse(costo2.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+		Risorsa bonnie = Risorsa.find("byMatricola", "537").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 3, 2).toDate(),bonnie);
+		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineInPeriodoEsistente(){
-		
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		cal.add(Calendar.DATE, 7);
-		
-		 Costo costoChiuso = new Costo(60.0f, now, r1);
-		 costoChiuso.dataFine = cal.getTime();
-		 costoChiuso.save();
-		 Costo costoToInsert = new Costo(50.0f, now, r1);
-		 cal.add(Calendar.DATE, -3);
-		 costoToInsert.dataFine = cal.getTime();
-		 assertFalse(costoToInsert.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+		Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 4, 20).toDate(),bob);
+		costo.dataFine = new DateMidnight(2011, 5, 5).toDate();
+		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testInserimentoPeriodoPrecedenteAPeriodoAperto(){
-		
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		
-		 Costo costoAperto = new Costo(60.0f, now, r1);
-		 costoAperto.save();
-		 cal.add(Calendar.DATE, -10);
-		 Costo costoToInsert = new Costo(50.0f,cal.getTime() , r1);
-		 cal.add(Calendar.DATE, 2);
-		 costoToInsert.dataFine = cal.getTime();
-		 assertTrue(costoToInsert.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+		Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 4, 20).toDate(),bob);
+		costo.dataFine = new DateMidnight(2011, 4, 30).toDate();
+		assertTrue(costo.validateAndSave());
 	 }
 	
 	@Test
-	 public void testInserimentoPeriodoInternoAPeriodoAperto(){
+	 public void testInserimentoCostoDataFineInternaAPeriodoAperto(){
 		
-		Date now = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		
-		 Costo costoAperto = new Costo(60.0f, now, r1);
-		 costoAperto.save();
-		 cal.add(Calendar.DATE, -10);
-		 Costo costoToInsert = new Costo(50.0f,cal.getTime() , r1);
-		 cal.add(Calendar.DATE, 12);
-		 costoToInsert.dataFine = cal.getTime();
-		 assertFalse(costoToInsert.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+		Risorsa jack = Risorsa.find("byMatricola", "666").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 3, 2).toDate(),jack);
+		costo.dataFine = new DateMidnight(2011, 9, 3).toDate();
+		assertFalse(costo.validateAndSave());
 	 }
+	
+	@Test
+	public void modificaCostoAperto(){
+		Risorsa jack = Risorsa.find("byMatricola", "666").first();
+		jack.extractLastCosto().dataFine = new DateMidnight(2011, 10, 1).toDate();
+		assertTrue(jack.extractLastCosto().validateAndSave());
+	}
 	
 	@Test
 	 public void testInserimentoPeriodoPiuEsteso(){
 		
-		Calendar cal = Calendar.getInstance();
-		Date now = new Date();
-		cal.setTime(now);
-		cal.add(Calendar.DATE, 1);
-		Date nowPlus1 = cal.getTime();
-		cal.add(Calendar.DATE, 6);
-		Date nowPlus6 = cal.getTime();
-		cal.add(Calendar.DATE, 8);
-		Date nowPlus8 = cal.getTime();
-		
-		 Costo periodoMinore = new Costo(60.0f, nowPlus1, r1);
-		 periodoMinore.dataFine = nowPlus6;
-		 periodoMinore.save();
-		 Costo costoToInsert = new Costo(50.0f,now, r1);
-		 costoToInsert.dataFine = nowPlus8;
-		 assertFalse(costoToInsert.validateAndSave());
-		 //assertEquals(0, Costo.count()) ;
-		 
+		Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 8, 29).toDate(),bob);
+		costo.dataFine = new DateMidnight(2011, 11, 1).toDate();
+		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
@@ -155,10 +95,27 @@ public class CostoTest extends UnitTest {
 		assertFalse(costoNew.validateAndSave());
 	}
 	
+	@Test
+	public void cancellaCosto(){
+		long costiTotali = Costo.count();
+		Risorsa risorsa = Risorsa.find("byMatricola", "123").first();
+		Costo toDelete = risorsa.listaCosti.get(0);
+		toDelete.delete();
+		assertEquals(costiTotali-1, Costo.count());
+	}
+	
+	@Test
+	public void dataFineMaggioreDataInizio(){
+		Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		Costo costo = new Costo(50.0f, new DateMidnight(2011, 11, 30).toDate(),bob);
+		costo.dataFine = new DateMidnight(2011, 11, 01).toDate();
+		assertFalse(costo.validateAndSave());
+	}
+	
 	@Before
 	public void setup() throws ParseException {
 		Fixtures.deleteAll();
-		
+		Fixtures.loadModels("data.yml");
 
 		r1 = new Risorsa("a", "a", "pippo", "pippo", new Date());
 		r2 = new Risorsa("b", "b", "risorsa2", "risorsa2", new Date());

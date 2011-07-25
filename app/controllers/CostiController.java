@@ -54,8 +54,15 @@ public class CostiController extends Controller {
     	flash.success("Costo aggiornato con successo");
     	list(costo.risorsa.idRisorsa);
     }
-    public static void delete(Integer idCosto){
-    	
+    public static void delete(Integer idCosto,Integer idRisorsa){
+    	Costo costo = Costo.findById(idCosto);
+    	if(costo == null){
+    		flash.error("Costo non trovato");
+    		list(idRisorsa);
+    	}
+    	costo.delete();
+    	flash.success("Costo rimosso con successo");
+    	list(idRisorsa);
     }
     
 
