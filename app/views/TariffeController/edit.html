@@ -51,10 +51,12 @@
         <label for=dataFine>Data fine: </label>
         <input type="text" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
     </p>
+    #{if tariffa.commessa.fatturabile == true}
     <p>
         <label for=importo>Importo giornaliero: </label>
         <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
     </p>
+    #{/if}
     <p>
     	<label for="commessa">Commessa: </label><br>
     	<select name="idCommessa">

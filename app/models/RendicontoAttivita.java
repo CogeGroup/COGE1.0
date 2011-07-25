@@ -30,10 +30,14 @@ public class RendicontoAttivita extends GenericModel {
 	
 	@ManyToOne
 	public Commessa commessa;
-	
-	
-	
-	
-	
+
+	public RendicontoAttivita(int oreLavorate, String mese, String anno,
+			Risorsa risorsa, Commessa commessa) {
+		this.oreLavorate = oreLavorate;
+		this.mese = mese;
+		this.anno = anno;
+		this.risorsa = risorsa;
+		this.commessa = commessa;
+	}
 
 }

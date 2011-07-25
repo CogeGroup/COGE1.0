@@ -28,6 +28,8 @@ public class Cliente extends GenericModel{
 	
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	public List<Commessa> commesse = new ArrayList<Commessa>();
+	
+	public boolean attivo;
 
 	public Cliente() {}
 	
@@ -35,6 +37,7 @@ public class Cliente extends GenericModel{
 		super();
 		this.codice = codice;
 		this.nominativo = nominativo;
+		this.attivo = true;
 	}
 
 	public float calcolaRicavo(String mese, String anno) {

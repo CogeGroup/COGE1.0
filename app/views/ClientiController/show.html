@@ -15,6 +15,10 @@
         <label for="nominativo">Nominativo: </label>
         <label>${cliente.nominativo }</label>
     </p>
+    <p>
+        <label for="attivo">Attivo: </label>
+        <label>${cliente.attivo == true ? 'si' : 'no' }</label>
+    </p>
     #{if cliente.commesse.size() > 0 }
     <p>
         <label for="commesse">Commesse: </label>

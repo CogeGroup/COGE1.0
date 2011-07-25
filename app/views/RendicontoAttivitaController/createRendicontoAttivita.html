@@ -38,6 +38,11 @@
  Lista Commesse
    #{if listaCommesse!= null}
  #{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
+	 #{ifErrors}
+        <p class="error">
+			${errors[0]}
+		</p>
+    #{/ifErrors}
     <ul>
 	#{list items:listaCommesse, as:'commessa'}
     <li>${commessa.descrizione} - Totale Ore:<input type="text" name="id_${commessa.idCommessa}" /></li>
@@ -62,7 +67,9 @@
     
   <div id="result"></div>
         
-        
+        <input type="hidden" name="anno" value="${meseAnno[1].trim()}"/>
+        <input type="hidden" name="mese" value="${meseAnno[0].trim()}"/>
+        <input type="hidden" name="idRisorsa" value="${idRisorsa}"/>
         <br /><input type="submit" value="Salva" />
         
      

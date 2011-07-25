@@ -42,11 +42,14 @@ public class Commessa extends GenericModel{
 	@As("dd-MM-yyyy")
 	public Date dataInizioCommessa;
 	
+	@As("dd-MM-yyyy")
+	public Date dataFineCommessa;
+	
 	@ManyToOne
 	public Cliente cliente;
 	
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
-	List<Tariffa> tariffe;
+	public List<Tariffa> tariffe;
 	
 	public Commessa(){}
 

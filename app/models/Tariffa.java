@@ -34,8 +34,8 @@ public class Tariffa extends GenericModel{
 	@As("dd-MM-yyyy")
 	public Date dataFine;
 	
-	@Required(message="Importo giornaliero obligatorio")
-	@Min(message = "L'importo deve essere maggiore di 0.0",value = 0.1)
+//	@Required(message="Importo giornaliero obligatorio")
+//	@Min(message = "L'importo deve essere maggiore di 0.0",value = 0.1)
 	public float importoGiornaliero;
 
 	@ManyToOne
@@ -98,7 +98,9 @@ public class Tariffa extends GenericModel{
 			List<Tariffa> listaTariffe = query.fetch();
 			if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   listaCommesse.add(t.commessa);
+			   if(!(t.commessa instanceof CommessaACorpo)){
+				   listaCommesse.add(t.commessa);
+			   }
 		   }
 			}
 		} catch (ParseException e) {

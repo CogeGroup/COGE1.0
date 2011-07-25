@@ -50,6 +50,15 @@ public class TariffeController extends Controller {
         Risorsa risorsa = Risorsa.findById(idRisorsa);
         tariffa.risorsa = risorsa;
         
+        // Validazione importo
+        if(tariffa.commessa.fatturabile == false) {
+        	tariffa.importoGiornaliero = 0;
+        }else{
+        	if(tariffa.importoGiornaliero > 0) {
+        		validation.addError("tariffa.importoGiornaliero", "Importo obligatorio");
+        	}
+        }
+        
         // Validazione data inizio
         // se la data inizio della tariffa è minore della data inizio della commessa
         if(commessa.dataInizioCommessa != null && tariffa.dataInizio.before(commessa.dataInizioCommessa)){
