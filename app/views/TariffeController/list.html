@@ -2,7 +2,15 @@
 #{set title:'Lista Tariffe di ' + risorsa.cognome /}
 
 
-<h1>Lista Tariffe di ${risorsa.cognome }</h1>
+<div>
+		Risorsa: ${risorsa.matricola}
+		<br>
+		${risorsa.nome} ${risorsa.cognome}
+		<br>
+		Data In: ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}
+</div>
+<hr>
+
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -20,7 +28,9 @@
 			<td>Data Fine</td>
 			<td>Importo Giornaliero</td>
 			<td>Commessa</td>
-			<td>Azioni</td>
+			#{if !risorsa.dataOut}
+				<td>Azioni</td>
+			#{/if}
 		</tr>
 		#{paginate.list items:paginator, as:'tariffa'} 
 		<tr>
@@ -29,10 +39,12 @@
 			<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
 			<td>${tariffa.importoGiornaliero }</td>
 			<td>${tariffa.commessa.codice }</td>
-			<td>
-				<a href="@{TariffeController.edit(tariffa.idTariffa)}">Modifica</a>
-				<a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');">Cancella</a>
-			</td>
+			#{if !risorsa.dataOut}
+				<td>
+					<a href="@{TariffeController.edit(tariffa.idTariffa)}">Modifica</a>
+					<a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');">Cancella</a>
+				</td>
+			#{/if}
 		</tr>
 		#{/paginate.list} 
 	</table>
@@ -42,7 +54,11 @@
 	<label>Nessuna Tariffa esistente</label>
 #{/else}
 
-<p><a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuova tariffa"/></a></p>
+#{if !risorsa.dataOut}
+	<p>
+		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" value="Aggiungi nuova tariffa"/></a>
+	</p>
+#{/if}
 
 #{form @RisorseController.list()}
     <p>
