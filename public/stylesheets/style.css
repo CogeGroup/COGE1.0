@@ -1,276 +1,417 @@
-/* CSS Document */ /* v1.0 | 20080212 */
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td
-	{
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	background: transparent;
-}
+/* 
+	project:  small corporation
+	author:   luka cvrk (www.solucija.com) 
+*/
 
-body {
-	line-height: 1em;
+*{ margin: 0; padding: 0; }* 
+body { 
+	font: .75em lucida grande, Tahoma, Verdana, Arial, Helvetica, sans-serif; 
+	line-height: 1.6em;
+	background: #fff;
+	color: #444; 
 }
-
-a {
-	color: #0000C0;
+.clear {
+	clear: both;
 }
-
-ol,ul {
+ol,ul,li {
 	list-style: none;
 }
 
-blockquote,q {
-	quotes: none;
+a {	color: #E60000;	background: inherit; text-decoration: none; }
+a:hover { color: #AA0001; background: inherit; text-decoration: underline; }
+p { margin: 0 0 15px 0; }
+h1 {  margin: 20px 0 0; }
+h1 a { background: inherit; }
+img { border: 0; }
+h2 { font: normal 1.6em lucida grande, Arial, Sans-Serif; margin: 0 0 12px; }
+h3 a { font-size: 1em; }
+#main h3 a { font-size: .84em; color: #808080; font-weight: normal; text-transform: uppercase; }
+
+#content { width: 940px; margin: 0 auto; padding: 20px 0 0 0; border-top: 5px solid #eee; }
+
+#top{ float: right; text-align: right;  }
+#top a { color: #808080; margin: 0 0 0 13px; background: #fff url(../images/toparrow.png) no-repeat center left; padding: 0 0 0 12px; }
+input.searchfield { width: 175px; padding: 6px; border: 2px solid #ccc; font-size: .9em; }
+input.searchbutton { background: #E60000; border: 0; padding: 6px; color: #fff; font-weight: bold; font-size: .9em; }
+input.submitbutton { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	padding: 6px; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+	/*font-size: .9em;*/ 
+	float:left; 
+}
+input.returnbutton { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	padding: 6px;
+	margin:10px 0 0 400px; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+	/*font-size: .9em;*/ 
+	 
+	}
+
+
+#logo { float: left; color: #808080; line-height: 25px; }
+#menu { height: 35px; padding: 7px 0 0 0; clear: both;  margin: 0 0 18px; background: #fff url(../images/menubg.gif) repeat-x; }
+	#menu li { font-size: 1.1em; display: inline; text-transform: uppercase; }
+	#menu li a { margin: 0 25px 0 10px; color: #808080;  }
+	#menu li a:hover { color: #444; }
+
+#left { background: #eee;  clear: left; float: left; width: 260px; padding: 10px 15px; margin: 0 0 20px; }
+	#left img { margin: 0 0 8px; }
+	#left li { list-style: none; }
+	#left li a {  color: #787A8F; font-weight: bold; background: url(../images/arrow.gif) no-repeat center left; padding: 0 0 0 12px; }
+
+#main { float: left; width: 655px; margin: 0 0 20px; }
+	#main img { float: left; border: 3px solid #eee; padding: 1px; margin: 0 15px 5px 0; }
+	#line { clear: both; padding: 3px; margin: 0 0 15px; background: #fff url(../images/smalldot.gif) repeat-x; }
+	#ad { float: right; text-align: center; padding: 33px 0 0; width: 250px; border: 3px solid #eee; color: #ccc; height: 50px; margin: 0 0 15px; }
+	#shortnews { float: right; width: 250px; }
+	.news { border-bottom: 1px solid #eee; padding: 0 0 2px; margin: 0 0 10px;}
+	
+#right { margin: 0 15px 20px 0; padding: 0 0 0 15px; float: right; width: 620px; text-align: justify; }
+.border { clear: both; border-left: 4px solid #ccc; padding: 0 0 0 15px; }
+
+#rl { float: left; width: 290px; margin: 0 20px 30px 0; }
+#rr { float: right; width: 290px; }
+	#rl li, #rr li { list-style: none; border-bottom: 1px solid #eee; padding: 4px; margin: 0; }
+	#rl li a, #rr li a { background: #fff url(../images/arrow.gif) no-repeat center left; padding: 0 0 0 12px; color: #808080;  }
+
+#footer { clear: both; padding: 10px; margin: 0 0 15px; font-size: .9em; color: #808080; background: #eee; }
+	.links a { font-weight: bold; color: #787A8F; background: #fff; margin: 0 10px 0 0; background: url(../images/dot.png) no-repeat center left; padding: 0 0 0 10px; }
+	.sponsor { color: red; background: #eee; }
+	#footer li { list-style: none; }
+	#fl { width: 600px; }
+	#fr { float: right; }
+
+#content2 {
+ height:100px; 
+
+}	
+	table,td
+{
+	border               : 1px solid #CCC;
+	border-collapse      : collapse;
+  font                 : small/1.5 "Lucida grande", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+}
+table
+{
+	border                :none;
+	border                :1px solid #CCC;
+}
+.table_rapporti {
+	margin:10px 0 0 168px;
 }
 
-blockquote:before,blockquote:after,q:before,q:after {
-	content: '';
-	content: none;
+.table_tariffe {
+	margin:10px 0 0 130px;
+
 }
 
-/* remember to define focus styles! */
-:focus {
-	outline: 0;
+.table_costi {
+	margin:10px 0 0 212px;
+
+}
+.table_clienti {
+	margin:10px 0 0 212px;
+
+}
+.table_rappLavoro {
+	margin:10px 0 0 212px;
+
+}
+.table_commesse {
+	margin:10px 0 0 212px;
+
 }
 
-/* remember to highlight inserts somehow! */
-ins {
-	text-decoration: none;
-}
+.table_utenti {
+	margin:10px 0 0 274px;
 
-del {
-	text-decoration: line-through;
-}
-
-/* tables still need 'cellspacing="0"' in the markup */
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
 }
 
 
-body {
-margin : 0;
-padding : 0;
-font : 73% "Trebuchet MS", verdana, arial, sans-serif;
-background : #2e2e2e;
-color : #333;
+thead th,
+tbody th
+{
+	background            : #FFF /*url(../images/th_bck.gif) repeat-x;*/
+  color                 : #666;  
+	padding               : 5px 10px;
+  border-left           : 1px solid #CCC;
 }
-#container {
-width : 740px;
-margin-left : auto;
-margin-right : auto;
-padding : 0;
-border : 5px solid #336633;
-background : #e9eee4;
-color : #333;
+tbody th
+{
+  background            : #fafafb;
+  border-top            : 1px solid #CCC;
+  text-align            : left;
+  font-weight           : normal;
 }
-			/*TOP BANNER*/
-#topimg {
-height : 174px;
-padding : 0;
-margin : 0;
-background : #417c2c url(../images/topimg.jpg) no-repeat;
-color : #333;
+tbody tr td
+{
+  padding               : 5px 10px;
+  color                 : #666;
+  text-align:center;
 }
-#topimg h1 {
-float : left;
-margin : 10px 0 0 15px;
-font-size : 150%;
-letter-spacing: 3px;
-color : #fff;
-background : #336633;
-}
-			/*TOP NAVIGATIONY*/
-#navcontainer ul {
-float : left;
-width : 100%;
-padding-left : 0;
-margin : 0 0 20px 0;
-font-size : 110%;
-border-top : 1px solid #fff;
-border-bottom : 1px solid #fff;
-background : #417c2c;
-color : #333;
-}
-#navcontainer ul li {
-display : inline;
-}
-#navcontainer ul li a {
-float : left;
-padding : 0.2em 1em;
-text-decoration : none;
-border-right : 1px solid #fff;
-background : #336633;
-color : #fff;
-}
-#navcontainer ul li a:hover, #navcontainer ul li a#current {
-background : #91ae00;
-color : #000;
-}
-			/*MAIN CONTENT*/
-#content {
-margin : 0 0 5px 170px;
-padding : 5px;
-border-left : 1px dashed #999;
-background : inherit;
-color : #333;
-}
-#content a:link, #content a:visited {
-text-decoration : underline;
-background : inherit;
-color : #417C2C;
-}
-#content a:hover {
-background : inherit;
-color : #91AE00;
-}
-			/*SIDEBAR*/
-#sidebar {
-float : left;
-width : 160px;
-margin : 0 10px 0 0;
-padding : 5px;
-background : #e9eee4;
-color : #333;
-}
-			/*SIDE MENU*/
-.sidemenu ul {
-list-style-type : none;
-text-align : left;
-}
-.sidemenu ul li {
-display : block;
-color : #666;
-background : inherit;
-}
-.sidemenu ul li a {
-background : transparent url(img/list-off.gif) no-repeat left center;
-padding-left : 15px;
-font : normal 11px "Lucida Grande", "Lucida Sans Unicode", verdana, lucida, sans-serif;
-text-decoration : none;
-color : #000;
-}
-.sidemenu ul li a:hover {
-background : transparent url(img/list-on.gif) no-repeat left center;
-color : #666;
-}
-.sidemenu ul li a#current {
-background : transparent url(img/list-active.gif) no-repeat left center;
-color : #666;
-}
-			/*FOOTER*/
-#footer {
-clear : both;
-padding : 5px;
-margin : 0;
-font-size : 90%;
-border-top : 1px solid #fff;
-background : #417c2c;
-color : #333;
-}
-#footer a:link, #footer a:visited {
-text-decoration : none;
-background : inherit;
-color : #fff;
-}
-#footer a:hover {
-border-bottom : 1px dashed #eee;
-background: inherit;
-color : #333;
-}
-			/*TYPOGRAPHY*/
-p {
-line-height: 1.7em;
-margin : 15px;
-}
-h1 {
-margin-top : 10px;
-padding : 0;
-font-size : 140%;
-text-transform : uppercase;
-letter-spacing: 3px;
-color : #336633;
-background : inherit;
-}
-h2 {
-margin : 10px 0 0 5px;
-padding-left : 10px;
-font-size : 120%;
-text-transform : uppercase;
-letter-spacing : 5px;
-color : #fff;
-background : #417c2c;
-}
-			/*CLASSES*/
-.img {
-float : left;
-padding : 10px;
-border : none;
-}
-.img a {
-border : none;
-}
-.post { 
-background : #eee;
-padding : 3px;
-margin : 20px 10px 0 5px;
-border : 0 dashed #8a795d;
-font-size : 90%;
-} 
-.post .date { 
-background : url(img/clock.gif) no-repeat left center;
-padding-left : 15px;
-margin : 0 15px 0 5px;
-} 
-.post .comments { 
-background : url(img/comment.gif) no-repeat left center;
-padding-left : 15px;
-margin : 0 15px 0 5px;
-} 
-.post .readmore { 
-background : url(img/document.gif) no-repeat left center;
-padding-left : 15px;
-margin : 0 15px 0 5px;
-} 
-blockquote {
-font-weight : bold;
-font-style : italic;
-color : #b29b35;
+tbody tr:hover
+{
+  background            : #FFF url(../images/tr_bck.gif) repeat;
 }
 
-table.gestioneaccount {
-	border: 1px solid #fff;
-	margin: 3px auto 0 auto;
-	width: 60%;
+tbody tr:hover td
+{
+  color                 : #454545;
 }
-table.gestioneaccount th {
-	padding: 0.5em;
-	text-align: center;
+tfoot td,
+tfoot th
+{
+  border-left           : none;
+  border-top            : 1px solid #CCC;
+	padding               : 4px;
+  background            : #FFF url(../images/foot_bck.gif) repeat;
+  color                 : #666;
+}
+caption
+{
+	text-align            : left;
+	font-size             : 120%;
+	padding               : 10px 0;
+	color                 : #666;
+}
+table a:link
+{
+	color                 : #666;
+}
+table a:visited
+{
+	color                 : #666;
+}
+table a:hover
+{
+	color                 : #003366;
+	text-decoration       : none;
+}
+table a:active
+{
+	color                 : #003366;
+}
+
+
+tbody a:visited:after {
+
+	font-family: Lucida grande,sans-serif;
+
+	content: "\00A0\221A"
+}
+
+#datatable{
+ margin: 8px 0 0 230px;
+}
+#datatable_tariffe{
+ margin: 8px 0 0 275px;
+}
+#datatable_costi{
+ margin: 8px 0 0 275px;
+}
+#datatable_clienti{
+ margin: 8px 0 0 215px;
+}
+#datatable_commesse{
+ margin: 8px 0 0 335px;
+}
+#datatable_utenti{
+ margin: 8px 0 0 254px;
+}
+
+#button{
+ margin: 10px 0 0 0 ;
+ /*float: right;*/
+ padding: 2px;
+ /*width:220px;*/
+}
+#button_double{
+ margin: 10px 90px 0 0 ;
+ /*float: right;*/
+ padding: 2px;
+/* width:250px;*/
+}
+
+#button_center	{
+	display:block;
+ 	margin: 10px 0 0 372px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:200px;
+}
+#button_center_single	{
+	display:block;
+ 	margin: 10px 0 0 425px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:200px;
+}
+
+
+#button_center_wrapped	{
+	display:block;
+ 	margin: 10px 0 0 290px;
+ 	height:32px;
+ 	padding: 2px;
+ 	width:280px;
+}
+
+#show_risorsa { 
+	background: #eee;  	
+	width: 260px; 
+	padding: 16px 40px; 
+	margin: 30px 0 0 270px;
+	border:1px solid;
+}
+#show_risorsa label {
+    
+    font-weight: bold;
+	font-size: 1.2em;
+	width: 100%;
+  
+}
+#show_risorsa ul li {
+      padding:4px;
+  }
+  
+#insert { 
+	background: #eee;  	
+	width: 350px; 
+	padding: 12px 21px; 
+	margin: 0px 0 0 270px;
+	height:270px;
+	border:1px solid;
+}
+#insert label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#insert ul li {
+      padding:10px;
+  }
+
+#insert .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#insert .txt_m {
+	height: 16px;
+	font-size: 11px;
 	border:1px solid;
 }
 
-table.gestioneaccount td {
-	padding: 0.4em;
-	border-bottom: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-}
-table.gestioneaccount td a {
-	width: 100%;
-	display: block;
-	height: 1.5em;
-	margin: 0;
-	padding: 0;
-}
-table.gestioneaccount td.edit {
-	/*background: url(../images/edit.png) bottom left no-repeat;*/
+#insert .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
 }
 
-table.gestioneaccount td.eraser {
-	/*background: url(../images/eraser.gif) bottom left no-repeat;*/
+#edit { 
+	background: #eee;  	
+	width: 350px; 
+	padding: 12px 21px; 
+	margin: 0px 0 0 270px;
+	border:1px solid;
 }
+#edit label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#edit ul li {
+      padding:10px;
+  }
+
+#edit .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#edit .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#edit .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+
+#editRapportino { 
+	background: #eee;  	
+	padding: 12px 21px; 
+	margin: 0px 0 0 190px;
+	border:1px solid;
+	width:395px;
+}
+#editRapportino label {
+    
+    font-weight: bold;
+	font-size: 1.0em;
+	width: 100%;
+  
+}
+#editRapportino ul li {
+      padding:10px;
+  }
+
+#editRapportino .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#editRapportino .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#editRapportino .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+
+#ui-datepicker-div {
+	display:none;
+}
+
+.error{
+  color:#E60000;
+
+}
+.success{
+  color:#E60000;
+
+}
+
+
+
+
 
 

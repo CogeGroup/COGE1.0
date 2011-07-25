@@ -1,21 +1,17 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
 
+<!-- CSS -->
+#{stylesheet id:'autocoomplete',media:'screen',src:'jquery.autocomplete.css'  /}
+#{stylesheet id:'jquery-css',media:'screen',src:'test.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+#{script id:'autocomplete' , src:'jquery.ui.autocomplete.js', charset:'utf-8' /}
 
-	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.autocomplete.css'}">
-	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
-	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
-	<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery.ui.autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
- 
-  
-   
-  
-
-  
  <script type="text/javascript">
 	  		  $(function() {
 	  		  $.datepicker.setDefaults($.datepicker.regional['it']);
@@ -28,36 +24,7 @@
 				});
 	  		});
        </script>
-   
- 					
-#{ifErrors}
-    <p class="error">
-        ${errors[0]} 
-    </p>
-#{/ifErrors}
-
-
-${flash.error}
-#{form @rendicontoattivitacontroller.createRendicontoAttivita()}
-    <p>
-    Data
-<input type="text" id="datepicker2" name="data"/> <br />
-    
-    </p>
-    <p>
-        <label for="risorsa">Risorsa</label>
-        <input type="text" name="risorsa" id="risorsa" />
-        <input type="hidden" name="idRisorsa" id="idRisorsa" />
-    </p>
-        <input type="submit" value="Vai" />
-    </p>
-  
-  #{/form}
-  
-  
-   
-   
-   <script type="text/javascript">
+    <script type="text/javascript">
 	
 		$(function() {
 		$("#risorsa").autocomplete({
@@ -75,6 +42,40 @@ ${flash.error}
 	});
 
 	</script>
+ 					
+<h2>Inserimento Rapportino (1/2)</h2>
+#{form @rendicontoattivitacontroller.createRendicontoAttivita()}
+<div id="edit">
+#{ifErrors}
+    <p class="error">
+        ${errors[0]} 
+    </p>
+#{/ifErrors}
+
+
+<p class="error">${flash.error}</p>
+    <ul>
+		   <li>
+		   <label for="data">Data:</label>
+			<input type="text" class="txt_date" id="datepicker2" name="data"/>
+			</li>
+		    <li>
+		        <label for="matricola">Risorsa <small>n° matricola</small></label>
+		        <input type="text" class="txt_m" name="risorsa" id="risorsa" />
+		        <input type="hidden" name="idRisorsa" id="idRisorsa" />
+		    </li>
+    </ul>    
+</div>
+    <div id="button_center">
+        <input type="submit" class="submitbutton" value="Inserisci" />
+   </div>
+  
+  #{/form}
+  
+  
+   
+   
+  
    
    
    

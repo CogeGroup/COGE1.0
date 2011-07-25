@@ -1,35 +1,38 @@
-#{extends 'main.html' /}
-#{set title:'RisorseController/show.html' /}
+#{extends 'menu.html' /}
 
-<p>
+<div id="show_risorsa">
+#{set title:'RisorseController/show.html' /}
+<ul>
+<li>
 	<label for="matricola">Matricola: </label>
     ${risorsa.matricola}
-</p>
-<p>
+</li>
+<li>
 	<label for="codice">Codice: </label>
     ${risorsa.codice}
-</p>
-<p>
+</li>
+<li>
 	<label for="nome">Nome: </label>
     ${risorsa.nome}
-</p>
-<p>
+</li>
+<li>
 	<label for="cognome">Cognome: </label>
     ${risorsa.cognome}
-</p>
-<p>
+</li>
+<li>
 	<label for="dataIn">Data In: </label>
     ${risorsa.dataIn.format('dd-MM-yyyy')}
-</p>
-<p>
+</li>
+<li>
 	#{if risorsa.dataOut != null}
 		<label for="dataOut">Data Out: </label>
     	${risorsa.dataOut.format('dd-MM-yyyy')}
     #{/if}
-</p>
+</li>
+<ul>
+</div>
 
 #{form @RisorseController.list()} 
-	<p>
-        <input type="submit" value="Indietro" />
-    </p>
+
+        <input type="submit" class="returnbutton" value="Indietro" />
 #{/form}

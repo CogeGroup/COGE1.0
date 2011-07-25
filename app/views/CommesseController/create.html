@@ -1,18 +1,18 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Aggiungi nuova commessa' /}
 
-<!-- CSS usati -->
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery-ui-1.8.14.custom.css'}">
-<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/cupertino/jquery-ui-1.7.2.custom.css'}">
-<!-- JavaScript usati -->
-<script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/jquery.ui.datepicker.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-<script src="@{'/public/javascripts/ui.datepicker-it.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<!-- CSS -->
+#{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker').datepicker({
+		$('#datepicker1').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -20,8 +20,9 @@
 	});
 </script>
 
-<h1>Nuova commessa</h1>
+<h2>Nuova commessa</h2>
 #{if listaClienti.size() > 0}
+<div id="edit">
 #{form @CommesseController.save()}
 	
 	#{ifErrors}
@@ -29,57 +30,54 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
-	
-	<p>
-        <label for="codice">Codice commessa: </label>
-        <input type="text" id="codice" name="commessa.codice" value="${commessa.codice }" />
-    </p>
-    <p>
+	<ul>
+	<li>
+        <label for="codice">Codice commessa:</label>
+        <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
+    </li>
+    <li>
         <label for="descrizione">Descrizione: </label>
-        <input type="text" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
-    </p>
-    <p>
+        <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
+    </li>
+    <li>
         <label for="fatturabile">Fatturabile: </label>
         SI <input type="radio" id="descrizione" name="commessa.fatturabile" value="true" checked="checked" />
         NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" />
-    </p>
-    <p>
+    </li>
+    <li>
         <label for=dataInizioCommessa>Data inizio: </label>
-        <input type="text" name="commessa.dataInizioCommessa" id="datepicker" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
-    </p>
-    <p>
-    	<label for="cliente">Cliente: </label><br>
+        <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
+    </li>
+    <li>
+    	<label for="cliente">Cliente: </label>
 		<select name="idCliente">
-			<option value="">- Selezionare -</option>
+			<option value="">-- Selezionare --</option>
     		#{list items:listaClienti, as:'cliente'}
 		        <option value="${cliente.idCliente }" #{if cliente.idCliente == commessa?.cliente?.idCliente }
 		        		selected="selected"
 		        	#{/if} >${cliente.nominativo }</option>
 		    #{/list} 
     	</select>
-    </p>
+    </li>
     <hr>
-    <p>
+    <li>
         <label for="aCorpo">A corpo: </label>
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if}/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if aCorpo.equals("no")}checked="checked"#{/if} />
-    </p>
-     <p>
+    </li>
+     <li>
         <label for=importo>Importo: </label>
-        <input type="text" name="importo" value="${importo }"/>
-    </p>
-    
-    <p>
-        <input type="submit" value="Salva nuova commessa" />
-    </p>
+        <input type="text" class="txt_s" name="importo" value="${importo }"/>
+    </li>
+</div>
+
+<div id="button_center">
+        <input type="submit" class="submitbutton" value="Salva" />
 #{/form}
 #{/if}
 #{else}
-	<label>
-		Non si puo' creare una commessa, perche' non esistono clienti a cui assegnarla.
-	</label><br>
-	<a href="@{ClientiController.create()}">
-		<input type="button" value="Aggiungi nuovo Cliente" /></a><br>
+	<h3>Non si pu&ograve; creare una commessa, perch&egarve; non esistono clienti a cui assegnarla.</h3><br />
+	<a href="@{ClientiController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuovo Cliente" /></a><br>
 #{/else}
-<a href="@{CommesseController.index()}">
-	<input type="button" value="Annulla" /></a>
+<a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>

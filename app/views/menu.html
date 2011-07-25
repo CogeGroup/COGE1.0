@@ -6,7 +6,7 @@
         <meta charset="${_response_encoding}">
         #{stylesheet id:'main-css',media:'screen',src:'main.css'  /}
         #{stylesheet id:'style-css',media:'screen',src:'style.css'  /}
-       
+        #{stylesheet id:'pagination-css',media:'screen',src:'play-pagination.css'  /}
         
         
          <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">    
@@ -23,14 +23,24 @@
 			<p>Solving team - Software gestionale</p>
 		</div>
   
-
+<ul id="menu">
+			<li><a class="current" href="#">Home</a></li>
+			<li>#{a @RisorseController.index()}Gestione Risorse#{/a}</li>
+			<li>#{a @ClientiController.index()}Gestione Clienti#{/a}</li>
+			<li>#{a @CommesseController.index()}Gestione Commesse#{/a}</li>
+			<li>#{a @AccountController.index()}Gestione Account#{/a}</li>
+			<li>#{a @RendicontoAttivitaController.index()}Gestione Rapportini#{/a}</li>
+		</ul>
         #{doLayout /}
         <div class="clear" />
+        <div id="content2">
+        </div>
          <div id="footer">
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut pretium mauris nec arcu. Integer at leo vel ipsum elementum sodales. Nam est quam, posuere non, feugiat nec, consectetuer ac, lectus. Aenean faucibus</p>
-			<p>&copy; Copyright <strong>Solving Team</strong> &middot;</p>
+			<p>&copy; Copyright <strong>Solving Team</strong></p>
           </div>
           </div>
-         
+          
     </body>
 </html>
+

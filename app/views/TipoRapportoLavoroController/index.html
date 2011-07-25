@@ -1,5 +1,8 @@
-#{extends 'main.html' /}
-#{set title:'TipoRapportoLavoroController/index.html' /}
+#{extends 'menu.html' /}
+#{set title:'Gestione Tipo Rapporti Lavoro' /}
+
+<h2>Rapporti Lavoro</h2>
+
 
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -9,13 +12,17 @@
 #{/elseif}
 
 #{if listaTipoRapportoLavoro != null && listaTipoRapportoLavoro.size() > 0}
-<div>
-	<table border="1">
+
+	<table class="table_rappLavoro">
+	<thead>
 		<tr>
-			<td>CODICE</td>
-			<td>DESCRIZIONE</td>
+			<th scope="col">Codice</th>
+			<th scope="col">Descrizione</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
 			<td></td>
 		</tr>
+	</thead>
 		#{list items:listaTipoRapportoLavoro, as:'tipoRapportoLavoro', startIndex: 0}
 			<tr>
     			<td>
@@ -23,26 +30,25 @@
     			</td>
     			<td>${tipoRapportoLavoro.descrizione}</td>
     			<td>
-    				<a href="@{TipoRapportoLavoroController.edit(tipoRapportoLavoro.idTipoRapportoLavoro)}"> MOD </a>
-    				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"> CANC </a>
+    				<a href="@{TipoRapportoLavoroController.edit(tipoRapportoLavoro.idTipoRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a>
+    			</td>	
+    			<td>	
+    				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
     			</td>
     		</tr>
 		#{/list}
   	</table>
-</div>
+
 #{/if}
 #{else}
-    <div>Nessuna Tipo Rapporto Lavoro presente</div>
+    <center><h3>Non vi sono Rapporti di lavoro presenti nel sistema.</h3></center>
 #{/else}
 
+<div id="button">
 #{form @TipoRapportoLavoroController.create()}
-    <p>
-        <input type="submit" value="Aggiungi Tipo Rapporto Lavoro" />
-    </p>
+    
+        <input type="submit" class="submitbutton" value="Aggiungi Tipo Rapporto Lavoro" />
+    
 #{/form}
 
-#{form @RisorseController.index()}
-    <p>
-        <input type="submit" value="Indietro" />
-    </p>
-#{/form}
+</div>

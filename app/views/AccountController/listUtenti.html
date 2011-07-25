@@ -1,5 +1,6 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Gestione Utenti' /}
+
 
 #{ifErrors}
     <p class="error">
@@ -16,31 +17,37 @@
 #{/ if}
 
 #{if paginator.size() >0 }
-	<table class="gestioneaccount">
+	<table class="table_utenti">
+	<caption>
+	    <h3>Utenti</h3>
+	   </caption>
 		<thead>
-		<th>Matricola</th>
-		<th>Username</th>
-		<th>Password</th>
-		<th>Modifica</th>
-		<th>Elimina</th>
+		<tr>
+		<th scope="col">Matricola</th>
+		<th scope="col">Username</th>
+		<th scope="col">Modifica</th>
+		<th scope="col">Elimina</th>
+		</tr>
 		</thead>
 			#{paginate.list items:paginator, as:'index'} 
 		    <tr>
 		    	<td>${index.risorsa.matricola}</td>
 		    	<td>${index.username}</td>
-		    	<td>${index.password}</td>
-		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}">Modifica</a></td>
-		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}">Elimina</a></td>
+		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 		    </tr>
 		    #{/paginate.list}
 	</table> 
+		<div id="datatable_utenti">
 	    #{paginate.controls items:paginator /}
+	    </div>
 #{/if}    
 #{else}
-    Non vi sono utenti nel sistema
+    <center><h3>Non vi sono utenti nel sistema</h3></center>
 #{/else}     
   <div>
-  	#{a @AccountController.createUtente()}Inserisci Utente#{/a}
+  <div id="button_center">
+  <a href="@{AccountController.createUtente()}" ><input type="button" class="submitbutton" value="Inserisci Utente"/></a>
 
   </div>
   

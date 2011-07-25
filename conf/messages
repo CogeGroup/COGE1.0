@@ -1,3 +1,20 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+validation.required=il campo %s è obbligatorio
+costo.importo = importo
+costo.dataInizio = dataInizio
+costo.dataFine = dataFine
+validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
+
+#play-paginate.name=play-paginate
+
+play-paginate.first=&laquo;&nbsp;Prima Pagina
+play-paginate.prev=&lsaquo;&nbsp;Indietro
+play-paginate.next=Avanti&nbsp;&rsaquo;
+play-paginate.last=Ultima Pagina&nbsp;&raquo;
+
+play-paginate.summary.display=Displaying rows
+play-paginate.summary.to=to
+play-paginate.summary.from=out of
+play-paginate.summary.entries=entries

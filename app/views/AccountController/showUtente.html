@@ -1,17 +1,15 @@
-#{extends 'main.html' /}
-#{set title:'Gestione Utente' /}
+#{extends 'menu.html' /}
+#{set title:'Modifica Utente' /}
 
-
-
-
-
-
- <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/token-input.css'}">
- <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.autocomplete.css'}">
-  <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery-ui-1.8.14.custom.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-   <script src="@{'/public/javascripts/jquery.ui.autocomplete.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-  <script src="@{'/public/javascripts/jquery.tokeninput.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+<!-- CSS -->
+#{stylesheet id:'teken-input',media:'screen',src:'token-input.css'  /}
+#{stylesheet id:'autocomplete',media:'screen',src:'jquery.autocomplete'  /}
+#{stylesheet id:'test',media:'screen',src:'test.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'autocomplete' , src:'jquery.ui.autocomplete.js', charset:'utf-8' /}
+#{script id:'tokeninput' , src:'jquery.tokeninput.js', charset:'utf-8' /}
 	 <script type="text/javascript">
 			 $(document).ready(function () {
 			  		
@@ -27,40 +25,8 @@
 	                });
                 });
 	 </script>
-
-#{ifErrors}
-    <p class="error">
-        ${errors[0]}
-        
-    </p>
-#{/ifErrors}
-#{form @accountcontroller.updateUtente()}
-  <input type="hidden" name="utente.idUtente" value="${utente.idUtente}" />
-    <p>
-        <label for="username">Username</label>
-        <input type="text" name="utente.username" id="username" value="${utente?.username}"/>
-    </p>
-    <p>
-        <label for="password">Password</label>
-        <input type="text" name="utente.password" id="password" value="${utente?.password}"/>
-    </p>
-   
-    <p>
-    Ruolo
-    <input type="text" id="ruolo" name="ruolo" />
-    </p>
-  <p>
-     Risorsa (n° matricola)
-       <input type="text" name="risorsa" id="risorsa" value="${utente?.risorsa.matricola}"/> ${flash.error}
-          <input type="hidden" name="idRisorsa" id="idRisorsa" value="${utente?.risorsa.idRisorsa}"/>
-    </p>
-    
-  	<p>
-        <input type="submit" value="Modifica" />
-    </p>
-  
-  #{/form}
-   <script type="text/javascript">
+	 
+	    <script type="text/javascript">
 	
 		$(function() {
 		$("#risorsa").autocomplete({
@@ -78,3 +44,43 @@
 	});
 
 	</script>
+
+
+#{form @accountcontroller.updateUtente()}
+
+<div id="edit">
+#{ifErrors}
+    <p class="error">
+        ${errors[0]}
+        
+    </p>
+#{/ifErrors}
+  <input type="hidden" name="utente.idUtente" value="${utente.idUtente}" />
+    
+    <ul>
+	    <li>
+	        <label for="username">Username:</label>
+	        <input type="text" class="txt_m" name="utente.username" id="username" value="${utente?.username}"/>
+	    </li>
+	    <li>
+	        <label for="password">Password</label>
+	        <input type="text" class="txt_m" name="utente.password" id="password" value="${utente?.password}"/>
+	    </li>
+	   
+	    <li>
+	    	<label for="ruolo">Ruolo:</label>
+	    	<input type="text" class="txt_m" id="ruolo" name="ruolo" />
+	    </li>
+	  <li>
+	     <label for="matricola">Risorsa <small>n° matricola</small></label>
+	       <input type="text" class="txt_m" name="risorsa" id="risorsa" value="${utente?.risorsa.matricola}"/> ${flash.error}
+	          <input type="hidden" name="idRisorsa" id="idRisorsa" value="${utente?.risorsa.idRisorsa}"/>
+	    </li>
+    </ul>
+</div>
+    
+  	<div id="button_center">
+        <input type="submit" class="submitbutton" value="Salva" />
+	  #{/form}
+	  <a href="@{AccountController.listUtenti()}" ><input type="button" class="submitbutton" value="Indietro"/></a>
+	</div>

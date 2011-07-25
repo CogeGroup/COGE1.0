@@ -1,20 +1,16 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<div id="top">
+	<p></p>
+			
+</div>
 
-
-#{a @RisorseController.index()}Gestione Risorsa#{/a}
-
-
-#{a @ClientiController.index()}Gestione Clienti#{/a}
-
-
-#{a @CommesseController.index()}Gestione Commesse#{/a}
-
-
-#{a @CostiController.index()}Gestione Costi#{/a}
-
-#{a @AccountController.index()}Gestione Account#{/a}
-
-#{a @RendicontoAttivitaController.index()}Gestione Rapportini#{/a}
-
+<ul id="menu">
+			<li><a class="current" href="#">Home</a></li>
+			<li>#{a @RisorseController.index()}Gestione Risorse#{/a}</li>
+			<li>#{a @ClientiController.index()}Gestione Clienti#{/a}</li>
+			<li>#{a @CommesseController.index()}Gestione Commesse#{/a}</li>
+			<li>#{a @AccountController.index()}Gestione Account#{/a}</li>
+			<li>#{a @RendicontoAttivitaController.index()}Gestione Rapportini#{/a}</li>
+		</ul>
 

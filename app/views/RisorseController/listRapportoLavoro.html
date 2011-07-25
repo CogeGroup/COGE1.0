@@ -1,14 +1,16 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'RisorseController/listRapportoLavoro.html' /}
 
-<div>
-		Risorsa: ${risorsa.matricola}
-		<br>
-		${risorsa.nome} ${risorsa.cognome}
-		<br>
-		Data In: ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}
+<h2>Rapporto Lavoro</h2>
+<div id="edit">
+<ul>
+	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Nome: </label>${risorsa.nome}</li> 
+	<li><label>Cognome: </label>${risorsa.cognome}</li>
+	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}</li>
+</ul>
 </div>
-<hr>
+
 
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -18,16 +20,20 @@
 #{/elseif}
 
 
-<div>
-	<table class="gestioneaccount">
+#{if risorsa.rapportiLavoro.size() > 0}
+	<table class="table_rapporti">
+	<thead>
 		<tr>
-			<td>Data Inizio</td>
-			<td>Data Fine</td>
-			<td>Tipo Rapporto Lavoro</td>
+			<th scope="col">Data Inizio</th>
+			<th scope="col">Data Fine</th>
+			<th scope="col">Tipo Rapporto Lavoro</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
 			#{if risorsa.dataOut == null}
-    			<td></td>
+    			<!--<th scope="col"></th>-->
     		#{/if}
 		</tr>
+	</thead>
 		#{list items:risorsa.rapportiLavoro, as:'rapportoLavoro', startIndex: 0}
 			<tr>
     			<td>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</td>
@@ -36,31 +42,38 @@
     			#{if risorsa.dataOut == null}
     				#{if rapportoLavoro_index == risorsa.rapportiLavoro.size()}
     					<td>
-    						<a href="@{RisorseController.editRapportoLavoro(rapportoLavoro.idRapportoLavoro)}"> MOD </a>
+    						<a href="@{RisorseController.editRapportoLavoro(rapportoLavoro.idRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
     						#{if risorsa.rapportiLavoro.size() > 1}
-    							<a href="@{RisorseController.deleteRapportoLavoro(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"> CANC</a>
+    							<td><a href="@{RisorseController.deleteRapportoLavoro(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"><img src="@{'/public/images/delete.gif'}" alt="delete" /></a></td>
     						#{/if}
+    						#{else}
+    							<td></td>
+    						#{/else}
     					</td>
     					#{/if}
     				#{else}
+    					<td></td>
     					<td></td>
     				#{/else}
     			#{/if}
     		</tr>
 		#{/list}
   	</table>
-</div>
+  #{/if}
+ #{else}
+<center> <h3>Non vi sono Rapporti di Lavoro per la risorsa.</h3></center>
+ #{/else}
 
-#{if !risorsa.dataOut}
-	#{form @RisorseController.createRapportoLavoro(risorsa.idRisorsa)}
-    <p>
-        <input type="submit" value="Aggiungi Rapporto Lavoro" />
-    </p>
+<div id="button_center">
+	#{if !risorsa.dataOut}
+		#{form @RisorseController.createRapportoLavoro(risorsa.idRisorsa)}
+	    
+	        <input type="submit" class="submitbutton" value="Aggiungi" />
+	    
+		#{/form}
+	#{/if}
+	
+	#{form @RisorseController.list()} 
+	        <input type="submit" class="submitbutton" value="Indietro" />
 	#{/form}
-#{/if}
-
-#{form @RisorseController.list()} 
-	<p>
-        <input type="submit" value="Indietro" />
-    </p>
-#{/form}
+</div>

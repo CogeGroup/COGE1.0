@@ -1,37 +1,33 @@
-#{extends 'main.html' /}
-#{set title:'Commessa: '+ commessaACorpo.codice /}
+#{extends 'menu.html' /}
+#{set title:'Dettaglio Commessa a Corpo'/}
 
-<h1>Commessa: ${commessaACorpo.codice }</h1>
-
-	<p>
-        <label for="id">Id commessa: </label>
-        <label>${commessaACorpo.idCommessa }</label>
-    </p>
-	<p>
-        <label for="codice">Codice commessa: </label>
-        <label>${commessaACorpo.codice }</label>
-    </p>
-    <p>
-        <label for="descrizione">Descrizione: </label>
-        <label>${commessaACorpo.descrizione }</label>
-    </p>
-    #{if commessaACorpo.dataInizioCommessa}
-    <p>
-        <label for=dataInizioCommessa>Data inizio: </label>
-        <label>${commessaACorpo.dataInizioCommessa?.format('dd-MM-yyyy') }</label>
-    </p>
-    #{/if}
-    <p>
-        <label for="importo">Importo: </label>
-        <label>${commessaACorpo.importo }</label>
-    </p>
-    <p>
-        <label for="cliente">Cliente: </label>
-        <label><a href="@{ClientiController.show(commessaACorpo.cliente.idCliente)}">${commessaACorpo.cliente.nominativo }</a></label>
-    </p>
-	
-<a href="@{CommesseController.delete(commessaACorpo.idCommessa)}">
-	<input type="button" value="Cancella ${commessaACorpo.codice }" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessaACorpo.codice }');" /></a>
-<br>
-<a href="@{CommesseController.index()}">
-	<input type="button" value="Indietro" /></a>
+<h2>Commessa a Corpo</h2>
+<div id="edit">
+   <ul>
+		<li>
+	        <label for="codice">Codice commessa:</label>
+	            ${commessaACorpo.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione:</label>
+	        	${commessaACorpo.descrizione }
+	    </li>
+	    #{if commessaACorpo.dataInizioCommessa}
+	    <li>
+	        <label for=dataInizioCommessa>Data inizio:</label>
+	        	${commessaACorpo.dataInizioCommessa?.format('dd-MM-yyyy') }
+	    </li>
+	    #{/if}
+	    <li>
+	        <label for="importo">Importo:</label>
+	        	${commessaACorpo.importo }
+	    </li>
+	    <li>
+	        <label for="cliente">Cliente: </label>
+	        <a href="@{ClientiController.show(commessaACorpo.cliente.idCliente)}">${commessaACorpo.cliente.nominativo }</a>
+	    </li>
+	</ul>
+</div>
+<div id="button_center_single">
+	<a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>
