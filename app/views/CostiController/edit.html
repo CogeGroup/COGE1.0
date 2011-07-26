@@ -1,5 +1,7 @@
+
 #{extends 'menu.html' /}
 #{set title:'Aggiungi nuovo costo' /}
+
 
 #{stylesheet id:'jquery-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
 
@@ -58,10 +60,11 @@
 </div>
 	
 		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
+
   <div id="button_center">
         <input type="submit" class="submitbutton" value="Salva" />
     
-    
+
 #{/form}
 <a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
 </div>

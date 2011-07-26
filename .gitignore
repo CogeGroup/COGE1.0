@@ -1,7 +1,14 @@
 .classpath
 .project
 .settings
+conf/application.conf
+application.conf
 eclipse
 tmp
+<<<<<<< HEAD
+test-result
+.gitignore
+=======
 test-result/
 precompiled/
+>>>>>>> 9636455ff606b2276fafbc31d2e627751245b85a
