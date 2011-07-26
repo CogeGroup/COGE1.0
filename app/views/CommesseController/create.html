@@ -76,8 +76,8 @@
 #{/form}
 #{/if}
 #{else}
-	<h3>Non si pu&ograve; creare una commessa, perch&egarve; non esistono clienti a cui assegnarla.</h3><br />
-	<a href="@{ClientiController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuovo Cliente" /></a><br>
+	<h3>Non si pu&ograve; creare una commessa, perch&egarve; non esistono clienti a cui assegnarla.</h3>
+	<a href="@{ClientiController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuovo Cliente" /></a>
 #{/else}
 <a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
 </div>

@@ -37,16 +37,17 @@ public class Commessa extends GenericModel{
 /* Per il momento la data non è obligatoria, perchè nel caso in cui le commesse sono ferie, malattia, ecc 
  * non hanno una data di inizio.
  */
-	
 //	@Required(message="Data obligatoria")
 	@As("dd-MM-yyyy")
 	public Date dataInizioCommessa;
+	
+	public boolean attivo;
 	
 	@ManyToOne
 	public Cliente cliente;
 	
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
-	List<Tariffa> tariffe;
+	public List<Tariffa> tariffe;
 	
 	public Commessa(){}
 
@@ -73,6 +74,15 @@ public class Commessa extends GenericModel{
 		}
 		
 		return importoTotale;
+	}
+	
+	// chiude tutte le commesse di un cliente e le relative tariffe
+	public static void chiudiCommesseByCliente(Cliente cliente) {
+		for (Commessa commessa : cliente.commesse) {
+		   	commessa.attivo = false;
+		   	Tariffa.chiudiTariffeByCommessa(commessa);
+		   	commessa.save();
+		}
 	}
 	
 }

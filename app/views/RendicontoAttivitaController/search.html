@@ -43,8 +43,8 @@
 
 	</script>
  					
-<h2>Inserimento Rapportino (1/2)</h2>
-#{form @rendicontoattivitacontroller.createRendicontoAttivita()}
+<h2>Ricerca Rapportino</h2>
+#{form @rendicontoattivitacontroller.result()}
 <div id="edit">
 #{ifErrors}
     <p class="error">
@@ -67,7 +67,7 @@
     </ul>    
 </div>
     <div id="button_center">
-        <input type="submit" class="submitbutton" value="Inserisci" />
+        <input type="submit" class="submitbutton" value="Ricerca" />
    </div>
   
  #{/form}

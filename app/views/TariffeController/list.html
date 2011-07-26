@@ -26,7 +26,6 @@
 			<th scope="col">Id Tariffa</th>
 			<th scope="col">Data Inizio</th>
 			<th scope="col">Data Fine</th>
-			<th scope="col">Importo Giornaliero</th>
 			<th scope="col">Commessa</th>
 			#{if !risorsa.dataOut}
 				<th scope="col">Modifica</th>
@@ -39,12 +38,15 @@
 			<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
 			<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 			<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
-			<td>${tariffa.importoGiornaliero }</td>
 			<td>${tariffa.commessa.codice }</td>
-			#{if !risorsa.dataOut}
+			#{if risorsa.dataOut != null && tariffa.commessa.attivo}
 				<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 				<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			#{/if}
+			#{else}
+			<td></td>
+			<td></td>
+			#{/else}
 		</tr>
 		#{/paginate.list} 
 	</table>
@@ -56,8 +58,8 @@
 	<center><h3>Nessuna Tariffa esistente</h3></center>
 #{/else}
 
+<div id="button_center">		
 	#{if !risorsa.dataOut}
-		<div id="button_center">
 		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
 	

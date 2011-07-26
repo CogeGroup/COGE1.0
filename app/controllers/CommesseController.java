@@ -26,7 +26,7 @@ public class CommesseController extends Controller {
     
     public static void create() {
     	Commessa commessa = new Commessa();
-    	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+    	List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
     	String aCorpo = "no";
     	float importo = 0;
         render(commessa, listaClienti, aCorpo, importo);
@@ -43,7 +43,7 @@ public class CommesseController extends Controller {
     	}
     	if(validation.hasErrors()) {
     		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
-    		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+    		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
 	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
 	    }
     	
@@ -56,7 +56,7 @@ public class CommesseController extends Controller {
     		}
     		if(validation.hasErrors()) {
         		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
-        		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+        		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
     	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
     	    }
     		CommessaACorpo commessaACorpo = new CommessaACorpo();
@@ -66,10 +66,12 @@ public class CommesseController extends Controller {
     		commessaACorpo.fatturabile = true;
     		commessaACorpo.cliente = Cliente.findById(idCliente);
     		commessaACorpo.importo = importo;
+    		commessaACorpo.attivo = true;
     		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
         	commessa.cliente = Cliente.findById(idCliente);
+        	commessa.attivo = true;
         	commessa.save();
     	}
     	
@@ -79,10 +81,7 @@ public class CommesseController extends Controller {
     
     public static void edit(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	if(commessa instanceof CommessaACorpo){
-    		editACorpo(id);
-    	}
-    	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+    	List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
         render(commessa, listaClienti);
     }
     
@@ -90,8 +89,11 @@ public class CommesseController extends Controller {
     	if(Commessa.find("byCodice", commessa.codice).first() != null && Commessa.find("byCodice", commessa.codice).first() != commessa){
     		validation.addError("commessa.codice", "Codice gia esistente");
     	}
+    	if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")){
+    		validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
+    	}
     	if(validation.hasErrors()) {
-    		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
+    		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
 	        render("CommesseController/edit.html", commessa, listaClienti);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
@@ -101,46 +103,16 @@ public class CommesseController extends Controller {
         list();
     }
     
-    public static void editACorpo(Integer id) {
-    	CommessaACorpo commessaACorpo = CommessaACorpo.findById(id);
-    	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-        render(commessaACorpo, listaClienti);
-    }
-    
-    public static void updateACorpo(@Valid CommessaACorpo commessaACorpo, @Required(message="Selezionare un cliente") Integer idCliente) {
-    	if(CommessaACorpo.find("byCodice", commessaACorpo.codice).first() != null && Commessa.find("byCodice", commessaACorpo.codice).first() != commessaACorpo){
-    		validation.addError("commessaACorpo.codice", "Codice gia esistente");
-    	}
-    	if(commessaACorpo.dataInizioCommessa == null || commessaACorpo.dataInizioCommessa.equals("")){
-    		validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
-    	}
-    	if(validation.hasErrors()) {
-    		List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
-	        render("CommesseController/editACorpo.html", commessaACorpo, listaClienti);
-	    }
-    	commessaACorpo.codice = commessaACorpo.codice.toUpperCase();
-    	commessaACorpo.cliente = Cliente.findById(idCliente);
-    	commessaACorpo.save();
-    	flash.success("%s modificata con successo", commessaACorpo.codice);
-        list();
-    }
-    
     public static void show(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	if(commessa instanceof CommessaACorpo){
-    		showACorpo(id);
-    	}
         render(commessa);
-    }
-    
-    public static void showACorpo(Integer id) {
-    	CommessaACorpo commessaACorpo = CommessaACorpo.findById(id);
-        render(commessaACorpo);
     }
     
     public static void delete(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	commessa.delete();
+    	commessa.attivo = false;
+    	Tariffa.chiudiTariffeByCommessa(commessa);
+    	commessa.save();
     	flash.success("%s cancellata con successo", commessa.codice);
     	list();
     }

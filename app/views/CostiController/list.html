@@ -2,8 +2,18 @@
 #{set title:'Lista clienti' /}
 
 <h1>Costi</h1>
+<div id="edit">
+<ul>
+	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Nome: </label>${risorsa.nome}</li> 
+	<li><label>Cognome: </label>${risorsa.cognome}</li>
+</ul>
+</div>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
+#{/if}
+#{if flash.error}
+   	<p class="error">${flash.error}</p>
 #{/if}
 #{if paginator.size() > 0}
 	<table class="table_costi">
@@ -19,10 +29,14 @@
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
 			<td>${costo.importo }</td>
-			<td>${costo.dataInizio }</td>
-			<td>${costo.dataFine }</td>
-			<td><a href="@{CostiController.edit(costo.idCosto)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-			<td><a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
+			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
+			<td>
+				<a href="@{CostiController.edit(costo.idCosto)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a>
+			</td>
+			<td>
+				<a href="@{CostiController.delete(costo.idCosto,risorsa.idRisorsa)}" onclick="return confirm('Continuare con la cancellazione?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
+			</td>
 		</tr>
 		#{/paginate.list} 
 	</table>
