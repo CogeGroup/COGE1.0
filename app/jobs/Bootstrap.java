@@ -234,10 +234,12 @@ public class Bootstrap extends play.jobs.Job {
       Job j2 = new Job("ClientiController/*");
       Job j3 = new Job("CommesseController/*");
       Job j4 = new Job("CostiController/*");
-      Job j5 = new Job("RendiContoAttivitaController/*");
+      Job j5 = new Job("RendicontoAttivitaController/*");
       Job j6 = new Job("RisorseController/*");
       Job j7 = new Job("TariffeController/*");
-      Job j8 = new Job("TipoRapportoLavoroController/*");
+      Job j8 = new Job("RapportoLavoroController/*");
+      Job j9 = new Job("TipoRapportoLavoroController/*");
+      
      
       ruolo1.addJob(j0);
       ruolo1.addJob(j1);
@@ -248,6 +250,7 @@ public class Bootstrap extends play.jobs.Job {
       ruolo1.addJob(j6);
       ruolo1.addJob(j7);
       ruolo1.addJob(j8);
+      ruolo1.addJob(j9);
      
       
       ruolo1.save();
@@ -265,21 +268,22 @@ public class Bootstrap extends play.jobs.Job {
       
       Ruolo ruolo2 = new Ruolo("segreteria");
       //jobs associati al ruolo segreteria
-      Job j9 = new Job("AccountController/index");
-      Job j10 = new Job("AccountController/listUtenti");
-      Job j11 = new Job("ClientiController/list");
-      Job j12 = new Job("ClientiController/show");
-      Job j13 = new Job("CommesseController/list");
-      Job j14 = new Job("CommesseController/show");
-      Job j15 = new Job("RendiContoAttivitaController/*");
-      Job j16 = new Job("RisorseController/list");
-      Job j17 = new Job("RisorseController/index");
-      Job j18 = new Job("RisorseController/show");
-      Job j19 = new Job("RisorseController/listRapportoLavoro");
-      Job j20 = new Job("TariffeController/list");
-      Job j21 = new Job("TipoRapportoLavoroController/index");
-      Job j22 = new Job("TipoRapportoLavoroController/show");
-      Job j23 = new Job("CostiController/index");
+      Job j10 = new Job("AccountController/index");
+      Job j11 = new Job("AccountController/listUtenti");
+      Job j12 = new Job("ClientiController/list");
+      Job j13 = new Job("ClientiController/show");
+      Job j14 = new Job("CommesseController/list");
+      Job j15 = new Job("CommesseController/show");
+      Job j16 = new Job("RendicontoAttivitaController/*");
+      Job j17 = new Job("RisorseController/list");
+      Job j18 = new Job("RisorseController/index");
+      Job j19 = new Job("RisorseController/show");
+      Job j20 = new Job("RisorseController/listRapportoLavoro");
+      Job j21 = new Job("TariffeController/list");
+      Job j22 = new Job("RapportoLavoroController/list");
+      Job j23 = new Job("RapportoLavoroController/show");
+      Job j24 = new Job("CostiController/list");
+      Job j25 = new Job("TipoRapportoLavoroController/index");
     
       
       ruolo2.addJob(j0);
@@ -298,6 +302,8 @@ public class Bootstrap extends play.jobs.Job {
       ruolo2.addJob(j21);
       ruolo2.addJob(j22);
       ruolo2.addJob(j23);
+      ruolo2.addJob(j24);
+      ruolo2.addJob(j25);
       
       
      

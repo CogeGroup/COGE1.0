@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import models.Commessa;
 import models.Utente;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -14,6 +15,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import play.mvc.Controller;
 import play.mvc.With;
+import secure.SecureCOGE;
 
 @With(SecureCOGE.class)
 public class LogInController extends Controller {

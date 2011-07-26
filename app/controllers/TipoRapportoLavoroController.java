@@ -4,6 +4,7 @@ import play.*;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
+import secure.SecureCOGE;
 
 import java.util.*;
 
@@ -15,6 +16,7 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import models.*;
 
+@With(SecureCOGE.class)
 public class TipoRapportoLavoroController extends Controller {
 
     public static void index() {

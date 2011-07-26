@@ -34,15 +34,16 @@
 #{form @CostiController.save()}
 	
 	#{ifErrors}
-        <p class="error">
-        	<ul>
+	
+       
+        	
 			#{errors} 
 				#{ifnot error.message == 'validation.object'}
-					<li>${error}</li> 
+				 <p class="error">${error} </p> 
 				#{/ifnot}
 			#{/errors}
-			</ul>
-		</p>
+			
+		
     #{/ifErrors}
  <ul>
 	<li>

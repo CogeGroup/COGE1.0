@@ -4,11 +4,12 @@ import play.*;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
+import secure.SecureCOGE;
 
 import java.util.*;
 import models.*;
 
-
+@With(SecureCOGE.class)
 public class ClientiController extends Controller {
 
 	
