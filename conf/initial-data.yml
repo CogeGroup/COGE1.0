@@ -1,12 +1,41 @@
+# RISORSE --------------
 Risorsa(bonnie): 
   matricola:  537
   codice:  asd
   nome:  Bonnie
   cognome:  Smith
   dataIn:  2009-06-14
+Risorsa(zinedine): 
+  matricola:  21
+  codice:  zz
+  nome:  zinedine
+  cognome:  zidane
+  dataIn:  2010-01-01
+# TIPI RAPPORTO LAVORO -------------
+TipoRapportoLavoro(dipendente):
+ codice: DIP
+ descrizione: dipendente
+TipoRapportoLavoro(apprendista):
+ codice: APP
+ descrizione: apprendista
+# RAPPORTI LAVORO -------------------
+RapportoLavoro(rl1):
+ dataInizio: 2009-06-14
+ dataFine: 2010-06-30
+ tipoRapportoLavoro: apprendista
+ risorsa: bonnie
+RapportoLavoro(rl2):
+ dataInizio: 2010-07-01
+ tipoRapportoLavoro: dipendente
+ risorsa: bonnie
+RapportoLavoro(rl3):
+ dataInizio: 2010-01-01
+ tipoRapportoLavoro: dipendente
+ risorsa: zinedine
+#COSTI --------------
 Costo(costo1): 
   importo:  200f
-  dataInizio:  2011-02-01
+  dataInizio:  2009-06-14
   dataFine: 2011-02-28
   risorsa: bonnie
 Costo(costo2): 
@@ -34,3 +63,104 @@ Costo(costo6):
   dataInizio: 2011-11-01
   dataFine: 2011-12-31
   risorsa: bonnie
+Costo(costo7): 
+  importo: 10f
+  dataInizio: 2010-01-01
+  risorsa: zinedine
+#CLIENTI ----------
+Cliente(cliente1): 
+  codice: c1
+  nominativo: cliente1
+  attivo: true
+#COMMESSE ---------
+Commessa(commessa1):
+ codice: com1
+ descrizione: commessa1
+ dataInizioCommessa: 2009-01-01
+ attivo: true
+ fatturabile: true
+ cliente: cliente1
+Commessa(commessa2):
+ codice: com2
+ descrizione: commessa2
+ dataInizioCommessa: 2009-01-01
+ attivo: true
+ fatturabile: true
+ cliente: cliente1
+Commessa(commessa3):
+ codice: com3
+ descrizione: commessa3
+ dataInizioCommessa: 2009-01-01
+ attivo: true
+ fatturabile: false
+ cliente: cliente1
+#TARIFFE ---------------
+Tariffa(tariffa1):
+ dataInizio: 2009-06-14
+ importoGiornaliero: 100f
+ risorsa: bonnie
+ commessa: commessa1
+Tariffa(tariffa2):
+ dataInizio: 2010-01-01
+ importoGiornaliero: 200f
+ risorsa: zinedine
+ commessa: commessa1
+Tariffa(tariffa3):
+ dataInizio: 2010-01-01
+ importoGiornaliero: 200f
+ risorsa: zinedine
+ commessa: commessa2
+Tariffa(tariffa4):
+ dataInizio: 2010-01-01
+ importoGiornaliero: 0f
+ risorsa: zinedine
+ commessa: commessa3
+#RENDICONTO ATTIVITA--------------------
+RendicontoAttivita(ra1):
+ oreLavorate: 100
+ mese: 6
+ anno: 2010
+ risorsa: bonnie
+ commessa: commessa1
+RendicontoAttivita(ra2):
+ oreLavorate: 100
+ mese: 6
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa1
+RendicontoAttivita(ra3):
+ oreLavorate: 200
+ mese: 6
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa2
+RendicontoAttivita(ra4):
+ oreLavorate: 50
+ mese: 6
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa3
+RendicontoAttivita(ra5):
+ oreLavorate: 100
+ mese: 7
+ anno: 2010
+ risorsa: bonnie
+ commessa: commessa1
+RendicontoAttivita(ra6):
+ oreLavorate: 100
+ mese: 7
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa1
+RendicontoAttivita(ra7):
+ oreLavorate: 200
+ mese: 7
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa2
+RendicontoAttivita(ra8):
+ oreLavorate: 50
+ mese: 7
+ anno: 2010
+ risorsa: zinedine
+ commessa: commessa3
