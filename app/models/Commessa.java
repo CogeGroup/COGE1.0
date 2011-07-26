@@ -61,15 +61,22 @@ public class Commessa extends GenericModel{
 	public float calcolaRicavo(String mese, String anno) {
 		
 		float importoTotale = 0.0f;
-		JPAQuery query  = DettaglioRapportoAttivita.find("from DettaglioRapportoAttivita dra where dra.commessa=:commessa and dra.rapportoAttivita.mese=:rapMese and dra.rapportoAttivita.anno=:rapAnno");
+//		JPAQuery query  = DettaglioRapportoAttivita.find("from DettaglioRapportoAttivita dra where dra.commessa=:commessa and dra.rapportoAttivita.mese=:rapMese and dra.rapportoAttivita.anno=:rapAnno");
+		JPAQuery query  = RendicontoAttivita.find("from RendicontoAttivita ra where ra.commessa=:commessa and ra.mese=:rapMese and ra.anno=:rapAnno");
 		query.bind("commessa",this);
 		query.bind("rapMese",mese);
 		query.bind("rapAnno",anno);
-		List<DettaglioRapportoAttivita> lista = query.fetch();
+//		List<DettaglioRapportoAttivita> lista = query.fetch();
+		List<RendicontoAttivita> lista = query.fetch();
 		
-		for(DettaglioRapportoAttivita index:lista){
+//		for(DettaglioRapportoAttivita index:lista){
+//			
+//			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
+//			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
+//		}
+		for(RendicontoAttivita index:lista){
 			
-			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
+			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		

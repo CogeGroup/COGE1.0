@@ -14,6 +14,8 @@ public class ClientiController extends Controller {
     }
     
     public static void list() {
+    	Commessa commessa = Commessa.findById(1);
+    	System.out.println(commessa.calcolaRicavo("07", "2011"));
     	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaClienti);
 		paginator.setPageSize(5);

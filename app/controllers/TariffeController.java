@@ -187,6 +187,23 @@ public class TariffeController extends Controller {
     
     public static void delete(Integer idTariffa) {
     	Tariffa tariffa = Tariffa.findById(idTariffa);
+    	// Controlla se la tariffa da modificare è l'ultima
+    	List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa",tariffa.commessa, tariffa.risorsa).fetch();
+        if(tariffa.dataFine != null){
+        	// Controlla se la tariffa da modificare è l'ultima
+	        for (Tariffa t : lista) {
+				if(t.dataInizio.after(tariffa.dataFine)){
+		        	validation.addError("dataInizio", "La commessa: " + tariffa.commessa.codice + " ha gia altre tariffe");
+		        	// torna alla pagina list.html con il messaggio di errore
+		        	Risorsa risorsa = Risorsa.findById(tariffa.risorsa.idRisorsa);
+		        	List<Tariffa> listaTariffe = Tariffa.find("byRisorsa", risorsa).fetch();
+		        	ValuePaginator paginator = new ValuePaginator(listaTariffe);
+		        	paginator.setPageSize(5);
+		        	Integer idUltimaTariffa = listaTariffe.get(listaTariffe.size()-1).idTariffa;
+		        	render("TariffeController/list.html", tariffa.risorsa.idRisorsa, paginator, risorsa, idUltimaTariffa);
+				}
+			}
+        }
     	Integer idRisorsa = tariffa.risorsa.idRisorsa;
     	tariffa.dataFine = new Date();
     	tariffa.save();
