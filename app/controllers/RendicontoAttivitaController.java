@@ -6,7 +6,9 @@ import play.data.validation.Valid;
 import play.db.jpa.JPA;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
+import play.mvc.With;
 import play.mvc.Scope.Params;
+import secure.SecureCOGE;
 import utility.DomainWrapper;
 
 import java.util.*;
@@ -20,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 
 import models.*;
 
+@With(SecureCOGE.class)
 public class RendicontoAttivitaController extends Controller {
 
 	public static void index() {

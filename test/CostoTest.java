@@ -17,6 +17,7 @@ import models.TipoRapportoLavoro;
 import models.Utente;
 
 import org.joda.time.DateMidnight;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -112,9 +113,13 @@ public class CostoTest extends UnitTest {
 		assertFalse(costo.validateAndSave());
 	}
 	
+	@After
+	public void tearDown(){
+		Fixtures.deleteAll();
+	}
+	
 	@Before
 	public void setup() throws ParseException {
-		Fixtures.deleteAll();
 		Fixtures.loadModels("data.yml");
 
 		r1 = new Risorsa("a", "a", "pippo", "pippo", new Date());

@@ -1,17 +1,8 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Home' /}
 <div id="top">
 	<p></p>
 			
 </div>
 
-<ul id="menu">
-			<li>#{a @RisorseController.index()}Gestione Risorse#{/a}</li>
-			<li>#{a @ClientiController.index()}Gestione Clienti#{/a}</li>
-			<li>#{a @CommesseController.index()}Gestione Commesse#{/a}</li>
-			<li>#{a @AccountController.index()}Gestione Account#{/a}</li>
-			<li>#{a @RendicontoAttivitaController.index()}Gestione Rapportini#{/a}</li>
-			<li>#{a @Secure.logout()}LogOut#{/a}</li>
-			
-		</ul>
 

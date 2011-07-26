@@ -6,11 +6,13 @@ import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
+import secure.SecureCOGE;
 
 import java.util.*;
 
 import models.*;
 
+@With(SecureCOGE.class)
 public class CommesseController extends Controller {
 
     public static void index() {

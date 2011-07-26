@@ -1,16 +1,24 @@
 package controllers;
 
-import play.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import models.Risorsa;
+import models.Ruolo;
+import models.Utente;
 import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Catch;
+import play.mvc.Controller;
+import play.mvc.With;
+import secure.SecureCOGE;
 import utility.ConvertToJson;
 import utility.DomainWrapper;
-
-import java.util.*;
-
-import models.*;
+@With(SecureCOGE.class)
 public class AccountController extends Controller {
 	
 	 @Catch(Exception.class)

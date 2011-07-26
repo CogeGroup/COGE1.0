@@ -1,0 +1,58 @@
+*{ You can use plain selenium command using the selenium tag }*
+
+#{fixture delete:'all',load:'data.yml'/}
+
+#{selenium 'test inserimento'}
+    open('/risorsecontroller/index')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Gestione Risorse')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Anagrafica Risorsa')
+    assertTitle('RisorseController/list.html')
+    clickAndWait('css=img[alt=costo]')
+    assertTitle('Lista Costi')
+    clickAndWait('css=input.submitbutton')
+    assertTitle('Aggiungi nuovo costo')
+    type('id=importo','154')
+    click('id=dataInizio')
+    type('id=dataInizio','01-11-2011')
+    click('id=dataFine')
+    type('id=dataFine','30-11-2011')
+    clickAndWait('css=input.submitbutton')
+    assertTitle('Lista Costi')
+    assertTable('css=table.table_costi.4.0','154.0')
+#{/selenium}
+
+#{selenium 'test modifica'}
+    open('/risorsecontroller/index')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Gestione Risorse')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Anagrafica Risorsa')
+    assertTitle('RisorseController/list.html')
+    clickAndWait('css=img[alt=costo]')
+    assertTitle('Lista Costi')
+    clickAndWait('//div[@id='content']/table/tbody/tr[4]/td[4]/a/img')
+    assertTitle('Modifica costo')
+    type('id=importo','65')
+    clickAndWait('css=input.submitbutton')
+    assertTitle('Lista Costi')
+    assertTable('css=table.table_costi.4.0','65.0')
+#{/selenium}
+
+#{selenium 'test cancellazione'}
+    // Open the home page, and check that no error occured
+    
+    open('/risorsecontroller/index')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Gestione Risorse')
+    assertTitle('RisorseController/index.html')
+    clickAndWait('link=Anagrafica Risorsa')
+    assertTitle('RisorseController/list.html')
+    clickAndWait('css=img[alt=costo]')
+    assertTitle('Lista Costi')
+    click('css=img[alt=elimina]')
+    assertConfirmation('Continuare con la cancellazione?')
+    assertTitle('Lista Costi')
+    assertTable('css=table.table_costi.1.0','200.0')
+#{/selenium}
