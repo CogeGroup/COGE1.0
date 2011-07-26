@@ -1,35 +1,37 @@
 #{extends 'menu.html' /}
 
+
+<h2>Dettaglio Risorsa</h2>
 <div id="show_risorsa">
 #{set title:'RisorseController/show.html' /}
-<ul>
-<li>
-	<label for="matricola">Matricola: </label>
-    ${risorsa.matricola}
-</li>
-<li>
-	<label for="codice">Codice: </label>
-    ${risorsa.codice}
-</li>
-<li>
-	<label for="nome">Nome: </label>
-    ${risorsa.nome}
-</li>
-<li>
-	<label for="cognome">Cognome: </label>
-    ${risorsa.cognome}
-</li>
-<li>
-	<label for="dataIn">Data In: </label>
-    ${risorsa.dataIn.format('dd-MM-yyyy')}
-</li>
-<li>
-	#{if risorsa.dataOut != null}
-		<label for="dataOut">Data Out: </label>
-    	${risorsa.dataOut.format('dd-MM-yyyy')}
-    #{/if}
-</li>
-<ul>
+	<ul>
+			<li>
+				<label for="matricola">Matricola: </label>
+			    ${risorsa.matricola}
+			</li>
+			<li>
+				<label for="codice">Codice: </label>
+			    ${risorsa.codice}
+			</li>
+			<li>
+				<label for="nome">Nome: </label>
+			    ${risorsa.nome}
+			</li>
+			<li>
+				<label for="cognome">Cognome: </label>
+			    ${risorsa.cognome}
+			</li>
+			<li>
+				<label for="dataIn">Data In: </label>
+			    ${risorsa.dataIn.format('dd-MM-yyyy')}
+			</li>
+			<li>
+				#{if risorsa.dataOut != null}
+					<label for="dataOut">Data Out: </label>
+			    	${risorsa.dataOut.format('dd-MM-yyyy')}
+			    #{/if}
+			</li>
+	<ul>
 </div>
 
 #{form @RisorseController.list()} 
