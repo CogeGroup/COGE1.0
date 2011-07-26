@@ -1,8 +1,15 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/editRapportoLavoro.html' /}
+#{set title:'RapportoLavoroController/edit.html' /}
 
 <h2>Modifica Rapporto Lavoro</h2>
 <div id="edit">
+#{ifErrors}
+    <p class="error">${errors[0]}</p>
+#{/ifErrors}
+#{elseif flash.error}
+    <p class="error">${flash.error}</p>
+#{/elseif}
+
 <ul>
 	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
 	<li><label>Nome: </label>${risorsa.nome}</li> 
@@ -11,14 +18,7 @@
 </ul>
 
 
-#{ifErrors}
-    <p class="error">${errors[0]}</p>
-#{/ifErrors}
-#{elseif flash.error}
-    <p class="error">${flash.error}</p>
-#{/elseif}
-
-#{form @RisorseController.updateRapportoLavoro()}
+#{form @RapportoLavoroController.update()}
 
 <ul>
     <li>
@@ -77,7 +77,7 @@
     	<input type="submit" class="submitbutton" value="Modifica" />
    
 #{/form}
-#{form @RisorseController.listRapportoLavoro(risorsa.idRisorsa)} 
+#{form @RapportoLavoroController.list(risorsa.idRisorsa)} 
 	
 		<input type="submit" class="submitbutton" value="Annulla" />
    

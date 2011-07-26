@@ -27,8 +27,10 @@
 			<th scope="col">Data Inizio</th>
 			<th scope="col">Data Fine</th>
 			<th scope="col">Commessa</th>
-			<th scope="col">Modifica</th>
-			<th scope="col">Elimina</th>
+			#{if !risorsa.dataOut}
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
+			#{/if}
 		</tr>
 	</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
@@ -37,9 +39,9 @@
 			<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 			<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
 			<td>${tariffa.commessa.codice }</td>
-			#{if tariffa.commessa.attivo }
-			<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-			<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			#{if risorsa.dataOut != null && tariffa.commessa.attivo}
+				<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+				<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			#{/if}
 			#{else}
 			<td></td>
@@ -56,7 +58,12 @@
 	<center><h3>Nessuna Tariffa esistente</h3></center>
 #{/else}
 
-<div id="button">
-	<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi Tariffa"/></a>
-	<a id="create" href="@{RisorseController.list()}"><input type="button" class="submitbutton" value="indietro"/></a>
+<div id="button_center">		
+	#{if !risorsa.dataOut}
+		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+	#{/if}
+	
+	#{form @RisorseController.list()}
+		        <input type="submit" class="submitbutton" value="Indietro" />   
+	#{/form}
 </div>
