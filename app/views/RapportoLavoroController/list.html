@@ -1,5 +1,9 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/listRapportoLavoro.html' /}
+#{set title:'RapportoLavoroController/list.html' /}
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
 
 <h2>Rapporto Lavoro</h2>
 <div id="edit">
@@ -12,14 +16,6 @@
 </div>
 
 
-#{if flash.success}
-    <p class="success">${flash.success}</p>
-#{/if}
-#{elseif flash.error}
-    <p class="error">${flash.error}</p>
-#{/elseif}
-
-
 #{if risorsa.rapportiLavoro.size() > 0}
 	<table class="table_rapporti">
 	<thead>
@@ -27,10 +23,9 @@
 			<th scope="col">Data Inizio</th>
 			<th scope="col">Data Fine</th>
 			<th scope="col">Tipo Rapporto Lavoro</th>
-			<th scope="col">Modifica</th>
-			<th scope="col">Elimina</th>
 			#{if risorsa.dataOut == null}
-    			<!--<th scope="col"></th>-->
+    			<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
     		#{/if}
 		</tr>
 	</thead>
@@ -42,9 +37,9 @@
     			#{if risorsa.dataOut == null}
     				#{if rapportoLavoro_index == risorsa.rapportiLavoro.size()}
     					<td>
-    						<a href="@{RisorseController.editRapportoLavoro(rapportoLavoro.idRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+    						<a href="@{RapportoLavoroController.edit(rapportoLavoro.idRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
     						#{if risorsa.rapportiLavoro.size() > 1}
-    							<td><a href="@{RisorseController.deleteRapportoLavoro(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"><img src="@{'/public/images/delete.gif'}" alt="delete" /></a></td>
+    							<td><a href="@{RapportoLavoroController.delete(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"><img src="@{'/public/images/delete.gif'}" alt="delete" /></a></td>
     						#{/if}
     						#{else}
     							<td></td>
@@ -66,7 +61,7 @@
 
 <div id="button_center">
 	#{if !risorsa.dataOut}
-		#{form @RisorseController.createRapportoLavoro(risorsa.idRisorsa)}
+		#{form @RapportoLavoroController.create(risorsa.idRisorsa)}
 	    
 	        <input type="submit" class="submitbutton" value="Aggiungi" />
 	    

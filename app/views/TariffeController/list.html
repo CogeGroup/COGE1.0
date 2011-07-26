@@ -10,16 +10,6 @@
 </ul>
 </div>
 
-
-<div>
-		Risorsa: ${risorsa.matricola}
-		<br>
-		${risorsa.nome} ${risorsa.cognome}
-		<br>
-		Data In: ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}
-</div>
-<hr>
-
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}

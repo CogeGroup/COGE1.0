@@ -22,10 +22,13 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import play.data.binding.As;
+import play.data.validation.Check;
+import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
+import utility.MyUtility;
 
 
 
@@ -36,26 +39,29 @@ public class Risorsa extends GenericModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idRisorsa;
 	
-	@Required(message="matricola obbligatoria")
+	@Required
+	@CheckWith(MatricolaCheck.class)
 	@MaxSize(255)
 	public String matricola;
 	
-	@Required(message="codice obbligatorio")
+	@Required
 	@MaxSize(255)
 	public String codice;
 	
-	@Required(message="nome obbligatorio")
+	@Required
 	@MaxSize(255)
 	public String nome;
 	
-	@Required(message="cognome obbligatorio")
+	@Required
 	@MaxSize(255)
 	public String cognome;
 	
-	@Required(message="data in obbligatoria") 
+	@Required
+	@CheckWith(DataInCheck.class)
 	@As("dd-MM-yyyy")
 	public Date dataIn;
 	
+	@CheckWith(DataOutCheck.class)
 	@As("dd-MM-yyyy")
 	public Date dataOut;
 	
@@ -86,6 +92,47 @@ public class Risorsa extends GenericModel {
 		this.dataIn = dataIn;
 	}
 	
+	static class MatricolaCheck extends Check {
+		static final String message = "validation.risorsa.matricola_esistente";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object matricola) {
+			Risorsa app = Risorsa.find("byMatricola", matricola).first();
+			if(app != null && ((Risorsa) risorsa).idRisorsa != app.idRisorsa) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class DataInCheck extends Check {
+		static final String message = "validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object dataIn) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			if(risorsa2.rapportiLavoro != null && risorsa2.rapportiLavoro.size() > 0 && ((Date) dataIn).after(risorsa2.rapportiLavoro.get(0).dataInizio)) {
+				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(0).dataInizio));
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class DataOutCheck extends Check {
+		static final String message = "validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object dataOut) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			if(dataOut != null && !((Date) dataOut).after(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio)) {
+				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio));
+				return false;
+			}
+			return true;
+		}
+	}
 	
 	public void addRapportoLavoro(RapportoLavoro rl){
 		
