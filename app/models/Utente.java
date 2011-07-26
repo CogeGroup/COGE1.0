@@ -40,6 +40,8 @@ public class Utente extends GenericModel {
     
 	@OneToOne
 	public Risorsa risorsa;
+	
+	
 
   //constructors
 	public Utente(String username, String password, boolean abilitato) {
@@ -54,6 +56,39 @@ public class Utente extends GenericModel {
 		ruoli.add(ruolo);
 		ruolo.addUtente(this);
 		
+	}
+	
+	public boolean isUserInRole(String descriRole){
+		for (Ruolo r: ruoli){
+			
+			if (r.descrizione.equals(descriRole))
+				return true;
+			
+		}
+		
+		return false;
+	}
+	
+	
+	public boolean isAuthorized(String path){
+		for (Ruolo r: ruoli){
+			
+			for (models.Job j : r.jobs){
+				
+				String ctrlName[] = path.split("/");
+				String pathAuthorized[] = j.descrizione.split("/");
+				if (pathAuthorized[1].equals("*") && ctrlName[0].equals(pathAuthorized[0])){
+					return true;
+				}
+				if (j.descrizione.equals(path))
+					return true;
+				
+			}
+		
+			
+		}
+		
+		return false;
 	}
 	
 	

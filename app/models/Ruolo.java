@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +36,9 @@ public class Ruolo extends GenericModel{
 	
 	 @ManyToMany(mappedBy="ruoli")
 	 List<Utente> utenti = new ArrayList<Utente>();
+	 
+	 @ManyToMany(mappedBy="ruoli", cascade=CascadeType.ALL)
+	 public List<Job> jobs = new ArrayList<Job>();
 
 	//constructors
 	public Ruolo(String descrizione) {
@@ -48,6 +52,15 @@ public class Ruolo extends GenericModel{
 		utenti.add(utente);
 		
 	}
+	
+public void addJob(models.Job job){
+		
+		jobs.add(job);
+		job.ruoli.add(this);
+		
+	}
+	
+	
 	
 	
 	
