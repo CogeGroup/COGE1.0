@@ -1,37 +1,37 @@
-#{extends 'main.html' /}
-#{set title:'Cliente: '+  cliente.nominativo /}
+#{extends 'menu.html' /}
+#{set title:'Dettaglio Cliente'/}
 
-<h1>Cliente: ${cliente.nominativo }</h1>
+<h2> Dettaglio Cliente</h2>
 
-	<p>
-        <label for="id">Id cliente: </label>
-        <label>${cliente.idCliente }</label>
-    </p>
-	<p>
+<div id="edit">
+   <ul>
+
+	<li>
         <label for="codice">Codice cliente: </label>
         <label>${cliente.codice }</label>
-    </p>
-    <p>
+    </li>
+    <li>
         <label for="nominativo">Nominativo: </label>
         <label>${cliente.nominativo }</label>
-    </p>
-    <p>
+
+    </li>
+
+    <li>
         <label for="attivo">Attivo: </label>
         <label>${cliente.attivo == true ? 'si' : 'no' }</label>
-    </p>
+    </li>
     #{if cliente.commesse.size() > 0 }
-    <p>
+    <li>
         <label for="commesse">Commesse: </label>
         <ul>
         #{list items:cliente.commesse, as:'commessa'}
 			<li><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a> - Fatturabile: ${commessa.fatturabile == true ? 'si' : 'no' }</li>
 		#{/list}
 		</ul> 
-    </p>
+    </li>
     #{/if}
+	</div>
 	
-<a href="@{ClientiController.delete(cliente.idCliente)}">
-	<input type="button" value="Cancella ${cliente.nominativo }" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');" /></a>
-<br>
-<a href="@{ClientiController.index()}">
-	<input type="button" value="Indietro" /></a>
+	<div id="button_center">
+		<a href="@{ClientiController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	</div>	

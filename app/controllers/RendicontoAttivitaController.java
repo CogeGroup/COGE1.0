@@ -148,7 +148,7 @@ public class RendicontoAttivitaController extends Controller {
 	}
 	
 	public static void autocompleteRisorsaRapportoAttivita(String term) {
-		List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
+		List<Risorsa> listaRisorse = Risorsa.find("dataOut is null and matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
 		  List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		  for(Risorsa r:listaRisorse){
 			  listaResult.add(new DomainWrapper(r.idRisorsa, r.matricola +" "+r.cognome));

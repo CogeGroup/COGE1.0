@@ -1,26 +1,29 @@
 package controllers;
 
-import play.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import models.RapportoLavoro;
+import models.Risorsa;
+import models.TipoRapportoLavoro;
+import models.Utente;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Before;
+import play.mvc.Controller;
+import play.mvc.With;
+import utility.MyUtility;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.persistence.PersistenceException;
-
-import net.sf.oval.constraint.Min;
-
-import models.*;
-import utility.*;
-
+@With(SecureCOGE.class)
 public class RisorseController extends Controller {
 
-    public static void index() {
+
+	public static void index() {
         render();
     }
     
+
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by matricola").fetch());
     	listaRisorse.setPageSize(5);
