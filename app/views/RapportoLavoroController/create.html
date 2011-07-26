@@ -1,23 +1,21 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/createRapportoLavoro.html' /}
+#{set title:'RapportoLavoroController/create.html' /}
+
 
 <h2>Crea Rapporto Lavoro</h2>
 <div id="edit">
+#{ifErrors}
+    <p class="error">${errors[0]}</p>
+#{/ifErrors}
+
 <ul>
 	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
 	<li><label>Nome: </label>${risorsa.nome}</li> 
 	<li><label>Cognome: </label>${risorsa.cognome}</li>
-	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}</li>
+	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')}</li>
 </ul>
 
-#{ifErrors}
-    <p class="error">${errors[0]}</p>
-#{/ifErrors}
-#{elseif flash.error}
-    <p class="error">${flash.error}</p>
-#{/elseif}
-
-#{form @RisorseController.saveRapportoLavoro()}
+#{form @RapportoLavoroController.save()}
 	<ul>
 	    <li>
 	    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
@@ -45,6 +43,7 @@
 			#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
 			#{/select}
 		</li>
+		
 	</ul>
 </div>
 <div id="button_center">
@@ -53,7 +52,7 @@
     	<input type="submit" class="submitbutton" value="Aggiungi" />
    
 #{/form}
-#{form @RisorseController.listRapportoLavoro(risorsa.idRisorsa)} 
+#{form @RapportoLavoroController.list(risorsa.idRisorsa)} 
 	
 		<input type="submit" class="submitbutton" value="Annulla" />
    

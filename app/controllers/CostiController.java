@@ -42,10 +42,27 @@ public class CostiController extends Controller {
     	
     }
     public static void edit(Integer idCosto){
-    	
+    	Costo costo = Costo.findById(idCosto);
+    	render(costo);
     }
-    public static void delete(Integer idCosto){
-    	
+    public static void update(@Valid Costo costo){
+    	// Validazione del form
+    	if(validation.hasErrors()) {
+        	render("CostiController/edit.html",costo);
+    	}
+    	costo.save();
+    	flash.success("Costo aggiornato con successo");
+    	list(costo.risorsa.idRisorsa);
+    }
+    public static void delete(Integer idCosto,Integer idRisorsa){
+    	Costo costo = Costo.findById(idCosto);
+    	if(costo == null){
+    		flash.error("Costo non trovato");
+    		list(idRisorsa);
+    	}
+    	costo.delete();
+    	flash.success("Costo rimosso con successo");
+    	list(idRisorsa);
     }
     
 

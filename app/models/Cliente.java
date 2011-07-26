@@ -28,6 +28,8 @@ public class Cliente extends GenericModel{
 	
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	public List<Commessa> commesse = new ArrayList<Commessa>();
+	
+	public boolean attivo;
 
 	public Cliente() {}
 	
@@ -50,7 +52,6 @@ public class Cliente extends GenericModel{
 			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
-		
 		return importoTotale;
 	}
 }

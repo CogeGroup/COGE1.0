@@ -1,4 +1,4 @@
-#{extends 'menu.html' /}
+#{extends 'main.html' /}
 #{set title:'Aggiungi nuovo costo' /}
 
 #{stylesheet id:'jquery-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
@@ -28,10 +28,8 @@
 		});
        </script>
 
-<h2>Nuovo costo</h2>
-
-<div id="edit">
-#{form @CostiController.save()}
+<h1>Nuovo costo</h1>
+#{form @CostiController.update()}
 	
 	#{ifErrors}
         <p class="error">
@@ -44,25 +42,24 @@
 			</ul>
 		</p>
     #{/ifErrors}
- <ul>
-	<li>
-        <label for="importo">Importo:</label>
-        <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
-    </li>
-    <li>
-        <label for="dataInizio">Data Inizio:</label>
-		<input type="text" class="txt_date" id="dataInizio" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> 
-    </li>
-    <li>
-        <label for="dataFine">Data Fine:</label>
-        <input type="text" class="txt_date" id="dataFine" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}" />
-    </li>
-  </ul>
-</div>
-<div id="button_center">
-	<input type="hidden" name="costo.risorsa.idRisorsa" value="${costo?.risorsa?.idRisorsa}">
-	<input type="submit" class="submitbutton" value="Salva" />
+	
+	<p>
+        <label for="importo">Importo: </label>
+        <input type="text" id="importo" name="costo.importo" value="${costo?.importo}"/>
+    </p>
+    <p>
+        <label for="dataInizio">Data Inizio: </label>
+		<input type="text" id="dataInizio" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> 
+    </p>
+    <p>
+        <label for="dataFine">Data Fine: </label>
+        <input type="text" id="dataFine" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}" />
+    </p>
+	<p>
+		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
+        <input type="submit" value="Aggiorna costo" />
+    </p>
     
 #{/form}
-<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="indietro" /></a>
-</div>
+<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}">
+	<input type="button" value="Annulla" /></a>

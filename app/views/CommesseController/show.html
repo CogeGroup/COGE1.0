@@ -23,6 +23,12 @@
        	 ${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }
     </li>
     #{/if}
+    #{if commessa instanceof models.CommessaACorpo }
+    <li>
+        <label for=importo>Importo:</label>
+       	 ${commessa.importo }
+    </li>
+	#{/if}
     <li>
         <label for="cliente">Cliente:</label>
        <a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a>
@@ -30,5 +36,6 @@
   </ul>
 </div>	
 <div id="button_center_single">
-	<a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	<input type="button" class="submitbutton" value="Indietro JS" onClick="history.back();"/>
+	<a href="@{CommesseController.index()}"><input type="button" class="submitbutton" value="Lista Commessa" /></a>
 </div>

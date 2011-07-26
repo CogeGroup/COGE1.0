@@ -1,7 +1,10 @@
 package models;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,19 +13,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceProperty;
 
-import play.data.binding.As;
+import play.data.binding.*;
+import play.data.validation.Check;
+import play.data.validation.CheckWith;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
+import utility.MyUtility;
 
 @javax.persistence.Entity
 public class RapportoLavoro extends GenericModel{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idRapportoLavoro;
-	
-	@Required(message="data inizio obbligatoria")
+
+	@Required
 	@As("dd-MM-yyyy")
 	public Date dataInizio;
 	
@@ -35,8 +42,7 @@ public class RapportoLavoro extends GenericModel{
 	
 	@ManyToOne
 	public Risorsa risorsa;
-
-
+	
 	public RapportoLavoro(Date dataInizio,
 			TipoRapportoLavoro tipoRapportoLavoro, Risorsa risorsa) {
 		super();
@@ -44,7 +50,11 @@ public class RapportoLavoro extends GenericModel{
 		this.tipoRapportoLavoro = tipoRapportoLavoro;
 		this.risorsa = risorsa;
 	}
-
+	
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof RapportoLavoro ? ((RapportoLavoro) other).idRapportoLavoro == this.idRapportoLavoro : false;
+	}
 
    public static List<RapportoLavoro> findByTipoRapportoLavoroAndPeriodo(TipoRapportoLavoro tipoRapLav , String mese, String anno) throws ParseException{
 	   Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
@@ -55,10 +65,5 @@ public class RapportoLavoro extends GenericModel{
 	   System.out.println("....SIZE:" + list.size());
 	   return list;
    }
-	
-   @Override
-   public boolean equals(Object other) {
-	   return other instanceof RapportoLavoro ? ((RapportoLavoro) other).idRapportoLavoro == this.idRapportoLavoro : false;
-   }
-	
+   
 }
