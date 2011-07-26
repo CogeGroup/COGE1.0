@@ -4,12 +4,10 @@
 <h2>Modifica Tipo Rapporto Lavoro</h2>
 
 <div id="edit">
-#{ifErrors}
-    <p class="error">${errors[0]}</p>
-#{/ifErrors}
-
 #{form @TipoRapportoLavoroController.update()}
-   
+   #{ifErrors}
+   		 <p class="error">${errors[0]}</p>
+	#{/ifErrors}
    <ul> 
 	    <li>
 	        <label for="codice">Codice:</label>

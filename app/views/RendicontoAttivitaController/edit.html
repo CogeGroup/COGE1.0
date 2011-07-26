@@ -1,0 +1,31 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Rapportini'/}
+
+<h2>Modifica Rapportino</h2>
+
+<div id="edit">
+	#{form @RendicontoAttivitaController.update()}
+		
+		#{ifErrors}
+	        <p class="error">
+				${errors[0]}
+			</p>
+	    #{/ifErrors}
+	 <ul>
+		
+		<li>
+	        <label for="codice">Commessa: </label>
+	        <label for="codice">${rendicontoAttivita.commessa.codice } </label>
+	    </li>
+	    <li>
+	        <label for="oreLavorate">Ore Lavorate: </label>
+	        <input type="text" class="txt_m" id="nominativo" name="rendicontoAttivita.oreLavorate" value="${rendicontoAttivita.oreLavorate }" />
+	    </li>
+	</ul>
+</div>
+	<div id="button_center">
+			<input type="hidden" name="rendicontoAttivita.idRendicontoAttivita" value="${rendicontoAttivita.idRendicontoAttivita }" />
+	        <input type="submit" class="submitbutton" value="Salva" />
+	#{/form}
+		<input type="button" class="submitbutton" value="Indietro" onClick="history.back();"/>
+	</div>

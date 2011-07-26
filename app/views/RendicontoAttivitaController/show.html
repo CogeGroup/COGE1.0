@@ -1,0 +1,48 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Rapportini' /}
+
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
+
+#{if paginator.size() > 0}
+
+	<table class="table_rapportini">
+		 <caption>
+		    <h3>Rapportini</h3>
+		   </caption>
+		<thead>
+			<tr>
+				<th scope="col">Risorsa</th>
+				<th scope="col">Mese</th>
+				<th scope="col">Anno</th>
+				<th scope="col">Commessa</th>
+				<th scope="col">Ore Lavorate</th>
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
+			</tr>
+		</thead>
+			
+		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
+		<tr>
+			<td>${rendicontoAttivita.risorsa.matricola }</td>
+			<td>${rendicontoAttivita.mese }</td>
+			<td>${rendicontoAttivita.anno }</td>
+			<td>${rendicontoAttivita.commessa.codice }</td>
+			<td>${rendicontoAttivita.oreLavorate }</td>
+			<td><a href="@{RendicontoAttivitaController.edit(rendicontoAttivita.idRendicontoAttivita)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+			<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
+				onclick="return confirm('Continuare con la cancellazzione del rapportino della risorsa: ${rendicontoAttivita.risorsa.matricola}, relativo al ${rendicontoAttivita.mese }-${rendicontoAttivita.anno }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+		</tr>
+		#{/paginate.list}  
+	</table>
+	<div id="datatable_rapportini">
+	#{paginate.controls items:paginator /}
+	</div>
+#{/if}
+#{else}
+	<center><h2>Nessun Rapportino esistente</h2></center>
+#{/else}
+<div id="button">
+<a id="create" href="@{RendicontoAttivitaController.chooseRisorsa()}"><input type="button" class="submitbutton" value="Inserisci rapportino"/></a>
+</div>

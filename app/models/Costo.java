@@ -59,26 +59,44 @@ public class Costo extends GenericModel {
 			}
 			return true;
 		}
-
 	}
-	public static List<Costo> costiSovrapposti(Date valuableDate,Costo costo){
-		return Costo
-		.find("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?) " +
-				" or (c.dataInizio > ? and c.dataFine < ?) "+
-				") and c.risorsa = ?",
-				valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa).fetch();
-	}
+	
 	static class MyDataFineCheck extends Check {
-		static final String mes = "validation.costo.sovrapposto";
-
+		static final String DATE_SOVRAPPOSTE_MESSAGE = "validation.costo.sovrapposto";
+		static final String DATAFINE_LESS_THAN_DATAINIZIO = "validation.costo.dataFine.lt.dataInizio";
+		
 		public boolean isSatisfied(Object costo, Object value) {
-			if (value != null && Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
-				setMessage(mes);
-				return false;
+			if(value !=null){
+				if(((Date)value).compareTo(((Costo)costo).dataInizio) <=0 ){
+					setMessage(DATAFINE_LESS_THAN_DATAINIZIO);
+					return false;
+				}
+				
+				if (!Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
+					setMessage(DATE_SOVRAPPOSTE_MESSAGE);
+					return false;
+				}
 			}
+			
 			return true;
 		}
-
+	}
+	
+	public static List<Costo> costiSovrapposti(Date valuableDate,Costo costo){
+		
+		StringBuffer query = new StringBuffer("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?)  or (c.dataInizio > ? and c.dataFine < ?) ) and c.risorsa = ? ");
+		
+		if(costo.isPersistent()){
+			query.append(" and c != ? ");
+			return Costo
+			.find(query.toString(),
+					valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa,costo).fetch();
+		}else{
+			return Costo
+			.find(query.toString(),
+					valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa).fetch();
+		}
+		
 	}
 	
 }

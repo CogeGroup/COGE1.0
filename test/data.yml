@@ -5,3 +5,52 @@
 #   email: bob@gmail.com
 #   password: secret
 #   fullname: Bob
+
+Risorsa(bonnie): 
+  matricola:  537
+  codice:  asd
+  nome:  Bonnie
+  cognome:  Smith
+  dataIn:  2009-06-14
+Costo(costo1): 
+  importo:  200f
+  dataInizio:  2011-02-01
+  dataFine: 2011-02-28
+  risorsa: bonnie
+Costo(costo2): 
+  importo: 100f
+  dataInizio: 2011-03-01
+  risorsa: bonnie
+
+Risorsa(bob): 
+  matricola:  123
+  codice:  fff
+  nome:  Robert
+  cognome:  Adams
+  dataIn:  2010-04-01
+Costo(costo3): 
+  importo: 100f
+  dataInizio: 2011-05-02
+  dataFine: 2011-07-01
+  risorsa: bob
+Costo(costo4): 
+  importo:  200f
+  dataInizio:  2011-08-01
+  dataFine: 2011-08-28
+  risorsa: bob
+Costo(costo5): 
+  importo: 100f
+  dataInizio: 2011-09-01
+  dataFine: 2011-10-31
+  risorsa: bob
+
+Risorsa(jack): 
+  matricola:  666
+  codice:  die
+  nome:  Jack
+  cognome:  Sparrow
+  dataIn:  2010-04-01
+Costo(costo6): 
+  importo: 100f
+  dataInizio: 2011-09-01
+  risorsa: jack

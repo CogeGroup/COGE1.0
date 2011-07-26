@@ -23,19 +23,17 @@ public class TipoRapportoLavoroController extends Controller {
     }
     
     public static void create() {
-    	render();
+    	TipoRapportoLavoro tipoRapportoLavoro = new TipoRapportoLavoro();
+    	render(tipoRapportoLavoro);
     }
     
     public static void save(@Valid TipoRapportoLavoro tipoRapportoLavoro) {
     	if (validation.hasErrors()) {
 			renderTemplate("TipoRapportoLavoroController/create.html", tipoRapportoLavoro);
 		}
-    	if (tipoRapportoLavoro.save() != null) {
-			flash.success("Tipo Rapporto Lavoro %s inserito con successo", tipoRapportoLavoro.codice);
-		} else {
-			flash.error("Impossibile inserire il nuovo Tipo Rapporto Lavoro");
-		}
-    	index();
+    	tipoRapportoLavoro.save();
+		flash.success("Tipo Rapporto Lavoro %s inserito con successo", tipoRapportoLavoro.codice);
+		index();
     }
 
     public static void edit(Integer idTipoRapportoLavoro) {
@@ -47,22 +45,16 @@ public class TipoRapportoLavoroController extends Controller {
     	if (validation.hasErrors()) {
 			renderTemplate("TipoRapportoLavoroController/edit.html", tipoRapportoLavoro);
 		}
-    	if (tipoRapportoLavoro.save() != null) {
-			flash.success("Tipo Rapporto Lavoro %s modificato con successo", tipoRapportoLavoro.codice);
-		} else {
-			flash.error("Impossibile modificare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.codice);
-		}
-    	index();
+    	tipoRapportoLavoro.save();
+		flash.success("Tipo Rapporto Lavoro %s modificato con successo", tipoRapportoLavoro.codice);
+		index();
     }
 
     public static void delete(Integer idTipoRapportoLavoro) {
     	TipoRapportoLavoro tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
     	try {
-    		if (tipoRapportoLavoro.delete() != null) {
-    			flash.success("Tipo Rapporto Lavoro %s eliminato con successo", tipoRapportoLavoro.codice);
-    		} else {
-    			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s", tipoRapportoLavoro.codice);
-    		}
+    		tipoRapportoLavoro.delete();
+    		flash.success("Tipo Rapporto Lavoro %s eliminato con successo", tipoRapportoLavoro.codice);
 		} catch (PersistenceException e) {
 			flash.error("Impossibile eliminare il Tipo Rapporto Lavoro %s - Rapporti di lavoro associati", tipoRapportoLavoro.codice);
 		} finally {
@@ -75,6 +67,4 @@ public class TipoRapportoLavoroController extends Controller {
     	render(tipoRapportoLavoro);
     	
     }
-
-
 }

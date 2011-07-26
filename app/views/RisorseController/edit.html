@@ -28,16 +28,11 @@
   });
 </script>  		  
 
-#{ifErrors}
-    <p class="error">${errors[0]}</p>
-#{/ifErrors}
-#{elseif flash.error}
-    <p class="error">${flash.error}</p>
-#{/elseif}
-
-
 	#{form @RisorseController.update()}
-	<div id="edit">
+		<div id="edit">
+	#{ifErrors}
+    	<p class="error">${errors[0]}</p>
+	#{/ifErrors}
 	   <ul>
 	    <li>
 	        <label for="matricola">Matricola:</label>

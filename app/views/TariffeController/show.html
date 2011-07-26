@@ -15,10 +15,14 @@
 	        ${tariffa.dataFine?.format('dd-MM-yyyy') }
 	    </li>
 	    #{/if}
+	    #{if tariffa.commessa instanceof models.CommessaACorpo }
+	    #{/if}
+	    #{else}
 	    <li>
 	        <label for="importo">Importo giornaliero:</label>
 	        ${tariffa.importoGiornaliero }
 	    </li>
+	    #{/else}
 	    <li>
 	        <label for="risorsa">Risorsa:</label>
 	         ${tariffa.risorsa.cognome }

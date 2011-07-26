@@ -4,11 +4,15 @@ import play.*;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
+
 import java.util.*;
 import models.*;
 
+
 public class ClientiController extends Controller {
 
+	
+	
     public static void index() {
         list();
     }
@@ -33,6 +37,7 @@ public class ClientiController extends Controller {
 	        render("ClientiController/create.html", cliente);
 	    }
     	cliente.codice = cliente.codice.toUpperCase();
+    	cliente.attivo = true;
     	cliente.save();
     	flash.success("%s aggiunto con successo", cliente.nominativo);
     	list();
@@ -63,7 +68,9 @@ public class ClientiController extends Controller {
     
     public static void delete(Integer id) {
     	Cliente cliente = Cliente.findById(id);
-    	cliente.delete();
+    	cliente.attivo = false;
+    	Commessa.chiudiCommesseByCliente(cliente);
+    	cliente.save();
     	flash.success("%s cancellato con successo", cliente.nominativo);
     	list();
     }

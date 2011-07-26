@@ -1,16 +1,12 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
 
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
 
-
-#{a @RendicontoAttivitaController.chooseRisorsa()}Inserisci Rapportino#{/a}
-   
-   
-   
-   
-   
-   
-   
-
-
-
+		<ul>
+			<li>#{a @RendicontoAttivitaController.chooseRisorsa()}Inserisci Rapportino#{/a}</li>
+			<li>#{a @RendicontoAttivitaController.search()}Ricerca Rapportino#{/a}</li>
+			<li>#{a @RendicontoAttivitaController.list()}Lista Rapportini#{/a}</li>
+		</ul>

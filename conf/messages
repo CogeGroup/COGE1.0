@@ -1,11 +1,33 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+
 validation.required=il campo %s è obbligatorio
 costo.importo = importo
 costo.dataInizio = dataInizio
 costo.dataFine = dataFine
 validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
+validation.costo.dataFine.lt.dataInizio = la data fine &egrave; precedente alla data inizio
+
+# RISORSA ----------------------------------
+risorsa.matricola = matricola
+risorsa.codice = codice
+risorsa.nome = nome
+risorsa.cognome = cognome
+risorsa.dataIn = data inizio
+risorsa.dataOut = data fine
+validation.risorsa.matricola_esistente = matricola esistente
+validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro = li campo %s deve essere <= di %s (inizio primo rapporto di lavoro)
+validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro = %s deve essere > di %s (inizio ultimo rapporto di lavoro)
+
+# TIPO RAPPORTO LAVORO ----------------------
+tipoRapportoLavoro.codice = codice
+tipoRapportoLavoro.descrizione = descrizione
+validation.tipoRapportoLavoro.codice_esistente = codice esistente
+
+# RAPPORTO LAVORO ----------------------------
+rapportoLavoro.dataInizio = data inizio
+validation.rapportoLavoro.dataInizio = %s deve essere maggiore di %s
 
 #play-paginate.name=play-paginate
 
@@ -18,3 +40,8 @@ play-paginate.summary.display=Displaying rows
 play-paginate.summary.to=to
 play-paginate.summary.from=out of
 play-paginate.summary.entries=entries
+secure.logout = logout effettuato
+secure.signin = Entra
+secure.title = LogIn
+secure.remember = Resta Connesso
+secure.error=Credenziali non riconosciute

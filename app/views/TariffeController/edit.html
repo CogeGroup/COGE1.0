@@ -45,6 +45,7 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
+    
     <ul>
 	<li>
         <label for=dataInizio>Data inizio:</label>
@@ -54,12 +55,19 @@
         <label for=dataFine>Data fine:</label>
         <input type="text" class="txt_date" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
     </li>
-    <li>
-        <label for=importo>Importo giornaliero:</label>
-        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-    </li>
+    #{if tariffa.commessa instanceof models.CommessaACorpo }
+	#{/if}
+	#{else}
+	    #{if tariffa.commessa.fatturabile == true}
+	    <li>
+	        <label for=importo>Importo giornaliero: </label>
+	        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
+	    </li>
+	    #{/if}
+    #{/else}
     <li>
     	<label for="commessa">Commessa:</label>
+
     	<select name="idCommessa">
     		#{list items:listaCommesse, as:'commessa'}
 		        <option value="${commessa.idCommessa }" 
@@ -72,11 +80,11 @@
 </ul>
 </div>
 <div id="button_center">
-		<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
-        <input type="submit" class="submitbutton" value="Salva" />
+	<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
+    <input type="submit" class="submitbutton" value="Salva" />
     
 #{/form}
-<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
+	<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
 	<input type="button" class="submitbutton" value="Indietro" /></a>
 </div>
 	
