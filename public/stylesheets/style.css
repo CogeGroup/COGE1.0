@@ -132,6 +132,10 @@ table
 	margin:10px 0 0 274px;
 
 }
+.table_rapportini {
+	margin:10px 0 0 157px;
+
+}
 
 
 thead th,
@@ -222,6 +226,9 @@ tbody a:visited:after {
  margin: 8px 0 0 335px;
 }
 #datatable_utenti{
+ margin: 8px 0 0 254px;
+}
+#datatable_rapportini{
  margin: 8px 0 0 254px;
 }
 
@@ -405,6 +412,8 @@ tbody a:visited:after {
   color:#E60000;
 
 }
+
+
 .success{
   color:#E60000;
 

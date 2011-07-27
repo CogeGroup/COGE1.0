@@ -1,8 +1,8 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import models.Cliente;
@@ -12,8 +12,11 @@ import models.Tariffa;
 import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.With;
+import secure.SecureCOGE;
 
+@With(SecureCOGE.class)
 public class TariffeController extends Controller {
 
     public static void index(Integer id) {

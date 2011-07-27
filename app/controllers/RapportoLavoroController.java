@@ -8,8 +8,11 @@ import models.RapportoLavoro;
 import models.Risorsa;
 import models.TipoRapportoLavoro;
 import play.mvc.Controller;
+import play.mvc.With;
+import secure.SecureCOGE;
 import utility.MyUtility;
 
+@With(SecureCOGE.class)
 public class RapportoLavoroController extends Controller {
 	public static void list(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);

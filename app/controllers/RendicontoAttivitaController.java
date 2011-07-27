@@ -6,7 +6,9 @@ import play.data.validation.Valid;
 import play.db.jpa.JPA;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
+import play.mvc.With;
 import play.mvc.Scope.Params;
+import secure.SecureCOGE;
 import utility.DomainWrapper;
 
 import java.util.*;
@@ -20,6 +22,7 @@ import org.hibernate.criterion.Restrictions;
 
 import models.*;
 
+@With(SecureCOGE.class)
 public class RendicontoAttivitaController extends Controller {
 
 	public static void index() {
@@ -35,38 +38,23 @@ public class RendicontoAttivitaController extends Controller {
 	}
 	
 	public static void result(Integer idRisorsa, String data){
-		Session session = (Session)JPA.em().getDelegate();
-		Criteria cri = session.createCriteria(RendicontoAttivita.class);
-		if(idRisorsa != null && idRisorsa > 0){
-			cri.add(Restrictions.eq("risorsa", Risorsa.findById(idRisorsa)));
-		}
-		if(data != null && !data.equals("")){
-			String[] meseAnno = data.split("-");
-			cri.add(Restrictions.eq("mese", meseAnno[0].trim()));
-			cri.add(Restrictions.eq("anno", meseAnno[1].trim()));
-		}
-		cri.addOrder(Order.asc("anno"));
-		cri.addOrder(Order.asc("mese"));
-		List<RendicontoAttivita> listaRapportini = cri.list();
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.findByExample(idRisorsa,data);
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
 		paginator.setPageSize(5);
 		render("RendicontoAttivitaController/show.html", paginator);
 	}
+
 	
 	public static void list(){
-		String query = "SELECT ra " +
-				"FROM RendicontoAttivita ra " +
-				"GROUP BY ra.risorsa, ra.mese, ra.anno " +
-				"ORDER BY ra.risorsa ASC, ra.anno ASC, ra.mese ASC";
-		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find(query).fetch();
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.findAndOrder();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
 		paginator.setPageSize(5);
 		render(paginator);
 	}
+
 	
-	public static void show(Integer idRisorsa, String mese, String anno){
+	public static void show(Integer idRisorsa, int mese, int anno){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
-		System.out.println(idRisorsa + " " + mese + " " + anno);
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
 		paginator.setPageSize(5);
@@ -79,6 +67,7 @@ public class RendicontoAttivitaController extends Controller {
 	}
 	
 	public static void update(@Valid RendicontoAttivita rendicontoAttivita){
+		//validazione lettere e no numeri
 		if(rendicontoAttivita.oreLavorate == null || rendicontoAttivita.equals("")){
 			validation.addError("oreLavorate", "Ore lavorate oblicatorio");
 		}
@@ -91,6 +80,7 @@ public class RendicontoAttivitaController extends Controller {
 	}
 
 	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") String idRisorsa, @Required(message="Inserire la data") String data) {
+		
 		if(validation.hasErrors()){
 			flash.error("");
 			validation.keep();
@@ -98,7 +88,7 @@ public class RendicontoAttivitaController extends Controller {
 		}
 		Risorsa risorsa = Risorsa.findById(Integer.parseInt(idRisorsa));
 		String[] meseAnno = data.split("-");
-		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, meseAnno[0].trim(), meseAnno[1].trim()).first();
+		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, Integer.parseInt(meseAnno[0].trim()), Integer.parseInt(meseAnno[1].trim())).first();
 		if(ra != null){
 			validation.addError("meseAnno", "il rapportino per il mese " + meseAnno[0].trim() + "-" + meseAnno[1].trim() +" della risorsa " + risorsa.cognome + " già esistente");
 			render("RendicontoAttivitaController/chooserisorsa.html");
@@ -124,7 +114,7 @@ public class RendicontoAttivitaController extends Controller {
 						throw new IllegalArgumentException();
 					}
 					Integer idCommessa = Integer.parseInt(key.substring(3));
-					new RendicontoAttivita(oreLavorate, mese, anno, risorsa, (Commessa) Commessa.findById(idCommessa)).save();
+					new RendicontoAttivita(oreLavorate, Integer.parseInt(mese), Integer.parseInt(anno), risorsa, (Commessa) Commessa.findById(idCommessa)).save();
 				}
 			}
 		} catch (IllegalArgumentException e) {

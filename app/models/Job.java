@@ -35,4 +35,13 @@ public class Job extends GenericModel {
 	 @ManyToMany
 	 public List<Ruolo> ruoli = new ArrayList<Ruolo>();
 
+
+	
+public void addRuolo(models.Ruolo r){
+		
+		ruoli.add(r);
+		r.addJob(this);
+		
+	}
+
 }
