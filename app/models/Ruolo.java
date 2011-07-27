@@ -37,7 +37,8 @@ public class Ruolo extends GenericModel{
 	 @ManyToMany(mappedBy="ruoli")
 	 List<Utente> utenti = new ArrayList<Utente>();
 	 
-	 @ManyToMany(mappedBy="ruoli", cascade=CascadeType.ALL)
+	
+	 @ManyToMany(mappedBy="ruoli")
 	 public List<Job> jobs = new ArrayList<Job>();
 
 	//constructors
@@ -53,12 +54,32 @@ public class Ruolo extends GenericModel{
 		
 	}
 	
-public void addJob(models.Job job){
+
+	public void addJob(models.Job job){
 		
 		jobs.add(job);
-		job.ruoli.add(this);
+		
 		
 	}
+
+public void remove() {
+	
+     for (Job j: this.jobs){
+    	 j.ruoli.remove(this);
+    	 j.save();	 
+     }
+     for (Utente u:this.utenti){
+    	 u.ruoli.remove(this);
+    	 u.save();
+     }
+    
+     this.delete();
+     
+	
+	
+}
+
+
 	
 	
 	

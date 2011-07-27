@@ -72,9 +72,7 @@ public class Utente extends GenericModel {
 	
 	public boolean isAuthorized(String path){
 		for (Ruolo r: ruoli){
-			
 			for (models.Job j : r.jobs){
-				
 				String ctrlName[] = path.split("/");
 				String pathAuthorized[] = j.descrizione.split("/");
 				if (pathAuthorized[1].equals("*") && ctrlName[0].equals(pathAuthorized[0])){
