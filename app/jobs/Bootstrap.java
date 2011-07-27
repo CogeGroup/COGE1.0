@@ -253,6 +253,8 @@ public class Bootstrap extends play.jobs.Job {
       j4.addRuolo(ruolo1);
       j4.save();
       j5.addRuolo(ruolo1);
+      j5.save();
+      j6.addRuolo(ruolo1);
       j6.save();
       j7.addRuolo(ruolo1);
       j7.save();
@@ -298,6 +300,8 @@ public class Bootstrap extends play.jobs.Job {
       j10.addRuolo(ruolo2);
       j10.save();
       j11.addRuolo(ruolo2);
+      j11.save();
+      j12.addRuolo(ruolo2);
       j12.save();
       j13.addRuolo(ruolo2);
       j13.save();
