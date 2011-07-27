@@ -57,19 +57,19 @@ public class Tariffa extends GenericModel{
 	
 	public static Tariffa calcolaTariffaRisorsaCommessa(String mese,String anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
-		Date dataRapporto;
 		try {
-			dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
-			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataRapporto and (t.dataFine is null or t.dataFine >= :dataRapporto)");
+			Date dataInizioRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
+			Date dataFineRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("31/" + mese + "/" + anno);
+			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
 			query.bind("commessa", commessa);
 			query.bind("risorsa",risorsa);
-			query.bind("dataRapporto", dataRapporto);
+			query.bind("dataInizioRapporto", dataInizioRapporto);
+			query.bind("dataFineRapporto", dataFineRapporto);
 			Object t = query.first();
 			if (t != null){
-		    tariffa = (Tariffa)t;
+				tariffa = (Tariffa)t;
 			}
 		} catch (ParseException e) {
-
 			e.printStackTrace();
 		}
 		return tariffa;
