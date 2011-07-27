@@ -1,6 +1,9 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +65,20 @@ public class LogInController extends Controller {
     	
         Map reportParams = new HashMap();
         reportParams.put("MESE", "7");
+        reportParams.put("ANNO", "2011");
+       try {
+		Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + "07" + "/" + "2011");
+	} catch (ParseException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
         reportParams.put("cognome", "b");
         reportParams.put("costoUnitario", "c");
         
          try{
               
                
-              JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(list);                       
+             // JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(list);                       
               JasperPrint jrprint =  JasperFillManager.fillReport("c://WSCoge//COGE1.0//reports//report2.jasper", reportParams,DB.getConnection()); 
               response.setHeader("Content-disposition", "attachment;filename=report.pdf");
               JasperExportManager.exportReportToPdfStream(jrprint,response.out);

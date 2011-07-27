@@ -17,7 +17,7 @@ public class Security extends Secure.Security {
     	
     	//System.out.println("metodo check nostro..."  );  	
       	String requestPath = Application.request.controller + "/" + Application.request.actionMethod;
-      	System.out.println(requestPath);
+      	//System.out.println(requestPath);
       	Utente user = Utente.find("byUsername", session.get("username")).first();
       
       	return user.isAuthorized(requestPath);
