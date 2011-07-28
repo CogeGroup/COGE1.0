@@ -224,49 +224,60 @@ public class Bootstrap extends play.jobs.Job {
       Costo cs1 = new Costo(importo,new Date(),r1);
       cs1.save();
       
-      //job da assegnare a tutti gli utenti
-      Job j0 = new Job("LogInController/index");
+      Ruolo ruolo1 = new Ruolo("admin").save();
+      Ruolo ruolo2 = new Ruolo("segreteria").save();
       
-      Ruolo ruolo1 = new Ruolo("admin");
+      
+      //job da assegnare a tutti gli utenti
+      Job j0 = new Job("LogInController/*").save();
       //jobs del ruolo admin
-     
       Job j1 = new Job("AccountController/*");
       Job j2 = new Job("ClientiController/*");
       Job j3 = new Job("CommesseController/*");
-      Job j4 = new Job("CostiController/*");
+      Job j4 = new Job("CostiController/*").save();
       Job j5 = new Job("RendicontoAttivitaController/*");
       Job j6 = new Job("RisorseController/*");
       Job j7 = new Job("TariffeController/*");
       Job j8 = new Job("RapportoLavoroController/*");
       Job j9 = new Job("TipoRapportoLavoroController/*");
       
-     
-      ruolo1.addJob(j0);
-      ruolo1.addJob(j1);
-      ruolo1.addJob(j2);
-      ruolo1.addJob(j3);
-      ruolo1.addJob(j4);
-      ruolo1.addJob(j5);
-      ruolo1.addJob(j6);
-      ruolo1.addJob(j7);
-      ruolo1.addJob(j8);
-      ruolo1.addJob(j9);
-     
-      
-      ruolo1.save();
+      j0.addRuolo(ruolo1);
+      j0.addRuolo(ruolo2);
+      j0.save();
+      j1.addRuolo(ruolo1);
+      j1.save();
+      j2.addRuolo(ruolo1);
+      j2.save();
+      j3.addRuolo(ruolo1);
+      j3.save();
+      j4.addRuolo(ruolo1);
+      j4.save();
+      j5.addRuolo(ruolo1);
+      j5.save();
+      j6.addRuolo(ruolo1);
+      j6.save();
+      j7.addRuolo(ruolo1);
+      j7.save();
+      j8.addRuolo(ruolo1);
+      j8.save();
+      j9.addRuolo(ruolo1);
+      j9.save();
       
       Utente u1 = new Utente("a","a",true);
+      
       u1.addRuolo(ruolo1);
       
       u1.risorsa=r1;
       u1.save();
       
-     
+//      Ruolo r = Ruolo.findById(1);
+//      r.remove();
+//      r.save();
+//      
       
       
       
-      
-      Ruolo ruolo2 = new Ruolo("segreteria");
+    
       //jobs associati al ruolo segreteria
       Job j10 = new Job("AccountController/index");
       Job j11 = new Job("AccountController/listUtenti");
@@ -284,37 +295,47 @@ public class Bootstrap extends play.jobs.Job {
       Job j23 = new Job("RapportoLavoroController/show");
       Job j24 = new Job("CostiController/list");
       Job j25 = new Job("TipoRapportoLavoroController/index");
-    
       
-      ruolo2.addJob(j0);
-      ruolo2.addJob(j9);
-      ruolo2.addJob(j10);
-      ruolo2.addJob(j11);
-      ruolo2.addJob(j12);
-      ruolo2.addJob(j13);
-      ruolo2.addJob(j14);
-      ruolo2.addJob(j15);
-      ruolo2.addJob(j16);
-      ruolo2.addJob(j17);
-      ruolo2.addJob(j18);
-      ruolo2.addJob(j19);
-      ruolo2.addJob(j20);
-      ruolo2.addJob(j21);
-      ruolo2.addJob(j22);
-      ruolo2.addJob(j23);
-      ruolo2.addJob(j24);
-      ruolo2.addJob(j25);
+     
+      j10.addRuolo(ruolo2);
+      j10.save();
+      j11.addRuolo(ruolo2);
+      j11.save();
+      j12.addRuolo(ruolo2);
+      j12.save();
+      j13.addRuolo(ruolo2);
+      j13.save();
+      j14.addRuolo(ruolo2);
+      j14.save();
+      j15.addRuolo(ruolo2);
+      j15.save();
+      j16.addRuolo(ruolo2);
+      j16.save();
+      j17.addRuolo(ruolo2);
+      j17.save();
+      j18.addRuolo(ruolo2);
+      j18.save();
+      j19.addRuolo(ruolo2);
+      j19.save();
+      j20.addRuolo(ruolo2);
+      j20.save();
+      j21.addRuolo(ruolo2);
+      j21.save();
+      j22.addRuolo(ruolo2);
+      j22.save();
+      j23.addRuolo(ruolo2);
+      j23.save();
+      j24.addRuolo(ruolo2);
+      j24.save();
+      j25.addRuolo(ruolo2);
+      j25.save();
+      
       
       
      
-      ruolo2.save();
       
       Utente u2 = new Utente("s","s",true);
       u2.addRuolo(ruolo2);
-      
-
-      
-      
       
       u2.risorsa=r2;
       u2.save();

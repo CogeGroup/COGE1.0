@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MESE" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.codice as codice, trl.descrizione as descrizione, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as oreLavorate,
+sum(c.importo * ra.oreLavorate / 8) as costoTot, sum(t.importoGiornaliero * ra.oreLavorate /8) as ricavoTotale, count(distinct(r.idRisorsa)) as numRisorse
+FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rapportolavoro` rl, `rendicontoattivita` ra, `tiporapportolavoro` trl
+where r.idRisorsa = c.risorsa_idRisorsa
+and c.dataInizio <= '2010-06-01 00:00:00'
+and (c.dataFine is null or c.dataFine >= '2010-06-30 00:00:00')
+and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
+and t.dataInizio <= '2010-06-01 00:00:00'
+and (t.dataFine is null or t.dataFine >= '2010-06-30 00:00:00')
+and r.idRisorsa = rl.risorsa_idRisorsa
+and rl.dataInizio <= '2010-06-01 00:00:00'
+and (rl.dataFine is null or rl.dataFine >= '2010-06-30 00:00:00')
+and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
+and ra.mese=$P{MESE} and ra.anno='2010'
+and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
+	</queryString>
+	<field name="idTipoRapportoLavoro" class="java.lang.Integer"/>
+	<field name="codice" class="java.lang.String"/>
+	<field name="descrizione" class="java.lang.String"/>
+	<field name="oreLavorate" class="java.math.BigDecimal"/>
+	<field name="costoTot" class="java.lang.Double"/>
+	<field name="ricavoTotale" class="java.lang.Double"/>
+	<field name="numRisorse" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[numRisorse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[descrizione]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[codice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[oreLavorate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[ricavoTotale]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<text><![CDATA[costoTot]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{oreLavorate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavoTotale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
