@@ -27,7 +27,6 @@ public class Tariffa extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idTariffa;
 	
-	@Required(message="Data inizio obligatoria")
 	@As("dd-MM-yyyy")
 	public Date dataInizio;
 	
