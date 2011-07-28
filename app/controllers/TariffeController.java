@@ -35,7 +35,7 @@ public class TariffeController extends Controller {
     
     public static void create(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
-    	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+    	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	int meseInizio = Calendar.getInstance().get(Calendar.MONTH);
         int annoInizio = Calendar.getInstance().get(Calendar.YEAR);
@@ -49,7 +49,7 @@ public class TariffeController extends Controller {
     public static void save(@Valid Tariffa tariffa, Integer idRisorsa, @Required(message="Selezionare una commessa") Integer idCommessa, int meseInizio, int annoInizio) {
     	// Validazione del form
     	if(validation.hasErrors()) {
-    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
         	render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse, meseInizio, listaAnni, annoInizio);
     	}
@@ -62,7 +62,7 @@ public class TariffeController extends Controller {
         tariffa.dataInizio = dataInizio;
         
         if(!validateForSave(tariffa, idRisorsa, meseInizio, annoInizio, dataInizio, commessa, risorsa)){
-        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
         	render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse, meseInizio, listaAnni, annoInizio);
         }
@@ -175,7 +175,7 @@ public class TariffeController extends Controller {
     public static void update(@Valid Tariffa tariffa, Integer idCommessa, int meseInizio, int annoInizio, int meseFine, int annoFine) {
     	// Validazione del form
     	if(validation.hasErrors()) {
-    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+    		List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
         	List<Integer> listaAnni = MyUtility.createListaAnni();
             render("TariffeController/edit.html", tariffa, listaCommesse, meseInizio, listaAnni, annoInizio, meseFine, annoFine);
     	}
@@ -186,7 +186,7 @@ public class TariffeController extends Controller {
         tariffa.dataInizio = dataInizio;
         
         if(!valitateForUpdate(tariffa, meseInizio, annoInizio, meseFine, annoFine, dataInizio, commessa)){
-        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+        	List<Commessa> listaCommesse = Cliente.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
         	List<Integer> listaAnni = MyUtility.createListaAnni();
             render("TariffeController/edit.html", tariffa, listaCommesse, meseInizio, listaAnni, annoInizio, meseFine, annoFine);
         }
