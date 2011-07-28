@@ -26,6 +26,7 @@
 			<th scope="col">Id Tariffa</th>
 			<th scope="col">Data Inizio</th>
 			<th scope="col">Data Fine</th>
+			<th scope="col">Importo Giornaliero</th>
 			<th scope="col">Commessa</th>
 			#{if !risorsa.dataOut}
 				<th scope="col">Modifica</th>
@@ -38,6 +39,7 @@
 			<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
 			<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 			<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
+			<td>${tariffa.importoGiornaliero}</td>
 			<td>${tariffa.commessa.codice }</td>
 			#{if !risorsa.dataOut}
 					<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
