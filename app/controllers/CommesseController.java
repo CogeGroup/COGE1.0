@@ -20,8 +20,6 @@ public class CommesseController extends Controller {
     }
     
     public static void list() {
-    	Commessa commessa = Commessa.findById(1);
-    	System.out.println(commessa.calcolaRicavo("07", "2010"));
     	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaCommesse);
 		paginator.setPageSize(5);
