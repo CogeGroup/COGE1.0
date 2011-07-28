@@ -186,8 +186,7 @@ public class Risorsa extends GenericModel {
 		float ricavo = 0f;
 		float costoTotale = 0f;
 		List<Risorsa> lista = new ArrayList<Risorsa>(); 
-		
-		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
+		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,Integer.parseInt(mese),Integer.parseInt(anno)).fetch();
 		if (listaRendicontoAttivita == null || listaRendicontoAttivita.size() == 0)
 			return lista;
 		
@@ -195,13 +194,12 @@ public class Risorsa extends GenericModel {
 			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, ra.risorsa, ra.commessa);
 			if(ra.commessa.fatturabile){
 				ricavo = t.calcolaRicavoTariffa(ra.oreLavorate);
-				
-				JPAQuery query = Costo.find("from Costo c where c.risorsa=:risorsa and (c.dataInizio >= :dataInizio or c.dataFine <= :dataFine)");
+				JPAQuery query = Costo.find("from Costo c where c.risorsa=:risorsa and (c.dataInizio <= :dataFine or c.dataFine >= :dataInizio)");
 				query.bind("risorsa", ra.risorsa);
 				query.bind("dataInizio", new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno));
 				query.bind("dataFine", new SimpleDateFormat("dd/MM/yyyy").parse("31/" + mese + "/" + anno));
-				
 				Costo costo = query.first();
+				System.out.println(ra.risorsa.nome + " " + costo.idCosto);
 				if(costo != null)
 					costoTotale = (costo.importo/8)*ra.oreLavorate;
 				else

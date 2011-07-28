@@ -13,7 +13,7 @@ public class StatisticheRisorsaController extends Controller {
     	List<Risorsa> risorse = Risorsa.findAll();
     	List<Risorsa> reports = new ArrayList<Risorsa>();
     	for (Risorsa risorsa : risorse) {
-    		reports.addAll(risorsa.reportRisorse("07", "2011"));
+    		reports.addAll(risorsa.reportRisorse("07", "2010"));
 		}
     	System.out.println("matr | cod | nome | rapp | ore | ricavo | costo | margine | tariffa | cliente/commessa");
     	for (Risorsa report : reports) {
