@@ -214,6 +214,7 @@ public class Risorsa extends GenericModel {
 				RisorsaReport.ore = ra.oreLavorate;
 				RisorsaReport.ricavo = ricavo;
 				RisorsaReport.costo = costoTotale;
+				// non so se la formula è giusta
 				RisorsaReport.margine = ((ricavo-costoTotale)*100)/ricavo + "%";
 				RisorsaReport.importoTariffa = t.importoGiornaliero;
 				RisorsaReport.clienteProgetto = ra.commessa.cliente.codice + "-" + ra.commessa.codice;

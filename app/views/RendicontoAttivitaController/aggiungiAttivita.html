@@ -1,33 +1,30 @@
 #{extends 'menu.html' /}
-#{set title:'Inserisci Rapportini' /}
+#{set title:'Aggiungi Attivita' /}
 
 #{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
 #{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
 
- <script type="text/javascript">
- $(document).ready(function() {
-               $("#addComm").click(function() {
-               var valoreCommessa = document.getElementById("addCommessa").value;
-               var html;
-                    if($('#id_'+valoreCommessa).size() == 0){
-	                   if(valoreCommessa != 0){
-	                   var descrizione = $("#addCommessa option:selected").text();
-	                   html=$("<li id=\"id_"+valoreCommessa+"\"><label>"+descrizione+" - Totale Ore: </label><input type=\"text\" id=\"id_"+valoreCommessa+"\"  name=\"id_"+valoreCommessa+"\" class=\"txt_s\"/> <input type=\"button\" id=\"id_"+valoreCommessa+"\" value=\"Elimina\" onclick=\"javascript:elimina(this);\" /></li>");
-	                   $('#result').append(html);
-	                  }
-                  }
-                   });
-                
-              
-           }) 
-           
-	function elimina(commessa){
-       var a = commessa.id; 
-       $('#'+a).remove();
-   	}
- </script>
+ 	<script type="text/javascript">
+ 		$(document).ready(function() {
+        	$("#addComm").click(function() {
+            	var valoreCommessa = document.getElementById("addCommessa").value;
+               	var html;
+                if($('#id_'+valoreCommessa).size() == 0){
+	            	if(valoreCommessa != 0){
+	                	var descrizione = $("#addCommessa option:selected").text();
+	                   	html=$("<li id=\"id_"+valoreCommessa+"\"><label>"+descrizione+" - Totale Ore: </label><input type=\"text\" id=\"id_"+valoreCommessa+"\"  name=\"id_"+valoreCommessa+"\" class=\"txt_s\"/> <input type=\"button\" id=\"id_"+valoreCommessa+"\" value=\"Elimina\" onclick=\"javascript:elimina(this);\" /></li>");
+	                  	$('#result').append(html);
+	              	}
+              	}
+          	});
+      	}) 
+		function elimina(commessa){
+       		var a = commessa.id; 
+       		$('#'+a).remove();
+   		}
+ 	</script>
 
-<h2>Inserimento Rapportino (2/2)</h2>
+<h2>Aggiungi Attivita'</h2>
 
 <div id="editRapportino">
 

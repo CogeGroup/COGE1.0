@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.hql.classic.GroupByParser;
 
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
@@ -49,22 +50,24 @@ public class RendicontoAttivita extends GenericModel {
 		this.risorsa = risorsa;
 		this.commessa = commessa;
 	}
-	
 
-	public static List<RendicontoAttivita> findByExample(Integer idRisorsa,String data) {
-		Session session = (Session)JPA.em().getDelegate();
-		Criteria cri = session.createCriteria(RendicontoAttivita.class);
+	public static List<RendicontoAttivita> findByExample(Integer idRisorsa,int mese,int anno) {
+		
+		String query = "SELECT ra " +
+			"FROM RendicontoAttivita ra WHERE 1=1 ";
+		
 		if(idRisorsa != null && idRisorsa > 0){
-			cri.add(Restrictions.eq("risorsa", Risorsa.findById(idRisorsa)));
+			Risorsa risorsa = Risorsa.findById(idRisorsa);
+			query += "AND ra.risorsa=" + risorsa; 
 		}
-		if(data != null && !data.equals("")){
-			String[] meseAnno = data.split("-");
-			cri.add(Restrictions.eq("mese", Integer.parseInt(meseAnno[0].trim())));
-			cri.add(Restrictions.eq("anno", Integer.parseInt(meseAnno[1].trim())));
+		if(mese != -1 && anno != -1){
+			query += " AND ra.mese=" + mese + " AND anno=" + anno;
 		}
-		cri.addOrder(Order.asc("anno"));
-		cri.addOrder(Order.asc("mese"));
-		List<RendicontoAttivita> listaRapportini = cri.list();
+		
+		query += "GROUP BY ra.risorsa, ra.mese, ra.anno " +
+			"ORDER BY ra.risorsa ASC, ra.anno ASC, ra.mese ASC";
+		
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find(query).fetch();
 		return listaRapportini;
 	}
 	
@@ -76,6 +79,5 @@ public class RendicontoAttivita extends GenericModel {
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find(query).fetch();
 		return listaRapportini;
 	}
-	
 
 }

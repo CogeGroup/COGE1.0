@@ -18,6 +18,7 @@ import play.data.validation.Min;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
+import utility.MyUtility;
 
 
 @javax.persistence.Entity
@@ -82,33 +83,25 @@ public class Tariffa extends GenericModel{
 		return this.importoGiornaliero /8;
 	}
 
-	public static List<Commessa> trovaCommessePerRisorsa(String mese,
-			String anno, Risorsa risorsa) {
+	public static List<Commessa> trovaCommessePerRisorsa(int mese,
+			int anno, Risorsa risorsa) {
 		List<Commessa> listaCommesse = new ArrayList<Commessa>();
 		
-		try {
-			Date dataRapportoFine = new SimpleDateFormat("dd/MM/yyyy").parse("31/" + mese + "/" + anno);
-			Date dataRapportoInizio = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
-			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
-			query.bind("dataRapportoFine", dataRapportoFine);
-			query.bind("dataRapportoInizio", dataRapportoInizio);
-			query.bind("risorsa",risorsa);
-			List<Tariffa> listaTariffe = query.fetch();
-			if (listaTariffe != null && !listaTariffe.isEmpty()){
-			   for(Tariffa t:listaTariffe){
-				   if(!(t.commessa instanceof CommessaACorpo)){
-					   listaCommesse.add(t.commessa);
-				   }
+		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
+		query.bind("dataRapportoFine", dataRapportoFine);
+		query.bind("dataRapportoInizio", dataRapportoInizio);
+		query.bind("risorsa",risorsa);
+		List<Tariffa> listaTariffe = query.fetch();
+		if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   if(!(t.commessa instanceof CommessaACorpo)){
+				   listaCommesse.add(t.commessa);
 			   }
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return null;
-		} 		
-		
-		
+		   }
+		}
 		return listaCommesse;
-				
 	}
 	
 	/* chiude tutte le tariffe associate a una commessa
