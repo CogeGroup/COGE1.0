@@ -29,12 +29,12 @@ public class Bootstrap extends play.jobs.Job {
     	
     	
 //      System.out.println(".....init"); 
-      try {
-	   setup();
-	} catch (ParseException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+//      try {
+//	   setup();
+//	} catch (ParseException e1) {
+//		// TODO Auto-generated catch block
+//		e1.printStackTrace();
+//	}
 //      
 //      try {
 //    	  testCalcoloRicavoPerRapportoLavoro();

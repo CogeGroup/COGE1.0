@@ -33,21 +33,30 @@
 
    #{if listaCommesse!= null}
 
- #{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
+#{form @rendicontoattivitacontroller.saveRendicontoAttivita()} 
 	 #{ifErrors}
         <p class="error">
 			${errors[0]}
+			#{if errors[0]="modifica"}
+				<br><a href="@{RendicontoAttivitaController.aggiungiAttivita(idRisorsa,mese,anno)}">modifica</a>
+			#{/if}
 		</p>
     #{/ifErrors}
 
-    <h3>Lista Commesse</h3>
+    <h3>Lista Commesse ${mese}-${anno}</h3>
 
     <ul>
 	#{list items:listaCommesse, as:'commessa'}
-    <li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" /></li>
-	#{/list}
+    <li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" 
+    		#{list items:listaRendicontoAttivita, as:'randicontoAttivita'}
+    			#{if randicontoAttivita.commessa.idCommessa == commessa.idCommessa}
+    				value="${randicontoAttivita.oreLavorate }"
+    			#{/if}
+    		#{/list}
+    	/></li>
+    #{/list}
     </ul>
-    #{if listaCommesseNonFatturabili!= null}
+    #{if listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0}
     <hr>
     <li><label>Commesse non Fatturabili<label>
 	    #{select 'comm', value:idCommessa, id:'addCommessa'}  

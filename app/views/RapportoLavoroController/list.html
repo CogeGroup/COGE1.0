@@ -16,50 +16,57 @@
 </div>
 
 
+
 #{if risorsa.rapportiLavoro.size() > 0}
-	<table class="table_center">
-	<thead>
-		<tr>
-			<th scope="col">Data Inizio</th>
-			<th scope="col">Data Fine</th>
-			<th scope="col">Tipo Rapporto Lavoro</th>
-			#{if risorsa.dataOut == null}
-    			<th scope="col">Modifica</th>
-				<th scope="col">Elimina</th>
-    		#{/if}
-		</tr>
-	</thead>
-		#{list items:risorsa.rapportiLavoro, as:'rapportoLavoro', startIndex: 0}
-			<tr>
-    			<td>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</td>
-    			<td>${rapportoLavoro.dataFine?.format('dd-MM-yyyy')}</td>
-    			<td>${rapportoLavoro.tipoRapportoLavoro.codice} - ${rapportoLavoro.tipoRapportoLavoro.descrizione}</td>
-    			#{if risorsa.dataOut == null}
-    				#{if rapportoLavoro_index == risorsa.rapportiLavoro.size()}
-    					<td>
-    						<a href="@{RapportoLavoroController.edit(rapportoLavoro.idRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-    						#{if risorsa.rapportiLavoro.size() > 1}
-    							<td><a href="@{RapportoLavoroController.delete(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"><img src="@{'/public/images/delete.gif'}" alt="delete" /></a></td>
-    						#{/if}
-    						#{else}
-    							<td></td>
-    						#{/else}
-    					</td>
-    					#{/if}
-    				#{else}
-    					<td></td>
-    					<td></td>
-    				#{/else}
-    			#{/if}
-    		</tr>
-		#{/list}
-  	</table>
+			<table class="table_center">
+					<thead>
+						<tr>
+							<th scope="col">Data Inizio</th>
+							<th scope="col">Data Fine</th>
+							<th scope="col">Tipo Rapporto Lavoro</th>
+							#{if risorsa.dataOut == null}
+				    			<th scope="col">Modifica</th>
+								<th scope="col">Elimina</th>
+				    		#{/if}
+						</tr>
+					</thead>
+						#{paginate.list items:paginator, as:'rapportoLavoro'} 
+							<tr>
+				    			<td>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</td>
+				    			<td>${rapportoLavoro.dataFine?.format('dd-MM-yyyy')}</td>
+				    			<td>${rapportoLavoro.tipoRapportoLavoro.codice} - ${rapportoLavoro.tipoRapportoLavoro.descrizione}</td>
+				    			#{if risorsa.dataOut == null}
+				    				#{if rapportoLavoro_index == risorsa.rapportiLavoro.size()}
+				    					<td>
+				    						<a href="@{RapportoLavoroController.edit(rapportoLavoro.idRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+				    						#{if risorsa.rapportiLavoro.size() > 1}
+				    							<td><a href="@{RapportoLavoroController.delete(rapportoLavoro.idRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler eliminare il rapporto lavoro?')"><img src="@{'/public/images/delete.gif'}" alt="delete" /></a></td>
+				    						#{/if}
+				    						#{else}
+				    							<td></td>
+				    						#{/else}
+				    					</td>
+				    					#{/if}
+				    				#{else}
+				    					<td></td>
+				    					<td></td>
+				    				#{/else}
+				    			#{/if}
+				    		</tr>
+			
+						#{/paginate.list}
+				  	</table>
+		  	<div id="datatable_costi">
+				#{paginate.controls items:paginator /}
+			</div>
   #{/if}
  #{else}
 <center> <h3>Non vi sono Rapporti di Lavoro per la risorsa.</h3></center>
  #{/else}
 
+
 <div id="buttonSubmitDouble_center">
+	
 	#{if !risorsa.dataOut}
 		#{form @RapportoLavoroController.create(risorsa.idRisorsa)}
 	    

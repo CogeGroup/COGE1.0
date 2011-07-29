@@ -11,7 +11,7 @@
     <p class="error">${flash.error}</p>
 #{/elseif}
 
-#{if listaTipoRapportoLavoro != null && listaTipoRapportoLavoro.size() > 0}
+#{if paginator.size() > 0}
 
 
 	<table class="table_center">
@@ -24,7 +24,7 @@
 			<td></td>
 		</tr>
 	</thead>
-		#{list items:listaTipoRapportoLavoro, as:'tipoRapportoLavoro', startIndex: 0}
+		#{paginate.list items:paginator, as:'tipoRapportoLavoro'} 
 			<tr>
     			<td>
     				<a href="@{TipoRapportoLavoroController.show(tipoRapportoLavoro.idTipoRapportoLavoro)}"> ${tipoRapportoLavoro.codice} </a>
@@ -37,9 +37,11 @@
     				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
     			</td>
     		</tr>
-		#{/list}
+		#{/paginate.list}
   	</table>
-
+	<div id="datatable_costi">
+		#{paginate.controls items:paginator /}
+	</div>
 #{/if}
 #{else}
     <center><h3>Non vi sono Rapporti di lavoro presenti nel sistema.</h3></center>
