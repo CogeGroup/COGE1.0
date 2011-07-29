@@ -4,8 +4,7 @@
 <div id="edit">
 <ul>
 	<li><label>Matricola:</label> ${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
+	<li><label>Risorsa: </label>${risorsa.cognome} ${risorsa.nome}</li> 
 </ul>
 </div>
 
@@ -17,32 +16,20 @@
 
 	<table class="table_rapportini">
 		 <caption>
-		    <h3>Rapportini del: ${mese}-${anno}</h3>
+		    <h3>Rapportino del: ${mese}-${anno}</h3>
 		   </caption>
 		<thead>
 			<tr>
-				<!--
-				<th scope="col">Risorsa</th>
-				<th scope="col">Mese</th>
-				<th scope="col">Anno</th>
-				-->
 				<th scope="col">Commessa</th>
 				<th scope="col">Ore Lavorate</th>
-				<th scope="col">Modifica</th>
 				<th scope="col">Elimina</th>
 			</tr>
 		</thead>
 			
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
 		<tr>
-			<!--
-			<td>${rendicontoAttivita.risorsa.matricola }</td>
-			<td>${rendicontoAttivita.mese }</td>
-			<td>${rendicontoAttivita.anno }</td>
-			-->
 			<td>${rendicontoAttivita.commessa.codice }</td>
 			<td>${rendicontoAttivita.oreLavorate }</td>
-			<td><a href="@{RendicontoAttivitaController.edit(rendicontoAttivita.idRendicontoAttivita)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 			<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
 				onclick="return confirm('Continuare con la cancellazzione del rapportino della risorsa: ${rendicontoAttivita.risorsa.matricola}, relativo al ${rendicontoAttivita.mese }-${rendicontoAttivita.anno }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 		</tr>

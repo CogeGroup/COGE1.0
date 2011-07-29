@@ -30,7 +30,7 @@
 
    #{if listaCommesse!= null}
 
- #{form @rendicontoattivitacontroller.saveAttivita()}
+ #{form @rendicontoattivitacontroller.saveRendicontoAttivita()}
 	 #{ifErrors}
         <p class="error">
 			${errors[0]}
@@ -41,10 +41,16 @@
 
     <ul>
 	#{list items:listaCommesse, as:'commessa'}
-    <li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" /></li>
+    <li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" 
+	    	#{list items:listaRendicontoAttivita, as:'randicontoAttivita'}
+	    		#{if randicontoAttivita.commessa.idCommessa == commessa.idCommessa}
+	    			value="${randicontoAttivita.oreLavorate }"
+	    		#{/if}
+	    	#{/list}
+	    /></li>
 	#{/list}
     </ul>
-    #{if listaCommesseNonFatturabili!= null}
+    #{if listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0}
     <hr>
     <li><label>Commesse non Fatturabili<label>
 	    #{select 'comm', value:idCommessa, id:'addCommessa'}  
@@ -68,7 +74,7 @@
 
 </div>
   <div id="button_center">       
- 	<input type="submit" class="submitbutton" value="Salva" />
+ 	<input type="submit" class="submitbutton" value="Aggiorna" />
  </div>
      
 #{/form}
