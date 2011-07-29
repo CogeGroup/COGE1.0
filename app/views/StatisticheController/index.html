@@ -1,0 +1,7 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche' /}
+
+		<div id="top">
+			<p>#{a @StatisticheController.tipoRapportoLavoro()}Statistica Tipo Rapporto Lavoro#{/a}</p>
+			<p>#{a @StatisticheController.clienti()}Statistica Clienti#{/a}</p>
+		</div>

@@ -56,6 +56,9 @@
     </p>
     
 #{/ifErrors}
+#{if flash.error}
+ 	<p class="error">${flash.error} </p>
+#{/ if}
    <ul>
 	    <li>
 	        <label for="username">Username:</label>
@@ -71,8 +74,8 @@
 	    <input type="text" class="txt_m" id="ruolo" name="ruolo" />
 	    </li>
 	    <li>
-	    <label for="matricola">Risorsa <small>n° matricola</small></label>
-	       <input type="text" class="txt_m" name="risorsa" id="risorsa" value="${risorsa}"/><p class="error"> ${flash.error}</p>
+	    <label for="matricola">Risorsa <small>n. matricola</small></label>
+	       <input type="text" class="txt_m" name="risorsa" id="risorsa" value="${risorsa}"/>
 	          <input type="hidden" name="idRisorsa" id="idRisorsa" />
 	    </li>
      </ul>

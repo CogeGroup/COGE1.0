@@ -8,7 +8,7 @@
 
 #{if paginator.size() > 0}
 	
-	<table class="table_commesse">
+	<table class="table_center">
 	 <caption>
 	    <h3>Commesse</h3>
 	   </caption>
@@ -34,7 +34,7 @@
 			<td>${commessa.dataFineCommessa?.format('dd-MM-yyyy') }</td>
 			#{if commessa.cliente.attivo }
 			<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-			<td><a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessa.codice }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			<td><a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			#{/if}
 			#{else}
 			<td></td>
@@ -50,6 +50,6 @@
 #{else}
 	<center><h2>Non sono presenti commesse nel sistema.</h2></center>
 #{/else}
-<div id="button">
-<a id="create" href="@{CommesseController.create()}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+<div id="buttonSubmit_center">
+<a id="create" href="@{CommesseController.create()}"><input type="button" class="button_submit" value="Aggiungi"/></a>
 </div>

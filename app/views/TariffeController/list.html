@@ -2,13 +2,14 @@
 #{set title:'Gestione Tariffe'/}
 
 <h2>Gestione Tariffe</h2>
-<div id="edit">
+<div id="detail">
 <ul>
-	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Risorsa: </label>${risorsa.matricola}</li>
 	<li><label>Nome: </label>${risorsa.nome}</li> 
 	<li><label>Cognome: </label>${risorsa.cognome}</li>
 </ul>
 </div>
+
 
 #{if flash.success}
    	<p class="success">${flash.success}</p>
@@ -20,7 +21,7 @@
 #{/ifErrors}
 #{if paginator.size() > 0}
 	
-	<table class="table_tariffe">
+	<table class="table_center">
 	<thead>
 		<tr>
 			<th scope="col">Id Tariffa</th>

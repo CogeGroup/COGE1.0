@@ -2,9 +2,9 @@
 #{set title:'Lista Costi' /}
 
 <h1>Costi</h1>
-<div id="edit">
+<div id="detail">
 <ul>
-	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Risorsa: </label>${risorsa.matricola}</li>
 	<li><label>Nome: </label>${risorsa.nome}</li> 
 	<li><label>Cognome: </label>${risorsa.cognome}</li>
 </ul>
@@ -16,7 +16,7 @@
    	<p class="error">${flash.error}</p>
 #{/if}
 #{if paginator.size() > 0}
-	<table class="table_costi">
+	<table class="table_center">
 	<thead>
 		<tr>
 			<th scope="col">Importo</th>

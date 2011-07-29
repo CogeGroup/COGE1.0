@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="328" pageHeight="802" columnWidth="328" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="MESE" class="java.lang.String">
+	<parameter name="MESE" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ANNO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_INIZIO" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_FINE" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.codice as codice, trl.descrizione as descrizione, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as oreLavorate,
-sum(c.importo * ra.oreLavorate / 8) as costoTot, sum(t.importoGiornaliero * ra.oreLavorate /8) as ricavoTotale, count(distinct(r.idRisorsa)) as numRisorse
+sum(costo(c.importo,ra.oreLavorate)) as costoTot, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavoTotale, count(distinct(r.idRisorsa)) as numRisorse,
+sum(margine(costo(c.importo,ra.oreLavorate),ricavo(t.importoGiornaliero,ra.oreLavorate))) as margineTot
 FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rapportolavoro` rl, `rendicontoattivita` ra, `tiporapportolavoro` trl
 where r.idRisorsa = c.risorsa_idRisorsa
-and c.dataInizio <= '2010-06-01 00:00:00'
-and (c.dataFine is null or c.dataFine >= '2010-06-30 00:00:00')
+and c.dataInizio <= $P{DATA_INIZIO}
+and (c.dataFine is null or c.dataFine >= $P{DATA_FINE})
 and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
-and t.dataInizio <= '2010-06-01 00:00:00'
-and (t.dataFine is null or t.dataFine >= '2010-06-30 00:00:00')
+and t.dataInizio <= $P{DATA_INIZIO}
+and (t.dataFine is null or t.dataFine >= $P{DATA_FINE})
 and r.idRisorsa = rl.risorsa_idRisorsa
-and rl.dataInizio <= '2010-06-01 00:00:00'
-and (rl.dataFine is null or rl.dataFine >= '2010-06-30 00:00:00')
+and rl.dataInizio <= $P{DATA_INIZIO}
+and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE})
 and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
-and ra.mese=$P{MESE} and ra.anno='2010'
+and ra.mese=$P{MESE} and ra.anno=$P{ANNO}
 and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
 group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 	</queryString>
@@ -31,90 +41,104 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 	<field name="costoTot" class="java.lang.Double"/>
 	<field name="ricavoTotale" class="java.lang.Double"/>
 	<field name="numRisorse" class="java.lang.Long"/>
+	<field name="margineTot" class="java.lang.Double"/>
+	<variable name="RICAVO_TOTALE" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavoTotale}]]></variableExpression>
+	</variable>
+	<variable name="COSTO_TOTALE" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{costoTot}]]></variableExpression>
+	</variable>
+	<variable name="ORE_LAVORATE" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{oreLavorate}]]></variableExpression>
+	</variable>
+	<variable name="MARGINE_MEDIO" class="java.lang.Number" calculation="Average">
+		<variableExpression><![CDATA[$F{margineTot}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="92" height="20"/>
+				<reportElement x="114" y="0" width="62" height="20"/>
 				<textElement/>
-				<text><![CDATA[numRisorse]]></text>
+				<text><![CDATA[Codice]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="92" y="0" width="92" height="20"/>
+				<reportElement mode="Transparent" x="47" y="0" width="67" height="20" backcolor="#FFFFFF"/>
 				<textElement/>
-				<text><![CDATA[descrizione]]></text>
+				<text><![CDATA[Rapporto Lavoro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="184" y="0" width="92" height="20"/>
+				<reportElement x="0" y="0" width="47" height="20"/>
 				<textElement/>
-				<text><![CDATA[codice]]></text>
+				<text><![CDATA[Risorse]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="276" y="0" width="92" height="20"/>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="214" y="0" width="38" height="20" backcolor="#00CC33"/>
 				<textElement/>
-				<text><![CDATA[oreLavorate]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="368" y="0" width="92" height="20"/>
+				<textFieldExpression class="java.lang.Number"><![CDATA[$V{RICAVO_TOTALE}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="252" y="0" width="38" height="20" backcolor="#FF0000"/>
 				<textElement/>
-				<text><![CDATA[ricavoTotale]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="460" y="0" width="92" height="20"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{COSTO_TOTALE}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="176" y="0" width="38" height="20" backcolor="#00CCCC"/>
 				<textElement/>
-				<text><![CDATA[costoTot]]></text>
-			</staticText>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ORE_LAVORATE}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="#,##0.00 %">
+				<reportElement mode="Opaque" x="290" y="0" width="38" height="20" backcolor="#00CCCC"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$V{MARGINE_MEDIO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="328" height="1"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="22" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="92" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="92" y="0" width="92" height="20"/>
+				<reportElement mode="Transparent" x="47" y="0" width="67" height="20" backcolor="#FFFFFF"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="184" y="0" width="92" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="276" y="0" width="92" height="20"/>
+				<reportElement x="176" y="0" width="38" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{oreLavorate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="368" y="0" width="92" height="20"/>
+				<reportElement x="214" y="0" width="38" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavoTotale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="460" y="0" width="92" height="20"/>
+				<reportElement x="0" y="0" width="47" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="290" y="0" width="38" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margineTot}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="0" width="62" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="19" width="328" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="252" y="0" width="38" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

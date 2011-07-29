@@ -13,7 +13,8 @@
 
 #{if listaTipoRapportoLavoro != null && listaTipoRapportoLavoro.size() > 0}
 
-	<table class="table_rappLavoro">
+
+	<table class="table_center">
 	<thead>
 		<tr>
 			<th scope="col">Codice</th>
@@ -33,7 +34,7 @@
     				<a href="@{TipoRapportoLavoroController.edit(tipoRapportoLavoro.idTipoRapportoLavoro)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a>
     			</td>	
     			<td>	
-    				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
+    				<a href="@{TipoRapportoLavoroController.delete(tipoRapportoLavoro.idTipoRapportoLavoro)}" onclick="return confirm('Sei sicuro di voler procedere?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
     			</td>
     		</tr>
 		#{/list}
@@ -44,11 +45,9 @@
     <center><h3>Non vi sono Rapporti di lavoro presenti nel sistema.</h3></center>
 #{/else}
 
-<div id="button">
-#{form @TipoRapportoLavoroController.create()}
-    
-        <input type="submit" class="submitbutton" value="Aggiungi Tipo Rapporto Lavoro" />
-    
-#{/form}
 
+<div id="buttonSubmit_center">
+#{form @TipoRapportoLavoroController.create()}
+        <input type="submit" class="button_submit" value="Aggiungi" />
+#{/form}
 </div>

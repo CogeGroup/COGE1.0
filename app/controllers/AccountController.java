@@ -39,7 +39,7 @@ public class AccountController extends Controller {
 	    }
 	  
 	  public static void createUtente() {
-		  
+		  flash.error("");
 		 List<Ruolo> listaRuoli = Ruolo.findAll();
 		 List<Risorsa> listaRisorse = Risorsa.find("dataOut is null").fetch();
 		 render(listaRuoli,listaRisorse);
@@ -52,6 +52,14 @@ public class AccountController extends Controller {
 					 List<Ruolo> listaRuoli = Ruolo.findAll();
 					 List<Risorsa> listaRisorse = Risorsa.all().fetch();
 					render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
+			  }
+		  //controllo username unique
+			  Utente ut = Utente.find("byUsername", utente.username).first();
+			  if(ut!=null){
+				  flash.error("username presente nel sistema");
+				  List<Ruolo> listaRuoli = Ruolo.findAll();
+				  List<Risorsa> listaRisorse = Risorsa.all().fetch();
+				  render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
 			  }
 			  
 			  //Gestione Ruoli
@@ -114,6 +122,13 @@ public class AccountController extends Controller {
 				  String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
 				render("AccountController/showUtente.html",mylist,utente);
 		  }
+		  //controllo username unique
+		  Utente ut = Utente.find("byUsername", utente.username).first();
+		  if(ut!=null){
+			  flash.error("username presente nel sistema");
+			  String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
+			  render("AccountController/showUtente.html",mylist,utente);
+		  }
 		  //Gestione Ruoli
 		  String [] listaR = ruolo.split(",");
 		   //rimuovo gli eventuali valori doppi
@@ -162,6 +177,12 @@ public class AccountController extends Controller {
 	  
 	  public static void deleteUtente(Integer idU) {
 		   Utente u = Utente.findById(idU);
+		   if(session.get("username").equals(u.username)){
+			   flash.error("Non è stato possibile eliminare l'utente in sessione");
+		    	 List<Utente> listaUtenti = Utente.all().fetch();
+			     ValuePaginator<Utente> paginator = new ValuePaginator(listaUtenti);
+			     render("AccountController/listUtenti.html",paginator);
+			  }
 		   Utente uDel = u.delete();
 		   if(uDel !=null){
 		    	 flash.success("Utente eliminato con successo");

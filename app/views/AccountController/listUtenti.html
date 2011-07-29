@@ -2,13 +2,12 @@
 #{set title:'Gestione Utenti' /}
 
 
-#{ifErrors}
-    <p class="error">
-        ${flash.error}
-    </p>
-    
-#{/ifErrors}
 
+   
+
+#{if flash.error}
+ 	<p class="error">${flash.error} </p>
+#{/ if}
 
 #{if flash.success}
   <p class="success">
@@ -17,7 +16,7 @@
 #{/ if}
 
 #{if paginator.size() >0 }
-	<table class="table_utenti">
+	<table class="table_center">
 	<caption>
 	    <h3>Utenti</h3>
 	   </caption>
@@ -46,8 +45,8 @@
     <center><h3>Non vi sono utenti nel sistema</h3></center>
 #{/else}     
   <div>
-  <div id="button_center">
-  <a href="@{AccountController.createUtente()}" ><input type="button" class="submitbutton" value="Inserisci Utente"/></a>
+  <div id="buttonSubmit_center">
+  <a href="@{AccountController.createUtente()}" ><input type="button" class="button_submit" value="Aggiungi"/></a>
 
   </div>
   

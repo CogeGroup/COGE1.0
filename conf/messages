@@ -30,7 +30,6 @@ rapportoLavoro.dataInizio = data inizio
 validation.rapportoLavoro.dataInizio = %s deve essere maggiore di %s
 
 #play-paginate.name=play-paginate
-
 play-paginate.first=&laquo;&nbsp;Prima Pagina
 play-paginate.prev=&lsaquo;&nbsp;Indietro
 play-paginate.next=Avanti&nbsp;&rsaquo;
@@ -45,3 +44,6 @@ secure.signin = Entra
 secure.title = LogIn
 secure.remember = Resta Connesso
 secure.error=Credenziali non riconosciute
+
+#---------------------
+validation.minSize = minimo 8 caratteri

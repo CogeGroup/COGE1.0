@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="DATA_INIZIO" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_FINE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MESE" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ANNO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+r.codice as codice, r.cognome as cognome, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
+ sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
+ sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale, t.importoGiornaliero as importo_tariffa
+ FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rendicontoattivita` ra,`rapportolavoro` rl
+ WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
+ and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
+ and t.dataInizio <= $P{DATA_INIZIO}
+and (t.dataFine is null or t.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = rl.risorsa_idRisorsa and rl.dataInizio <= $P{DATA_INIZIO}
+ and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
+and ra.mese= $P{MESE}
+and ra.anno= $P{ANNO}
+ group by r.idRisorsa, r.matricola]]>
+	</queryString>
+	<field name="idRisorsa" class="java.lang.Integer"/>
+	<field name="matricola" class="java.lang.String"/>
+	<field name="codice" class="java.lang.String"/>
+	<field name="cognome" class="java.lang.String"/>
+	<field name="ore_lavorate" class="java.math.BigDecimal"/>
+	<field name="costo_totale" class="java.lang.Double"/>
+	<field name="ricavo_totale" class="java.lang.Double"/>
+	<field name="margine_totale" class="java.lang.Double"/>
+	<field name="importo_tariffa" class="java.lang.Float"/>
+	<variable name="TOTALE_RICAVI" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_totale}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="414" height="38"/>
+				<subreportParameter name="ANNO">
+					<subreportParameterExpression><![CDATA[$P{ANNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATA_INIZIO">
+					<subreportParameterExpression><![CDATA[$P{DATA_INIZIO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATA_FINE">
+					<subreportParameterExpression><![CDATA[$P{DATA_FINE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="MESE">
+					<subreportParameterExpression><![CDATA[$P{MESE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA["C:\\WSCoge\\COGE1.0\\reports\\report2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="38" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[matricola]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[codice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[cognome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ore_lavorate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[costo_totale]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[ricavo_totale]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[margine_totale]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="0" width="69" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[importo_tariffa]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="38" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{matricola}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="69" y="0" width="69" height="20" backcolor="#FF6600"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="69" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cognome}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="207" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ore_lavorate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_totale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00 %">
+				<reportElement x="414" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_totale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="0" width="69" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{importo_tariffa}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="19" width="552" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

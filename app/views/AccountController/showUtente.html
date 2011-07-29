@@ -51,10 +51,10 @@
 <div id="edit">
 #{ifErrors}
     <p class="error">
-        ${errors[0]}
-        
+        ${errors[0]} 
     </p>
 #{/ifErrors}
+    <p class="error">${flash.error}</p>
   <input type="hidden" name="utente.idUtente" value="${utente.idUtente}" />
     
     <ul>
@@ -72,8 +72,8 @@
 	    	<input type="text" class="txt_m" id="ruolo" name="ruolo" />
 	    </li>
 	  <li>
-	     <label for="matricola">Risorsa <small>n° matricola</small></label>
-	       <input type="text" class="txt_m" name="risorsa" id="risorsa" value="${utente?.risorsa.matricola}"/> ${flash.error}
+	     <label for="matricola">Risorsa <small>n. matricola</small></label>
+	       <input type="text" class="txt_m" name="risorsa" id="risorsa" value="${utente?.risorsa.matricola}"/> 
 	          <input type="hidden" name="idRisorsa" id="idRisorsa" value="${utente?.risorsa.idRisorsa}"/>
 	    </li>
     </ul>

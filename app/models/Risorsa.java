@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.joda.time.DateMidnight;
 
 import play.data.binding.As;
 import play.data.validation.Check;
@@ -274,6 +276,53 @@ public class Risorsa extends GenericModel {
 			return null;
 		}
 		return listaCosti.get(listaCosti.size()-1);
+	}
+	
+	public static ArrayList<HashMap> statisticaRisorsa(int mese,int anno){
+		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1).withMonthOfYear(mese).withYear(anno);
+		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese).withYear(anno).dayOfMonth().withMaximumValue();
+		String queryString = "SELECT r.idRisorsa as idRisorsa, r.matricola as matricola, " +
+				"r.codice as codice, r.cognome as cognome, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,"+
+				" sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,"+
+				" sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale, t.importoGiornaliero as importo_tariffa "+
+				" FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rendicontoattivita` ra,`rapportolavoro` rl"+
+				" WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= "
+				+dataInizio+
+				" and (c.dataFine is null or c.dataFine >= "
+				+dataFine+
+				") and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa"+
+				" and t.dataInizio <= " 
+				+dataInizio+
+				"and (t.dataFine is null or t.dataFine >= " 
+				+dataFine+
+				") and r.idRisorsa = rl.risorsa_idRisorsa and rl.dataInizio <= "
+				+dataInizio+
+				" and (rl.dataFine is null or rl.dataFine >= "
+				+dataFine+
+				") and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa"+
+				"and ra.mese= "
+				+mese+ 
+				"and ra.anno= "
+				+anno+
+				" group by r.idRisorsa, r.matricola";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 for (Object[] objects : resultList) {
+			 HashMap map = new HashMap();
+			 map.put("matricola", (String) objects[1]);
+			 map.put("codice", (String) objects[2]);
+			 map.put("cognome", (String) objects[3]);
+			 map.put("ore_lavorate", (Integer) objects[4]);
+			 map.put("costo_totale", (Double) objects[5]);
+			 map.put("ricavo_totale", (String) objects[6]);
+			 map.put("margine_totale", (String) objects[7]);
+			 map.put("importo_tariffa", (String) objects[8]);
+			 listaMapResult.add(map); 
+		 }
+		 
+		 return listaMapResult;
 	}
 
 

@@ -5,18 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-
-import models.Commessa;
-import models.Ruolo;
-import models.Utente;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import play.db.DB;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -67,7 +60,8 @@ public class LogInController extends Controller {
         reportParams.put("MESE", "7");
         reportParams.put("ANNO", "2011");
        try {
-		Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + "07" + "/" + "2011");
+		Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + "07" + "/" + "2009");
+		reportParams.put("DATA", dataRapporto);
 	} catch (ParseException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -79,7 +73,7 @@ public class LogInController extends Controller {
               
                
              // JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(list);                       
-              JasperPrint jrprint =  JasperFillManager.fillReport("c://WSCoge//COGE1.0//reports//report2.jasper", reportParams,DB.getConnection()); 
+              JasperPrint jrprint =  JasperFillManager.fillReport("c://WSCoge//COGE1.0//reports//test.jasper", reportParams,DB.getConnection()); 
               response.setHeader("Content-disposition", "attachment;filename=report.pdf");
               JasperExportManager.exportReportToPdfStream(jrprint,response.out);
                 

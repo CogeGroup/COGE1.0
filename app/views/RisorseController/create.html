@@ -26,11 +26,15 @@
 
 
 #{form @RisorseController.save()}
+
 <ul>
+
     <li>
         <label for="matricola">Matricola:</label>
+   
         <input type="text" class="txt_s" name="risorsa.matricola" id="matricola" value="${risorsa?.matricola}"/>
     </li>
+
     <li>
         <label for="codice">Codice:</label>
         <input type="text" class="txt_s" name="risorsa.codice" id="codice" value="${risorsa?.codice}"/>
@@ -53,7 +57,9 @@
 			#{option 0}-- Seleziona--#{/option}
 		#{/select}
 	</li>
+
 	</ul>
+
 </div>
 <div id="button_center">	
         <input type="submit" class="submitbutton" value="Aggiungi" />
@@ -63,7 +69,7 @@
 
 #{form @RisorseController.list()} 
 	
-        <input type="submit" class="submitbutton" value="Annulla" />
+        <input type="submit" class="submitbutton" value="Indietro" />
     
 #{/form}
 </div>

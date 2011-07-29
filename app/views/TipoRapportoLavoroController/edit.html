@@ -10,23 +10,21 @@
 	#{/ifErrors}
    <ul> 
 	    <li>
-	        <label for="codice">Codice:</label>
+	        <label for="codice">Codice: </label>
 	        <input type="text" class="txt_m" name="tipoRapportoLavoro.codice" id="codice" value="${tipoRapportoLavoro?.codice}"/>
 	    </li>
 	    <li>
-	        <label for="descrizione">Descrizione</label>
+	        <label for="descrizione">Descrizione: </label>
 	        <input type="text" class="txt_m" name="tipoRapportoLavoro.descrizione" id="descrizione" value="${tipoRapportoLavoro?.descrizione}"/>
 	    </li>
     </ul>
 </div>
-   <div id="button_center">
-        <input type="submit" class="submitbutton" value="Salva" />
+   <div id="buttonSubmitDouble_center">
+        <input type="submit" class="button_submit_double" value="Salva" />
     
     <input type="hidden" name="tipoRapportoLavoro.idTipoRapportoLavoro" value="${tipoRapportoLavoro.idTipoRapportoLavoro}"/>
 #{/form}
 #{form @TipoRapportoLavoroController.index()} 
-	
-        <input type="submit" class="submitbutton" value="Indietro" />
-   
+        <input type="submit" class="button_submit_double" value="Indietro" />
 #{/form}
   </div>

@@ -1,5 +1,5 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/list.html' /}
+#{set title:'Gestione Risorse' /}
 
 #{if flash.success}
     <p class="success">${flash.success}</p>
@@ -7,7 +7,7 @@
 
 #{if listaRisorse.size() > 0}
 <div>
-	<table id="itsthetable">
+	<table class="table_center">
 	  <caption>
 	    <h3>Risorse</h3>
 	   </caption>
@@ -36,7 +36,7 @@
     			<td>${risorsa.dataIn.format('dd-MM-yyyy')}</td>
     			<td>${risorsa.dataOut?.format('dd-MM-yyyy')}</td>
     			<td><a href="@{RisorseController.edit(risorsa.idRisorsa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-    		    <td><a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Sei sicuro di voler eliminare la risorsa e le relative informazioni associate?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+    		    <td><a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Disattivare la risorsa?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
     			<td><a href="@{RapportoLavoroController.list(risorsa.idRisorsa)}"><img src="@{'/public/images/rapp.png'}" alt="rapporto lavoro" /></a></td>
     			<td><a href="@{TariffeController.list(risorsa.idRisorsa)}"><img src="@{'/public/images/tariffe.png'}" alt="tariffe" /></a></td>
     			<td><a href="@{CostiController.index(risorsa.idRisorsa)}"><img src="@{'/public/images/costo.gif'}" alt="costo" /></a></td>

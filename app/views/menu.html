@@ -27,11 +27,13 @@
 		</div>
   
 			<ul id="menu">
-			<li>#{a @RisorseController.index()}Gestione Risorse#{/a}</li>
-			<li>#{a @ClientiController.list()}Gestione Clienti#{/a}</li>
-			<li>#{a @CommesseController.index()}Gestione Commesse#{/a}</li>
-			<li>#{a @AccountController.index()}Gestione Account#{/a}</li>
-			<li>#{a @RendicontoAttivitaController.index()}Gestione Rapportini#{/a}</li>
+			<li>#{a @RisorseController.index()} Risorse#{/a}</li>
+			<li>#{a @ClientiController.list()} Clienti#{/a}</li>
+			<li>#{a @CommesseController.index()} Commesse#{/a}</li>
+			<li>#{a @AccountController.index()} Account#{/a}</li>
+			<li>#{a @RendicontoAttivitaController.index()}Rapportini#{/a}</li>
+			<li>#{a @StatisticheController.index()}Statistiche#{/a}</li>
+			<li><a href="#" >Anomalie</a></li>
 			<li>#{a @Secure.logout()}LogOut#{/a}</li>
 			
 		</ul>

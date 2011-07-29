@@ -6,9 +6,9 @@
 #{/if}
 
 <h2>Rapporto Lavoro</h2>
-<div id="edit">
+<div id="detail">
 <ul>
-	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
+	<li><label>Risorsa: </label>${risorsa.matricola}</li>
 	<li><label>Nome: </label>${risorsa.nome}</li> 
 	<li><label>Cognome: </label>${risorsa.cognome}</li>
 	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}</li>
@@ -17,7 +17,7 @@
 
 
 #{if risorsa.rapportiLavoro.size() > 0}
-	<table class="table_rapporti">
+	<table class="table_center">
 	<thead>
 		<tr>
 			<th scope="col">Data Inizio</th>
@@ -59,16 +59,16 @@
 <center> <h3>Non vi sono Rapporti di Lavoro per la risorsa.</h3></center>
  #{/else}
 
-<div id="button_center">
+<div id="buttonSubmitDouble_center">
 	#{if !risorsa.dataOut}
 		#{form @RapportoLavoroController.create(risorsa.idRisorsa)}
 	    
-	        <input type="submit" class="submitbutton" value="Aggiungi" />
+	        <input type="submit" class="button_submit_double" value="Aggiungi" />
 	    
 		#{/form}
 	#{/if}
 	
 	#{form @RisorseController.list()} 
-	        <input type="submit" class="submitbutton" value="Indietro" />
+	        <input type="submit" class="button_submit_double" value="Indietro" />
 	#{/form}
 </div>
