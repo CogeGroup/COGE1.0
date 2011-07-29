@@ -11,10 +11,10 @@
 #{/elseif}
 
 <ul>
-	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
-	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')} #{if risorsa.dataOut != null}, Data Out: ${risorsa.dataOut?.format('dd-MM-yyyy')} #{/if}</li>
+	<li><label>Risorsa:</label> ${rapportoLavoro.risorsa.matricola}</li>
+	<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
+	<li><label>Data In:</label> ${rapportoLavoro.risorsa.dataIn.format('dd-MM-yyyy')}</li>
 </ul>
 
 
@@ -22,14 +22,8 @@
 
 <ul>
     <li>
-    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
-		#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
-			#{option 0}-- Seleziona --#{/option}
-		#{/select}
-	</li>
-	<li>
     	<label for="dataInizio">Data Inizio:</label>
-		#{select 'meseInizio', value:meseInizio}
+		#{select 'rapportoLavoro.meseInizio', value:rapportoLavoro.meseInizio}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
 			#{option 2}MAR#{/option}
@@ -44,12 +38,12 @@
 			#{option 11}DIC#{/option}
 		#{/select}
 	
-		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
+		#{select 'rapportoLavoro.annoInizio', items:listaAnni, labelProperty:'rapportoLavoro.annoInizio', valueProperty:'rapportoLavoro.annoInizio', value:rapportoLavoro.annoInizio}
 		#{/select}
 	</li>
 	<li>
     	<label for="dataFine">Data Fine:</label>
-		#{select 'meseFine', value:meseFine}
+		#{select 'rapportoLavoro.meseFine', value:rapportoLavoro.meseFine}
 			#{option -1}-- Mese --#{/option}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
@@ -65,19 +59,25 @@
 			#{option 11}DIC#{/option}
 		#{/select}
 	
-		#{select 'annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
+		#{select 'rapportoLavoro.annoFine', items:listaAnni, labelProperty:'rapportoLavoro.annoFine', valueProperty:'rapportoLavoro.annoFine', value:rapportoLavoro.annoFine}
 			#{option -1}-- Anno --#{/option}
 		#{/select}
 	</li>
-	</ul>
+	<li>
+    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+		#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
+			#{option 0}-- Seleziona --#{/option}
+		#{/select}
+	</li>
+</ul>
 </div>
 <div id="button_center">
 	
-        <input type="hidden" name="idRapportoLavoro" value="${idRapportoLavoro}" />
+        <input type="hidden" name="rapportoLavoro.idRapportoLavoro" value="${rapportoLavoro.idRapportoLavoro}" />
     	<input type="submit" class="submitbutton" value="Modifica" />
    
 #{/form}
-#{form @RapportoLavoroController.list(risorsa.idRisorsa)} 
+#{form @RapportoLavoroController.list(rapportoLavoro.risorsa.idRisorsa)} 
 	
 		<input type="submit" class="submitbutton" value="Annulla" />
    

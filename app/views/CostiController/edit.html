@@ -1,34 +1,5 @@
-
 #{extends 'menu.html' /}
 #{set title:'Aggiungi nuovo costo' /}
-
-
-#{stylesheet id:'jquery-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
-
-#{script id:'jquery',src:'jquery-1.5.2.min.js', charset:'UTF-8' /}
-#{script id:'jquery-ui',src:'jquery-ui-1.8.14.custom.min.js', charset:'UTF-8' /}
-#{script id:'datepicker',src:'jquery.ui.datepicker.js', charset:'UTF-8' /}
-#{script id:'datepicker-it',src:'ui.datepicker-it.js', charset:'UTF-8' /}
-
-
-<script type="text/javascript">
-		$(function() {
-			var dates = $( "#dataInizio, #dataFine" ).datepicker({
-				defaultDate: "+1w",
-				changeMonth: true,
-				numberOfMonths: 3,
-				onSelect: function( selectedDate ) {
-					var option = this.id == "dataInizio" ? "minDate" : "maxDate",
-						instance = $( this ).data( "datepicker" ),
-						date = $.datepicker.parseDate(
-							instance.settings.dateFormat ||
-							$.datepicker._defaults.dateFormat,
-							selectedDate, instance.settings );
-					dates.not( this ).datepicker( "option", option, date );
-				}
-			});
-		});
-       </script>
 
 <h2>Modifica costo</h2>
 <div id="edit">
@@ -49,14 +20,48 @@
         <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
     </li>
     <li>
-        <label for="dataInizio">Data Inizio: </label>
-		<input type="text" class="txt_m" id="dataInizio" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> 
+        <label for="dataInizio">Data Inizio:</label>
+		#{select 'costo.meseInizio', value:costo.meseInizio}
+				#{option 0}GEN#{/option}
+				#{option 1}FEB#{/option}
+				#{option 2}MAR#{/option}
+				#{option 3}APR#{/option}
+				#{option 4}MAG#{/option}
+				#{option 5}GIU#{/option}
+				#{option 6}LUG#{/option}
+				#{option 7}AGO#{/option}
+				#{option 8}SET#{/option}
+				#{option 9}OTT#{/option}
+				#{option 10}NOV#{/option}
+				#{option 11}DIC#{/option}
+			#{/select}
+			
+			#{select 'costo.annoInizio', items:listaAnni, labelProperty:'costo.annoInizio', valueProperty:'annoInizio', value:costo.annoInizio}
+			#{/select} 
     </li>
     <li>
-        <label for="dataFine">Data Fine: </label>
-        <input type="text" class="txt_date" id="dataFine" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}" />
+        <label for="dataFine">Data Fine:</label>
+        #{select 'costo.meseFine', value:costo.meseFine}
+				#{option -1}-- Mese --#{/option}
+				#{option 0}GEN#{/option}
+				#{option 1}FEB#{/option}
+				#{option 2}MAR#{/option}
+				#{option 3}APR#{/option}
+				#{option 4}MAG#{/option}
+				#{option 5}GIU#{/option}
+				#{option 6}LUG#{/option}
+				#{option 7}AGO#{/option}
+				#{option 8}SET#{/option}
+				#{option 9}OTT#{/option}
+				#{option 10}NOV#{/option}
+				#{option 11}DIC#{/option}
+			#{/select}
+			
+			#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
+				#{option -1}-- Anno --#{/option}
+			#{/select} 
     </li>
-</ul>
+  </>
 </div>
 	
 		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
