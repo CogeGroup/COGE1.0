@@ -21,7 +21,9 @@ public class TipoRapportoLavoroController extends Controller {
 
     public static void index() {
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by codice").fetch();
-        render(listaTipoRapportoLavoro);
+    	ValuePaginator paginator = new ValuePaginator(listaTipoRapportoLavoro);
+    	paginator.setPageSize(5);
+        render(paginator);
     }
     
     public static void create() {

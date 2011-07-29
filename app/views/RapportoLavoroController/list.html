@@ -16,8 +16,7 @@
 </div>
 
 
-#{if risorsa.rapportiLavoro.size() > 0}
-	<table class="table_rapporti">
+<table class="table_rapporti">
 	<thead>
 		<tr>
 			<th scope="col">Data Inizio</th>
@@ -29,7 +28,7 @@
     		#{/if}
 		</tr>
 	</thead>
-		#{list items:risorsa.rapportiLavoro, as:'rapportoLavoro', startIndex: 0}
+		#{paginate.list items:paginator, as:'rapportoLavoro'} 
 			<tr>
     			<td>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</td>
     			<td>${rapportoLavoro.dataFine?.format('dd-MM-yyyy')}</td>
@@ -52,13 +51,11 @@
     				#{/else}
     			#{/if}
     		</tr>
-		#{/list}
-  	</table>
-  #{/if}
- #{else}
-<center> <h3>Non vi sono Rapporti di Lavoro per la risorsa.</h3></center>
- #{/else}
-
+		#{/paginate.list}
+</table>
+<div id="datatable_costi">
+	#{paginate.controls items:paginator /}
+</div>
 <div id="button_center">
 	#{if !risorsa.dataOut}
 		#{form @RapportoLavoroController.create(risorsa.idRisorsa)}

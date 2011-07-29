@@ -5,6 +5,7 @@ import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
 import secure.SecureCOGE;
+import utility.MyUtility;
 
 import java.util.*;
 
@@ -28,15 +29,18 @@ public class CostiController extends Controller {
     public static void create(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	Costo costo = new Costo(risorsa);
-    	render(costo);
+    	List<Integer> listaAnni = MyUtility.createListaAnni();
+    	render(costo, listaAnni);
 	}
     public static void save(@Valid Costo costo){
     	
     	// Validazione del form
     	if(validation.hasErrors()) {
-        	render("CostiController/create.html",costo);
+    		List<Integer> listaAnni = MyUtility.createListaAnni();
+        	render("CostiController/create.html",costo, listaAnni);
     	}
-    	
+    	costo.dataInizio = MyUtility.MeseEdAnnoToDataInizio(costo.meseInizio, costo.annoInizio);
+    	costo.dataFine = costo.meseFine == -1 ? null : MyUtility.MeseEdAnnoToDataFine(costo.meseFine, costo.annoFine);
     	// Salvataggio tariffa
         costo.save();
         flash.success("Costo aggiunto con successo");
@@ -45,13 +49,21 @@ public class CostiController extends Controller {
     }
     public static void edit(Integer idCosto){
     	Costo costo = Costo.findById(idCosto);
-    	render(costo);
-    }
+    	costo.meseInizio = MyUtility.getMeseFromDate(costo.dataInizio);
+    	costo.annoInizio = MyUtility.getAnnoFromDate(costo.dataInizio);
+    	costo.meseFine = costo.dataFine == null ? -1 : MyUtility.getMeseFromDate(costo.dataFine);
+    	costo.annoFine = costo.dataFine == null ? -1 : MyUtility.getAnnoFromDate(costo.dataFine);
+    	List<Integer> listaAnni = MyUtility.createListaAnni();
+    	render(costo, listaAnni);
+	}
     public static void update(@Valid Costo costo){
     	// Validazione del form
     	if(validation.hasErrors()) {
-        	render("CostiController/edit.html",costo);
+    		List<Integer> listaAnni = MyUtility.createListaAnni();
+        	render("CostiController/edit.html",costo, listaAnni);
     	}
+    	costo.dataInizio = MyUtility.MeseEdAnnoToDataInizio(costo.meseInizio, costo.annoInizio);
+    	costo.dataFine = costo.meseFine == -1 ? null : MyUtility.MeseEdAnnoToDataFine(costo.meseFine, costo.annoFine);
     	costo.save();
     	flash.success("Costo aggiornato con successo");
     	list(costo.risorsa.idRisorsa);

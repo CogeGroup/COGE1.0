@@ -9,23 +9,17 @@
 #{/ifErrors}
 
 <ul>
-	<li><label>Risorsa:</label> ${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
-	<li><label>Data In:</label> ${risorsa.dataIn.format('dd-MM-yyyy')}</li>
+	<li><label>Risorsa:</label> ${rapportoLavoro.risorsa.matricola}</li>
+	<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
+	<li><label>Data In:</label> ${rapportoLavoro.risorsa.dataIn.format('dd-MM-yyyy')}</li>
 </ul>
 
 #{form @RapportoLavoroController.save()}
 	<ul>
 	    <li>
-	    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
-			#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
-				#{option 0}-- Seleziona --#{/option}
-			#{/select}
-		</li>
-		<li>
 	    	<label for="dataInizio">Data Inizio:</label>
-			#{select 'meseInizio', value:meseInizio}
+			#{select 'rapportoLavoro.meseInizio', value:rapportoLavoro.meseInizio}
 				#{option 0}GEN#{/option}
 				#{option 1}FEB#{/option}
 				#{option 2}MAR#{/option}
@@ -40,19 +34,26 @@
 				#{option 11}DIC#{/option}
 			#{/select}
 			
-			#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
+			#{select 'rapportoLavoro.annoInizio', items:listaAnni, labelProperty:'rapportoLavoro.annoInizio', valueProperty:'rapportoLavoro.annoInizio', value:rapportoLavoro.annoInizio}
 			#{/select}
 		</li>
-		
+		<li>
+	    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+			#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
+				#{option 0}-- Seleziona --#{/option}
+			#{/select}
+		</li>
 	</ul>
 </div>
 <div id="button_center">
 	
-        <input type="hidden" name="idRisorsa" value="${risorsa.idRisorsa}" />
+        <input type="hidden" name="rapportoLavoro.risorsa.idRisorsa" value="${rapportoLavoro.risorsa.idRisorsa}" />
+    	<input type="hidden" name="rapportoLavoro.meseFine" value="${rapportoLavoro.meseFine}" />
+    	<input type="hidden" name="rapportoLavoro.annoFine" value="${rapportoLavoro.annoFine}" />
     	<input type="submit" class="submitbutton" value="Aggiungi" />
    
 #{/form}
-#{form @RapportoLavoroController.list(risorsa.idRisorsa)} 
+#{form @RapportoLavoroController.list(rapportoLavoro.risorsa.idRisorsa)} 
 	
 		<input type="submit" class="submitbutton" value="Annulla" />
    

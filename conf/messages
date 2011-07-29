@@ -3,12 +3,13 @@
 #
 
 validation.required=il campo %s è obbligatorio
+# COSTO ----------------------
 costo.importo = importo
 costo.dataInizio = dataInizio
 costo.dataFine = dataFine
 validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
 validation.costo.dataFine.lt.dataInizio = la data fine &egrave; precedente alla data inizio
-
+validation.costo.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
 # RISORSA ----------------------------------
 risorsa.matricola = matricola
 risorsa.codice = codice
@@ -27,7 +28,10 @@ validation.tipoRapportoLavoro.codice_esistente = codice esistente
 
 # RAPPORTO LAVORO ----------------------------
 rapportoLavoro.dataInizio = data inizio
+rapportoLavoro.dataFine= data fine
 validation.rapportoLavoro.dataInizio = %s deve essere maggiore di %s
+validation.rapportoLavoro.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
+validation.rapportoLavoro.dataFine.lt.dataInizio = %s deve essere >= di %s
 
 #play-paginate.name=play-paginate
 
