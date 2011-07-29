@@ -128,7 +128,7 @@ public class RendicontoAttivitaController extends Controller {
 		render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
 	}
 	
-// Aggiungi Attivita
+	// Aggiungi attivita nel rapportino se vi sono commesse non salvate nel rapportino
 	public static void aggiungiAttivita(Integer idRisorsa, int mese, int anno){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
@@ -136,30 +136,83 @@ public class RendicontoAttivitaController extends Controller {
 		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
 		
 		if (listaCommesse != null && listaCommesse.size() > 0) {
-			for (Commessa commessa : listaCommesse) {
-				for (RendicontoAttivita ra : attivitaSalvate) {
-					if(ra.commessa.idCommessa == commessa.idCommessa)
-						listaCommesse.remove(commessa);
-				}
-				if(listaCommesse.size() == 0)
-					break;
-			}
+			listaCommesse = commesseNonSalvate(attivitaSalvate,listaCommesse);
 		}
+		
 		if (listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0) {
-			for (Commessa commessa : listaCommesseNonFatturabili) {
-				for (RendicontoAttivita ra : attivitaSalvate) {
-					if(ra.commessa.idCommessa == commessa.idCommessa)
-						listaCommesseNonFatturabili.remove(commessa);
-				}
-				if(listaCommesseNonFatturabili.size() == 0)
-					break;
-			}
+			listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
 		}
 		if(listaCommesseNonFatturabili.size() == 0 && listaCommesse.size() == 0){
 			flash.success("Nessuna attivita da aggiungere");
 			dettaglio(idRisorsa, mese, anno);
 		}
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+	}
+	
+	// aggiorna il rapportino aggiungendo nuove attivita
+	public static void saveAttivita(int mese, int anno, Integer idRisorsa){
+		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		try {
+			for (String key : params.all().keySet()) {
+				if(key.contains("id_")){
+					Integer oreLavorate = Integer.parseInt(params.get(key));
+					if(oreLavorate < 0){
+						throw new IllegalArgumentException();
+					}
+					Integer idCommessa = Integer.parseInt(key.substring(3));
+					new RendicontoAttivita(oreLavorate, mese, anno, risorsa, (Commessa) Commessa.findById(idCommessa)).save();
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			validation.addError("oreLavorate", "OreLavorate deve essere maggiore o uguale a 0");
+			List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
+			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+			if (listaCommesse != null && listaCommesse.size() > 0) {
+				listaCommesse = commesseNonSalvate(attivitaSalvate,listaCommesse);
+			}
+			
+			if (listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0) {
+				listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
+			}
+			render("rendicontoattivitacontroller/createRendicontoAttivita.html",idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+		}
+		
+		flash.success("Attivita aggiunta con successo");
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+		ValuePaginator paginator = new ValuePaginator(listaRapportini);
+		paginator.setPageSize(5);
+		render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
+	}
+	
+	// rimuove tutte le commesse gia inserite nel rapportino
+	private static List<Commessa> commesseNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesse){
+		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
+		for (Commessa commessa : listaCommesse) {
+			for (RendicontoAttivita ra : attivitaSalvate) {
+				if(ra.commessa.idCommessa == commessa.idCommessa){
+					System.out.println("commessa da togliere: " + ra.commessa.codice);
+					commesseDaTogliere.add(commessa);
+				}
+			}
+		}
+		listaCommesse.removeAll(commesseDaTogliere);
+		return listaCommesse;
+	}
+	
+	// rimuove tutte le commesse non fatturabili gia inserite nel rapportino
+	private static List<Commessa> commesseNonFatturabiliNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesseNonFatturabili){
+		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
+		for (Commessa commessa : listaCommesseNonFatturabili) {
+			for (RendicontoAttivita ra : attivitaSalvate) {
+				if(ra.commessa.idCommessa == commessa.idCommessa){
+					commesseDaTogliere.add(commessa);
+				}
+			}
+		}
+		listaCommesseNonFatturabili.removeAll(commesseDaTogliere);
+		return listaCommesseNonFatturabili;
 	}
 	
 // modifica rapportino
