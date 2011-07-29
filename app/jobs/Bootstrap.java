@@ -185,7 +185,6 @@ public class Bootstrap extends play.jobs.Job {
       cl1.save();
       
        cm1 = new Commessa("desc","COMMESSA1",true);
-       cm1.attivo = true;
        try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
@@ -193,7 +192,6 @@ public class Bootstrap extends play.jobs.Job {
 	}
 
       cm2 = new Commessa("desc","COMMESSA2",true);
-      cm2.attivo = true;
       
       try {
   		cm2.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2011");
@@ -208,7 +206,6 @@ public class Bootstrap extends play.jobs.Job {
       
       
       CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","ACORPO",true,200.00f);
-      cAc1.attivo = true;
       try {
     	  cAc1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011");
     	} catch (ParseException e) {

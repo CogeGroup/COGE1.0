@@ -68,12 +68,11 @@ public class CommesseController extends Controller {
     		commessaACorpo.fatturabile = true;
     		commessaACorpo.cliente = Cliente.findById(idCliente);
     		commessaACorpo.importo = importo;
-    		commessaACorpo.attivo = true;
     		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
+    		commessa.dataInizioCommessa = commessa.fatturabile == false ? null : commessa.dataInizioCommessa;
         	commessa.cliente = Cliente.findById(idCliente);
-        	commessa.attivo = true;
         	commessa.save();
     	}
     	
@@ -91,8 +90,11 @@ public class CommesseController extends Controller {
     	if(Commessa.find("byCodice", commessa.codice).first() != null && Commessa.find("byCodice", commessa.codice).first() != commessa){
     		validation.addError("commessa.codice", "Codice gia esistente");
     	}
-    	if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")){
-    		validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
+    	if(commessa.fatturabile == true && (commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals(""))){
+    		validation.addError("commessa.dataInizioCommessa", "Data inizio obligatoria");
+    	}
+    	if(commessa.fatturabile == true && commessa.dataFineCommessa != null && !commessa.dataFineCommessa.after(commessa.dataInizioCommessa)){
+    		validation.addError("commessa.dataFineCommessa", "Data fine deve essere maggiore di data inizio");
     	}
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
@@ -112,7 +114,14 @@ public class CommesseController extends Controller {
     
     public static void delete(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	commessa.attivo = false;
+    	if(commessa.dataFineCommessa != null)
+    		list();
+    	
+    	if(commessa.dataInizioCommessa.after(new Date()))
+    		commessa.dataFineCommessa = commessa.dataInizioCommessa;
+    	else
+    		commessa.dataFineCommessa = new Date();
+    	
     	Tariffa.chiudiTariffeByCommessa(commessa);
     	commessa.save();
     	flash.success("%s cancellata con successo", commessa.codice);

@@ -19,7 +19,7 @@
 			<th scope="col">Cliente</th>
 			<th scope="col">Fatturabile</th>
 			<th scope="col">Data inizio</th>
-			<th scope="col">Attivo</th>
+			<th scope="col">Data fine</th>
 			<th scope="col">Modifica</th>
 			<th scope="col">Elimina</th>
 		</tr>
@@ -31,7 +31,7 @@
 			<td>${commessa.cliente.nominativo }</td>
 			<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>
 			<td>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</td>
-			<td>${commessa.attivo == true ? 'si' : 'no' }</td>
+			<td>${commessa.dataFineCommessa?.format('dd-MM-yyyy') }</td>
 			#{if commessa.cliente.attivo }
 			<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 			<td><a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Continuare con la cancellazzione di commessa: ${commessa.codice }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
@@ -51,5 +51,5 @@
 	<center><h2>Non sono presenti commesse nel sistema.</h2></center>
 #{/else}
 <div id="button">
-<a id="create" href="@{CommesseController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuova commessa"/></a>
+<a id="create" href="@{CommesseController.create()}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 </div>

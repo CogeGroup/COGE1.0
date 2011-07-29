@@ -41,7 +41,8 @@ public class Commessa extends GenericModel{
 	@As("dd-MM-yyyy")
 	public Date dataInizioCommessa;
 	
-	public boolean attivo;
+	@As("dd-MM-yyyy")
+	public Date dataFineCommessa;
 	
 	@ManyToOne
 	public Cliente cliente;
@@ -61,15 +62,15 @@ public class Commessa extends GenericModel{
 	public float calcolaRicavo(String mese, String anno) {
 		
 		float importoTotale = 0.0f;
-		JPAQuery query  = DettaglioRapportoAttivita.find("from DettaglioRapportoAttivita dra where dra.commessa=:commessa and dra.rapportoAttivita.mese=:rapMese and dra.rapportoAttivita.anno=:rapAnno");
+		Integer meseInt = Integer.parseInt(mese);
+		Integer annoInt = Integer.parseInt(anno);
+		JPAQuery query  = RendicontoAttivita.find("from RendicontoAttivita ra where ra.commessa = :commessa and ra.mese = "+meseInt+" and ra.anno = "+annoInt);
 		query.bind("commessa",this);
-		query.bind("rapMese",mese);
-		query.bind("rapAnno",anno);
-		List<DettaglioRapportoAttivita> lista = query.fetch();
-		
-		for(DettaglioRapportoAttivita index:lista){
+		List<RendicontoAttivita> lista = query.fetch();
+
+		for(RendicontoAttivita index:lista){
 			
-			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
+			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		
@@ -79,9 +80,23 @@ public class Commessa extends GenericModel{
 	// chiude tutte le commesse di un cliente e le relative tariffe
 	public static void chiudiCommesseByCliente(Cliente cliente) {
 		for (Commessa commessa : cliente.commesse) {
-		   	commessa.attivo = false;
+			if(commessa.dataInizioCommessa != null){
+			   	if (commessa.dataFineCommessa != null) {
+	    			if(commessa.dataInizioCommessa.after(new Date())){
+	    				commessa.dataFineCommessa = commessa.dataInizioCommessa;
+	    			}else{
+	    				commessa.dataFineCommessa = new Date();
+	    			}
+				} else {
+					if(commessa.dataInizioCommessa.after(new Date())){
+		    			commessa.dataFineCommessa = commessa.dataInizioCommessa;
+		    		}else{
+		    			commessa.dataFineCommessa = new Date();
+		    		}
+				}
+			   	commessa.save();
+			}
 		   	Tariffa.chiudiTariffeByCommessa(commessa);
-		   	commessa.save();
 		}
 	}
 	

@@ -47,6 +47,7 @@
     #{/ifErrors}
     
     <ul>
+    <!--
 	<li>
         <label for=dataInizio>Data inizio:</label>
         <input type="text" class="txt_date" name="tariffa.dataInizio" id="datepicker1" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
@@ -55,6 +56,49 @@
         <label for=dataFine>Data fine:</label>
         <input type="text" class="txt_date" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
     </li>
+    -->
+    <li>
+    	<label for="dataInizio">Data Inizio:</label>
+		#{select 'meseInizio', value:meseInizio}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+	
+		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
+		#{/select}
+	</li>
+	<li>
+    	<label for="dataFine">Data Fine:</label>
+		#{select 'meseFine', value:meseFine}
+			#{option -1}-- Mese --#{/option}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+	
+		#{select 'annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
+			#{option -1}-- Anno --#{/option}
+		#{/select}
+	</li>
     #{if tariffa.commessa instanceof models.CommessaACorpo }
 	#{/if}
 	#{else}

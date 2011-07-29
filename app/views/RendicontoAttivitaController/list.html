@@ -9,7 +9,7 @@
 
 	<table class="table_rapportini">
 		 <caption>
-		    <h3>Rapportini</h3>
+		    <h3>Rapportini del: ${mese}-${anno}</h3>
 		   </caption>
 		<thead>
 			<tr>
@@ -24,7 +24,7 @@
 			<td>${rendicontoAttivita.risorsa.matricola }</td>
 			<td>${rendicontoAttivita.mese }</td>
 			<td>${rendicontoAttivita.anno }</td>
-			<td><a href="@{RendicontoAttivitaController.show(rendicontoAttivita.risorsa.idRisorsa,rendicontoAttivita.mese,rendicontoAttivita.anno)}">Dettagli</a></td>
+			<td><a href="@{RendicontoAttivitaController.dettaglio(rendicontoAttivita.risorsa.idRisorsa,rendicontoAttivita.mese,rendicontoAttivita.anno)}">Dettagli</a></td>
 		</tr>
 		#{/paginate.list} 
 	</table>
@@ -33,8 +33,7 @@
 	</div>
 #{/if}
 #{else}
-	<center><h2>Nessun Rapportino esistente</h2></center>
+	<center><h2>Nessun Rapportino esistente</h2>
+	<a id="create" href="@{RendicontoAttivitaController.search()}">Nuova Ricerca</a>
+	</center>
 #{/else}
-<div id="button">
-<a id="create" href="@{RendicontoAttivitaController.chooseRisorsa()}"><input type="button" class="submitbutton" value="Inserisci rapportino"/></a>
-</div>

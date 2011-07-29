@@ -19,6 +19,16 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker2').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+</script>
 
 <h2>Modifica commessa</h2>
 <div id="edit">
@@ -52,9 +62,8 @@
         <input type="text" class="txt_date" id="datepicker1" name="commessa.dataInizioCommessa" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
     </li>
     <li>
-		<label for="attivo">Attivo: </label>
-	    SI <input type="radio" id="attivo" name="commessa.attivo" value="true" #{if commessa.attivo == true}checked="checked"#{/if}/>
-	    NO <input type="radio" id="attivo" name="commessa.attivo" value="false" #{if commessa.attivo == false}checked="checked"#{/if} />
+		<label for=dataFineCommessa>Data fine: </label>
+        <input type="text" class="txt_date" id="datepicker2" name="commessa.dataFineCommessa" value="${commessa.dataFineCommessa?.format('dd-MM-yyyy') }"/>
 	</li>
 	#{if commessa instanceof models.CommessaACorpo }
 	<li>

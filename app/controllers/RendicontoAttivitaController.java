@@ -10,6 +10,7 @@ import play.mvc.With;
 import play.mvc.Scope.Params;
 import secure.SecureCOGE;
 import utility.DomainWrapper;
+import utility.MyUtility;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -28,39 +29,193 @@ public class RendicontoAttivitaController extends Controller {
 	public static void index() {
 		 render();
     }
-	
-	public static void chooseRisorsa() {
-		 render();
-    }
-	
+
+// Ricerca rapportino
 	public static void search(){
-		render();
+		List<Integer> listaAnni = MyUtility.createListaAnni();
+    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+        int anno = Calendar.getInstance().get(Calendar.YEAR);
+		render(listaAnni, mese, anno);
 	}
 	
-	public static void result(Integer idRisorsa, String data){
-		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.findByExample(idRisorsa,data);
-		ValuePaginator paginator = new ValuePaginator(listaRapportini);
-		paginator.setPageSize(5);
-		render("RendicontoAttivitaController/show.html", paginator);
+	public static void result(Integer idRisorsa, int mese, int anno){
+		List<RendicontoAttivita> listaRapportini = new ArrayList<RendicontoAttivita>();
+		mese++;
+		if(idRisorsa != null){
+			Risorsa risorsa = Risorsa.findById(idRisorsa);
+			listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+			ValuePaginator paginator = new ValuePaginator(listaRapportini);
+			paginator.setPageSize(5);
+			render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
+		}else{
+			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
+			ValuePaginator paginator = new ValuePaginator(listaRapportini);
+			paginator.setPageSize(5);
+			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
+		}
+		search();
 	}
-
 	
-	public static void list(){
-		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.findAndOrder();
-		ValuePaginator paginator = new ValuePaginator(listaRapportini);
-		paginator.setPageSize(5);
-		render(paginator);
-	}
-
-	
-	public static void show(Integer idRisorsa, int mese, int anno){
+	public static void dettaglio(Integer idRisorsa, int mese, int anno){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
 		paginator.setPageSize(5);
-		render(paginator);
+		render(paginator, risorsa, mese, anno);
 	}
 	
+// Inserimento nuovo rapportino
+	public static void chooseRisorsa() {
+		List<Integer> listaAnni = MyUtility.createListaAnni();
+    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+        int anno = Calendar.getInstance().get(Calendar.YEAR);
+		render(listaAnni, mese, anno);
+    }
+	
+	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") Integer idRisorsa, int mese, int anno) {
+		
+		if(validation.hasErrors()){
+			flash.error("");
+			validation.keep();
+			chooseRisorsa();
+		}
+		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		mese++;
+		
+		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).first();
+		if(ra != null){
+			validation.addError("meseAnno", "il rapportino per il mese " + mese + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			mese--;
+			render("RendicontoAttivitaController/chooserisorsa.html", listaAnni, mese, anno);
+		}
+		if(risorsa == null){
+			flash.error("Risorsa non trovata");
+			validation.keep();
+			chooseRisorsa();
+		}
+		
+		List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+	}
+	
+	public static void saveRendicontoAttivita(int mese, int anno, Integer idRisorsa) {
+		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		try {
+			for (String key : params.all().keySet()) {
+				if(key.contains("id_")){
+					Integer oreLavorate = Integer.parseInt(params.get(key));
+					if(oreLavorate < 0){
+						throw new IllegalArgumentException();
+					}
+					Integer idCommessa = Integer.parseInt(key.substring(3));
+					new RendicontoAttivita(oreLavorate, mese, anno, risorsa, (Commessa) Commessa.findById(idCommessa)).save();
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			validation.addError("oreLavorate", "OreLavorate deve essere maggiore o uguale a 0");
+			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+			render("rendicontoattivitacontroller/createRendicontoAttivita.html",idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+		}
+		
+		flash.success("Rapportino aggiunto con successo");
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+		ValuePaginator paginator = new ValuePaginator(listaRapportini);
+		paginator.setPageSize(5);
+		render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
+	}
+	
+	// Aggiungi attivita nel rapportino se vi sono commesse non salvate nel rapportino
+	public static void aggiungiAttivita(Integer idRisorsa, int mese, int anno){
+		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
+		List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+		
+		if (listaCommesse != null && listaCommesse.size() > 0) {
+			listaCommesse = commesseNonSalvate(attivitaSalvate,listaCommesse);
+		}
+		
+		if (listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0) {
+			listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
+		}
+		if(listaCommesseNonFatturabili.size() == 0 && listaCommesse.size() == 0){
+			flash.success("Nessuna attivita da aggiungere");
+			dettaglio(idRisorsa, mese, anno);
+		}
+		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+	}
+	
+	// aggiorna il rapportino aggiungendo nuove attivita
+	public static void saveAttivita(int mese, int anno, Integer idRisorsa){
+		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		try {
+			for (String key : params.all().keySet()) {
+				if(key.contains("id_")){
+					Integer oreLavorate = Integer.parseInt(params.get(key));
+					if(oreLavorate < 0){
+						throw new IllegalArgumentException();
+					}
+					Integer idCommessa = Integer.parseInt(key.substring(3));
+					new RendicontoAttivita(oreLavorate, mese, anno, risorsa, (Commessa) Commessa.findById(idCommessa)).save();
+				}
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			validation.addError("oreLavorate", "OreLavorate deve essere maggiore o uguale a 0");
+			List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
+			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+			if (listaCommesse != null && listaCommesse.size() > 0) {
+				listaCommesse = commesseNonSalvate(attivitaSalvate,listaCommesse);
+			}
+			
+			if (listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0) {
+				listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
+			}
+			render("rendicontoattivitacontroller/createRendicontoAttivita.html",idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno);
+		}
+		
+		flash.success("Attivita aggiunta con successo");
+		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+		ValuePaginator paginator = new ValuePaginator(listaRapportini);
+		paginator.setPageSize(5);
+		render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
+	}
+	
+	// rimuove tutte le commesse gia inserite nel rapportino
+	private static List<Commessa> commesseNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesse){
+		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
+		for (Commessa commessa : listaCommesse) {
+			for (RendicontoAttivita ra : attivitaSalvate) {
+				if(ra.commessa.idCommessa == commessa.idCommessa){
+					System.out.println("commessa da togliere: " + ra.commessa.codice);
+					commesseDaTogliere.add(commessa);
+				}
+			}
+		}
+		listaCommesse.removeAll(commesseDaTogliere);
+		return listaCommesse;
+	}
+	
+	// rimuove tutte le commesse non fatturabili gia inserite nel rapportino
+	private static List<Commessa> commesseNonFatturabiliNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesseNonFatturabili){
+		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
+		for (Commessa commessa : listaCommesseNonFatturabili) {
+			for (RendicontoAttivita ra : attivitaSalvate) {
+				if(ra.commessa.idCommessa == commessa.idCommessa){
+					commesseDaTogliere.add(commessa);
+				}
+			}
+		}
+		listaCommesseNonFatturabili.removeAll(commesseDaTogliere);
+		return listaCommesseNonFatturabili;
+	}
+	
+// modifica rapportino
 	public static void edit(Integer id){
 		RendicontoAttivita rendicontoAttivita = RendicontoAttivita.findById(id);
 		render(rendicontoAttivita);
@@ -76,60 +231,10 @@ public class RendicontoAttivitaController extends Controller {
 	    }
 		rendicontoAttivita.save();
     	flash.success("Rapportino modificato con successo");
-        index();
+    	dettaglio(rendicontoAttivita.risorsa.idRisorsa, rendicontoAttivita.mese, rendicontoAttivita.anno);
 	}
 
-	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") String idRisorsa, @Required(message="Inserire la data") String data) {
-		
-		if(validation.hasErrors()){
-			flash.error("");
-			validation.keep();
-			chooseRisorsa();
-		}
-		Risorsa risorsa = Risorsa.findById(Integer.parseInt(idRisorsa));
-		String[] meseAnno = data.split("-");
-		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, Integer.parseInt(meseAnno[0].trim()), Integer.parseInt(meseAnno[1].trim())).first();
-		if(ra != null){
-			validation.addError("meseAnno", "il rapportino per il mese " + meseAnno[0].trim() + "-" + meseAnno[1].trim() +" della risorsa " + risorsa.cognome + " già esistente");
-			render("RendicontoAttivitaController/chooserisorsa.html");
-		}
-		if(risorsa == null){
-			flash.error("Risorsa non trovata");
-			validation.keep();
-			chooseRisorsa();
-		}
-		
-		List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(meseAnno[0].trim(), meseAnno[1].trim(), risorsa);
-		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
-		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,meseAnno);
-	}
-	
-	public static void saveRendicontoAttivita(String mese, String anno, Integer idRisorsa) {
-		Risorsa risorsa = Risorsa.findById(idRisorsa);
-		try {
-			for (String key : params.all().keySet()) {
-				if(key.contains("id_")){
-					Integer oreLavorate = Integer.parseInt(params.get(key));
-					if(oreLavorate < 0){
-						throw new IllegalArgumentException();
-					}
-					Integer idCommessa = Integer.parseInt(key.substring(3));
-					new RendicontoAttivita(oreLavorate, Integer.parseInt(mese), Integer.parseInt(anno), risorsa, (Commessa) Commessa.findById(idCommessa)).save();
-				}
-			}
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			validation.addError("oreLavorate", "OreLavorate deve essere maggiore o uguale a 0");
-			String[] meseAnno = new String[] {mese,anno};
-			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(meseAnno[0].trim(), meseAnno[1].trim(), risorsa);
-			List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
-			render("rendicontoattivitacontroller/createRendicontoAttivita.html",idRisorsa,listaCommesse,listaCommesseNonFatturabili,meseAnno);
-		}
-		
-		flash.success("Rapportino aggiunto con successo");
-		index();
-	}
-	
+// Cancella rapportin
 	public static void delete(Integer id){
 		RendicontoAttivita rendicontoAttivita = RendicontoAttivita.findById(id);
 		rendicontoAttivita.delete();
@@ -137,6 +242,7 @@ public class RendicontoAttivitaController extends Controller {
 		index();
 	}
 	
+// Auotocomplete delle risorse
 	public static void autocompleteRisorsaRapportoAttivita(String term) {
 		List<Risorsa> listaRisorse = Risorsa.find("dataOut is null and matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
 		  List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
