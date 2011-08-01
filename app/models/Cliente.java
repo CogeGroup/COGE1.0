@@ -10,8 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import models.Commessa.CodiceCheck;
+
 import org.hibernate.Session;
 
+import play.data.validation.Check;
+import play.data.validation.CheckWith;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
@@ -25,6 +29,7 @@ public class Cliente extends GenericModel{
     public Integer idCliente;
 	
 	@Required(message="Codice obligatorio")
+	@CheckWith(CodiceCheck.class)
 	public String codice;
 	
 	@Required(message="Nominativo obligatorio")
@@ -41,6 +46,24 @@ public class Cliente extends GenericModel{
 		super();
 		this.codice = codice;
 		this.nominativo = nominativo;
+	}
+	
+	static class CodiceCheck extends Check {
+		static final String message = "validation.cliente.codice_esistente";
+		
+		@Override
+		public boolean isSatisfied(Object cliente, Object codice) {
+			Cliente app = Cliente.find("byCodice", codice).first();
+			if(app != null && ((Cliente) cliente).idCliente != app.idCliente) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	public static List<Cliente> findAllAttivo(){
+		return Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
 	}
 
 	public float calcolaRicavo(String mese, String anno) {

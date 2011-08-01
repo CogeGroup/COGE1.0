@@ -11,8 +11,6 @@ import models.*;
 
 @With(SecureCOGE.class)
 public class ClientiController extends Controller {
-
-	
 	
     public static void index() {
         list();
@@ -31,9 +29,6 @@ public class ClientiController extends Controller {
     }
     
     public static void save(@Valid Cliente cliente) {
-    	if(Cliente.find("byCodice", cliente.codice).first() != null){
-    		validation.addError("cliente.codice", "Codice gia esistente");
-    	}
     	if(validation.hasErrors()) {
 	        render("ClientiController/create.html", cliente);
 	    }
@@ -50,9 +45,6 @@ public class ClientiController extends Controller {
     }
     
     public static void update(@Valid Cliente cliente) {
-    	if(Cliente.find("byCodice", cliente.codice).first() != null && Cliente.find("byCodice", cliente.codice).first() != cliente){
-    		validation.addError("cliente.codice", "Codice gia esistente");
-    	}
     	if(validation.hasErrors()) {
 	        render("ClientiController/edit.html", cliente);
 	    }

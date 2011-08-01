@@ -33,6 +33,25 @@ validation.rapportoLavoro.dataInizio = %s deve essere maggiore di %s
 validation.rapportoLavoro.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
 validation.rapportoLavoro.dataFine.lt.dataInizio = %s deve essere >= di %s
 
+#CLIENTE ---------------------------
+validation.cliente.codice_esistente = codice esistente
+
+# COMMESSA --------------------------
+validation.commessa.codice_esistente = codice esistente
+validation.commessa.data_inizio_se_fatturabile = Una commessa fatturabile deve avere una data di inizio
+validation.commessa.data_fine_after_dataInizio = La data fine deve essere maggiore della data inizio
+
+# TARIFFA ---------------------------
+tariffa.dataInizio = data inizio
+tariffa.dataFine = data fine
+validation.tariffa.dataInizio_before_dataInizoCommessa = La %s non puo' essere inferione al %s
+validation.tariffa.dataInizio_after_dataFineCommessa = La %s non puo' essere maggiore del %s
+validation.tariffa.dataInizio_before_dataInizio_ultima_tariffa = La %s non puo essere inferiore o uguale al %s
+validation.tariffa.dataFine_before_dataInizo = La %s non puo essere inferiore alla data inizio
+validation.tariffa.dataFine_after_dataFineCommessa = La %s non puo essere maggiore del %s;
+validation.tariffa.dataFine = la %s è obligatoria
+validation.tariffa.importo = Importo obligatorio
+
 #play-paginate.name=play-paginate
 play-paginate.first=&laquo;&nbsp;Prima Pagina
 play-paginate.prev=&lsaquo;&nbsp;Indietro

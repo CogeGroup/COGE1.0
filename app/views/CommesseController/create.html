@@ -46,7 +46,6 @@
     <br />
     	<label for="cliente">Cliente: </label>
 		<select name="idCliente">
-			<option value="">-- Selezionare --</option>
     		#{list items:listaClienti, as:'cliente'}
 		        <option value="${cliente.idCliente }" #{if cliente.idCliente == commessa?.cliente?.idCliente }
 		        		selected="selected"
