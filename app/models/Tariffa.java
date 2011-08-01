@@ -205,7 +205,7 @@ public class Tariffa extends GenericModel{
 	}
 	
 	
-	public static Tariffa calcolaTariffaRisorsaCommessa(String mese,String anno,Risorsa risorsa,Commessa commessa){
+	public static Tariffa calcolaTariffaForRisorsaAndCommessa(String mese,String anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
 			Date dataInizioRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
