@@ -7,7 +7,7 @@ import play.data.validation.Required;
 public class CommessaACorpo extends Commessa {
 	
 	@Required
-	@Min(0.1)
+	@Min(value=0.1,message="L'importo deve essere maggiore di 0")
 	public float importo;
 	
 	public CommessaACorpo() {}

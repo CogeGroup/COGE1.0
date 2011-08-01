@@ -28,37 +28,29 @@ public class CommesseController extends Controller {
     
     public static void create() {
     	Commessa commessa = new Commessa();
-    	List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
+    	List<Cliente> listaClienti = Cliente.findAllAttivo();
     	String aCorpo = "no";
     	float importo = 0;
         render(commessa, listaClienti, aCorpo, importo);
     }
     
-    public static void save(@Valid Commessa commessa, @Required(message="Selezionare un cliente") Integer idCliente, 
+    public static void save(@Valid Commessa commessa, Integer idCliente, 
     		String aCorpo, float importo) {
-    	
-    	if(Commessa.find("byCodice", commessa.codice).first() != null){
-    		validation.addError("commessa.codice", "Codice gia esistente");
-    	}
-    	if(commessa.fatturabile == true && (commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals(""))) {
-    		validation.addError("commessa.dataInizioCommessa", "Una commessa fatturabile deve avere una data di inizio");
-    	}
+    	commessa.cliente = Cliente.findById(idCliente);
     	if(validation.hasErrors()) {
-    		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
-    		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
+    		List<Cliente> listaClienti = Cliente.findAllAttivo();
 	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
 	    }
     	
     	if(aCorpo != null && aCorpo.equals("si")){
+    		if(importo < 0.1) {
+        		validation.addError("importo", "L'importo deve essere maggiore di 0");
+        	}
     		if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")) {
     			validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
     		}
-    		if(importo > 0.1) {
-    			validation.addError("commessaACorpo.importo", "L'importo deve essere maggiore di 0.1");
-    		}
     		if(validation.hasErrors()) {
-        		commessa.cliente = (Cliente) (idCliente == null ? null : Cliente.findById(idCliente));
-        		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
+        		List<Cliente> listaClienti = Cliente.findAllAttivo();
     	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
     	    }
     		CommessaACorpo commessaACorpo = new CommessaACorpo();
@@ -66,13 +58,12 @@ public class CommesseController extends Controller {
     		commessaACorpo.descrizione = commessa.descrizione;
     		commessaACorpo.dataInizioCommessa = commessa.dataInizioCommessa;
     		commessaACorpo.fatturabile = true;
-    		commessaACorpo.cliente = Cliente.findById(idCliente);
+    		commessaACorpo.cliente = commessa.cliente;
     		commessaACorpo.importo = importo;
     		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
     		commessa.dataInizioCommessa = commessa.fatturabile == false ? null : commessa.dataInizioCommessa;
-        	commessa.cliente = Cliente.findById(idCliente);
         	commessa.save();
     	}
     	
@@ -82,26 +73,22 @@ public class CommesseController extends Controller {
     
     public static void edit(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
+    	List<Cliente> listaClienti = Cliente.findAllAttivo();
         render(commessa, listaClienti);
     }
     
-    public static void update(@Valid Commessa commessa, @Required(message="Selezionare un cliente") Integer idCliente) {
-    	if(Commessa.find("byCodice", commessa.codice).first() != null && Commessa.find("byCodice", commessa.codice).first() != commessa){
-    		validation.addError("commessa.codice", "Codice gia esistente");
-    	}
-    	if(commessa.fatturabile == true && (commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals(""))){
-    		validation.addError("commessa.dataInizioCommessa", "Data inizio obligatoria");
-    	}
-    	if(commessa.fatturabile == true && commessa.dataFineCommessa != null && !commessa.dataFineCommessa.after(commessa.dataInizioCommessa)){
-    		validation.addError("commessa.dataFineCommessa", "Data fine deve essere maggiore di data inizio");
-    	}
+    public static void update(@Valid Commessa commessa, Integer idCliente) {
     	if(validation.hasErrors()) {
-    		List<Cliente> listaClienti = Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
+    		List<Cliente> listaClienti = Cliente.findAllAttivo();
 	        render("CommesseController/edit.html", commessa, listaClienti);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
     	commessa.cliente = Cliente.findById(idCliente);
+    	commessa.dataInizioCommessa = commessa.fatturabile ? commessa.dataInizioCommessa : null;
+    	commessa.dataFineCommessa = commessa.fatturabile ? commessa.dataFineCommessa : null;
+    	if(commessa.dataFineCommessa != null){
+    		Tariffa.chiudiTariffeByCommessa(commessa);
+    	}
     	commessa.save();
     	flash.success("%s modificata con successo", commessa.codice);
         list();
@@ -114,8 +101,10 @@ public class CommesseController extends Controller {
     
     public static void delete(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	if(commessa.dataFineCommessa != null)
+    	if(commessa.dataFineCommessa != null){
+    		flash.success("Commessa gia chiusa");
     		list();
+    	}
     	
     	if(commessa.dataInizioCommessa.after(new Date()))
     		commessa.dataFineCommessa = commessa.dataInizioCommessa;
@@ -127,5 +116,5 @@ public class CommesseController extends Controller {
     	flash.success("%s cancellata con successo", commessa.codice);
     	list();
     }
-
+    
 }

@@ -10,10 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import models.Risorsa.MatricolaCheck;
+
 import org.hibernate.annotations.Type;
 
 
 import play.data.binding.As;
+import play.data.validation.Check;
+import play.data.validation.CheckWith;
 import play.data.validation.InFuture;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
@@ -27,6 +31,7 @@ public class Commessa extends GenericModel{
     public Integer idCommessa;
 	
 	@Required(message="Codice obligatorio")
+	@CheckWith(CodiceCheck.class)
 	public String codice;
 
 	@Required(message="Descrizione obligatoria")
@@ -39,9 +44,11 @@ public class Commessa extends GenericModel{
  */
 //	@Required(message="Data obligatoria")
 	@As("dd-MM-yyyy")
+	@CheckWith(DataInizioCheck.class)
 	public Date dataInizioCommessa;
 	
 	@As("dd-MM-yyyy")
+	@CheckWith(DataFineCheck.class)
 	public Date dataFineCommessa;
 	
 	@ManyToOne
@@ -57,6 +64,53 @@ public class Commessa extends GenericModel{
 		this.descrizione = descrizione;
 		this.codice = codice;
 		this.fatturabile = fatturabile;
+	}
+	
+	static class CodiceCheck extends Check {
+		static final String message = "validation.commessa.codice_esistente";
+		
+		@Override
+		public boolean isSatisfied(Object commessa, Object codice) {
+			Commessa app = Commessa.find("byCodice", codice).first();
+			if(app != null && ((Commessa) commessa).idCommessa != app.idCommessa) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class DataInizioCheck extends Check {
+		static final String message = "validation.commessa.data_inizio_se_fatturabile";
+		
+		@Override
+		public boolean isSatisfied(Object commessa, Object dataInizio) {
+			if(((Commessa) commessa).fatturabile == true && (dataInizio == null || dataInizio.equals(""))) {
+				setMessage(message);
+				return false;
+	    	}
+			return true;
+		}
+	}
+	
+	static class DataFineCheck extends Check {
+		static final String message = "validation.commessa.data_fine_after_dataInizio";
+		
+		@Override
+		public boolean isSatisfied(Object commessa, Object dataFine) {
+			if(((Commessa) commessa).idCommessa != null && 
+					((Commessa) commessa).fatturabile == true && 
+					dataFine != null && !((Date) dataFine).after(((Commessa) commessa).dataInizioCommessa)) {
+				
+				setMessage(message);
+				return false;
+	    	}
+			return true;
+		}
+	}
+	
+	public static List<Commessa> listaCommesseAttive(){
+		return Commessa.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
 	public float calcolaRicavo(String mese, String anno) {
