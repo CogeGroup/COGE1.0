@@ -2,7 +2,7 @@
 #{set title:'Aggiungi nuovo costo' /}
 
 <h2>Modifica costo</h2>
-<div id="edit">
+<div id="align_form_short">
 #{form @CostiController.update()}
 	
 	#{ifErrors}	
@@ -14,12 +14,10 @@
 		
 		
     #{/ifErrors}
-<ul>
-	<li>
+
         <label for="importo">Importo: </label>
         <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
-    </li>
-    <li>
+    <br />
         <label for="dataInizio">Data Inizio:</label>
 		#{select 'costo.meseInizio', value:costo.meseInizio}
 				#{option 0}GEN#{/option}
@@ -38,8 +36,7 @@
 			
 			#{select 'costo.annoInizio', items:listaAnni, labelProperty:'costo.annoInizio', valueProperty:'annoInizio', value:costo.annoInizio}
 			#{/select} 
-    </li>
-    <li>
+  <br />
         <label for="dataFine">Data Fine:</label>
         #{select 'costo.meseFine', value:costo.meseFine}
 				#{option -1}-- Mese --#{/option}
@@ -60,8 +57,7 @@
 			#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
 				#{option -1}-- Anno --#{/option}
 			#{/select} 
-    </li>
-  </>
+ 
 </div>
 	
 		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">

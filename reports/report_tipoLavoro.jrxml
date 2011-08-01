@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report2" language="groovy" pageWidth="328" pageHeight="802" columnWidth="328" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_tipoLavoro" language="groovy" pageWidth="328" pageHeight="802" orientation="Landscape" columnWidth="328" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="MESE" class="java.lang.Integer">
@@ -45,14 +45,14 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 	<variable name="RICAVO_TOTALE" class="java.lang.Number" calculation="Sum">
 		<variableExpression><![CDATA[$F{ricavoTotale}]]></variableExpression>
 	</variable>
-	<variable name="COSTO_TOTALE" class="java.lang.Number" calculation="Sum">
-		<variableExpression><![CDATA[$F{costoTot}]]></variableExpression>
+	<variable name="MARGINE_MEDIO" class="java.lang.Number" calculation="Average">
+		<variableExpression><![CDATA[$F{margineTot}]]></variableExpression>
 	</variable>
 	<variable name="ORE_LAVORATE" class="java.lang.Number" calculation="Sum">
 		<variableExpression><![CDATA[$F{oreLavorate}]]></variableExpression>
 	</variable>
-	<variable name="MARGINE_MEDIO" class="java.lang.Number" calculation="Average">
-		<variableExpression><![CDATA[$F{margineTot}]]></variableExpression>
+	<variable name="COSTO_TOTALE" class="java.lang.Number" calculation="Sum">
+		<variableExpression><![CDATA[$F{costoTot}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -60,83 +60,89 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement x="114" y="0" width="62" height="20"/>
-				<textElement/>
-				<text><![CDATA[Codice]]></text>
+				<reportElement x="115" y="1" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODICE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="47" y="0" width="67" height="20" backcolor="#FFFFFF"/>
-				<textElement/>
-				<text><![CDATA[Rapporto Lavoro]]></text>
+				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RAPPORTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="47" height="20"/>
-				<textElement/>
-				<text><![CDATA[Risorse]]></text>
+				<reportElement x="1" y="1" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RISORSE]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="214" y="0" width="38" height="20" backcolor="#00CC33"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="215" y="1" width="38" height="20" backcolor="#00CC33"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$V{RICAVO_TOTALE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="252" y="0" width="38" height="20" backcolor="#FF0000"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="253" y="1" width="38" height="20" backcolor="#FF0000"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{COSTO_TOTALE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="176" y="0" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="177" y="1" width="38" height="20" backcolor="#00CCCC"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ORE_LAVORATE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00 %">
-				<reportElement mode="Opaque" x="290" y="0" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement/>
+				<reportElement mode="Opaque" x="291" y="1" width="38" height="20" backcolor="#00CCCC"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{MARGINE_MEDIO}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="20" width="328" height="1"/>
+				<reportElement x="0" y="21" width="328" height="1"/>
 			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement mode="Transparent" x="47" y="0" width="67" height="20" backcolor="#FFFFFF"/>
-				<textElement/>
+				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="176" y="0" width="38" height="20"/>
-				<textElement/>
+				<reportElement x="177" y="1" width="38" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{oreLavorate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="214" y="0" width="38" height="20"/>
-				<textElement/>
+				<reportElement x="215" y="1" width="38" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavoTotale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="47" height="20"/>
-				<textElement/>
+				<reportElement x="1" y="1" width="47" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00 %">
-				<reportElement x="290" y="0" width="38" height="20"/>
-				<textElement/>
+				<reportElement x="291" y="1" width="38" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margineTot}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="114" y="0" width="62" height="20"/>
-				<textElement/>
+				<reportElement x="115" y="1" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="19" width="328" height="1"/>
+				<reportElement x="0" y="20" width="328" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="252" y="0" width="38" height="20"/>
-				<textElement/>
+				<reportElement x="253" y="1" width="38" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
 			</textField>
 		</band>

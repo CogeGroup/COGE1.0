@@ -3,7 +3,7 @@
 	author:   luka cvrk (www.solucija.com) 
 */
 
- /* *{ margin: 0; padding: 0; }* */ 
+  *{ margin: 0; padding: 0; }* 
 body { 
 	font: .75em lucida grande, Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	line-height: 1.6em;
@@ -456,8 +456,8 @@ input.button_submit_double {
 
 #detail { 
  	
-	width: 140px; 
-	padding: 12px 21px 0 0; 
+	width: 110px; 
+	padding: 8px 10px 0 8px; 
 	border:1px solid;
 	margin:7px;
 }

@@ -3,7 +3,7 @@
 
 <h2>Modifica cliente</h2>
 
-<div id="edit">
+<div id="align_form_short">
 	#{form @ClientiController.update()}
 		
 		#{ifErrors}
@@ -11,22 +11,17 @@
 				${errors[0]}
 			</p>
 	    #{/ifErrors}
-	 <ul>
-		
-		<li>
+	
 	        <label for="codice">Codice cliente: </label>
 	        <input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/>
-	    </li>
-	    <li>
+	 <br />
 	        <label for="nominativo">Nominativo: </label>
 	        <input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
-	    </li>
-	    <li>
+	    <br />
 	        <label for="attivo">Attivo: </label>
 	        SI <input type="radio" id="attivo" name="cliente.attivo" value="true" #{if cliente.attivo == true}checked="checked"#{/if}/>
 	        NO <input type="radio" id="attivo" name="cliente.attivo" value="false" #{if cliente.attivo == false}checked="checked"#{/if} />
-	    </li>
-	</ul>
+	  
 </div>
 	<div id="button_center">
 			<input type="hidden" name="cliente.idCliente" value="${cliente.idCliente }" />

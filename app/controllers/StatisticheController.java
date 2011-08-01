@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 
 import models.Cliente;
 import models.RendicontoAttivita;
+import models.Risorsa;
 import models.TipoRapportoLavoro;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -36,29 +37,28 @@ public class StatisticheController extends Controller {
    }
 	
 
-	public static void tipoRapportoLavoro() {
+	public static void risorse() {
 
 		List<String> listaAnni = RendicontoAttivita.find("select distinct anno from RendicontoAttivita").fetch();
-	  System.out.println(listaAnni.size());
 		 render(listaAnni);
    }
 	
 	
-	public static void showRapportoLavoro(Integer mese,Integer anno){
-
+	public static void showRisorse(Integer mese,Integer anno){
 		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1).withMonthOfYear(mese).withYear(anno);
 		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese).withYear(anno).dayOfMonth().withMaximumValue();
 		Map reportParams = new HashMap();
-		 reportParams.put("MESE", mese);
-		 reportParams.put("ANNO", anno);
-		 reportParams.put("DATA_INIZIO", dataInizio.toDate());
-		 reportParams.put("DATA_FINE", dataFine.toDate());
+		reportParams.put("MESE", mese);
+		reportParams.put("ANNO", anno);
+		reportParams.put("DATA_INIZIO", dataInizio.toDate());
+		reportParams.put("DATA_FINE", dataFine.toDate());
+		String dateStr =  new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		 JasperPrint jrprint;
 		 
 		try {
-			VirtualFile vf = VirtualFile.fromRelativePath("reports/report2.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams,DB.getConnection());
-			 response.setHeader("Content-disposition", "attachment;filename=report.pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_risorse.jasper");
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(),reportParams,DB.getConnection());
+			 response.setHeader("Content-disposition", "attachment;filename=report_"+dateStr+".pdf");
 	          JasperExportManager.exportReportToPdfStream(jrprint,response.out);
 		} catch (JRException e) {
 			e.printStackTrace();
