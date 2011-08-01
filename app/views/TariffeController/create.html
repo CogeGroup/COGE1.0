@@ -21,10 +21,10 @@
 	});
 </script>
 
-<h1>Nuova tariffa</h1>
+<h2>Nuova tariffa</h2>
 
 #{if listaCommesse.size() > 0}
-<div id="edit">
+<div id="align_form_short">
 #{form @tariffeController.save()}
 	
 	#{ifErrors}
@@ -32,8 +32,8 @@
 			${errors[0]}
 		</p>
     #{/ifErrors}
-	<ul>
-	    <li>
+	
+	  
 	    	<label for="dataInizio">Data Inizio:</label>
 			#{select 'meseInizio', value:meseInizio}
 				#{option 0}GEN#{/option}
@@ -52,12 +52,11 @@
 			
 			#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
 			#{/select}
-		</li>
-	    <li>
+			<br />
+		
 	        <label for=importo>Importo giornaliero:</label>
 	        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-	    </li>
-	    <li>
+	        <br />
 	    	<label for="commessa">Commessa:</label>
 			<select name="idCommessa">
 				<option value="">- Selezionare -</option>
@@ -67,8 +66,7 @@
 			        	#{/if} >${commessa.codice }</option>
 			    #{/list} 
 	    	</select>
-	    </li>
-    </ul>
+	 
 </div>
 <div id="button_center">
 	<input type="hidden" name="idRisorsa" value="${idRisorsa }"/>

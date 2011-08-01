@@ -1,12 +1,15 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
 
-<div id="edit">
+<div id="detail">
 <ul>
-	<li><label>Matricola:</label> ${risorsa.matricola}</li>
-	<li><label>Risorsa: </label>${risorsa.cognome} ${risorsa.nome}</li> 
+	<li><label>Risorsa: </label>${risorsa.matricola}</li>
+	<li><label>Nome: </label>${risorsa.nome}</li> 
+	<li><label>Cognome: </label>${risorsa.cognome}</li>
 </ul>
 </div>
+
+
 
 #{if flash.success}
    	<p class="success">${flash.success}</p>
@@ -14,7 +17,7 @@
 
 #{if paginator.size() > 0}
 
-	<table class="table_rapportini">
+	<table class="table_center">
 		 <caption>
 		    <h3>Rapportino del: ${mese}-${anno}</h3>
 		   </caption>
@@ -42,6 +45,6 @@
 #{else}
 	<center><h2>Nessun Rapportino esistente</h2></center>
 #{/else}
-<div id="button">
-<a id="create" href="@{RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}"><input type="button" class="submitbutton" value="Aggiungi attivita'"/></a>
+<div id="buttonSubmit_center">
+<a id="create" href="@{RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}"><input type="button" class="button_submit" value="Aggiungi attivita'"/></a>
 </div>

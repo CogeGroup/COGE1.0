@@ -201,12 +201,12 @@ public class Risorsa extends GenericModel {
 				query.bind("dataInizio", new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno));
 				query.bind("dataFine", new SimpleDateFormat("dd/MM/yyyy").parse("31/" + mese + "/" + anno));
 				Costo costo = query.first();
-				System.out.println(ra.risorsa.nome + " " + costo.idCosto);
-				if(costo != null)
+				if(costo != null){
 					costoTotale = (costo.importo/8)*ra.oreLavorate;
-				else
+				}
+				else{
 					costoTotale = 0;
-				
+				}
 				Risorsa RisorsaReport = new Risorsa();
 				RisorsaReport.matricola = this.matricola;
 				RisorsaReport.codice = this.codice;

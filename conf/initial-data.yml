@@ -1,68 +1,83 @@
 # RISORSE --------------
 Risorsa(bonnie): 
-  matricola:  537
-  codice:  asd
+  matricola:  101
+  codice:  BSM
   nome:  Bonnie
   cognome:  Smith
   dataIn:  2009-06-14
-Risorsa(zinedine): 
-  matricola:  21510
-  codice:  zz
-  nome:  zinedine
-  cognome:  zidane
+Risorsa(Clark): 
+  matricola:  102
+  codice:  CRKE
+  nome:  Clark
+  cognome:  Kent
   dataIn:  2010-01-01
-Risorsa(r1): 
-  matricola:  122
-  codice:  a
-  nome:  pippo
-  cognome:  pippo
+Risorsa(Bruce): 
+  matricola:  103
+  codice:  BRWN
+  nome:  Bruce
+  cognome:  Wayne
   dataIn:  2011-06-01
-Risorsa(r2): 
-  matricola:  123
-  codice:  b
-  nome:  risorsa2
-  cognome:  risorsa2
+Risorsa(Peter): 
+  matricola:  104
+  codice:  PEPK
+  nome:  Peter
+  cognome:  Parker
   dataIn:  2011-06-01
 # TIPI RAPPORTO LAVORO -------------
-TipoRapportoLavoro(dipendente):
+TipoRapportoLavoro(DIP):
  codice: DIP
- descrizione: dipendente
-TipoRapportoLavoro(apprendista):
- codice: APP
+ descrizione: Dipendente Tempo Indeterminato
+TipoRapportoLavoro(DAP):
+ codice: DAP
  descrizione: apprendista
-TipoRapportoLavoro(tipoRappLav1):
- codice: cod
- descrizione: tipoRappLav1
-TipoRapportoLavoro(tipoRappLav2):
- codice: cod2
- descrizione: tipoRappLav2
+TipoRapportoLavoro(DIPT):
+ codice: DIPT
+ descrizione: Dipendenti Tempo Determinato
+TipoRapportoLavoro(DIPD):
+ codice: DIPD
+ descrizione: Dipendenti Distaccati
+TipoRapportoLavoro(CCP):
+ codice: CCP
+ descrizione: CO.CO.PRO.
+TipoRapportoLavoro(IVA):
+ codice: IVA
+ descrizione: Partita Iva.
+TipoRapportoLavoro(ACQ):
+ codice: ACQ
+ descrizione: Acquisto da Esterno
+TipoRapportoLavoro(INT):
+ codice: INT
+ descrizione: Interscambio
+TipoRapportoLavoro(COC):
+ codice: COC
+ descrizione: Collaboratori Occasionali
 # RAPPORTI LAVORO -------------------
 RapportoLavoro(rl1):
  dataInizio: 2009-06-14
  dataFine: 2010-06-30
- tipoRapportoLavoro: apprendista
+ tipoRapportoLavoro: DAP
  risorsa: bonnie
 RapportoLavoro(rl2):
  dataInizio: 2010-07-01
- tipoRapportoLavoro: dipendente
+ tipoRapportoLavoro: DIP
  risorsa: bonnie
 RapportoLavoro(rl3):
  dataInizio: 2010-01-01
- tipoRapportoLavoro: dipendente
- risorsa: zinedine
+ tipoRapportoLavoro: DIP
+ risorsa: Clark
 RapportoLavoro(rpl1):
  dataInizio: 2011-06-01
  dataFine: 2011-06-30
- tipoRapportoLavoro: tipoRappLav1
- risorsa: r1
+ tipoRapportoLavoro: DIPT
+ risorsa: Bruce
 RapportoLavoro(rpl2):
  dataInizio: 2011-07-01
- tipoRapportoLavoro: tipoRappLav2
- risorsa: r1
+ tipoRapportoLavoro: DIPD
+ risorsa: Bruce
 RapportoLavoro(rpl3):
  dataInizio: 2011-06-01
- tipoRapportoLavoro: tipoRappLav1
- risorsa: r2
+ tipoRapportoLavoro: DIPT
+ risorsa: Peter
 #COSTI --------------
 Costo(costo1): 
   importo:  200f
@@ -97,56 +112,63 @@ Costo(costo6):
 Costo(costo7): 
   importo: 10f
   dataInizio: 2010-01-01
-  risorsa: zinedine
+  risorsa: Clark
 Costo(cs1): 
   importo: 100f
   dataInizio: 2011-06-01
-  risorsa: r1
+  risorsa: Bruce
 #CLIENTI ----------
 Cliente(cliente1): 
-  codice: c1
+  codice: cl1
   nominativo: cliente1
   attivo: true
-Cliente(cl1): 
-  codice: COD
-  nominativo: nome
+Cliente(cliente2): 
+  codice: cl2
+  nominativo: cliente2
   attivo: true
 #COMMESSE ---------
 Commessa(commessa1):
- codice: com1
+ codice: cm1
  descrizione: commessa1
  dataInizioCommessa: 2009-01-01
  attivo: true
  fatturabile: true
  cliente: cliente1
 Commessa(commessa2):
- codice: com2
+ codice: cm2
  descrizione: commessa2
  dataInizioCommessa: 2009-01-01
  attivo: true
  fatturabile: true
  cliente: cliente1
-Commessa(commessa3):
- codice: com3
- descrizione: commessa3
+Commessa(Ferie):
+ codice: ferie
+ descrizione: Ferie
  dataInizioCommessa: 2009-01-01
  attivo: true
  fatturabile: false
- cliente: cliente1
-Commessa(cm1):
- codice: COMMESSA1
- descrizione: desc
+ cliente: cliente2
+Commessa(Malattia):
+ codice: malattia
+ descrizione: malattia
+ dataInizioCommessa: 2009-01-01
+ attivo: true
+ fatturabile: false
+ cliente: cliente2
+Commessa(commessa3):
+ codice: cm3
+ descrizione: commessa3
  dataInizioCommessa: 2011-01-01
  attivo: true
  fatturabile: true
- cliente: cl1
-Commessa(cm2):
- codice: COMMESSA2
- descrizione: desc
+ cliente: cliente1
+Commessa(commessa4):
+ codice: cm4
+ descrizione: commessa4
  dataInizioCommessa: 2011-07-07
  attivo: true
  fatturabile: true
- cliente: cl1
+ cliente: cliente1
 #COMMESSE A CORPO ---------
 CommessaACorpo(cAc1):
  codice: ACORPO
@@ -155,7 +177,7 @@ CommessaACorpo(cAc1):
  attivo: true
  importo: 200f
  fatturabile: true
- cliente: cl1
+ cliente: cliente1
 #TARIFFE ---------------
 Tariffa(tariffa1):
  dataInizio: 2009-06-14
@@ -165,33 +187,33 @@ Tariffa(tariffa1):
 Tariffa(tariffa2):
  dataInizio: 2010-01-01
  importoGiornaliero: 200f
- risorsa: zinedine
+ risorsa: Clark
  commessa: commessa1
 Tariffa(tariffa3):
  dataInizio: 2010-01-01
  importoGiornaliero: 200f
- risorsa: zinedine
+ risorsa: Clark
  commessa: commessa2
 Tariffa(tariffa4):
  dataInizio: 2010-01-01
  importoGiornaliero: 0f
- risorsa: zinedine
- commessa: commessa3
-Tariffa(t1):
+ risorsa: Clark
+ commessa: Ferie
+Tariffa(tariffa5):
  dataInizio: 2011-07-01
  dataFine: 2011-08-31
  importoGiornaliero: 100f
- risorsa: r2
- commessa: cm1
-Tariffa(t2):
+ risorsa: Peter
+ commessa: commessa3
+Tariffa(tariffa6):
  dataInizio: 2011-09-01
  importoGiornaliero: 200f
- risorsa: r2
- commessa: cm1
+ risorsa: Peter
+ commessa: commessa3
 #RUOLI --------------------
 Ruolo(ruolo1):
  descrizione: admin
- jobs: [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9]
+ jobs: [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9,j26]
  utenti: [u1]
 Ruolo(ruolo2):
  descrizione: segreteria
@@ -276,65 +298,68 @@ Job(j24):
 Job(j25):
  descrizione: TipoRapportoLavoroController/index
  ruoli: [ruolo2]
+ Job(j26):
+ descrizione: StatisticheController/*
+ ruoli: [ruolo1]
 #UTENTI --------------------
 Utente(u1):
  username: a
  password: a
  abilitato: true
- risorsa: r1
+ risorsa: Bruce
  ruoli: [ruolo1]
 Utente(u2):
  username: s
  password: s
  abilitato: true
- risorsa: r2
+ risorsa: Peter
  ruoli: [ruolo2]
 #RENDICONTO ATTIVITA--------------------
 RendicontoAttivita(ra1):
  oreLavorate: 100
  mese: 6
- anno: 2010
+ anno: 2011
  risorsa: bonnie
  commessa: commessa1
 RendicontoAttivita(ra2):
  oreLavorate: 100
  mese: 6
- anno: 2010
- risorsa: zinedine
+ anno: 2011
+ risorsa: Clark
  commessa: commessa1
 RendicontoAttivita(ra3):
  oreLavorate: 200
  mese: 6
- anno: 2010
- risorsa: zinedine
+ anno: 2011
+ risorsa: Clark
  commessa: commessa2
 RendicontoAttivita(ra4):
  oreLavorate: 50
  mese: 6
- anno: 2010
- risorsa: zinedine
- commessa: commessa3
+ anno: 2011
+ risorsa: Clark
+ commessa: Ferie
 RendicontoAttivita(ra5):
  oreLavorate: 100
  mese: 7
- anno: 2010
+ anno: 2011
  risorsa: bonnie
  commessa: commessa1
 RendicontoAttivita(ra6):
  oreLavorate: 100
  mese: 7
- anno: 2010
- risorsa: zinedine
+ anno: 2011
+ risorsa: Clark
  commessa: commessa1
 RendicontoAttivita(ra7):
  oreLavorate: 200
  mese: 7
- anno: 2010
- risorsa: zinedine
+ anno: 2011
+ risorsa: Clark
  commessa: commessa2
 RendicontoAttivita(ra8):
  oreLavorate: 50
  mese: 7
- anno: 2010
- risorsa: zinedine
- commessa: commessa3
+ anno: 2011
+ risorsa: Clark
+ commessa: Ferie

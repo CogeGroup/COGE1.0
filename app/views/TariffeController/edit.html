@@ -31,12 +31,12 @@
 </script>
 
 <h2>Modifica Tariffa</h2>
-<div id="edit">
-<ul>
-	<li><label>Risorsa:</label> ${tariffa.risorsa.matricola}</li>
-	<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
-	<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
-</ul>
+<div id="align_form">
+
+	<label>Risorsa: <strong>${tariffa.risorsa.matricola}</strong></label>
+	<label>Nome: <strong>${tariffa.risorsa.nome}</strong></label>
+	<label>Cognome: <strong>${tariffa.risorsa.cognome}</strong></label><br />
+
 
 #{form @TariffeController.update()}
 	
@@ -46,7 +46,7 @@
 		</p>
     #{/ifErrors}
     
-    <ul>
+    
     <!--
 	<li>
         <label for=dataInizio>Data inizio:</label>
@@ -57,7 +57,7 @@
         <input type="text" class="txt_date" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
     </li>
     -->
-    <li>
+    
     	<label for="dataInizio">Data Inizio:</label>
 		#{select 'meseInizio', value:meseInizio}
 			#{option 0}GEN#{/option}
@@ -76,8 +76,7 @@
 	
 		#{select 'annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
 		#{/select}
-	</li>
-	<li>
+	<br />
     	<label for="dataFine">Data Fine:</label>
 		#{select 'meseFine', value:meseFine}
 			#{option -1}-- Mese --#{/option}
@@ -98,18 +97,18 @@
 		#{select 'annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
 			#{option -1}-- Anno --#{/option}
 		#{/select}
-	</li>
+	<br />
     #{if tariffa.commessa instanceof models.CommessaACorpo }
 	#{/if}
 	#{else}
 	    #{if tariffa.commessa.fatturabile == true}
-	    <li>
+	  
 	        <label for=importo>Importo giornaliero: </label>
 	        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-	    </li>
+	   <br />
 	    #{/if}
     #{/else}
-    <li>
+   
     	<label for="commessa">Commessa:</label>
 
     	<select name="idCommessa">
@@ -120,8 +119,8 @@
 		        	#{/if} >${commessa.codice }</option>
 		    #{/list} 
     	</select>
-    </li>
-</ul>
+    <br />
+
 </div>
 <div id="button_center">
 	<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />

@@ -19,7 +19,7 @@
   });
 </script>  		  
 <h2>Aggiungi Risorsa</h2>
-<div id="insert">
+<div id="align_form">
 #{ifErrors}
     <p class="error">${errors[0]}</p>
 #{/ifErrors}
@@ -27,49 +27,42 @@
 
 #{form @RisorseController.save()}
 
-<ul>
 
-    <li>
+
+   
         <label for="matricola">Matricola:</label>
    
-        <input type="text" class="txt_s" name="risorsa.matricola" id="matricola" value="${risorsa?.matricola}"/>
-    </li>
+        <input type="text" class="txt_s" name="risorsa.matricola" id="matricola" value="${risorsa?.matricola}"/><br />
+   
 
-    <li>
         <label for="codice">Codice:</label>
-        <input type="text" class="txt_s" name="risorsa.codice" id="codice" value="${risorsa?.codice}"/>
-    </li>
-    <li>
+        <input type="text" class="txt_s"  name="risorsa.codice" id="codice" value="${risorsa?.codice}"/><br />
+   
         <label for="nome">Nome:</label>
-        <input type="text" class="txt_m" name="risorsa.nome" id="nome" value="${risorsa?.nome}"/>
-    </li>
-    <li>
+        <input type="text" class="txt_m" name="risorsa.nome" id="nome" value="${risorsa?.nome}"/><br />
+   
         <label for="cognome">Cognome:</label>
-        <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa?.cognome}"/>
-    </li>
-    <li>
-        <label for="dataIn">Data In: <small>(gg-mm-aaaa)</small></label>
-        <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa?.dataIn?.format('dd-MM-yyyy')}"/>
-    </li>
-    <li>
+        <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa?.cognome}"/><br />
+   
+        <label for="dataIn">Data In:</label>
+        <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa?.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+
     	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		#{select  'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
 			#{option 0}-- Seleziona--#{/option}
 		#{/select}
-	</li>
-
-	</ul>
 
 </div>
-<div id="button_center">	
-        <input type="submit" class="submitbutton" value="Aggiungi" />
+<div id="button_center">		
+        <input type="submit" class="button_submit_double"  value="Aggiungi" />
     
     
 #{/form}
 
 #{form @RisorseController.list()} 
 	
-        <input type="submit" class="submitbutton" value="Indietro" />
+        <input type="submit" class="button_submit_double" value="Indietro" />
     
 #{/form}
+
 </div>

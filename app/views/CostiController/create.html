@@ -7,23 +7,16 @@
 #{form @CostiController.save()}
 	
 	#{ifErrors}
-	
-       
-        	
-			#{errors} 
-				#{ifnot error.message == 'validation.object'}
-				 <p class="error">${error} </p> 
-				#{/ifnot}
-			#{/errors}
-			
-		
+		#{errors} 
+			#{ifnot error.message == 'validation.object'}
+	 			<p class="error">${error} </p> 
+			#{/ifnot}
+		#{/errors}
     #{/ifErrors}
- <ul>
-	<li>
+ <br />
         <label for="importo">Importo:</label>
         <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
-    </li>
-    <li>
+    <br />
         <label for="dataInizio">Data Inizio:</label>
 		#{select 'costo.meseInizio', value:costo.meseInizio}
 				#{option 0}GEN#{/option}
@@ -42,8 +35,7 @@
 			
 			#{select 'costo.annoInizio', items:listaAnni, labelProperty:'costo.annoInizio', valueProperty:'annoInizio', value:costo.annoInizio}
 			#{/select} 
-    </li>
-    <li>
+    <br />
         <label for="dataFine">Data Fine:</label>
         #{select 'costo.meseFine', value:costo.meseFine}
 				#{option -1}-- Mese --#{/option}
@@ -64,13 +56,12 @@
 			#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
 				#{option -1}-- Anno --#{/option}
 			#{/select} 
-    </li>
-  </ul>
+    
 </div>
 <div id="button_center">
 	<input type="hidden" name="costo.risorsa.idRisorsa" value="${costo?.risorsa?.idRisorsa}">
 	<input type="submit" class="submitbutton" value="Salva" />
     
 #{/form}
-<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="indietro" /></a>
+<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
 </div>

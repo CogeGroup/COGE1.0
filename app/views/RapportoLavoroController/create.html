@@ -3,21 +3,17 @@
 
 
 <h2>Crea Rapporto Lavoro</h2>
-<div id="edit">
+<div id="align_form_short">
 #{ifErrors}
     <p class="error">${errors[0]}</p>
 #{/ifErrors}
 
-<ul>
-	<li><label>Risorsa:</label> ${rapportoLavoro.risorsa.matricola}</li>
-	<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
-	<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
-	<li><label>Data In:</label> ${rapportoLavoro.risorsa.dataIn.format('dd-MM-yyyy')}</li>
-</ul>
-
+	<label>Risorsa: <strong>${rapportoLavoro.risorsa.matricola}</strong></label>
+	<label>Nome: <strong>${rapportoLavoro.risorsa.nome}</strong> </label> 
+	<label>Cognome: <strong>${rapportoLavoro.risorsa.cognome}</strong></label><br />
+	<!-- <label>Data In: <strong>${rapportoLavoro.risorsa.dataIn.format('dd-MM-yyyy')}</strong></label><br /> -->
 #{form @RapportoLavoroController.save()}
-	<ul>
-	    <li>
+	
 	    	<label for="dataInizio">Data Inizio:</label>
 			#{select 'rapportoLavoro.meseInizio', value:rapportoLavoro.meseInizio}
 				#{option 0}GEN#{/option}
@@ -36,14 +32,12 @@
 			
 			#{select 'rapportoLavoro.annoInizio', items:listaAnni, labelProperty:'rapportoLavoro.annoInizio', valueProperty:'rapportoLavoro.annoInizio', value:rapportoLavoro.annoInizio}
 			#{/select}
-		</li>
-		<li>
+		<br />
 	    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 			#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
 				#{option 0}-- Seleziona --#{/option}
 			#{/select}
-		</li>
-	</ul>
+	<br />
 </div>
 <div id="button_center">
 	
@@ -55,7 +49,7 @@
 #{/form}
 #{form @RapportoLavoroController.list(rapportoLavoro.risorsa.idRisorsa)} 
 	
-		<input type="submit" class="submitbutton" value="Annulla" />
+		<input type="submit" class="submitbutton" value="Indietro" />
    
 #{/form}
 </div>

@@ -3,7 +3,7 @@
 	author:   luka cvrk (www.solucija.com) 
 */
 
-*{ margin: 0; padding: 0; }* 
+ /* *{ margin: 0; padding: 0; }* */ 
 body { 
 	font: .75em lucida grande, Tahoma, Verdana, Arial, Helvetica, sans-serif; 
 	line-height: 1.6em;
@@ -217,7 +217,7 @@ tbody a:visited:after {
  margin: 8px 0 0 275px;
 }
 #datatable_costi{
- margin: 8px 0 0 282px;
+ margin: 8px 0 0 270px;
 }
 #datatable_clienti{
  margin: 8px 0 0 275px;
@@ -229,7 +229,7 @@ tbody a:visited:after {
  margin: 8px 0 0 280px;
 }
 #datatable_rapportini{
- margin: 8px 0 0 254px;
+ margin: 8px 0 0 280px;
 }
 
 #button{
@@ -457,7 +457,7 @@ input.button_submit_double {
 #detail { 
  	
 	width: 140px; 
-	padding: 12px 21px; 
+	padding: 12px 21px 0 0; 
 	border:1px solid;
 	margin:7px;
 }
@@ -475,6 +475,145 @@ input.button_submit_double {
 
 
 
+#align_form {  
+  font:100% verdana,arial,sans-serif;
+  background: #eee;
+  border:1px solid;  	
+  margin: auto;
+  padding: 0;
+  min-width: 500px;
+  max-width: 600px;
+  width: 560px;
+  min-height:245px; 
+}
+
+#align_form label { 
+	display: block;  
+	float: left; 
+	width: 150px; 
+	padding: 0; 
+	margin: 15px 0 0; 
+	text-align: right; 
+}
+ 
+                                  
+
+#align_form input, select {
+	border:1px solid;
+	width:auto;     
+	margin:15px 0 0 10px; 
+}
+
+#align_form input#reset {
+	margin-left:0px; 
+}
+
+textarea { overflow: auto; }
+
+#align_form small {
+	display: block;
+	margin: 0 0 5px 160px;
+	padding: 1px 3px;
+	font-size: 88%;
+}
+
+#align_form .required{font-weight:bold;} 
+
+#align_form br {
+	clear:left; 
+}
+
+
+#align_form .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#align_form .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#align_form .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+
+
+#align_form_short {  
+  font:100% verdana,arial,sans-serif;
+  background: #eee;
+  border:1px solid;  	
+  margin: auto;
+  padding: 0;
+  min-width: 500px;
+  max-width: 600px;
+  width: 440px;
+  min-height:150px; 
+}
+
+#align_form_short label { 
+	display: block;  
+	float: left; 
+	width: 150px; 
+	padding: 0; 
+	margin: 15px 0 0; 
+	text-align: right; 
+}
+ 
+                                  
+
+#align_form_short input, select {
+	border:1px solid;
+	width:auto;     
+	margin:15px 0 0 10px; 
+}
+
+#align_form_short input#reset {
+	margin-left:0px; 
+}
+
+
+
+#align_form_short small {
+	display: block;
+	margin: 0 0 5px 160px;
+	padding: 1px 3px;
+	font-size: 88%;
+}
+
+#align_form_short .required{font-weight:bold;} 
+
+#align_form_short br {
+	clear:left; 
+}
+
+
+#align_form_short .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#align_form_short .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#align_form_short .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
 
 
 
