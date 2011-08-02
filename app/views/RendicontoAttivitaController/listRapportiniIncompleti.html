@@ -1,0 +1,41 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Rapportini'/}
+
+<h2>Lista Rapportini mancanti del ${mese+1}/${anno}</h2>
+
+#{if paginator.size() > 0}
+	<table class="table_center">
+	<thead>
+		<tr>
+			<th scope="col">Id Risorsa</th>
+			<th scope="col">Matricola</th>
+			<th scope="col">Codice</th>
+			<th scope="col">Cognome</th>
+			<th scope="col">Nome</th>
+			<th scope="col">Rapportino</th>
+		</tr>
+	</thead>
+		#{paginate.list items:paginator, as:'risorsa'} 
+		<tr>
+			<td>${risorsa.idRisorsa }</td>
+			<td>${risorsa.matricola }</td>
+			<td>${risorsa.codice }</td>
+			<td>${risorsa.cognome }</td>
+			<td>${risorsa.nome }</td>
+			<td>#{a @RendicontoAttivitaController.dettaglio(risorsa.idRisorsa,mese+1,anno)}Dettagli rapportino#{/a}</td>
+		</tr>
+		#{/paginate.list} 
+	</table>
+	<div id="datatable">
+	#{paginate.controls items:paginator /}
+	</div>
+#{/if}
+#{else}
+	<center><h3>Nessuna Anomalia Presente</h3></center>
+#{/else}
+
+<div id="button_center">		
+	#{form @RendicontoAttivitaController.rapportiniIncompleti()}
+		<input type="submit" class="submitbutton" value="Indietro" />   
+	#{/form}
+</div>

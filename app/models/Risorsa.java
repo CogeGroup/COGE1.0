@@ -82,6 +82,9 @@ public class Risorsa extends GenericModel {
 	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
 	public List<RapportoAttivita> rapportiAttivita = new ArrayList<RapportoAttivita>();
 	
+	@Transient
+	public float guadagno;
+	
 	//constructors
 	public Risorsa() {
 	}
@@ -143,7 +146,7 @@ public class Risorsa extends GenericModel {
 		rl.risorsa=this;
 	}
 	
-	public float calcolaRicavo(String mese,String anno) throws ParseException{
+	public float calcolaRicavo(int mese,int anno){
 		float importoTotale = 0f;
 		
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
@@ -161,7 +164,7 @@ public class Risorsa extends GenericModel {
 		return importoTotale;
 	}
 	
-	public static float calcolaRicavoPerTipoRapportoLavoro(String mese, String anno, TipoRapportoLavoro tiporapLav){
+	public static float calcolaRicavoPerTipoRapportoLavoro(int mese, int anno, TipoRapportoLavoro tiporapLav){
 		List<RapportoLavoro> rapLavList = null;
 		try {
 			rapLavList = RapportoLavoro.findByTipoRapportoLavoroAndPeriodo(tiporapLav, mese, anno);
@@ -176,7 +179,7 @@ public class Risorsa extends GenericModel {
 		for (RapportoLavoro ral : rapLavList){
 			try {
 				ret += ral.risorsa.calcolaRicavo(mese, anno);
-			} catch (ParseException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -187,6 +190,20 @@ public class Risorsa extends GenericModel {
 		if(listaCosti == null || listaCosti.isEmpty())
 			return null;
 		return listaCosti.get(listaCosti.size()-1);
+	}
+	
+	public static List<Risorsa> listAnomalieRicavi(int mese, int anno) {
+		List<Risorsa> listaAnomalie = new ArrayList<Risorsa>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+    	for (Risorsa risorsa : listaRisorse) {
+			float ricavo = risorsa.calcolaRicavo(mese, anno);
+			Costo costo = risorsa.extractLastCosto();
+			if(costo != null && ricavo < costo.importo){
+				risorsa.guadagno = ricavo - costo.importo;
+				listaAnomalie.add(risorsa);
+			}
+		}
+    	return listaAnomalie;
 	}
 	
 //	public static ArrayList<HashMap> statisticaRisorsa(int mese,int anno){
