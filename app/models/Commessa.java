@@ -124,7 +124,7 @@ public class Commessa extends GenericModel{
 
 		for(RendicontoAttivita index:lista){
 			
-			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.risorsa,index.commessa);
+			Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, index.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		

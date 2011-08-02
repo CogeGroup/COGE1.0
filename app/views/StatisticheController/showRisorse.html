@@ -1,0 +1,30 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Risorse' /}
+
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+
+
+
+
+
+
+<script type="text/javascript">
+  $(function() {
+   var listAction = #{jsAction @statisticaHTMLRisorse(':mese',':anno') /}
+   $('#result').load(
+       listAction({mese: ${mese}, anno: ${anno}})
+       ) 
+    });
+   
+</script>
+
+
+
+<div id="result" class="report">
+  <center><img src="@{'/public/images/loading.gif'}" alt="" /></center>
+</div>
+
+
+
+	<a href="statisticaPDFRisorse?anno=${anno}&amp;mese=${mese}"><input type="button" class="button_submit" value="Esporta PDF" /></a>
+

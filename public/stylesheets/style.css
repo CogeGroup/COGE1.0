@@ -615,10 +615,38 @@ textarea { overflow: auto; }
 	width:58px;
 }
 
+.report{
+ border:1px solid;
+margin:auto;
+}
+
+.report table{
+ border:none;
+
+}
+
+.report table td, tr{
+ border:none;
+ padding:0;
+
+}
+
+.report tbody tr:hover {
+  
+  color:none;
+   background:none;
+}
 
 
-
-
+.report table a:visited {
+	color:none;
+}
+.report table a:hover {
+	color:none;
+}
+.report table a:active {
+	color:none;
+}
 
 
 
