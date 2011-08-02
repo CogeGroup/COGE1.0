@@ -1,10 +1,21 @@
 package controllers;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
 
 
 import models.Costo;
@@ -150,6 +161,68 @@ public class RisorseController extends Controller {
     		risorsa.dataOut = risorsa.dataIn.before(dataChiusura) ? dataChiusura : risorsa.dataIn;
 		} else if (risorsa.dataOut.after(dataChiusura)) {
 			risorsa.dataOut = risorsa.dataIn.before(dataChiusura) ? dataChiusura : risorsa.dataIn;
+		}
+    }
+    
+    public static void export() {
+    	String dateStr =  new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+		response.setHeader("Content-disposition", "attachment;filename=ListaRisorse_"+dateStr+".xls");
+        response.setContentTypeIfNotSet("application/msexcel");
+        OutputStream out;
+		try {
+			out = response.out;
+			//Creo un Workbook e poi un foglio di lavoro
+			HSSFWorkbook wb  = new HSSFWorkbook();
+			HSSFSheet sheet = wb.createSheet("Risorse");
+			HSSFCellStyle style = wb.createCellStyle();
+			style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+			style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+			style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+			style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+			style.setBorderTop(CellStyle.BORDER_MEDIUM_DASHED);
+			style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+			style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+			HSSFRow row = sheet.createRow((short)0);
+	        Cell c1 = row.createCell(0);
+	        c1.setCellStyle(style);
+	        c1.setCellValue("MATRICOLA");
+	        Cell c2 = row.createCell(1);
+	        c2.setCellStyle(style);
+	        c2.setCellValue("CODICE");
+	        Cell c3 = row.createCell(2);
+	        c3.setCellStyle(style);
+	        c3.setCellValue("NOME");
+	        Cell c4 = row.createCell(3);
+	        c4.setCellStyle(style);
+	        c4.setCellValue("COGNOME");
+	        Cell c5 = row.createCell(4);
+	        c5.setCellStyle(style);
+	        c5.setCellValue("DATA IN");
+	        Cell c6 = row.createCell(5);
+	        c6.setCellStyle(style);
+	        c6.setCellValue("DATA OUT");
+	        short i = 1;
+	        List<Risorsa> listaRisorse = Risorsa.find("order by matricola").fetch();
+	        for(Risorsa risorsa : listaRisorse){
+		        row = sheet.createRow(i);
+		        row.createCell(0).setCellValue(risorsa.matricola);
+		        row.createCell(1).setCellValue(risorsa.codice);
+		        row.createCell(2).setCellValue(risorsa.nome);
+		        row.createCell(3).setCellValue(risorsa.cognome);
+		        row.createCell(4).setCellValue(MyUtility.dateToString(risorsa.dataIn));
+		        row.createCell(5).setCellValue(risorsa.dataOut == null ? null : MyUtility.dateToString(risorsa.dataOut));
+		        i++;
+		    }
+	        sheet.autoSizeColumn(0);
+	        sheet.autoSizeColumn(1);
+	        sheet.autoSizeColumn(2);
+	        sheet.autoSizeColumn(3);
+	        sheet.autoSizeColumn(4);
+	        sheet.autoSizeColumn(5);
+	        out.flush();
+	        wb.write(out);  
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
     }
     

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import play.data.validation.Check;
+import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
@@ -22,16 +24,17 @@ public class Utente extends GenericModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idUtente;
 	
-	@Required(message="username obbligatorio")
+	@Required
+	@CheckWith(UsernameCheck.class)
 	@MaxSize(255)
 	public String username;
 	
-	@Required(message="password obbligatoria")
+	@Required
 	@MinSize(8)
 	@MaxSize(255)
 	public String password;
 	
-	@Required(message="scegliere abilitato")
+	@Required
 	public boolean abilitato;
 	
 	@ManyToMany 
@@ -49,6 +52,10 @@ public class Utente extends GenericModel {
 		this.username = username;
 		this.password = password;
 		this.abilitato = abilitato;
+	}
+	
+	public Utente() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	public void addRuolo(Ruolo ruolo){
@@ -89,11 +96,18 @@ public class Utente extends GenericModel {
 		return false;
 	}
 	
-	
-
-
-	 
- 
-	
+	static class UsernameCheck extends Check {
+		static final String message = "validation.utente.username_esistente";
+		
+		@Override
+		public boolean isSatisfied(Object utente, Object username) {
+			Utente app = Utente.find("byUsername", username).first();
+			if(app != null && ((Utente) utente).idUtente!= app.idUtente) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
 
 }

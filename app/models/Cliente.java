@@ -28,11 +28,11 @@ public class Cliente extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idCliente;
 	
-	@Required(message="Codice obligatorio")
+	@Required
 	@CheckWith(CodiceCheck.class)
 	public String codice;
 	
-	@Required(message="Nominativo obligatorio")
+	@Required
 	public String nominativo;
 	
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)

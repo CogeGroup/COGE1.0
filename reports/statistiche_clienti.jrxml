@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
@@ -87,7 +87,27 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="26" splitType="Stretch"/>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="3" width="109" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORT CLIENTI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="3" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANNO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="3" width="48" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{ANNO}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<columnHeader>
 		<band height="32" splitType="Stretch">
@@ -579,14 +599,14 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_secondo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="258" y="19" width="61" height="20"/>
+				<reportElement x="258" y="20" width="61" height="20"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_secondo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="123" y="19" width="74" height="21"/>
+				<reportElement x="123" y="20" width="74" height="20"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
 				</textElement>

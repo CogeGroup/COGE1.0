@@ -1,0 +1,30 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Clienti' /}
+
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+
+
+
+
+
+
+<script type="text/javascript">
+  $(function() {
+   var listAction = #{jsAction @statisticaHTMLClienti(':anno') /}
+   $('#result').load(
+       listAction({anno: ${anno}})
+       ) 
+    });
+   
+</script>
+
+
+
+<div id="result" class="report">
+  <center><img src="@{'/public/images/loading.gif'}" alt="" /></center>
+</div>
+
+
+
+	<a href="statisticaPDFClienti?anno=${anno}"><input type="button" class="button_submit" value="Esporta PDF" /></a>
+

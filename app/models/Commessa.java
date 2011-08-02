@@ -30,11 +30,11 @@ public class Commessa extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idCommessa;
 	
-	@Required(message="Codice obligatorio")
+	@Required
 	@CheckWith(CodiceCheck.class)
 	public String codice;
 
-	@Required(message="Descrizione obligatoria")
+	@Required
 	public String descrizione;
 	
 	public boolean fatturabile;
@@ -42,7 +42,7 @@ public class Commessa extends GenericModel{
 /* Per il momento la data non è obligatoria, perchè nel caso in cui le commesse sono ferie, malattia, ecc 
  * non hanno una data di inizio.
  */
-//	@Required(message="Data obligatoria")
+//	@Required
 	@As("dd-MM-yyyy")
 	@CheckWith(DataInizioCheck.class)
 	public Date dataInizioCommessa;
