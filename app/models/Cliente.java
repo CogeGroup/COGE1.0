@@ -76,7 +76,7 @@ public class Cliente extends GenericModel{
 		
 		for(DettaglioRapportoAttivita index:lista){
 			
-			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
+			Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		return importoTotale;
