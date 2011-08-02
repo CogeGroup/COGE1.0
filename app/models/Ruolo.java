@@ -28,7 +28,7 @@ public class Ruolo extends GenericModel{
 
     public Integer idRuolo;
 	
-	@Required(message="descrizione obbligatoria")
+	@Required
 	@MaxSize(255)
 	public String descrizione;
 	

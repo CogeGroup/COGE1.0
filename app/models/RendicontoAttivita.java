@@ -26,7 +26,7 @@ public class RendicontoAttivita extends GenericModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idRendicontoAttivita;
 	
-	@Required(message="Inserire il corretto valore")
+	@Required
 	public Integer oreLavorate;
 	
 	

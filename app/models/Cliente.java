@@ -28,11 +28,11 @@ public class Cliente extends GenericModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idCliente;
 	
-	@Required(message="Codice obligatorio")
+	@Required
 	@CheckWith(CodiceCheck.class)
 	public String codice;
 	
-	@Required(message="Nominativo obligatorio")
+	@Required
 	public String nominativo;
 	
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
@@ -76,7 +76,7 @@ public class Cliente extends GenericModel{
 		
 		for(DettaglioRapportoAttivita index:lista){
 			
-			Tariffa t = Tariffa.calcolaTariffaRisorsaCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
+			Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, index.rapportoAttivita.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
 		return importoTotale;
