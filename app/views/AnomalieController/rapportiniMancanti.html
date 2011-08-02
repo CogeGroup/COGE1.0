@@ -1,0 +1,35 @@
+#{extends 'menu.html' /}
+#{set title:'Anomalie' /}
+
+	<h2>Ricerca Rapportini Mancanti</h2>
+	<div id="align_form_short">
+	#{form @AnomalieController.listRapportiniMancanti()}
+		#{ifErrors}
+	   	    <p class="error">
+				${errors[0]}</p>
+	   	#{/ifErrors}
+	  
+		<label for="data">Data:</label>
+		#{select 'mese', value:mese}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+		#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno /}
+	</div>
+	<div id="button_center">
+    	<input type="submit" class="submitbutton" value="Cerca" />
+	#{/form}
+	#{form @AnomalieController.index()}
+		<input type="submit" class="submitbutton" value="Indietro" />   
+	#{/form}
+	</div>

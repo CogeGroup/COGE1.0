@@ -199,6 +199,22 @@ public class RendicontoAttivitaController extends Controller {
 		dettaglio(rendicontoAttivita.risorsa.idRisorsa, rendicontoAttivita.mese, rendicontoAttivita.anno);
 	}
 	
+	public static void rapportiniIncompleti() {
+    	List<Integer> listaAnni = MyUtility.createListaAnni();
+    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+        int anno = Calendar.getInstance().get(Calendar.YEAR);
+        render(mese, listaAnni, anno);
+    }
+    
+    public static void listRapportiniIncompleti(int mese, int anno) {
+    	mese++;
+    	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
+    	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
+		paginator.setPageSize(5);
+		mese--;
+		render(paginator, mese, anno);
+    }
+	
 // Auotocomplete delle risorse
 	public static void autocompleteRisorsaRapportoAttivita(String term) {
 		List<Risorsa> listaRisorse = Risorsa.find("dataOut is null and matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();

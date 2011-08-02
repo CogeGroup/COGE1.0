@@ -9,7 +9,9 @@
 </ul>
 </div>
 
-
+<caption>
+	<h3>Rapportino del: ${mese}-${anno}</h3>
+</caption>
 
 #{if flash.success}
    	<p class="success">${flash.success}</p>
@@ -18,9 +20,6 @@
 #{if paginator.size() > 0}
 
 	<table class="table_center">
-		 <caption>
-		    <h3>Rapportino del: ${mese}-${anno}</h3>
-		   </caption>
 		<thead>
 			<tr>
 				<th scope="col">Commessa</th>
@@ -43,7 +42,7 @@
 	</div>
 #{/if}
 #{else}
-	<center><h2>Nessun Rapportino esistente</h2></center>
+	<center><h2>Nessuna Attivita' presente</h2></center>
 #{/else}
 <div id="buttonSubmit_center">
 <a id="create" href="@{RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}"><input type="button" class="button_submit" value="Aggiungi attivita'"/></a>

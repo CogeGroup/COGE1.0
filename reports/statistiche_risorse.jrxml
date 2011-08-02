@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="466"/>
-	<property name="ireport.y" value="88"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="DATA_INIZIO" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -56,7 +56,39 @@ and ra.anno= $P{ANNO}
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="30" splitType="Stretch"/>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="3" width="131" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORT RISORSE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="3" width="36" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MESE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="183" y="3" width="22" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{MESE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="209" y="3" width="35" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANNO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="245" y="3" width="53" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{ANNO}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="53" splitType="Stretch">
@@ -96,7 +128,7 @@ and ra.anno= $P{ANNO}
 				<text><![CDATA[MATR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="37" y="0" width="69" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="38" y="0" width="67" height="20" backcolor="#00CCCC"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -110,7 +142,7 @@ and ra.anno= $P{ANNO}
 				<text><![CDATA[COD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="105" y="0" width="69" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="105" y="0" width="68" height="20" backcolor="#00CCCC"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -124,7 +156,7 @@ and ra.anno= $P{ANNO}
 				<text><![CDATA[NOME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="205" y="0" width="69" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="206" y="0" width="67" height="20" backcolor="#00CCCC"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -138,7 +170,7 @@ and ra.anno= $P{ANNO}
 				<text><![CDATA[ORE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="273" y="0" width="69" height="20" backcolor="#33FF33"/>
+				<reportElement mode="Opaque" x="273" y="0" width="68" height="20" backcolor="#33FF33"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -152,7 +184,7 @@ and ra.anno= $P{ANNO}
 				<text><![CDATA[RICAVO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="409" y="0" width="69" height="20" backcolor="#00FFFF"/>
+				<reportElement mode="Opaque" x="410" y="0" width="68" height="20" backcolor="#00FFFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -198,32 +230,32 @@ and ra.anno= $P{ANNO}
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="38" height="20"/>
+				<reportElement x="-1" y="0" width="39" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{matricola}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="37" y="0" width="69" height="20" backcolor="#FF6600"/>
+				<reportElement mode="Transparent" x="38" y="0" width="67" height="20" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="105" y="0" width="69" height="20"/>
+				<reportElement x="105" y="0" width="68" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cognome}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="205" y="0" width="69" height="20"/>
+				<reportElement x="206" y="0" width="67" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{ore_lavorate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="273" y="0" width="69" height="20"/>
+				<reportElement x="273" y="0" width="68" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00 %">
-				<reportElement x="409" y="0" width="69" height="20"/>
+				<reportElement x="410" y="0" width="68" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_totale}]]></textFieldExpression>
 			</textField>

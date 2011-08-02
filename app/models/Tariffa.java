@@ -205,11 +205,11 @@ public class Tariffa extends GenericModel{
 	}
 	
 	
-	public static Tariffa calcolaTariffaForRisorsaAndCommessa(String mese,String anno,Risorsa risorsa,Commessa commessa){
+	public static Tariffa calcolaTariffaForRisorsaAndCommessa(int mese,int anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
-			Date dataInizioRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
-			Date dataFineRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("31/" + mese + "/" + anno);
+			Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+			Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
 			query.bind("commessa", commessa);
 			query.bind("risorsa",risorsa);
@@ -219,7 +219,7 @@ public class Tariffa extends GenericModel{
 			if (t != null){
 				tariffa = (Tariffa)t;
 			}
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return tariffa;
@@ -236,7 +236,6 @@ public class Tariffa extends GenericModel{
 	public static List<Commessa> trovaCommessePerRisorsa(int mese,
 			int anno, Risorsa risorsa) {
 		List<Commessa> listaCommesse = new ArrayList<Commessa>();
-		
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");

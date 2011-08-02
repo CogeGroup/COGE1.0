@@ -28,7 +28,7 @@ public class BasicTest extends UnitTest {
          ra1.addDettRappAtt(dt1);
          ra1.addDettRappAtt(dt3);
          ra1.save();
-    	assertEquals(20000f,r1.calcolaRicavo("07", "2011"),0.01f);
+    	assertEquals(20000f,r1.calcolaRicavo(7, 2011),0.01f);
     	
     }
  
@@ -48,7 +48,7 @@ public class BasicTest extends UnitTest {
 	         ra1.save();
 		 
 		 
-		 assertEquals( 20000f,cm1.calcolaRicavo("07","2011"),0.01f);
+		 assertEquals( 20000f,cm1.calcolaRicavo(7,2011),0.01f);
 		 
 	 }
 	 @Test
@@ -66,7 +66,7 @@ public class BasicTest extends UnitTest {
 	         ra1.addDettRappAtt(dt2);
 	         ra1.save();
 		 
-		 assertEquals( 20000f,cl1.calcolaRicavo("07","2011"),0.01f);
+		 assertEquals( 20000f,cl1.calcolaRicavo(7,2011),0.01f);
 		 
 	 }
 	 

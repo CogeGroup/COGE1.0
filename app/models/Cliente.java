@@ -66,7 +66,7 @@ public class Cliente extends GenericModel{
 		return Cliente.find("select cl from Cliente cl where cl.attivo=? order by codice asc", true).fetch();
 	}
 
-	public float calcolaRicavo(String mese, String anno) {
+	public float calcolaRicavo(int mese, int anno) {
 		float importoTotale = 0.0f;
 		JPAQuery query  = DettaglioRapportoAttivita.find("from DettaglioRapportoAttivita dra where dra.commessa.cliente=:cliente and dra.rapportoAttivita.mese=:rapMese and dra.rapportoAttivita.anno=:rapAnno");
 		query.bind("cliente",this);

@@ -135,8 +135,8 @@ public class RapportoLavoro extends GenericModel{
 		return other instanceof RapportoLavoro ? ((RapportoLavoro) other).idRapportoLavoro == this.idRapportoLavoro : false;
 	}
 
-   public static List<RapportoLavoro> findByTipoRapportoLavoroAndPeriodo(TipoRapportoLavoro tipoRapLav , String mese, String anno) throws ParseException{
-	   Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + mese + "/" + anno);
+   public static List<RapportoLavoro> findByTipoRapportoLavoroAndPeriodo(TipoRapportoLavoro tipoRapLav , int mese, int anno) throws ParseException{
+	   Date dataRapporto = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 	   JPAQuery query = RapportoLavoro.find("from RapportoLavoro ral where ral.tipoRapportoLavoro = :tipoRapportoLavoro and ral.dataInizio <= :dataRapporto and (ral.dataFine is null or ral.dataFine >= :dataRapporto)");
 	   query.bind("tipoRapportoLavoro", tipoRapLav);
 	   query.bind("dataRapporto", dataRapporto);

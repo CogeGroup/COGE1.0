@@ -103,7 +103,7 @@ public class Bootstrap extends play.jobs.Job {
          ra1.save();
     	
     	
-    	System.out.println("calcolo:" + r1.calcolaRicavo("07", "2011"));
+    	System.out.println("calcolo:" + r1.calcolaRicavo(7, 2011));
     	
     	
     	
@@ -152,7 +152,7 @@ public class Bootstrap extends play.jobs.Job {
       ra2.save();
  	
  	
- 	System.out.println("calcolo:" + r1.calcolaRicavoPerTipoRapportoLavoro("07", "2011",tp1));
+ 	System.out.println("calcolo:" + r1.calcolaRicavoPerTipoRapportoLavoro(7, 2011,tp1));
  	
  	
  	
