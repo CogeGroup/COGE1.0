@@ -36,22 +36,6 @@ public class AnomalieController extends Controller {
 		render(paginator, mese, anno);
     }
     
-    public static void rapportiniIncompleti() {
-    	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
-        int anno = Calendar.getInstance().get(Calendar.YEAR);
-        render(mese, listaAnni, anno);
-    }
-    
-    public static void listRapportiniIncompleti(int mese, int anno) {
-    	mese++;
-    	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
-    	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
-		paginator.setPageSize(5);
-		mese--;
-		render(paginator, mese, anno);
-    }
-    
     public static void anomalieRicavi() {
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	int mese = Calendar.getInstance().get(Calendar.MONTH);
