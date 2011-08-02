@@ -1,5 +1,7 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,8 @@ import org.hibernate.hql.classic.GroupByParser;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
+import play.db.jpa.GenericModel.JPAQuery;
+import utility.MyUtility;
 
 @javax.persistence.Entity
 public class RendicontoAttivita extends GenericModel {
@@ -79,5 +83,25 @@ public class RendicontoAttivita extends GenericModel {
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find(query).fetch();
 		return listaRapportini;
 	}
+	
+	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
+    	JPAQuery query  = Risorsa.find("from Risorsa r where r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + mese + " and ra.anno = " + anno + " and ra.risorsa = r)");
+    	return query.fetch();
+	}
 
+	public static List<Risorsa> listRapportiniIncompleti(int mese, int anno) {
+		List<Risorsa> listaAnomalie = new ArrayList<Risorsa>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for (Risorsa risorsa : listaRisorse) {
+			System.out.println(mese);
+			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
+			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			System.out.println(risorsa.codice + " numero commesse: " +listaCommesse.size() + " numero rendiconti: " + listaRendicontoAttivitas.size());
+			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
+				listaAnomalie.add(risorsa);
+			}
+		}
+		return listaAnomalie;
+	}
+	
 }

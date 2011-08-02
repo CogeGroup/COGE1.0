@@ -1,7 +1,8 @@
-#{extends 'main.html' /}
+#{extends 'menu.html' /}
 #{set title:'Anomalie' /}
 
 	<div id="top">
-		<p>#{a @AnomalieController.index()}Anagrafica Risorsa#{/a}</p>
-		<p>#{a @AnomalieController.index()}Tipo Rapporto Lavoro#{/a}</p>
+		<p>#{a @AnomalieController.rapportiniMancanti()}Rapportini Mancanti#{/a}</p>
+		<p>#{a @AnomalieController.rapportiniIncompleti()}Rapportini Incompleti#{/a}</p>
+		<p>#{a @AnomalieController.anomalieRicavi()}Anomalie Ricavi#{/a}</p>
 	</div>

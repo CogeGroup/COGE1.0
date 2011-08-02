@@ -113,12 +113,10 @@ public class Commessa extends GenericModel{
 		return Commessa.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
-	public float calcolaRicavo(String mese, String anno) {
+	public float calcolaRicavo(int mese, int anno) {
 		
 		float importoTotale = 0.0f;
-		Integer meseInt = Integer.parseInt(mese);
-		Integer annoInt = Integer.parseInt(anno);
-		JPAQuery query  = RendicontoAttivita.find("from RendicontoAttivita ra where ra.commessa = :commessa and ra.mese = "+meseInt+" and ra.anno = "+annoInt);
+		JPAQuery query  = RendicontoAttivita.find("from RendicontoAttivita ra where ra.commessa = :commessa and ra.mese = "+mese+" and ra.anno = "+anno);
 		query.bind("commessa",this);
 		List<RendicontoAttivita> lista = query.fetch();
 
