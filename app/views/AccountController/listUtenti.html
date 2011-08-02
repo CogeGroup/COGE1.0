@@ -44,9 +44,8 @@
 #{else}
     <center><h3>Non vi sono utenti nel sistema</h3></center>
 #{/else}
-<div id="buttonSubmit_center">
-	<a href="@{AccountController.createUtente()}" ><input type="button" class="button_submit" value="Aggiungi"/></a>
-</div>
-<div id="buttonSubmit_center">
+<div id="buttonSubmitDouble_center">
+	<a href="@{AccountController.createUtente()}" ><input type="button" class="button_submit_double" value="Aggiungi"/></a>
+
 	<a href="@{AccountController.export()}" ><input type="button" class="button_submit_double" value="Esporta Utenti"/></a>
 </div>

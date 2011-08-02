@@ -5,6 +5,7 @@
 #---------------------
 validation.minSize = %s minimo 8 caratteri
 validation.required=il campo %s è obbligatorio
+validation.invalid = formato non corretto
 # COSTO ----------------------
 costo.importo = importo
 costo.dataInizio = dataInizio

@@ -60,6 +60,7 @@ public class StatisticheController extends Controller {
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
+		reportParams.put("SUBREPORT_DIR", "reports/");
 		String dateStr =  new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		 JasperPrint jrprint;
 		 
@@ -83,6 +84,7 @@ public class StatisticheController extends Controller {
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
+		reportParams.put("SUBREPORT_DIR", "reports/");
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_risorse.jasper");

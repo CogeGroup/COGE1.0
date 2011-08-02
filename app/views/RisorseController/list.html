@@ -52,17 +52,16 @@
     <div>Nessuna Risorsa presente</div>
 #{/else}
 
-<div id="button">
+<div id="buttonSubmit_center">
 #{form @RisorseController.create()}
-    <p>
-        <input type="submit" class="submitbutton" value="Aggiungi Risorsa" />
-    </p>
+   
+        <input type="submit" class="button_submit_double" value="Aggiungi Risorsa" />
+  
 #{/form}
-<div>
-<div id="button">
+
 #{form @RisorseController.export()}
-    <p>
+   
         <input type="submit" class="button_submit_double" value="Esporta Risorse" />
-    </p>
+  
 #{/form}
 <div>
