@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.h2.constant.SysProperties;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -146,12 +147,12 @@ public class Risorsa extends GenericModel {
 		rl.risorsa=this;
 	}
 	
-	public float calcolaRicavo(int mese,int anno){
+	public Float calcolaRicavo(int mese,int anno){
 		float importoTotale = 0f;
 		
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
 		if (listaRendicontoAttivita == null || listaRendicontoAttivita.size() == 0)
-			return importoTotale;
+			return null;
 		
 		for (RendicontoAttivita ra : listaRendicontoAttivita){
 			if(ra.commessa.fatturabile){
@@ -196,11 +197,14 @@ public class Risorsa extends GenericModel {
 		List<Risorsa> listaAnomalie = new ArrayList<Risorsa>();
 		List<Risorsa> listaRisorse = Risorsa.findAll();
     	for (Risorsa risorsa : listaRisorse) {
-			float ricavo = risorsa.calcolaRicavo(mese, anno);
+			Float ricavo = risorsa.calcolaRicavo(mese, anno);
 			Costo costo = risorsa.extractLastCosto();
-			if(costo != null && ricavo < costo.importo){
-				risorsa.guadagno = ricavo - costo.importo;
-				listaAnomalie.add(risorsa);
+			if(ricavo != null && costo != null){
+				float guadagno = ricavo - costo.importo;
+				if(guadagno < 0){
+					risorsa.guadagno = ricavo - costo.importo;
+					listaAnomalie.add(risorsa);
+				}
 			}
 		}
     	return listaAnomalie;
