@@ -39,7 +39,7 @@
 				<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
 				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
-				<td>${tariffa.importoGiornaliero}</td>
+				<td>${tariffa.commessa instanceof models.CommessaACorpo ? '' : tariffa.importoGiornaliero }</td>
 				<td>${tariffa.commessa.codice }</td>
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}

@@ -90,7 +90,7 @@ Costo(costo2):
  dataFine: 2011-04-30
  risorsa: bonnie
 Costo(costo3):
- importo: 100f
+ importo: 200f
  dataInizio: 2011-05-01
  dataFine: 2011-07-31
  risorsa: bonnie

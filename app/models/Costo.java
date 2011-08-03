@@ -163,4 +163,23 @@ public class Costo extends GenericModel {
 		
 	}
 	
+	public static float totaleCosto(Costo costo, Risorsa risorsa, int mese, int anno) {
+		List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+		float tot = 0;
+		for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
+			tot += rendicontoAttivita.oreLavorate;
+		}
+		return (costo.importo/8) * tot;
+	}
+	
+	public static Costo extractCostoByMeseAndAnno(Risorsa risorsa, int mese, int anno) {
+		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataInizio and c.dataFine >= :dataFine");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine);
+		return query.first();
+	}
+	
 }

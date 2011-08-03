@@ -11,7 +11,8 @@
 		<thead>
 			<tr>
 				<th scope="col">Matricola</th>
-				<th scope="col">Risorsa</th>
+				<th scope="col">Cognome</th>
+				<th scope="col">Nome</th>
 				<th scope="col">Mese</th>
 				<th scope="col">Anno</th>
 				<th scope="col">Dettagli</th>
@@ -20,7 +21,8 @@
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
 			<tr>
 				<td>${rendicontoAttivita.risorsa.matricola }</td>
-				<td>${rendicontoAttivita.risorsa.cognome } ${rendicontoAttivita.risorsa.nome }</td>
+				<td>${rendicontoAttivita.risorsa.cognome }</td>
+				<td>${rendicontoAttivita.risorsa.nome }</td>
 				<td>${rendicontoAttivita.mese }</td>
 				<td>${rendicontoAttivita.anno }</td>
 				<td>#{a @RendicontoAttivitaController.dettaglio(rendicontoAttivita.risorsa.idRisorsa,rendicontoAttivita.mese,rendicontoAttivita.anno)}Dettagli#{/a}</td>

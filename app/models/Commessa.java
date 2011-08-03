@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import play.data.validation.InFuture;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
+import utility.MyUtility;
 
 @javax.persistence.Entity
 public class Commessa extends GenericModel{
@@ -152,4 +154,43 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
+	public static List<Commessa> trovaCommessePerRisorsa(int mese,
+			int anno, Risorsa risorsa) {
+		List<Commessa> listaCommesse = new ArrayList<Commessa>();
+		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
+		query.bind("dataRapportoFine", dataRapportoFine);
+		query.bind("dataRapportoInizio", dataRapportoInizio);
+		query.bind("risorsa",risorsa);
+		List<Tariffa> listaTariffe = query.fetch();
+		if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   if(!(t.commessa instanceof CommessaACorpo)){
+				   listaCommesse.add(t.commessa);
+			   }
+		   }
+		}
+		return listaCommesse;
+	}
+	
+	public static List<CommessaACorpo> trovaCommesseACorpoPerRisorsa(int mese,
+			int anno, Risorsa risorsa) {
+		List<CommessaACorpo> listaCommesse = new ArrayList<CommessaACorpo>();
+		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
+		query.bind("dataRapportoFine", dataRapportoFine);
+		query.bind("dataRapportoInizio", dataRapportoInizio);
+		query.bind("risorsa",risorsa);
+		List<Tariffa> listaTariffe = query.fetch();
+		if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   if(t.commessa instanceof CommessaACorpo){
+				   listaCommesse.add((CommessaACorpo) t.commessa);
+			   }
+		   }
+		}
+		return listaCommesse;
+	}
 }

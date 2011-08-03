@@ -208,8 +208,8 @@ public class Tariffa extends GenericModel{
 	public static Tariffa calcolaTariffaForRisorsaAndCommessa(int mese,int anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
-			Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-			Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+			Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese+1, anno);
+			Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese+1, anno);
 			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
 			query.bind("commessa", commessa);
 			query.bind("risorsa",risorsa);
@@ -233,26 +233,6 @@ public class Tariffa extends GenericModel{
 		return this.importoGiornaliero /8;
 	}
 
-	public static List<Commessa> trovaCommessePerRisorsa(int mese,
-			int anno, Risorsa risorsa) {
-		List<Commessa> listaCommesse = new ArrayList<Commessa>();
-		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
-		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
-		query.bind("dataRapportoFine", dataRapportoFine);
-		query.bind("dataRapportoInizio", dataRapportoInizio);
-		query.bind("risorsa",risorsa);
-		List<Tariffa> listaTariffe = query.fetch();
-		if (listaTariffe != null && !listaTariffe.isEmpty()){
-		   for(Tariffa t:listaTariffe){
-			   if(!(t.commessa instanceof CommessaACorpo)){
-				   listaCommesse.add(t.commessa);
-			   }
-		   }
-		}
-		return listaCommesse;
-	}
-	
 	/* chiude tutte le tariffe associate a una commessa
      * se la data inizio è maggiore di oggi, data fine uguale alla data inizio
      * se la data fine è minore di oggi rimane invariate

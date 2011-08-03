@@ -85,7 +85,7 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
-    	JPAQuery query  = Risorsa.find("from Risorsa r where r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + mese + " and ra.anno = " + anno + " and ra.risorsa = r)");
+    	JPAQuery query  = Risorsa.find("from Risorsa r where r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + mese+1 + " and ra.anno = " + anno + " and ra.risorsa = r)");
     	return query.fetch();
 	}
 
@@ -95,7 +95,7 @@ public class RendicontoAttivita extends GenericModel {
 		for (Risorsa risorsa : listaRisorse) {
 			System.out.println(mese);
 			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
-			List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesse  = Commessa.trovaCommessePerRisorsa(mese, anno, risorsa);
 			System.out.println(risorsa.codice + " numero commesse: " +listaCommesse.size() + " numero rendiconti: " + listaRendicontoAttivitas.size());
 			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
 				listaAnomalie.add(risorsa);

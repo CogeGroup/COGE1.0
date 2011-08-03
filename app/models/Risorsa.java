@@ -158,9 +158,12 @@ public class Risorsa extends GenericModel {
 			if(ra.commessa.fatturabile){
 				Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
 				importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
-			}else if(ra.commessa instanceof CommessaACorpo){
-				System.out.println("commessa a corpo");
 			}
+		}
+		// aggiunge nel ricavo totale l'importo di tutte le commesse a corpo presenti nelle tariffe della risorsa
+		List<CommessaACorpo> listaCommesse = Commessa.trovaCommesseACorpoPerRisorsa(mese+1, anno, this);
+		for (CommessaACorpo commessa : listaCommesse) {
+			importoTotale += commessa.importo;
 		}
 		return importoTotale;
 	}
@@ -198,11 +201,11 @@ public class Risorsa extends GenericModel {
 		List<Risorsa> listaRisorse = Risorsa.findAll();
     	for (Risorsa risorsa : listaRisorse) {
 			Float ricavo = risorsa.calcolaRicavo(mese, anno);
-			Costo costo = risorsa.extractLastCosto();
+			Costo costo = Costo.extractCostoByMeseAndAnno(risorsa,mese,anno);
 			if(ricavo != null && costo != null){
-				float guadagno = ricavo - costo.importo;
+				float guadagno = ricavo - costo.totaleCosto(costo,risorsa,mese,anno);
 				if(guadagno < 0){
-					risorsa.guadagno = ricavo - costo.importo;
+					risorsa.guadagno = guadagno;
 					listaAnomalie.add(risorsa);
 				}
 			}
