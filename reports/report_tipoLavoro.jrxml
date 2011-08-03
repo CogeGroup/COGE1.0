@@ -19,7 +19,7 @@
 		<![CDATA[SELECT trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.codice as codice, trl.descrizione as descrizione, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as oreLavorate,
 sum(costo(c.importo,ra.oreLavorate)) as costoTot, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavoTotale, count(distinct(r.idRisorsa)) as numRisorse,
 sum(margine(costo(c.importo,ra.oreLavorate),ricavo(t.importoGiornaliero,ra.oreLavorate))) as margineTot
-FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rapportolavoro` rl, `rendicontoattivita` ra, `tiporapportolavoro` trl
+FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RapportoLavoro` rl, `RendicontoAttivita` ra, `TipoRapportoLavoro` trl
 where r.idRisorsa = c.risorsa_idRisorsa
 and c.dataInizio <= $P{DATA_INIZIO}
 and (c.dataFine is null or c.dataFine >= $P{DATA_FINE})
@@ -62,42 +62,50 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 			<staticText>
 				<reportElement x="115" y="1" width="62" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[CODICE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[RAPPORTO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="1" width="47" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[RISORSE]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement mode="Opaque" x="215" y="1" width="38" height="20" backcolor="#00CC33"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$V{RICAVO_TOTALE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement mode="Opaque" x="253" y="1" width="38" height="20" backcolor="#FF0000"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{COSTO_TOTALE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement mode="Opaque" x="177" y="1" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ORE_LAVORATE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00 %">
 				<reportElement mode="Opaque" x="291" y="1" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{MARGINE_MEDIO}]]></textFieldExpression>
 			</textField>
 			<line>
@@ -109,32 +117,44 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 		<band height="21" splitType="Stretch">
 			<textField>
 				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="177" y="1" width="38" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{oreLavorate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="215" y="1" width="38" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavoTotale}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="1" width="47" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00 %">
 				<reportElement x="291" y="1" width="38" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margineTot}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="115" y="1" width="62" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
 			<line>
@@ -142,7 +162,9 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 			</line>
 			<textField>
 				<reportElement x="253" y="1" width="38" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
 			</textField>
 		</band>

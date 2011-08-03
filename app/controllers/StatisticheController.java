@@ -31,7 +31,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 import play.vfs.VirtualFile;
 import secure.SecureCOGE;
-
+@With(SecureCOGE.class)
 public class StatisticheController extends Controller {
 	
 	

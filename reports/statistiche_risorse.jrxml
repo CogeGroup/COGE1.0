@@ -23,7 +23,7 @@
 r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
  sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
  sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale
- FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rendicontoattivita` ra,`rapportolavoro` rl,`tiporapportolavoro` trl
+ FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
  WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
  and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
 ) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
@@ -60,32 +60,36 @@ and ra.anno= $P{ANNO}
 			<staticText>
 				<reportElement x="0" y="3" width="131" height="20"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="12" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[REPORT RISORSE ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="146" y="3" width="36" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[MESE:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="183" y="3" width="22" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{MESE}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="209" y="3" width="35" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[ANNO:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="245" y="3" width="53" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{ANNO}]]></textFieldExpression>
 			</textField>
 		</band>
