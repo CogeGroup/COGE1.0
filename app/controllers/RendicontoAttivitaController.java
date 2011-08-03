@@ -64,6 +64,15 @@ public class RendicontoAttivitaController extends Controller {
 		render(paginator, risorsa, mese, anno);
 	}
 	
+	public static void backList(int mese, int anno){
+		Integer idRisorsa = null;
+		List<RendicontoAttivita> listaRapportini = new ArrayList<RendicontoAttivita>();
+			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
+			ValuePaginator paginator = new ValuePaginator(listaRapportini);
+			paginator.setPageSize(5);
+			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
+	}
+	
 // Inserimento nuovo rapportino
 	public static void chooseRisorsa() {
 		List<Integer> listaAnni = MyUtility.createListaAnni();
@@ -83,9 +92,9 @@ public class RendicontoAttivitaController extends Controller {
 		
 		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).first();
 		if(ra != null){
+			mese--;
 			validation.addError("meseAnno", "il rapportino per il mese " + mese + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
-			mese--;
 			render("RendicontoAttivitaController/chooserisorsa.html", listaAnni, mese, anno);
 		}
 		if(risorsa == null){
@@ -93,9 +102,8 @@ public class RendicontoAttivitaController extends Controller {
 			validation.keep();
 			chooseRisorsa();
 		}
-		mese--;
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
-		List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese++, anno, risorsa);
+		List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita);
 	}
@@ -158,6 +166,7 @@ public class RendicontoAttivitaController extends Controller {
 							}
 						}
 					} catch (IllegalArgumentException e) {
+						validation.addError("oreLavorate", "inserire correttamente le ore totali");
 						List<Commessa> listaCommesse  = Tariffa.trovaCommessePerRisorsa(mese, anno, risorsa);
 						List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
@@ -172,7 +181,6 @@ public class RendicontoAttivitaController extends Controller {
 				}
 			}
 		}
-		
 		flash.success("Attivita aggiunta con successo");
 		dettaglio(idRisorsa, mese,anno);
 	}
@@ -224,5 +232,4 @@ public class RendicontoAttivitaController extends Controller {
 		  }
 		renderJSON(listaResult);
     }
-
 }

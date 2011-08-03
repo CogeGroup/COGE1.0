@@ -12,66 +12,61 @@
 #{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
 #{script id:'autocomplete' , src:'jquery.ui.autocomplete.js', charset:'utf-8' /}
 
-    <script type="text/javascript">
-	
-		$(function() {
+<script type="text/javascript">
+	$(function() {
 		$("#risorsa").autocomplete({
 			source: "autocompleteRisorsaRapportoAttivita",
 			minLength: 3,
 			select: function( event, ui ) {
-			$("#idRisorsa").val(ui.item.value);
-			return false;
+				$("#idRisorsa").val(ui.item.value);
+				return false;
 			},
 			focus: function( event, ui ) {
-			$("#risorsa").val(ui.item.label);
-			return false;
+				$("#risorsa").val(ui.item.label);
+				return false;
 			}
 		});
 	});
-
-	</script>
+</script>
  					
 <h2>Ricerca Rapportino</h2>
-#{form @rendicontoattivitacontroller.result()}
-<div id="edit">
-#{ifErrors}
-    <p class="error">
-        ${errors[0]} 
-    </p>
-#{/ifErrors}
-
-
-	<p class="error">${flash.error}</p>
-    <ul>
-	   <li>
-	   		<label for="dataInizio">Data:</label>
-			#{select 'mese', value:mese}
-				#{option 0}GEN#{/option}
-				#{option 1}FEB#{/option}
-				#{option 2}MAR#{/option}
-				#{option 3}APR#{/option}
-				#{option 4}MAG#{/option}
-				#{option 5}GIU#{/option}
-				#{option 6}LUG#{/option}
-				#{option 7}AGO#{/option}
-				#{option 8}SET#{/option}
-				#{option 9}OTT#{/option}
-				#{option 10}NOV#{/option}
-				#{option 11}DIC#{/option}
-			#{/select}
-			
-			#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno}
-			#{/select}
-		</li>
-		<li>
-			<label for="matricola">Risorsa</label>
-		    <input type="text" class="txt_m" name="risorsa" id="risorsa" />
-		    <input type="hidden" name="idRisorsa" id="idRisorsa" />
-		</li>
-    </ul>    
-</div>
-    <div id="buttonSubmit_center">
-        <input type="submit" class="button_submit" value="Ricerca" />
-   </div>
-  
- #{/form}
+#{form @RendicontoAttivitaController.result()}
+	<div id="edit">
+		#{ifErrors}
+		    <p class="error">
+		        ${errors[0]} 
+		    </p>
+		#{/ifErrors}
+	
+		<p class="error">${flash.error}</p>
+	    <ul>
+			<li>
+		   		<label for="dataInizio">Data:</label>
+				#{select 'mese', value:mese}
+					#{option 0}GEN#{/option}
+					#{option 1}FEB#{/option}
+					#{option 2}MAR#{/option}
+					#{option 3}APR#{/option}
+					#{option 4}MAG#{/option}
+					#{option 5}GIU#{/option}
+					#{option 6}LUG#{/option}
+					#{option 7}AGO#{/option}
+					#{option 8}SET#{/option}
+					#{option 9}OTT#{/option}
+					#{option 10}NOV#{/option}
+					#{option 11}DIC#{/option}
+				#{/select}
+				#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno /}
+			</li>
+			<li>
+				<label for="matricola">Risorsa</label>
+			    <input type="text" class="txt_m" name="risorsa" id="risorsa" />
+			    <input type="hidden" name="idRisorsa" id="idRisorsa" />
+			</li>
+	    </ul>    
+	</div>
+	<div id="button_center">
+		<input type="submit" class="submitbutton" value="Ricerca" />
+	    #{a @RendicontoAttivitaController.index() }<input type="button" class="submitbutton" value="Indietro" />#{/a}
+	</div>
+#{/form}

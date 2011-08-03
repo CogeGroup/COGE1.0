@@ -59,7 +59,6 @@
 	        <br />
 	    	<label for="commessa">Commessa:</label>
 			<select name="tariffa.idCommessa">
-				<option value="">- Selezionare -</option>
 	    		#{list items:listaCommesse, as:'commessa'}
 			        <option value="${commessa.idCommessa }" #{if commessa.idCommessa == tariffa?.commessa?.idCommessa }
 			        		selected="selected"

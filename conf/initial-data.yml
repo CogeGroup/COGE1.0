@@ -81,23 +81,23 @@ RapportoLavoro(rpl3):
 #COSTI --------------
 Costo(costo1): 
   importo:  200f
-  dataInizio:  2009-06-14
-  dataFine: 2011-02-28
+  dataInizio:  2009-06-01
+  dataFine: 2011-02-31
   risorsa: bonnie
 Costo(costo2): 
   importo: 100f
   dataInizio: 2011-03-01
-  dataFine: 2011-05-01
+  dataFine: 2011-04-31
   risorsa: bonnie
 Costo(costo3): 
   importo: 100f
-  dataInizio: 2011-05-02
-  dataFine: 2011-07-01
+  dataInizio: 2011-05-01
+  dataFine: 2011-07-31
   risorsa: bonnie
 Costo(costo4): 
   importo:  200f
   dataInizio:  2011-08-01
-  dataFine: 2011-08-28
+  dataFine: 2011-08-31
   risorsa: bonnie
 Costo(costo5): 
   importo: 100f
@@ -119,54 +119,46 @@ Costo(cs1):
   risorsa: Bruce
 #CLIENTI ----------
 Cliente(cliente1): 
-  codice: cl1
+  codice: CL1
   nominativo: cliente1
   attivo: true
 Cliente(cliente2): 
-  codice: cl2
+  codice: CL2
   nominativo: cliente2
   attivo: true
 #COMMESSE ---------
 Commessa(commessa1):
- codice: cm1
+ codice: CM1
  descrizione: commessa1
  dataInizioCommessa: 2009-01-01
- attivo: true
  fatturabile: true
  cliente: cliente1
 Commessa(commessa2):
- codice: cm2
+ codice: CM2
  descrizione: commessa2
  dataInizioCommessa: 2009-01-01
- attivo: true
  fatturabile: true
  cliente: cliente1
 Commessa(Ferie):
- codice: ferie
+ codice: FERIE
  descrizione: Ferie
- dataInizioCommessa: 2009-01-01
- attivo: true
  fatturabile: false
  cliente: cliente2
 Commessa(Malattia):
- codice: malattia
+ codice: MALATTIA
  descrizione: malattia
- dataInizioCommessa: 2009-01-01
- attivo: true
  fatturabile: false
  cliente: cliente2
 Commessa(commessa3):
- codice: cm3
+ codice: CM3
  descrizione: commessa3
  dataInizioCommessa: 2011-01-01
- attivo: true
  fatturabile: true
  cliente: cliente1
 Commessa(commessa4):
- codice: cm4
+ codice: CM4
  descrizione: commessa4
  dataInizioCommessa: 2011-07-07
- attivo: true
  fatturabile: true
  cliente: cliente1
 #COMMESSE A CORPO ---------
@@ -174,13 +166,12 @@ CommessaACorpo(cAc1):
  codice: ACORPO
  descrizione: desccorpo
  dataInizioCommessa: 2011-07-01
- attivo: true
  importo: 200f
  fatturabile: true
  cliente: cliente1
 #TARIFFE ---------------
 Tariffa(tariffa1):
- dataInizio: 2009-06-14
+ dataInizio: 2009-06-01
  importoGiornaliero: 100f
  risorsa: bonnie
  commessa: commessa1
@@ -194,11 +185,6 @@ Tariffa(tariffa3):
  importoGiornaliero: 200f
  risorsa: Clark
  commessa: commessa2
-Tariffa(tariffa4):
- dataInizio: 2010-01-01
- importoGiornaliero: 0f
- risorsa: Clark
- commessa: Ferie
 Tariffa(tariffa5):
  dataInizio: 2011-07-01
  dataFine: 2011-08-31
@@ -298,8 +284,11 @@ Job(j24):
 Job(j25):
  descrizione: TipoRapportoLavoroController/index
  ruoli: [ruolo2]
- Job(j26):
+Job(j26):
  descrizione: StatisticheController/*
+ ruoli: [ruolo1]
+Job(j27):
+ descrizione: AnomalieController/*
  ruoli: [ruolo1]
 #UTENTI --------------------
 Utente(u1):

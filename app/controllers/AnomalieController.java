@@ -12,8 +12,10 @@ import models.Risorsa;
 import play.db.jpa.GenericModel.JPAQuery;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
+import secure.SecureCOGE;
 import utility.MyUtility;
 
+@With(SecureCOGE.class)
 public class AnomalieController extends Controller {
 
     public static void index() {

@@ -22,57 +22,55 @@
 
 <h2>Nuova commessa</h2>
 #{if listaClienti.size() > 0}
-<div id="align_form">
-#{form @CommesseController.save()}
-	
-	#{ifErrors}
-        <p class="error">
-			${errors[0]}
-		</p>
-    #{/ifErrors}
-	
-        <label for="codice">Codice commessa:</label>
-        <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
-    <br />
-        <label for="descrizione">Descrizione: </label>
-        <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
-    <br />
-        <label for="fatturabile">Fatturabile: </label>
-        SI <input type="radio" id="descrizione" name="commessa.fatturabile" value="true" checked="checked" />
-        NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" />
-    <br />
-        <label for=dataInizioCommessa>Data inizio: </label>
-        <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
-    <br />
-    	<label for="cliente">Cliente: </label>
+	<div id="align_form">
+	#{form @CommesseController.save()}
+		
+		#{ifErrors}
+	        <p class="error">
+				${errors[0]}
+			</p>
+	    #{/ifErrors}
+		
+	   	<label for="codice">Codice commessa:</label>
+	    <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
+	    <br>
+	    <label for="descrizione">Descrizione: </label>
+	    <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
+	    <br>
+	    <label for="fatturabile">Fatturabile: </label>
+	    SI <input type="radio" id="descrizione" name="commessa.fatturabile" value="true" checked="checked" />
+	    NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" />
+	    <br>
+	    <label for=dataInizioCommessa>Data inizio: </label>
+	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
+	    <br>
+	   	<label for="cliente">Cliente: </label>
 		<select name="idCliente">
-    		#{list items:listaClienti, as:'cliente'}
-		        <option value="${cliente.idCliente }" #{if cliente.idCliente == commessa?.cliente?.idCliente }
+	    	#{list items:listaClienti, as:'cliente'}
+		        <option value="${cliente.idCliente }" 
+		        	#{if cliente.idCliente == commessa?.cliente?.idCliente }
 		        		selected="selected"
-		        	#{/if} >${cliente.nominativo }</option>
-		    #{/list} 
-    	</select>
-  
-    <hr>
-  
+		        	#{/if} 
+		        >${cliente.nominativo }</option>
+			#{/list} 
+	    </select>
+	    <br>
+	    <hr>
         <label for="aCorpo">A corpo: </label>
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if}/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if aCorpo.equals("no")}checked="checked"#{/if} />
-    <br />
-        <label for=importo>Importo: </label>
-        <input type="text" class="txt_s" name="importo" value="${importo }"/>
-     <br />
-   
-  
+	    <br>
+	    <label for=importo>Importo: </label>
+	    <input type="text" class="txt_s" name="importo" value="${importo }"/>
+	    <br>
 </div>
-
-<div id="button_center">
-        <input type="submit" class="submitbutton" value="Salva" />
+	<div id="button_center">
+	        <input type="submit" class="submitbutton" value="Salva" />
 #{/form}
+		<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	</div>
 #{/if}
 #{else}
 	<h3>Non si pu&ograve; creare una commessa, perch&egarve; non esistono clienti a cui assegnarla.</h3>
 	<a href="@{ClientiController.create()}"><input type="button" class="submitbutton" value="Aggiungi nuovo Cliente" /></a>
 #{/else}
-<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
-</div>

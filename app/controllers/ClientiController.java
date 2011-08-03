@@ -61,6 +61,9 @@ public class ClientiController extends Controller {
     	if(validation.hasErrors()) {
 	        render("ClientiController/edit.html", cliente);
 	    }
+    	if(cliente.attivo == false){
+    		Commessa.chiudiCommesseByCliente(cliente);
+    	}
     	cliente.codice = cliente.codice.toUpperCase();
     	cliente.save();
     	flash.success("%s modificato con successo", cliente.nominativo);

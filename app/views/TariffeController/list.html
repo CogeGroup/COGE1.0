@@ -20,7 +20,6 @@
 	</p>
 #{/ifErrors}
 #{if paginator.size() > 0}
-	
 	<table class="table_center">
 	<thead>
 		<tr>
@@ -31,32 +30,32 @@
 			<th scope="col">Commessa</th>
 			#{if !risorsa.dataOut}
 				<th scope="col">Modifica</th>
-				<th scope="col">Elimina</th>
+				<th scope="col">Chiudi</th>
 			#{/if}
 		</tr>
 	</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
-		<tr>
-			<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
-			<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
-			<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
-			<td>${tariffa.importoGiornaliero}</td>
-			<td>${tariffa.commessa.codice }</td>
-			#{if !risorsa.dataOut}
-				#{if !tariffa.commessa.dataFineCommessa}
-					<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-					<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			<tr>
+				<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
+				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
+				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
+				<td>${tariffa.importoGiornaliero}</td>
+				<td>${tariffa.commessa.codice }</td>
+				#{if !risorsa.dataOut}
+					#{if !tariffa.commessa.dataFineCommessa}
+						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+					#{/if}
+					#{else}
+						<td></td>
+						<td></td>
+					#{/else}
 				#{/if}
-				#{else}
-					<td></td>
-					<td></td>
-				#{/else}
-			#{/if}
-		</tr>
+			</tr>
 		#{/paginate.list} 
 	</table>
 	<div id="datatable_tariffe">
-	#{paginate.controls items:paginator /}
+		#{paginate.controls items:paginator /}
 	</div>
 #{/if}
 #{else}
@@ -67,8 +66,5 @@
 	#{if !risorsa.dataOut}
 		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
-	
-	#{form @RisorseController.list()}
-		        <input type="submit" class="submitbutton" value="Indietro" />   
-	#{/form}
+	#{a @RisorseController.list()}<input type="submit" class="submitbutton" value="Indietro" />#{/a}
 </div>

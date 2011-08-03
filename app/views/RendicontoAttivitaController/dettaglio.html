@@ -2,23 +2,20 @@
 #{set title:'Gestione Rapportini' /}
 
 <div id="detail">
-<ul>
-	<li><label>Risorsa: </label>${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
-</ul>
+	<ul>
+		<li><label>Risorsa: </label>${risorsa.matricola}</li>
+		<li><label>Nome: </label>${risorsa.nome}</li> 
+		<li><label>Cognome: </label>${risorsa.cognome}</li>
+	</ul>
 </div>
 
-<caption>
-	<h3>Rapportino del: ${mese}-${anno}</h3>
-</caption>
+<h2>Rapportino del: ${mese}-${anno}</h2>
 
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
 
 #{if paginator.size() > 0}
-
 	<table class="table_center">
 		<thead>
 			<tr>
@@ -29,21 +26,25 @@
 		</thead>
 			
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
-		<tr>
-			<td>${rendicontoAttivita.commessa.codice }</td>
-			<td>${rendicontoAttivita.oreLavorate }</td>
-			<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
-				onclick="return confirm('Continuare con la cancellazzione del rapportino della risorsa: ${rendicontoAttivita.risorsa.matricola}, relativo al ${rendicontoAttivita.mese }-${rendicontoAttivita.anno }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
-		</tr>
+			<tr>
+				<td>${rendicontoAttivita.commessa.codice }</td>
+				<td>${rendicontoAttivita.oreLavorate }</td>
+				<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
+					onclick="return confirm('Continuare con la cancellazzione del rapportino della risorsa: ${rendicontoAttivita.risorsa.matricola}, relativo al ${rendicontoAttivita.mese }-${rendicontoAttivita.anno }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			</tr>
 		#{/paginate.list}  
 	</table>
 	<div id="datatable_rapportini">
-	#{paginate.controls items:paginator /}
+		#{paginate.controls items:paginator /}
+	</div>
+	<div id="buttonSubmit_center">
+		#{a @RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}<input type="button" class="button_submit" value="Aggiungi attivita'"/>#{/a}
 	</div>
 #{/if}
 #{else}
 	<center><h2>Nessuna Attivita' presente</h2></center>
 #{/else}
 <div id="buttonSubmit_center">
-<a id="create" href="@{RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}"><input type="button" class="button_submit" value="Aggiungi attivita'"/></a>
+	#{a @RendicontoAttivitaController.backList(mese,anno)}<input type="button" class="button_submit" value="Indietro"/>#{/a}
+	#{a @RendicontoAttivitaController.search()}<input type="button" class="button_submit" value="Nuova Ricerca"/>#{/a}
 </div>

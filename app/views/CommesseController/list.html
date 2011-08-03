@@ -6,50 +6,47 @@
    	<p class="success">${flash.success}</p>
 #{/if}
 
+<h2>Commesse</h3>
 #{if paginator.size() > 0}
-	
 	<table class="table_center">
-	 <caption>
-	    <h3>Commesse</h3>
-	   </caption>
 	   <thead>
-		<tr>
-			<th scope="col">Codice</th>
-			<th scope="col">Descrizione</th>
-			<th scope="col">Cliente</th>
-			<th scope="col">Fatturabile</th>
-			<th scope="col">Data inizio</th>
-			<th scope="col">Data fine</th>
-			<th scope="col">Modifica</th>
-			<th scope="col">Elimina</th>
-		</tr>
+			<tr>
+				<th scope="col">Codice</th>
+				<th scope="col">Descrizione</th>
+				<th scope="col">Cliente</th>
+				<th scope="col">Fatturabile</th>
+				<th scope="col">Data inizio</th>
+				<th scope="col">Data fine</th>
+				<th scope="col">Modifica</th>
+				<th scope="col">Chiudi</th>
+			</tr>
 		</thead>
 		#{paginate.list items:paginator, as:'commessa'} 
-		<tr>
-			<td><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a></td>
-			<td>${commessa.descrizione }</td>
-			<td>${commessa.cliente.nominativo }</td>
-			<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>
-			<td>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</td>
-			<td>${commessa.dataFineCommessa?.format('dd-MM-yyyy') }</td>
-			#{if commessa.cliente.attivo }
-			<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-			<td><a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
-			#{/if}
-			#{else}
-			<td></td>
-			<td></td>
-			#{/else}
-		</tr>
+			<tr>
+				<td><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a></td>
+				<td>${commessa.descrizione }</td>
+				<td>${commessa.cliente.nominativo }</td>
+				<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>
+				<td>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</td>
+				<td>${commessa.dataFineCommessa?.format('dd-MM-yyyy') }</td>
+				#{if commessa.cliente.attivo }
+					<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+					<td><a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+				#{/if}
+				#{else}
+					<td></td>
+					<td></td>
+				#{/else}
+			</tr>
 		#{/paginate.list} 
 	</table>
 	<div id="datatable_commesse">
-	#{paginate.controls items:paginator /}
+		#{paginate.controls items:paginator /}
 	</div>
 #{/if}
 #{else}
 	<center><h2>Non sono presenti commesse nel sistema.</h2></center>
 #{/else}
 <div id="buttonSubmit_center">
-<a id="create" href="@{CommesseController.create()}"><input type="button" class="button_submit" value="Aggiungi"/></a>
+	#{a @CommesseController.create()}<input type="button" class="button_submit" value="Aggiungi"/>#{/a}
 </div>

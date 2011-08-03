@@ -110,11 +110,14 @@ public class CommesseController extends Controller {
     
     public static void delete(Integer id) {
     	Commessa commessa = Commessa.findById(id);
+    	if(commessa.fatturabile == false){
+    		flash.success("Non si puo' chiudere una commessa non fatturabile");
+    		list();
+    	}
     	if(commessa.dataFineCommessa != null){
     		flash.success("Commessa gia chiusa");
     		list();
     	}
-    	
     	if(commessa.dataInizioCommessa.after(new Date()))
     		commessa.dataFineCommessa = commessa.dataInizioCommessa;
     	else
@@ -125,5 +128,4 @@ public class CommesseController extends Controller {
     	flash.success("%s cancellata con successo", commessa.codice);
     	list();
     }
-    
 }

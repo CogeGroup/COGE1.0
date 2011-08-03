@@ -37,98 +37,74 @@
 	<label>Nome: <strong>${tariffa.risorsa.nome}</strong></label>
 	<label>Cognome: <strong>${tariffa.risorsa.cognome}</strong></label><br />
 
-
 #{form @TariffeController.update()}
-	
+		
 	#{ifErrors}
-        <p class="error">
+	   	<p class="error">
 			${errors[0]}
 		</p>
-    #{/ifErrors}
-    
-    
-    <!--
-	<li>
-        <label for=dataInizio>Data inizio:</label>
-        <input type="text" class="txt_date" name="tariffa.dataInizio" id="datepicker1" value="${tariffa?.dataInizio?.format('dd-MM-yyyy') }"/>
-    </li>
-    <li>
-        <label for=dataFine>Data fine:</label>
-        <input type="text" class="txt_date" name="tariffa.dataFine" id="datepicker2" value="${tariffa?.dataFine?.format('dd-MM-yyyy') }"/>
-    </li>
-    -->
-    
-    	<label for="dataInizio">Data Inizio:</label>
-		#{select 'tariffa.meseInizio', value:meseInizio}
-			#{option 0}GEN#{/option}
-			#{option 1}FEB#{/option}
-			#{option 2}MAR#{/option}
-			#{option 3}APR#{/option}
-			#{option 4}MAG#{/option}
-			#{option 5}GIU#{/option}
-			#{option 6}LUG#{/option}
-			#{option 7}AGO#{/option}
-			#{option 8}SET#{/option}
-			#{option 9}OTT#{/option}
-			#{option 10}NOV#{/option}
-			#{option 11}DIC#{/option}
-		#{/select}
-	
-		#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
-		#{/select}
-	<br />
-    	<label for="dataFine">Data Fine:</label>
-		#{select 'tariffa.meseFine', value:meseFine}
-			#{option -1}-- Mese --#{/option}
-			#{option 0}GEN#{/option}
-			#{option 1}FEB#{/option}
-			#{option 2}MAR#{/option}
-			#{option 3}APR#{/option}
-			#{option 4}MAG#{/option}
-			#{option 5}GIU#{/option}
-			#{option 6}LUG#{/option}
-			#{option 7}AGO#{/option}
-			#{option 8}SET#{/option}
-			#{option 9}OTT#{/option}
-			#{option 10}NOV#{/option}
-			#{option 11}DIC#{/option}
-		#{/select}
-	
-		#{select 'tariffa.annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
-			#{option -1}-- Anno --#{/option}
-		#{/select}
-	<br />
-    #{if tariffa.commessa instanceof models.CommessaACorpo }
+	#{/ifErrors}
+	    
+	<label for="dataInizio">Data Inizio:</label>
+	#{select 'tariffa.meseInizio', value:meseInizio}
+		#{option 0}GEN#{/option}
+		#{option 1}FEB#{/option}
+		#{option 2}MAR#{/option}
+		#{option 3}APR#{/option}
+		#{option 4}MAG#{/option}
+		#{option 5}GIU#{/option}
+		#{option 6}LUG#{/option}
+		#{option 7}AGO#{/option}
+		#{option 8}SET#{/option}
+		#{option 9}OTT#{/option}
+		#{option 10}NOV#{/option}
+		#{option 11}DIC#{/option}
+	#{/select}
+	#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio /}
+	<br>
+	<label for="dataFine">Data Fine:</label>
+	#{select 'tariffa.meseFine', value:meseFine}
+		#{option -1}-- Mese --#{/option}
+		#{option 0}GEN#{/option}
+		#{option 1}FEB#{/option}
+		#{option 2}MAR#{/option}
+		#{option 3}APR#{/option}
+		#{option 4}MAG#{/option}
+		#{option 5}GIU#{/option}
+		#{option 6}LUG#{/option}
+		#{option 7}AGO#{/option}
+		#{option 8}SET#{/option}
+		#{option 9}OTT#{/option}
+		#{option 10}NOV#{/option}
+		#{option 11}DIC#{/option}
+	#{/select}
+	#{select 'tariffa.annoFine', items:listaAnni, labelProperty:'annoFine', valueProperty:'annoFine', value:annoFine}
+		#{option -1}-- Anno --#{/option}
+	#{/select}
+	<br>
+	#{if !tariffa.commessa instanceof models.CommessaACorpo }
+	  	#{if tariffa.commessa.fatturabile == true}
+		    <label for=importo>Importo giornaliero: </label>
+			<input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
+			<br>
+		#{/if}
 	#{/if}
-	#{else}
-	    #{if tariffa.commessa.fatturabile == true}
-	  
-	        <label for=importo>Importo giornaliero: </label>
-	        <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-	   <br />
-	    #{/if}
-    #{/else}
-   
-    	<label for="commessa">Commessa:</label>
-
-    	<select name="tariffa.idCommessa">
-    		#{list items:listaCommesse, as:'commessa'}
-		        <option value="${commessa.idCommessa }" 
-		        	#{if commessa.idCommessa == tariffa.commessa.idCommessa }
-		        		selected="selected"
-		        	#{/if} >${commessa.codice }</option>
-		    #{/list} 
-    	</select>
-    <br />
-
+	   
+	<label for="commessa">Commessa:</label>
+	<select name="tariffa.idCommessa">
+	   	#{list items:listaCommesse, as:'commessa'}
+			<option value="${commessa.idCommessa }" 
+	       		#{if commessa.idCommessa == tariffa.commessa.idCommessa }
+		       		selected="selected"
+	       		#{/if}
+	      	>${commessa.codice }</option>
+		#{/list} 
+	</select>
 </div>
-<div id="button_center">
-	<input type="hidden" name="tariffa.idRisorsa" value="${tariffa.risorsa.idRisorsa }" />
-	<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
-    <input type="submit" class="submitbutton" value="Salva" />
-    
+	<div id="button_center">
+		<input type="hidden" name="tariffa.idRisorsa" value="${tariffa.risorsa.idRisorsa }" />
+		<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
+	    <input type="submit" class="submitbutton" value="Salva" />
+	    #{a @TariffeController.index(tariffa.risorsa.idRisorsa)}<input type="button" class="submitbutton" value="Indietro" />#{/a}
+	</div>
 #{/form}
-	<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
-	<input type="button" class="submitbutton" value="Indietro" /></a>
-</div>
-	

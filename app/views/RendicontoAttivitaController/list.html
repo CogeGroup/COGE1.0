@@ -5,12 +5,9 @@
    	<p class="success">${flash.success}</p>
 #{/if}
 
+<h2>Rapportini del: ${mese}-${anno}</h2>
 #{if paginator.size() > 0}
-
 	<table class="table_center">
-		 <caption>
-		    <h3>Rapportini del: ${mese}-${anno}</h3>
-		   </caption>
 		<thead>
 			<tr>
 				<th scope="col">Matricola</th>
@@ -21,21 +18,25 @@
 			</tr>
 		</thead>
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
-		<tr>
-			<td>${rendicontoAttivita.risorsa.matricola }</td>
-			<td>${rendicontoAttivita.risorsa.cognome } ${rendicontoAttivita.risorsa.nome }</td>
-			<td>${rendicontoAttivita.mese }</td>
-			<td>${rendicontoAttivita.anno }</td>
-			<td><a href="@{RendicontoAttivitaController.dettaglio(rendicontoAttivita.risorsa.idRisorsa,rendicontoAttivita.mese,rendicontoAttivita.anno)}">Dettagli</a></td>
-		</tr>
+			<tr>
+				<td>${rendicontoAttivita.risorsa.matricola }</td>
+				<td>${rendicontoAttivita.risorsa.cognome } ${rendicontoAttivita.risorsa.nome }</td>
+				<td>${rendicontoAttivita.mese }</td>
+				<td>${rendicontoAttivita.anno }</td>
+				<td>#{a @RendicontoAttivitaController.dettaglio(rendicontoAttivita.risorsa.idRisorsa,rendicontoAttivita.mese,rendicontoAttivita.anno)}Dettagli#{/a}</td>
+			</tr>
 		#{/paginate.list} 
 	</table>
 	<div id="datatable_rapportini">
-	#{paginate.controls items:paginator /}
+		#{paginate.controls items:paginator /}
 	</div>
 #{/if}
 #{else}
-	<center><h2>Nessun Rapportino esistente</h2>
-	<a id="create" href="@{RendicontoAttivitaController.search()}">Nuova Ricerca</a>
+	<center>
+		<h2>Nessun Rapportino esistente</h2>
+		#{a @RendicontoAttivitaController.search()}Nuova Ricerca#{/a}
 	</center>
 #{/else}
+<div id="buttonSubmit_center">
+	#{a @RendicontoAttivitaController.search() }<input type="button" class="button_submit" value="Indietro" />#{/a}
+</div>

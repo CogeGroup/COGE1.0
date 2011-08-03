@@ -4,7 +4,7 @@
 <h2>Dettaglio Tariffa</h2>
 
 <div id="edit">
-   <ul>
+	<ul>
 		<li>
 	        <label for="dataInizio">Data Inizio:</label>
 	        ${tariffa.dataInizio?.format('dd-MM-yyyy') }
@@ -15,14 +15,12 @@
 	        ${tariffa.dataFine?.format('dd-MM-yyyy') }
 	    </li>
 	    #{/if}
-	    #{if tariffa.commessa instanceof models.CommessaACorpo }
-	    #{/if}
-	    #{else}
+	    #{if !tariffa.commessa instanceof models.CommessaACorpo }
 	    <li>
 	        <label for="importo">Importo giornaliero:</label>
 	        ${tariffa.importoGiornaliero }
 	    </li>
-	    #{/else}
+	    #{/if}
 	    <li>
 	        <label for="risorsa">Risorsa:</label>
 	         ${tariffa.risorsa.cognome }
@@ -31,9 +29,8 @@
 	        <label for=commessa>Commessa:</label>
 	        <a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice }</a>
 	    </li>
-  </ul>
-
+	</ul>
 </div>
 <div id="button_center_single">	
-	<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	#{a @TariffeController.index(tariffa.risorsa.idRisorsa)}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 </div>

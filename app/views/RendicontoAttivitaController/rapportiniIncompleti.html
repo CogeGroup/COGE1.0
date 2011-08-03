@@ -1,9 +1,9 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
 
-	<h2>Ricerca Rapportini Incompleti</h2>
+<h2>Ricerca Rapportini Incompleti</h2>
+#{form @RendicontoAttivitaController.listRapportiniIncompleti()}
 	<div id="align_form_short">
-	#{form @RendicontoAttivitaController.listRapportiniIncompleti()}
 		#{ifErrors}
 	   	    <p class="error">
 				${errors[0]}</p>
@@ -28,8 +28,6 @@
 	</div>
 	<div id="button_center">
     	<input type="submit" class="submitbutton" value="Cerca" />
-	#{/form}
-	#{form @RendicontoAttivitaController.index()}
-		<input type="submit" class="submitbutton" value="Indietro" />   
-	#{/form}
+		#{a @RendicontoAttivitaController.index()}<input type="submit" class="submitbutton" value="Indietro" /> #{/a}  
 	</div>
+#{/form}
