@@ -60,32 +60,36 @@ and ra.anno= $P{ANNO}
 			<staticText>
 				<reportElement x="0" y="3" width="131" height="20"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font size="12" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[REPORT RISORSE ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="146" y="3" width="36" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[MESE:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="183" y="3" width="22" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{MESE}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="209" y="3" width="35" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[ANNO:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="245" y="3" width="53" height="20"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{ANNO}]]></textFieldExpression>
 			</textField>
 		</band>

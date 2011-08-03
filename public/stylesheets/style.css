@@ -648,6 +648,12 @@ margin:auto;
 	color:none;
 }
 
+#forbidden { 
+	width: 350px; 
+	padding: 12px 21px; 
+	margin: auto;
+	border:1px solid;
+}
 
 
 
