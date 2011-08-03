@@ -148,22 +148,23 @@ public class Risorsa extends GenericModel {
 	}
 	
 	public Float calcolaRicavo(int mese,int anno){
-		float importoTotale = 0f;
-		
-		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
-		if (listaRendicontoAttivita == null || listaRendicontoAttivita.size() == 0)
+		Float importoTotale = 0f;
+		List<Tariffa> listaTariffa = Tariffa.findByRisorsaAndMeseAndAnno(mese,anno,this);
+		if(listaTariffa == null || listaTariffa.size() == 0) {
 			return null;
-		
-		for (RendicontoAttivita ra : listaRendicontoAttivita){
-			if(ra.commessa.fatturabile){
-				Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
-				importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
-			}
 		}
-		// aggiunge nel ricavo totale l'importo di tutte le commesse a corpo presenti nelle tariffe della risorsa
-		List<CommessaACorpo> listaCommesse = Commessa.trovaCommesseACorpoPerRisorsa(mese+1, anno, this);
-		for (CommessaACorpo commessa : listaCommesse) {
-			importoTotale += commessa.importo;
+		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
+		for (Tariffa tariffa : listaTariffa) {
+			if(tariffa.commessa instanceof CommessaACorpo) {
+				importoTotale += ((CommessaACorpo) tariffa.commessa).importo;
+			}else {
+				for (RendicontoAttivita ra : listaRendicontoAttivita){
+					if(ra.commessa.fatturabile){
+						Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
+						importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
+					}
+				}
+			}
 		}
 		return importoTotale;
 	}

@@ -95,7 +95,7 @@ public class RendicontoAttivita extends GenericModel {
 		for (Risorsa risorsa : listaRisorse) {
 			System.out.println(mese);
 			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
-			List<Commessa> listaCommesse  = Commessa.trovaCommessePerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 			System.out.println(risorsa.codice + " numero commesse: " +listaCommesse.size() + " numero rendiconti: " + listaRendicontoAttivitas.size());
 			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
 				listaAnomalie.add(risorsa);

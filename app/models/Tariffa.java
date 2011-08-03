@@ -225,6 +225,16 @@ public class Tariffa extends GenericModel{
 		return tariffa;
 	}
 	
+	public static List<Tariffa> findByRisorsaAndMeseAndAnno(int mese,int anno,Risorsa risorsa){
+		Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese+1, anno);
+		Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese+1, anno);
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
+		query.bind("risorsa",risorsa);
+		query.bind("dataInizioRapporto", dataInizioRapporto);
+		query.bind("dataFineRapporto", dataFineRapporto);
+		return query.fetch();
+	}
+	
 	public  float calcolaRicavoTariffa(int oreLavorate){
 		return calcolaTariffaOraria() * oreLavorate;
 	}

@@ -154,7 +154,7 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
-	public static List<Commessa> trovaCommessePerRisorsa(int mese,
+	public static List<Commessa> trovaCommesseFatturabiliPerRisorsa(int mese,
 			int anno, Risorsa risorsa) {
 		List<Commessa> listaCommesse = new ArrayList<Commessa>();
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
@@ -193,4 +193,6 @@ public class Commessa extends GenericModel{
 		}
 		return listaCommesse;
 	}
+	
+	
 }
