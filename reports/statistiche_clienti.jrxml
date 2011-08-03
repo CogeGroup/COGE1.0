@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="68"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -121,7 +121,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[GEN]]></text>
 			</staticText>
@@ -135,7 +135,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[FEB]]></text>
 			</staticText>
@@ -149,7 +149,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[MAR]]></text>
 			</staticText>
@@ -166,7 +166,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[APR]]></text>
 			</staticText>
@@ -180,7 +180,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[MAG]]></text>
 			</staticText>
@@ -194,7 +194,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[GIU]]></text>
 			</staticText>
@@ -208,7 +208,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[LUG]]></text>
 			</staticText>
@@ -222,7 +222,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[AGO]]></text>
 			</staticText>
@@ -236,7 +236,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[SET]]></text>
 			</staticText>
@@ -250,7 +250,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[OTT]]></text>
 			</staticText>
@@ -264,7 +264,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[NOV]]></text>
 			</staticText>
@@ -278,7 +278,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[DIC]]></text>
 			</staticText>
@@ -292,7 +292,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[CLIENTE]]></text>
 			</staticText>
@@ -306,7 +306,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[TOTALE]]></text>
 			</staticText>
@@ -320,7 +320,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[TOTALE  1°
  SEM]]></text>
@@ -335,7 +335,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[TOTALE  2°
  SEM]]></text>
@@ -349,7 +349,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_febbraio} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_febbraio}]]></textFieldExpression>
 			</textField>
@@ -358,7 +358,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_marzo} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_marzo}]]></textFieldExpression>
 			</textField>
@@ -367,7 +367,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_aprile} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_aprile}]]></textFieldExpression>
 			</textField>
@@ -376,7 +376,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_maggio} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_maggio}]]></textFieldExpression>
 			</textField>
@@ -385,7 +385,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_giugno} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_giugno}]]></textFieldExpression>
 			</textField>
@@ -394,7 +394,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_luglio} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_luglio}]]></textFieldExpression>
 			</textField>
@@ -403,7 +403,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_agosto} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_agosto}]]></textFieldExpression>
 			</textField>
@@ -412,7 +412,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_settembre} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_settembre}]]></textFieldExpression>
 			</textField>
@@ -421,7 +421,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_ottobre} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_ottobre}]]></textFieldExpression>
 			</textField>
@@ -430,7 +430,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_novembre} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_novembre}]]></textFieldExpression>
 			</textField>
@@ -439,7 +439,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_dicembre} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_dicembre}]]></textFieldExpression>
 			</textField>
@@ -448,7 +448,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{ricavo_gennaio} != 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_gennaio}]]></textFieldExpression>
 			</textField>
@@ -457,7 +457,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_gennaio}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_gennaio}]]></textFieldExpression>
 			</textField>
@@ -466,7 +466,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_febbraio}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_febbraio}]]></textFieldExpression>
 			</textField>
@@ -475,7 +475,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_marzo}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_marzo}]]></textFieldExpression>
 			</textField>
@@ -484,7 +484,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_aprile}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_aprile}]]></textFieldExpression>
 			</textField>
@@ -493,7 +493,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_maggio}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_maggio}]]></textFieldExpression>
 			</textField>
@@ -502,7 +502,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_giugno}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_giugno}]]></textFieldExpression>
 			</textField>
@@ -511,7 +511,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_luglio}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_luglio}]]></textFieldExpression>
 			</textField>
@@ -520,7 +520,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_agosto}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_agosto}]]></textFieldExpression>
 			</textField>
@@ -529,7 +529,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_settembre}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_settembre}]]></textFieldExpression>
 			</textField>
@@ -538,7 +538,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_ottobre}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_ottobre}]]></textFieldExpression>
 			</textField>
@@ -547,7 +547,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_novembre}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_novembre}]]></textFieldExpression>
 			</textField>
@@ -556,14 +556,14 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 					<printWhenExpression><![CDATA[$F{costo_dicembre}!= 0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_dicembre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="123" height="40"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nominativo}]]></textFieldExpression>
 			</textField>
@@ -573,42 +573,42 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="123" y="0" width="74" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_Totale}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="197" y="0" width="61" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_primo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="197" y="20" width="61" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_primo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="258" y="0" width="61" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_secondo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="258" y="20" width="61" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_secondo_semestre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement x="123" y="20" width="74" height="20"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="8" pdfFontName="Helvetica"/>
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_Totale}]]></textFieldExpression>
 			</textField>
