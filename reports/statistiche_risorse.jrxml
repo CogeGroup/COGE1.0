@@ -23,7 +23,7 @@
 r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
  sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
  sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale
- FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `rendicontoattivita` ra,`rapportolavoro` rl,`tiporapportolavoro` trl
+ FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
  WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
  and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
 ) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
