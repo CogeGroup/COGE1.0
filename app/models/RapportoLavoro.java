@@ -16,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PersistenceProperty;
 import javax.persistence.Transient;
 
-import models.Costo.MyDataInizioCheck;
-
 import play.data.binding.*;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;

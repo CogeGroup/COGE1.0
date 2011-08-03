@@ -21,6 +21,14 @@ public class CostiController extends Controller {
     public static void list(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<Costo> listaCosti = Costo.find("byRisorsa", risorsa).fetch();
+    	Comparator<Costo> comparator = new Comparator<Costo>() {
+			
+			@Override
+			public int compare(Costo o1, Costo o2) {
+				return o1.dataInizio.compareTo(o2.dataInizio);
+			}
+		};
+		Collections.sort(listaCosti, comparator);
     	ValuePaginator paginator = new ValuePaginator(listaCosti);
     	paginator.setPageSize(5);
         render(paginator, risorsa);
@@ -33,7 +41,6 @@ public class CostiController extends Controller {
     	render(costo, listaAnni);
 	}
     public static void save(@Valid Costo costo){
-    	
     	// Validazione del form
     	if(validation.hasErrors()) {
     		List<Integer> listaAnni = MyUtility.createListaAnni();
@@ -68,15 +75,11 @@ public class CostiController extends Controller {
     	flash.success("Costo aggiornato con successo");
     	list(costo.risorsa.idRisorsa);
     }
-    public static void delete(Integer idCosto,Integer idRisorsa){
+    public static void delete(Integer idCosto){
     	Costo costo = Costo.findById(idCosto);
-    	if(costo == null){
-    		flash.error("Costo non trovato");
-    		list(idRisorsa);
-    	}
     	costo.delete();
     	flash.success("Costo rimosso con successo");
-    	list(idRisorsa);
+    	list(costo.risorsa.idRisorsa);
     }
     
 
