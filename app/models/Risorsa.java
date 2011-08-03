@@ -157,13 +157,12 @@ public class Risorsa extends GenericModel {
 		for (Tariffa tariffa : listaTariffa) {
 			if(tariffa.commessa instanceof CommessaACorpo) {
 				importoTotale += ((CommessaACorpo) tariffa.commessa).importo;
-			}else {
-				for (RendicontoAttivita ra : listaRendicontoAttivita){
-					if(ra.commessa.fatturabile){
-						Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
-						importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
-					}
-				}
+			}
+		}
+		for (RendicontoAttivita ra : listaRendicontoAttivita){
+			if(ra.commessa.fatturabile){
+				Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
+				importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
 			}
 		}
 		return importoTotale;

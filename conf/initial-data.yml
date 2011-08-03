@@ -126,41 +126,125 @@ Cliente(cliente2):
  codice: CL2
  nominativo: cliente2
  attivo: true
+Cliente(solvingTeam): 
+ codice: ST
+ nominativo: SolvingTeam
+ attivo: true
 #COMMESSE ---------
 Commessa(commessa1):
  codice: CM1
- descrizione: commessa1
+ descrizione: Commessa1
  dataInizioCommessa: 2009-01-01
  fatturabile: true
  cliente: cliente1
 Commessa(commessa2):
  codice: CM2
- descrizione: commessa2
+ descrizione: Commessa2
  dataInizioCommessa: 2009-01-01
  fatturabile: true
  cliente: cliente1
-Commessa(Ferie):
+Commessa(commessa3):
+ codice: CM3
+ descrizione: Commessa3
+ dataInizioCommessa: 2011-01-01
+ fatturabile: true
+ cliente: cliente2
+Commessa(commessa4):
+ codice: CM4
+ descrizione: Commessa4
+ dataInizioCommessa: 2011-07-07
+ fatturabile: true
+ cliente: cliente2
+Commessa(ferie):
  codice: FERIE
  descrizione: Ferie
  fatturabile: false
- cliente: cliente2
-Commessa(Malattia):
+ cliente: solvingTeam
+Commessa(malattia):
  codice: MALATTIA
- descrizione: malattia
+ descrizione: Malattia
  fatturabile: false
- cliente: cliente2
-Commessa(commessa3):
- codice: CM3
- descrizione: commessa3
- dataInizioCommessa: 2011-01-01
- fatturabile: true
- cliente: cliente1
-Commessa(commessa4):
- codice: CM4
- descrizione: commessa4
- dataInizioCommessa: 2011-07-07
- fatturabile: true
- cliente: cliente1
+ cliente: solvingTeam
+Commessa(permesso):
+ codice: PERMESSO_RETRIBUITO
+ descrizione: Permesso retribuito
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(recupero):
+ codice: RECUPERO_ORE
+ descrizione: Recupero ore già lavorate
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(rapporti):
+ codice: RAPPORTI_DIR.NE/AMM.NE
+ descrizione: Rapporti con la direzione o con l'amministrazione
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(permesso2):
+ codice: PERMESSO_RETRIBUITO_ALLATTAMENTO
+ descrizione: Permesso retribuito per allattamento
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(marernita):
+ codice: MATERNITA'
+ descrizione: Maternità
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(assenza):
+ codice: ASSENZA_SERVIZIO_ELETTORALE
+ descrizione: Assenza giustificata (Servizio Elettorale)
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(lutto):
+ codice: LUTTO
+ descrizione: Lutto
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(assenza2):
+ codice: ASSENZA_NASCITA_FIGLIO
+ descrizione: Assenza giustificata (Nascita Figlio)
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(corso):
+ codice: FORMAZIONE_CORSI
+ descrizione: Formazione e Corsi
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(donazione):
+ codice: DONAZIONE_SANGUE
+ descrizione: Donazione del Sangue
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(attivita):
+ codice: ATTIVITA_PER_TERZI
+ descrizione: Attivita per terzi non retribuita
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(attivita2):
+ codice: ATTIVITA_INTERNA
+ descrizione: Attivita interna fuori progetto
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(formazione):
+ codice: FORMAZIONE_INTERNA
+ descrizione: Formazione interna
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(risorsa):
+ codice: NON_ALLOCATA
+ descrizione: Risorsa tecnica non allocata
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(ferie2):
+ codice: FERIA_MATRIMONIALI
+ descrizione: Ferie matrimoniali
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(congedo):
+ codice: CONGEDO_PARENTALE
+ descrizione: Congedo parentale
+ fatturabile: false
+ cliente: solvingTeam
 #COMMESSE A CORPO ---------
 CommessaACorpo(cAc1):
  codice: ACORPO
@@ -327,7 +411,7 @@ RendicontoAttivita(ra4):
  mese: 6
  anno: 2011
  risorsa: Clark
- commessa: Ferie
+ commessa: ferie
 RendicontoAttivita(ra5):
  oreLavorate: 100
  mese: 7
@@ -351,4 +435,16 @@ RendicontoAttivita(ra8):
  mese: 7
  anno: 2011
  risorsa: Clark
- commessa: Ferie
+ commessa: ferie
+RendicontoAttivita(ra9):
+ oreLavorate: 100
+ mese: 6
+ anno: 2011
+ risorsa: Peter
+ commessa: commessa3
+RendicontoAttivita(ra10):
+ oreLavorate: 50
+ mese: 7
+ anno: 2011
+ risorsa: Peter
+ commessa: commessa3

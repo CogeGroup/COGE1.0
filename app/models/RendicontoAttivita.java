@@ -91,12 +91,13 @@ public class RendicontoAttivita extends GenericModel {
 
 	public static List<Risorsa> listRapportiniIncompleti(int mese, int anno) {
 		List<Risorsa> listaAnomalie = new ArrayList<Risorsa>();
+		if(MyUtility.MeseEdAnnoToDataFine(mese, anno).after(new Date())){
+			return listaAnomalie;
+		}
 		List<Risorsa> listaRisorse = Risorsa.findAll();
 		for (Risorsa risorsa : listaRisorse) {
-			System.out.println(mese);
 			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 			List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
-			System.out.println(risorsa.codice + " numero commesse: " +listaCommesse.size() + " numero rendiconti: " + listaRendicontoAttivitas.size());
 			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
 				listaAnomalie.add(risorsa);
 			}

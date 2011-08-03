@@ -20,7 +20,7 @@
 		<thead>
 			<tr>
 				<th scope="col">Commessa</th>
-				<th scope="col">Ore Lavorate</th>
+				<th scope="col">Ore</th>
 				<th scope="col">Elimina</th>
 			</tr>
 		</thead>
@@ -37,14 +37,12 @@
 	<div id="datatable_rapportini">
 		#{paginate.controls items:paginator /}
 	</div>
-	<div id="buttonSubmit_center">
-		#{a @RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}<input type="button" class="button_submit" value="Aggiungi attivita'"/>#{/a}
-	</div>
 #{/if}
 #{else}
 	<center><h2>Nessuna Attivita' presente</h2></center>
 #{/else}
 <div id="buttonSubmit_center">
+	#{a @RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}<input type="button" class="button_submit" value="Aggiungi attivita'"/>#{/a}
 	#{a @RendicontoAttivitaController.backList(mese,anno)}<input type="button" class="button_submit" value="Indietro"/>#{/a}
 	#{a @RendicontoAttivitaController.search()}<input type="button" class="button_submit" value="Nuova Ricerca"/>#{/a}
 </div>
