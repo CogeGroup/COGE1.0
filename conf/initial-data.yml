@@ -79,53 +79,53 @@ RapportoLavoro(rpl3):
  tipoRapportoLavoro: DIPT
  risorsa: Peter
 #COSTI --------------
-Costo(costo1): 
-  importo:  200f
-  dataInizio:  2009-06-01
-  dataFine: 2011-02-31
-  risorsa: bonnie
-Costo(costo2): 
-  importo: 100f
-  dataInizio: 2011-03-01
-  dataFine: 2011-04-31
-  risorsa: bonnie
-Costo(costo3): 
-  importo: 100f
-  dataInizio: 2011-05-01
-  dataFine: 2011-07-31
-  risorsa: bonnie
-Costo(costo4): 
-  importo:  200f
-  dataInizio:  2011-08-01
-  dataFine: 2011-08-31
-  risorsa: bonnie
-Costo(costo5): 
-  importo: 100f
-  dataInizio: 2011-09-01
-  dataFine: 2011-10-31
-  risorsa: bonnie
-Costo(costo6): 
-  importo: 100f
-  dataInizio: 2011-11-01
-  dataFine: 2011-12-31
-  risorsa: bonnie
-Costo(costo7): 
-  importo: 10f
-  dataInizio: 2010-01-01
-  risorsa: Clark
-Costo(cs1): 
-  importo: 100f
-  dataInizio: 2011-06-01
-  risorsa: Bruce
+Costo(costo1):
+ importo: 200f
+ dataInizio: 2009-06-01
+ dataFine: 2010-12-31
+ risorsa: bonnie
+Costo(costo2):
+ importo: 100f
+ dataInizio: 2011-01-01
+ dataFine: 2011-04-30
+ risorsa: bonnie
+Costo(costo3):
+ importo: 100f
+ dataInizio: 2011-05-01
+ dataFine: 2011-07-31
+ risorsa: bonnie
+Costo(costo4):
+ importo: 200f
+ dataInizio: 2011-08-01
+ dataFine: 2011-08-31
+ risorsa: bonnie
+Costo(costo5):
+ importo: 100f
+ dataInizio: 2011-09-01
+ dataFine: 2011-10-31
+ risorsa: bonnie
+Costo(costo6):
+ importo: 100f
+ dataInizio: 2011-11-01
+ dataFine: 2011-12-31
+ risorsa: bonnie
+Costo(costo7):
+ importo: 10f
+ dataInizio: 2010-01-01
+ risorsa: Clark
+Costo(costo8):
+ importo: 100f
+ dataInizio: 2011-06-01
+ risorsa: Bruce
 #CLIENTI ----------
 Cliente(cliente1): 
-  codice: CL1
-  nominativo: cliente1
-  attivo: true
+ codice: CL1
+ nominativo: cliente1
+ attivo: true
 Cliente(cliente2): 
-  codice: CL2
-  nominativo: cliente2
-  attivo: true
+ codice: CL2
+ nominativo: cliente2
+ attivo: true
 #COMMESSE ---------
 Commessa(commessa1):
  codice: CM1
