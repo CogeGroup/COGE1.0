@@ -3,7 +3,8 @@
 #
 
 #---------------------
-validation.minSize = %s minimo 8 caratteri
+validation.min = %s deve essere maggiore di %d
+validation.minSize = %s minimo %d caratteri
 validation.required=il campo %s è obbligatorio
 validation.invalid = formato non corretto
 # COSTO ----------------------

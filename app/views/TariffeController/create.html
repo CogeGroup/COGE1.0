@@ -59,7 +59,7 @@
 	        <br />
 	    	<label for="commessa">Commessa:</label>
 			<select name="tariffa.idCommessa">
-	    		#{list items:listaCommesse, as:'commessa'}
+				#{list items:listaCommesse, as:'commessa'}
 			        <option value="${commessa.idCommessa }" #{if commessa.idCommessa == tariffa?.commessa?.idCommessa }
 			        		selected="selected"
 			        	#{/if} >${commessa.codice }</option>
