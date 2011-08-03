@@ -85,7 +85,6 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
-		System.out.println(mese);
     	JPAQuery query  = Risorsa.find("from Risorsa r where r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + (mese+1) + " and ra.anno = " + anno + " and ra.risorsa = r)");
     	return query.fetch();
 	}
