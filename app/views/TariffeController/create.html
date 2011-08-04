@@ -22,6 +22,14 @@
 </script>
 
 <h2>Nuova tariffa</h2>
+<div id="detail">
+<ul>
+	<li><label>Risorsa: </label>${tariffa.risorsa.matricola}</li>
+	<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
+</ul>
+</div>
+
 
 #{if listaCommesse.size() > 0}
 <div id="align_form_short">
@@ -35,7 +43,7 @@
 	
 	  
 	    	<label for="dataInizio">Data Inizio:</label>
-			#{select 'tariffa.meseInizio', value:meseInizio}
+			#{select 'tariffa.meseInizio', value:tariffa.meseInizio}
 				#{option 0}GEN#{/option}
 				#{option 1}FEB#{/option}
 				#{option 2}MAR#{/option}
@@ -50,25 +58,18 @@
 				#{option 11}DIC#{/option}
 			#{/select}
 			
-			#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'annoInizio', valueProperty:'annoInizio', value:annoInizio}
-			#{/select}
+			#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'tariffa.annoInizio', valueProperty:'tariffa.annoInizio', value:tariffa.annoInizio /}
 			<br />
 		
 	        <label for=importo>Importo giornaliero:</label>
 	        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
 	        <br />
 	    	<label for="commessa">Commessa:</label>
-			<select name="tariffa.idCommessa">
-				#{list items:listaCommesse, as:'commessa'}
-			        <option value="${commessa.idCommessa }" #{if commessa.idCommessa == tariffa?.commessa?.idCommessa }
-			        		selected="selected"
-			        	#{/if} >${commessa.codice }</option>
-			    #{/list} 
-	    	</select>
-	 
+			#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}
+	    	
 </div>
 <div id="button_center">
-	<input type="hidden" name="tariffa.idRisorsa" value="${idRisorsa }"/>
+	<input type="hidden" name="tariffa.risorsa.idRisorsa" value="${tariffa.risorsa.idRisorsa }"/>
     <input type="submit" class="submitbutton" value="Salva" />
     
 #{/form}
@@ -78,6 +79,6 @@
 	<a href="@{CommesseController.create()}">
 	<input type="button" class="submitbutton" value="Aggiungi nuovo Commessa" /></a>
 #{/else}
-<a href="@{TariffeController.index(idRisorsa)}">
+<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
 <input type="button" class="submitbutton" value="Indietro" /></a>
 </div>

@@ -2,6 +2,13 @@
 #{set title:'Gestione Tariffe ' /}
 
 <h2>Dettaglio Tariffa</h2>
+<div id="detail">
+<ul>
+	<li><label>Risorsa: </label>${tariffa.risorsa.matricola}</li>
+	<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
+</ul>
+</div>
 
 <div id="edit">
 	<ul>
@@ -12,7 +19,7 @@
 	    #{if tariffa.dataFine}
 	    <li>
 	        <label for="dataFine">Data Fine:</label>
-	        ${tariffa.dataFine?.format('dd-MM-yyyy') }
+	        ${tariffa.dataFine.format('dd-MM-yyyy') }
 	    </li>
 	    #{/if}
 	    #{if !tariffa.commessa instanceof models.CommessaACorpo }
@@ -21,10 +28,6 @@
 	        ${tariffa.importoGiornaliero }
 	    </li>
 	    #{/if}
-	    <li>
-	        <label for="risorsa">Risorsa:</label>
-	         ${tariffa.risorsa.cognome }
-	    </li>
 	    <li>
 	        <label for=commessa>Commessa:</label>
 	        <a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice }</a>

@@ -85,6 +85,17 @@ public class Tariffa extends GenericModel{
 		this.commessa = commessa;
 	}
 	
+	
+	
+	public Tariffa(Risorsa risorsa, int meseInizio, int annoInizio) {
+		this.risorsa = risorsa;
+		this.meseInizio = meseInizio;
+		this.annoInizio = annoInizio;
+		this.commessa = new Commessa();
+	}
+
+
+
 	static class dataInizio extends Check {
 		static final String message = "validation.tariffa.dataInizio_before_dataInizoCommessa";
 		static final String message2 = "validation.tariffa.dataInizio_after_dataFineCommessa";
@@ -93,15 +104,16 @@ public class Tariffa extends GenericModel{
 		@Override
 		public boolean isSatisfied(Object tariffa, Object value) {
 			Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(((Tariffa) tariffa).meseInizio, ((Tariffa) tariffa).annoInizio);
+			Commessa commessa = ((Tariffa) tariffa).commessa;
+			Risorsa risorsa = ((Tariffa) tariffa).risorsa;
 			if(((Tariffa) tariffa).idTariffa == null){
-				Commessa commessa = Commessa.findById(((Tariffa) tariffa).idCommessa);
 				if(commessa.dataInizioCommessa != null){
 					Date dataCommessa = commessa.dataInizioCommessa;
 					int meseCommessa = MyUtility.getMeseFromDate(dataCommessa);
 					int annoCommessa = MyUtility.getAnnoFromDate(dataCommessa);
 					dataCommessa = MyUtility.MeseEdAnnoToDataInizio(meseCommessa, annoCommessa);
 					if(dataInizio.before(dataCommessa)){
-						setMessage(message, new SimpleDateFormat("dd/MM/yyyy").format(dataCommessa));
+						setMessage(message, new SimpleDateFormat("MMM/yyyy").format(dataCommessa));
 						return false;
 					}
 				}
@@ -111,17 +123,16 @@ public class Tariffa extends GenericModel{
 					int annoCommessa = MyUtility.getAnnoFromDate(dataCommessa);
 					dataCommessa = MyUtility.MeseEdAnnoToDataFine(meseCommessa, annoCommessa);
 					if(!dataInizio.before(dataCommessa)){
-						setMessage(message2, new SimpleDateFormat("dd/MM/yyyy").format(dataCommessa));
+						setMessage(message2, new SimpleDateFormat("MMM/yyyy").format(dataCommessa));
 				    	return false;
 					}
 				}
-				Risorsa risorsa = Risorsa.findById(((Tariffa) tariffa).idRisorsa);
 				List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa", commessa, risorsa).fetch();
 				if(lista.size() > 0){
 					Tariffa t = lista.get(lista.size()-1);
 					if(t.dataFine == null){
 						if(!dataInizio.after(t.dataInizio)){
-					       	setMessage(message3, new SimpleDateFormat("dd/MM/yyyy").format(t.dataInizio));
+					       	setMessage(message3, new SimpleDateFormat("MMM/yyyy").format(t.dataInizio));
 					       	return false;
 					    }
 						Calendar c = Calendar.getInstance();
@@ -132,14 +143,12 @@ public class Tariffa extends GenericModel{
 						t.save();
 					}else{
 						if(dataInizio.before(t.dataFine)){
-							setMessage(message3, new SimpleDateFormat("dd/MM/yyyy").format(t.dataFine));
+							setMessage(message3, new SimpleDateFormat("MMM/yyyy").format(t.dataFine));
 							return false;
 					    }
 					}
 				}
 			}else{
-				Commessa commessa = Commessa.findById(((Tariffa) tariffa).idCommessa);
-				Risorsa risorsa = Risorsa.findById(((Tariffa) tariffa).idRisorsa);
 				List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa",commessa, risorsa).fetch();
 		        if(lista.size() > 0) {
 		        	// la penultima tariffa poiché l'ultima tariffa è quella da modificare
@@ -147,7 +156,7 @@ public class Tariffa extends GenericModel{
 		        	if(lista.size() > 1){
 		        		// se la dataInizio della tariffa è maggiore della dataFine della penultima tariffa
 					    if(!dataInizio.after(t.dataFine)){
-					       	setMessage(message3, new SimpleDateFormat("dd/MM/yyyy").format(t.dataFine));
+					       	setMessage(message3, new SimpleDateFormat("MMM/yyyy").format(t.dataFine));
 					       	return false;
 					    }
 		        	}
@@ -160,29 +169,27 @@ public class Tariffa extends GenericModel{
 	static class dataFine extends Check {
 		static final String message = "validation.tariffa.dataFine_before_dataInizo";
 		static final String message2 = "validation.tariffa.dataFine_after_dataFineCommessa";
-		static final String message3 = "validation.tariffa.dataFine";
+		static final String message3 = "validation.tariffa.dataFine_wrong_selection";
 		
 		@Override
 		public boolean isSatisfied(Object tariffa, Object value) {
-			if(((Tariffa) tariffa).idTariffa == null){
+			Tariffa tariffa2 = (Tariffa) tariffa;
+			if(tariffa2.idTariffa == null){
 				return true;
 			}
-			Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(((Tariffa) tariffa).meseInizio, ((Tariffa) tariffa).annoInizio);
-			if(((Tariffa) tariffa).meseFine != -1 && ((Tariffa) tariffa).annoFine != -1){
-				Date dataFine = MyUtility.MeseEdAnnoToDataFine(((Tariffa) tariffa).meseFine, ((Tariffa) tariffa).annoFine);
-				if(dataFine.before(dataInizio)){
+			tariffa2.dataInizio = MyUtility.MeseEdAnnoToDataInizio(((Tariffa) tariffa).meseInizio, ((Tariffa) tariffa).annoInizio);
+			if (tariffa2.meseFine == -1 ^ tariffa2.annoFine == -1) {
+				setMessage(message3);
+				return false;
+			}
+			if(tariffa2.meseFine > -1) {
+				tariffa2.dataFine = MyUtility.MeseEdAnnoToDataFine(tariffa2.meseFine, tariffa2.annoFine);
+				if(tariffa2.dataFine.before(tariffa2.dataInizio)){
 					setMessage(message);
 					return false;
 				}
-				Commessa commessa = Commessa.findById(((Tariffa) tariffa).idCommessa);
-				if(commessa.dataFineCommessa != null && !dataFine.before(commessa.dataFineCommessa)){
-					setMessage(message2, new SimpleDateFormat("dd/MM/yyyy").format(commessa.dataFineCommessa));
-					return false;
-				}
-			}else{
-				Commessa commessa = Commessa.findById(((Tariffa) tariffa).idCommessa);
-				if(commessa.dataFineCommessa != null){
-					setMessage(message3, new SimpleDateFormat("dd/MM/yyyy").format(commessa.dataFineCommessa));
+				if(tariffa2.commessa.dataFineCommessa != null && !tariffa2.dataFine.before(tariffa2.commessa.dataFineCommessa)){
+					setMessage(message2, new SimpleDateFormat("MMM/yyyy").format(tariffa2.commessa.dataFineCommessa));
 					return false;
 				}
 			}
@@ -195,8 +202,7 @@ public class Tariffa extends GenericModel{
 		
 		@Override
 		public boolean isSatisfied(Object tariffa, Object dataInizio) {
-			Commessa commessa = Commessa.findById(((Tariffa) tariffa).idCommessa);
-			if(!(commessa instanceof CommessaACorpo) && ((Tariffa) tariffa).importoGiornaliero <= 0){
+			if(!(((Tariffa)tariffa).commessa instanceof CommessaACorpo) && ((Tariffa) tariffa).importoGiornaliero <= 0){
 				setMessage(message);
 				return false;
 			}

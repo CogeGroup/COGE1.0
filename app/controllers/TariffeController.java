@@ -35,39 +35,23 @@ public class TariffeController extends Controller {
     }
     
     public static void create(Integer idRisorsa) {
-    	Risorsa risorsa = Risorsa.findById(idRisorsa);
+    	Tariffa tariffa = new Tariffa((Risorsa)Risorsa.findById(idRisorsa), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR));
     	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int meseInizio = Calendar.getInstance().get(Calendar.MONTH);
-        int annoInizio = Calendar.getInstance().get(Calendar.YEAR);
-        render(risorsa.idRisorsa, listaCommesse, meseInizio, listaAnni, annoInizio);
+    	render(tariffa, listaCommesse, listaAnni);
     }
     
     public static void save(@Valid Tariffa tariffa) {
-    	int meseInizio = tariffa.meseInizio;
-    	int annoInizio = tariffa.annoInizio;
-    	Integer idCommessa = tariffa.idCommessa;
-    	Integer idRisorsa = tariffa.idRisorsa;
-    	
-    	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(meseInizio, annoInizio);
-        Commessa commessa = idCommessa != null ? (Commessa) Commessa.findById(idCommessa) : new Commessa();
-        tariffa.commessa = commessa;
-        tariffa.dataInizio = dataInizio;
-        Risorsa risorsa = Risorsa.findById(idRisorsa);
-        tariffa.risorsa = risorsa;
-        
-        if(validation.hasErrors()){
+    	if(validation.hasErrors()){
         	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
-        	render("TariffeController/create.html", idRisorsa, tariffa, listaCommesse, meseInizio, listaAnni, annoInizio);
+        	render("TariffeController/create.html", tariffa, listaCommesse, listaAnni);
         }
-        
-        // Se la commessa è a corpo l'importo della tariffa seve essere 0
-        tariffa.importoGiornaliero = commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
-        // Salvataggio tariffa
+    	tariffa.dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);
+        tariffa.importoGiornaliero = tariffa.commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
         tariffa.save();
         flash.success("Tariffa aggiunta con successo");
-    	list(idRisorsa);
+    	list(tariffa.risorsa.idRisorsa);
     }
     
     public static void edit(Integer idTariffa) {
@@ -76,46 +60,34 @@ public class TariffeController extends Controller {
     	tariffaIsLast(tariffa);
     	
         List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
-    	int meseInizio = MyUtility.getMeseFromDate(tariffa.dataInizio);
-        int annoInizio = MyUtility.getAnnoFromDate(tariffa.dataInizio);
-        int meseFine = tariffa.dataFine == null ? -1 : MyUtility.getMeseFromDate(tariffa.dataFine);
-        int annoFine = tariffa.dataFine == null ? -1 : MyUtility.getAnnoFromDate(tariffa.dataFine);
+        tariffa.meseInizio = MyUtility.getMeseFromDate(tariffa.dataInizio);
+        tariffa.annoInizio = MyUtility.getAnnoFromDate(tariffa.dataInizio);
+        tariffa.meseFine = tariffa.dataFine == null ? -1 : MyUtility.getMeseFromDate(tariffa.dataFine);
+        tariffa.annoFine = tariffa.dataFine == null ? -1 : MyUtility.getAnnoFromDate(tariffa.dataFine);
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-        render(tariffa, listaCommesse, meseInizio, listaAnni, annoInizio, meseFine, annoFine);
+        render(tariffa, listaCommesse, listaAnni);
     }
 
     public static void update(@Valid Tariffa tariffa) {
-    	int meseInizio = tariffa.meseInizio;
-    	int annoInizio = tariffa.annoInizio;
-    	int meseFine = tariffa.meseFine;
-    	int annoFine = tariffa.annoFine;
-    	Integer idCommessa = tariffa.idCommessa;
-    	
-    	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(meseInizio, annoInizio);    	
-    	Commessa commessa = Commessa.findById(idCommessa);
-        tariffa.commessa = commessa;
-        tariffa.dataInizio = dataInizio;
-        
-        if(validation.hasErrors()){
+    	if(validation.hasErrors()){
         	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
-    		render("TariffeController/edit.html", tariffa, listaCommesse, meseInizio, listaAnni, annoInizio, meseFine, annoFine);
+    		render("TariffeController/edit.html", tariffa, listaCommesse, listaAnni);
         }
-        if(meseFine != -1 && annoFine != -1){
-	        Date dataFine = MyUtility.MeseEdAnnoToDataFine(meseFine, annoFine);
-	        if(commessa.dataFineCommessa != null && commessa.dataFineCommessa.before(dataFine)){
-	        	 tariffa.dataFine = commessa.dataFineCommessa;
+        
+    	if(tariffa.meseFine != -1 && tariffa.annoFine != -1){
+	        Date dataFine = MyUtility.MeseEdAnnoToDataFine(tariffa.meseFine, tariffa.annoFine);
+	        if(tariffa.commessa.dataFineCommessa != null && tariffa.commessa.dataFineCommessa.before(dataFine)){
+	        	 tariffa.dataFine = tariffa.commessa.dataFineCommessa;
 	        }else{
 	        	 tariffa.dataFine = dataFine;
 	        }
         }else{
         	tariffa.dataFine = null;
         }
-        
-        // Se la commessa è a corpo l'importo della tariffa seve essere 0
-        tariffa.importoGiornaliero = commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
-        // salvataggio modifiche di tariffa
-    	tariffa.save();
+        tariffa.dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);    	
+    	tariffa.importoGiornaliero = tariffa.commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
+        tariffa.save();
         flash.success("Tariffa modificata con successo");
     	list(tariffa.risorsa.idRisorsa);
     }

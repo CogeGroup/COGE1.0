@@ -1,6 +1,15 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Tariffe'/}
 
+#{if flash.success}
+   	<p class="success">${flash.success}</p>
+#{/if}
+#{ifErrors}
+   	<p class="error">
+		${errors[0]}
+	</p>
+#{/ifErrors}
+
 <h2>Gestione Tariffe</h2>
 <div id="detail">
 <ul>
@@ -11,14 +20,6 @@
 </div>
 
 
-#{if flash.success}
-   	<p class="success">${flash.success}</p>
-#{/if}
-#{ifErrors}
-   	<p class="error">
-		${errors[0]}
-	</p>
-#{/ifErrors}
 #{if paginator.size() > 0}
 	<table class="table_center">
 	<thead>

@@ -60,7 +60,7 @@ validation.tariffa.dataInizio_after_dataFineCommessa = La %s non puo' essere mag
 validation.tariffa.dataInizio_before_dataInizio_ultima_tariffa = La %s non puo essere inferiore o uguale al %s
 validation.tariffa.dataFine_before_dataInizo = La %s non puo essere inferiore alla data inizio
 validation.tariffa.dataFine_after_dataFineCommessa = La %s non puo essere maggiore del %s;
-validation.tariffa.dataFine = la %s è obligatoria
+validation.tariffa.dataFine_wrong_selection = selezionare/deselezionare contemporaneamente mese ed anno fine
 validation.tariffa.importo = Importo obligatorio
 # RUOLO ---------------------------
 ruolo.descrizione = descrizione
