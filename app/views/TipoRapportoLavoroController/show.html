@@ -1,17 +1,21 @@
-#{extends 'main.html' /}
-#{set title:'TipoRapportoLavoroController/index.html' /}
+#{extends 'menu.html' /}
+#{set title:'Tipo Rapporto Lavoro' /}
 
-<p>
-	<label for="codice">Codice: </label>
-    ${tipoRapportoLavoro.codice}
-</p>
-<p>
-	<label for="codice">Descrizione: </label>
-    ${tipoRapportoLavoro.descrizione}
-</p>
-    
+
+
+<h2>Tipo Rapporto Lavoro</h2>
+<div id="align_form_short">
+
+	<label for="codice">Codice: <strong>${tipoRapportoLavoro.codice}</strong></label>
+<br />
+	<label for="codice">Descrizione: <strong>${tipoRapportoLavoro.descrizione}</strong></label>
+<br />
+
+</div>
+<div id="buttonSubmit_center">
 #{form @TipoRapportoLavoroController.index()}
-    <p>
-        <input type="submit" value="Indietro" />
-    </p>
+   
+        <input type="submit" class="button_submit" value="Indietro" />
+   
 #{/form}
+</div>

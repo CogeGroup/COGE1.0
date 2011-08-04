@@ -27,7 +27,7 @@
 		#{paginate.list items:paginator, as:'tipoRapportoLavoro'} 
 			<tr>
     			<td>
-    				<a href="@{TipoRapportoLavoroController.show(tipoRapportoLavoro.idTipoRapportoLavoro)}"> ${tipoRapportoLavoro.codice} </a>
+    				${tipoRapportoLavoro.codice}
     			</td>
     			<td>${tipoRapportoLavoro.descrizione}</td>
     			<td>
