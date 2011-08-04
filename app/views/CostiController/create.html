@@ -2,17 +2,21 @@
 #{set title:'Aggiungi nuovo costo' /}
 
 <h2>Nuovo costo</h2>
+<div id="detail">
+<ul>
+	<li><label>Risorsa: </label>${costo.risorsa.matricola}</li>
+	<li><label>Nome: </label>${costo.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${costo.risorsa.cognome}</li>
+</ul>
+</div>
+
 
 <div id="align_form_short">
 #{form @CostiController.save()}
 	
 	#{ifErrors}
-		#{errors} 
-			#{ifnot error.message == 'validation.object'}
-	 			<p class="error">${error} </p> 
-			#{/ifnot}
-		#{/errors}
-    #{/ifErrors}
+    	<p class="error">${errors[0]}</p>
+	#{/ifErrors}
  <br />
         <label for="importo">Importo:</label>
         <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
