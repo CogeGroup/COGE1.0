@@ -3,17 +3,20 @@
 
 
 <h2>Crea Rapporto Lavoro</h2>
-<div id="align_form_short">
-#{ifErrors}
-    <p class="error">${errors[0]}</p>
-#{/ifErrors}
+<div id="detail">
+<ul>
+	<li><label>Risorsa: </label>${rapportoLavoro.risorsa.matricola}</li>
+	<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
+	<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
+</ul>
+</div>
 
-	<label>Risorsa: <strong>${rapportoLavoro.risorsa.matricola}</strong></label>
-	<label>Nome: <strong>${rapportoLavoro.risorsa.nome}</strong> </label> 
-	<label>Cognome: <strong>${rapportoLavoro.risorsa.cognome}</strong></label><br />
-	<!-- <label>Data In: <strong>${rapportoLavoro.risorsa.dataIn.format('dd-MM-yyyy')}</strong></label><br /> -->
+<div id="align_form_short">
 #{form @RapportoLavoroController.save()}
-	
+	#{ifErrors}
+    	<p class="error">${errors[0]}</p>
+	#{/ifErrors}
+			
 	    	<label for="dataInizio">Data Inizio:</label>
 			#{select 'rapportoLavoro.meseInizio', value:rapportoLavoro.meseInizio}
 				#{option 0}GEN#{/option}
