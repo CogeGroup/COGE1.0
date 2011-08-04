@@ -17,5 +17,4 @@ public class CommessaACorpo extends Commessa {
 		super(descrizione, codice, fatturabile);
 		this.importo = importo;
 	}
-
 }

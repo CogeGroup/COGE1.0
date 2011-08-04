@@ -1,25 +1,17 @@
 package controllers;
 
-import play.*;
-import play.data.validation.Min;
-import play.data.validation.Required;
+import java.util.Date;
+import java.util.List;
+
+import models.Cliente;
+import models.Commessa;
+import models.CommessaACorpo;
+import models.Tariffa;
 import play.data.validation.Valid;
-import play.db.DB;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
-import play.vfs.VirtualFile;
+import play.mvc.Controller;
+import play.mvc.With;
 import secure.SecureCOGE;
-import utility.MyUtility;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-
-import models.*;
 
 @With(SecureCOGE.class)
 public class CommesseController extends Controller {
@@ -45,12 +37,12 @@ public class CommesseController extends Controller {
     
     public static void save(@Valid Commessa commessa, Integer idCliente, 
     		String aCorpo, float importo) {
+    	
     	commessa.cliente = Cliente.findById(idCliente);
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
 	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
 	    }
-    	
     	if(aCorpo != null && aCorpo.equals("si")){
     		if(importo < 0.1) {
         		validation.addError("importo", "L'importo deve essere maggiore di 0");
