@@ -35,10 +35,7 @@ public class CommesseController extends Controller {
         render(commessa, listaClienti, aCorpo, importo);
     }
     
-    public static void save(@Valid Commessa commessa, Integer idCliente, 
-    		String aCorpo, float importo) {
-    	
-    	commessa.cliente = Cliente.findById(idCliente);
+    public static void save(@Valid Commessa commessa, String aCorpo, float importo) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
 	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
@@ -78,15 +75,15 @@ public class CommesseController extends Controller {
         render(commessa, listaClienti);
     }
     
-    public static void update(@Valid Commessa commessa, Integer idCliente) {
+    public static void update(@Valid Commessa commessa) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
 	        render("CommesseController/edit.html", commessa, listaClienti);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
-    	commessa.cliente = Cliente.findById(idCliente);
     	commessa.dataInizioCommessa = commessa.fatturabile ? commessa.dataInizioCommessa : null;
     	commessa.dataFineCommessa = commessa.fatturabile ? commessa.dataFineCommessa : null;
+    	//verificare chiusura commesse
     	if(commessa.dataFineCommessa != null){
     		Tariffa.chiudiTariffeByCommessa(commessa);
     	}

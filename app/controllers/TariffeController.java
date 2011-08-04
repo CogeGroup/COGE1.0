@@ -31,20 +31,15 @@ public class TariffeController extends Controller {
     }
     
     public static void create(Integer idRisorsa) {
-<<<<<<< HEAD
     	Tariffa tariffa = new Tariffa((Risorsa)Risorsa.findById(idRisorsa), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR));
-    	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
-=======
-    	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<Commessa> listaCommesse = Commessa.listaCommesseFatturabiliAttive();
->>>>>>> d7de0947135e536b792c64b9e6bd56b165fe63d3
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	render(tariffa, listaCommesse, listaAnni);
     }
     
     public static void save(@Valid Tariffa tariffa) {
     	if(validation.hasErrors()){
-        	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
+        	List<Commessa> listaCommesse = Commessa.listaCommesseFatturabiliAttive();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
         	render("TariffeController/create.html", tariffa, listaCommesse, listaAnni);
         }
@@ -62,7 +57,7 @@ public class TariffeController extends Controller {
     		list(tariffa.risorsa.idRisorsa);
     	}
     	
-        List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
+        List<Commessa> listaCommesse = Commessa.listaCommesseFatturabiliAttive();
         tariffa.meseInizio = MyUtility.getMeseFromDate(tariffa.dataInizio);
         tariffa.annoInizio = MyUtility.getAnnoFromDate(tariffa.dataInizio);
         tariffa.meseFine = tariffa.dataFine == null ? -1 : MyUtility.getMeseFromDate(tariffa.dataFine);
@@ -73,7 +68,7 @@ public class TariffeController extends Controller {
 
     public static void update(@Valid Tariffa tariffa) {
     	if(validation.hasErrors()){
-        	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
+        	List<Commessa> listaCommesse = Commessa.listaCommesseFatturabiliAttive();
     		List<Integer> listaAnni = MyUtility.createListaAnni();
     		render("TariffeController/edit.html", tariffa, listaCommesse, listaAnni);
         }

@@ -43,12 +43,6 @@ public class Tariffa extends GenericModel{
 	
 	// Transient
 	@Transient
-	public Integer idCommessa;
-	
-	@Transient
-	public Integer idRisorsa;
-	
-	@Transient
 	public int meseInizio;
 	
 	@Transient

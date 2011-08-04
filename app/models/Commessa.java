@@ -58,7 +58,9 @@ public class Commessa extends GenericModel{
 	public List<Tariffa> tariffe;
 	
 	// Costruttori
-	public Commessa(){}
+	public Commessa(){
+		this.cliente = new Cliente();
+	}
 
 	public Commessa(String descrizione, String codice, boolean fatturabile) {
 		this.descrizione = descrizione;

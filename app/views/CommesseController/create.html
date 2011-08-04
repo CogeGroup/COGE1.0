@@ -45,15 +45,7 @@
 	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
 	    <br>
 	   	<label for="cliente">Cliente: </label>
-		<select name="idCliente">
-	    	#{list items:listaClienti, as:'cliente'}
-		        <option value="${cliente.idCliente }" 
-		        	#{if cliente.idCliente == commessa?.cliente?.idCliente }
-		        		selected="selected"
-		        	#{/if} 
-		        >${cliente.nominativo }</option>
-			#{/list} 
-	    </select>
+		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 	    <br>
 	    <hr>
         <label for="aCorpo">A corpo: </label>

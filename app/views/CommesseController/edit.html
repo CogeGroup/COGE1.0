@@ -62,18 +62,8 @@
         <input type="text" class="txt_s" id="importo" name="commessa.importo" value="${commessa.importo }"/>
 	    <br />
 	#{/if}
-    #{if listaClienti.size() > 0}
-    	<label for="cliente">Cliente: </label>
-    	<select name="idCliente">
-    		#{list items:listaClienti, as:'cliente'}
-		        <option value="${cliente.idCliente }" 
-		        	#{if cliente.idCliente == commessa.cliente.idCliente }
-		        		selected="selected"
-		        	#{/if} >${cliente.nominativo }</option>
-		    #{/list} 
-    	</select>
-  		<br />
-    #{/if}
+    <label for="cliente">Cliente: </label>
+    #{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 </div>
 	<div id="button_center">
 		<input type="hidden" name="commessa.idCommessa" value="${commessa.idCommessa }" />
