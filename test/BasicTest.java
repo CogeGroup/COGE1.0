@@ -93,7 +93,7 @@ public class BasicTest extends UnitTest {
      
      
      
-     cl1 = new Cliente("cod","nome");
+     cl1 = new Cliente("cod","nome",true);
      cl1.save();
      
       cm1 = new Commessa("desc","cod",true);

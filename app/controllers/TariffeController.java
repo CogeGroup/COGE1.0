@@ -1,17 +1,13 @@
 package controllers;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
 import models.Risorsa;
 import models.Tariffa;
-import models.TipoRapportoLavoro;
-import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
@@ -35,8 +31,13 @@ public class TariffeController extends Controller {
     }
     
     public static void create(Integer idRisorsa) {
+<<<<<<< HEAD
     	Tariffa tariffa = new Tariffa((Risorsa)Risorsa.findById(idRisorsa), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR));
     	List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
+=======
+    	Risorsa risorsa = Risorsa.findById(idRisorsa);
+    	List<Commessa> listaCommesse = Commessa.listaCommesseFatturabiliAttive();
+>>>>>>> d7de0947135e536b792c64b9e6bd56b165fe63d3
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	render(tariffa, listaCommesse, listaAnni);
     }
@@ -57,7 +58,9 @@ public class TariffeController extends Controller {
     public static void edit(Integer idTariffa) {
     	Tariffa tariffa = Tariffa.findById(idTariffa);
     	// Controlla se la tariffa da modificare è l'ultima
-    	tariffaIsLast(tariffa);
+    	if(!tariffaIsLast(tariffa)){
+    		list(tariffa.risorsa.idRisorsa);
+    	}
     	
         List<Commessa> listaCommesse = Commessa.listaCommesseAttive();
         tariffa.meseInizio = MyUtility.getMeseFromDate(tariffa.dataInizio);
@@ -100,8 +103,9 @@ public class TariffeController extends Controller {
     public static void delete(Integer idTariffa) {
     	Tariffa tariffa = Tariffa.findById(idTariffa);
     	// Controlla se la tariffa da modificare è l'ultima
-    	tariffaIsLast(tariffa);
-    	
+    	if(!tariffaIsLast(tariffa)){
+    		list(tariffa.risorsa.idRisorsa);
+    	}
     	// Controlla se è gia chiusa
     	if(tariffa.dataFine != null){
     		flash.success("Tariffa gia chiusa");
@@ -125,17 +129,18 @@ public class TariffeController extends Controller {
         list(tariffa.risorsa.idRisorsa);
     }
     
-	private static void tariffaIsLast(Tariffa tariffa) {
+	private static boolean tariffaIsLast(Tariffa tariffa) {
 		List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa",tariffa.commessa, tariffa.risorsa).fetch();
         if(tariffa.dataFine != null){
         	// Controlla se la tariffa da modificare è l'ultima
 	        for (Tariffa t : lista) {
 				if(t.dataInizio.after(tariffa.dataFine)){
 					flash.success("La commessa: " + tariffa.commessa.codice + " ha gia altre tariffe");
-					list(tariffa.risorsa.idRisorsa);
+					return false;
 				}
 			}
         }
+        return true;
 	}
     
 }

@@ -1,8 +1,6 @@
 package models;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,25 +8,14 @@ import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-
-import org.h2.constant.SysProperties;
-
-import models.Risorsa.DataOutCheck;
-import net.sf.oval.constraint.NotEqual;
 
 import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
-import play.data.validation.InFuture;
-import play.data.validation.Min;
-import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.GenericModel.JPAQuery;
 import utility.MyUtility;
-
 
 @javax.persistence.Entity
 public class Tariffa extends GenericModel{
@@ -44,9 +31,7 @@ public class Tariffa extends GenericModel{
 	@As("dd-MM-yyyy")
 	@CheckWith(dataFine.class)
 	public Date dataFine;
-	
-//	@Required(message="Importo giornaliero obligatorio")
-//	@Min(message = "L'importo deve essere maggiore di 0.0",value = 0.1)
+
 	@CheckWith(importo.class)
 	public float importoGiornaliero;
 
@@ -56,6 +41,7 @@ public class Tariffa extends GenericModel{
 	@ManyToOne
 	public Commessa commessa;
 	
+	// Transient
 	@Transient
 	public Integer idCommessa;
 	
@@ -74,17 +60,16 @@ public class Tariffa extends GenericModel{
 	@Transient
 	public int annoFine;
 	
+	// Costruttori
 	public Tariffa() {}
 
 	public Tariffa(Date dataInizio, float importoGiornaliero, Risorsa risorsa,
 			Commessa commessa) {
-		super();
 		this.dataInizio = dataInizio;
 		this.importoGiornaliero = importoGiornaliero;
 		this.risorsa = risorsa;
 		this.commessa = commessa;
 	}
-	
 	
 	
 	public Tariffa(Risorsa risorsa, int meseInizio, int annoInizio) {
@@ -211,7 +196,7 @@ public class Tariffa extends GenericModel{
 	}
 	
 	
-	public static Tariffa calcolaTariffaForRisorsaAndCommessa(int mese,int anno,Risorsa risorsa,Commessa commessa){
+	public static Tariffa findByRisorsaAndCommessaAndData(int mese,int anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
 			Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese+1, anno);

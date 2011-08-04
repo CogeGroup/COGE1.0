@@ -180,8 +180,7 @@ public class Bootstrap extends play.jobs.Job {
       r2.addRapportoLavoro(rl3);
       r2.save();
       
-      cl1 = new Cliente("COD","nome");
-      cl1.attivo = true;
+      cl1 = new Cliente("COD","nome",true);
       cl1.save();
       
        cm1 = new Commessa("desc","COMMESSA1",true);

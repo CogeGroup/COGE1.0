@@ -1,27 +1,19 @@
 package controllers;
 
-import play.data.validation.Min;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import models.Commessa;
+import models.RendicontoAttivita;
+import models.Risorsa;
 import play.data.validation.Required;
-import play.data.validation.Valid;
-import play.db.jpa.JPA;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
-import play.mvc.Scope.Params;
 import secure.SecureCOGE;
 import utility.DomainWrapper;
 import utility.MyUtility;
-
-import java.util.*;
-import java.util.Map.Entry;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-
-import models.*;
 
 @With(SecureCOGE.class)
 public class RendicontoAttivitaController extends Controller {
@@ -103,7 +95,7 @@ public class RendicontoAttivitaController extends Controller {
 			chooseRisorsa();
 		}
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
-		List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita);
 	}
@@ -114,7 +106,7 @@ public class RendicontoAttivitaController extends Controller {
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
 		
 		// lista Commesse fatturabili piu le commesse non fatturabili gia salvate
-		List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		listaCommesse.addAll(listaCommesseNonFattSalvate(listaRendicontoAttivita));
 		
 		// lista commesse non fatturabile meno quelle gia salvate
@@ -167,7 +159,7 @@ public class RendicontoAttivitaController extends Controller {
 						}
 					} catch (IllegalArgumentException e) {
 						validation.addError("oreLavorate", "inserire correttamente le ore totali");
-						List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+						List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 						List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
 								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita);
@@ -206,7 +198,8 @@ public class RendicontoAttivitaController extends Controller {
 		flash.success("Rapportino cancellato con successo");
 		dettaglio(rendicontoAttivita.risorsa.idRisorsa, rendicontoAttivita.mese, rendicontoAttivita.anno);
 	}
-	
+
+// Rapportini incompleti
 	public static void rapportiniIncompleti() {
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	int mese = Calendar.getInstance().get(Calendar.MONTH);

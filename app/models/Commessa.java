@@ -20,6 +20,7 @@ import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.InFuture;
+import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
@@ -33,6 +34,7 @@ public class Commessa extends GenericModel{
     public Integer idCommessa;
 	
 	@Required
+	@MinSize(2)
 	@CheckWith(CodiceCheck.class)
 	public String codice;
 
@@ -41,10 +43,6 @@ public class Commessa extends GenericModel{
 	
 	public boolean fatturabile;
 	
-/* Per il momento la data non è obligatoria, perchè nel caso in cui le commesse sono ferie, malattia, ecc 
- * non hanno una data di inizio.
- */
-//	@Required
 	@As("dd-MM-yyyy")
 	@CheckWith(DataInizioCheck.class)
 	public Date dataInizioCommessa;
@@ -59,15 +57,16 @@ public class Commessa extends GenericModel{
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
 	public List<Tariffa> tariffe;
 	
+	// Costruttori
 	public Commessa(){}
 
 	public Commessa(String descrizione, String codice, boolean fatturabile) {
-		super();
 		this.descrizione = descrizione;
 		this.codice = codice;
 		this.fatturabile = fatturabile;
 	}
 	
+	// Validazione
 	static class CodiceCheck extends Check {
 		static final String message = "validation.commessa.codice_esistente";
 		
@@ -101,8 +100,8 @@ public class Commessa extends GenericModel{
 		@Override
 		public boolean isSatisfied(Object commessa, Object dataFine) {
 			if(((Commessa) commessa).idCommessa != null && 
-					((Commessa) commessa).fatturabile == true && 
-					dataFine != null && !((Date) dataFine).after(((Commessa) commessa).dataInizioCommessa)) {
+				((Commessa) commessa).fatturabile == true && 
+				dataFine != null && !((Date) dataFine).after(((Commessa) commessa).dataInizioCommessa)) {
 				
 				setMessage(message);
 				return false;
@@ -111,23 +110,25 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
-	public static List<Commessa> listaCommesseAttive(){
-		return Commessa.find("select cm from Commessa cm where cm.fatturabile = true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+	public static List<Commessa> listaCommesseFatturabiliAttive(){
+		return Commessa.find("select cm from Commessa cm where cm.fatturabile is true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+	}
+	
+	public static List<Commessa> listaCommesseNonFatturabiliAttive(){
+		return Commessa.find("select cm from Commessa cm where cm.fatturabile is false and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
 	public float calcolaRicavo(int mese, int anno) {
-		
 		float importoTotale = 0.0f;
+		
 		JPAQuery query  = RendicontoAttivita.find("from RendicontoAttivita ra where ra.commessa = :commessa and ra.mese = "+mese+" and ra.anno = "+anno);
 		query.bind("commessa",this);
+		
 		List<RendicontoAttivita> lista = query.fetch();
-
 		for(RendicontoAttivita index:lista){
-			
-			Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, index.risorsa,index.commessa);
+			Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, index.risorsa,index.commessa);
 			importoTotale += t.calcolaRicavoTariffa(index.oreLavorate);
 		}
-		
 		return importoTotale;
 	}
 	
@@ -154,15 +155,17 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
-	public static List<Commessa> trovaCommesseFatturabiliPerRisorsa(int mese,
+	public static List<Commessa> findCommesseFatturabiliPerRisorsa(int mese,
 			int anno, Risorsa risorsa) {
 		List<Commessa> listaCommesse = new ArrayList<Commessa>();
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		
 		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
 		query.bind("dataRapportoFine", dataRapportoFine);
 		query.bind("dataRapportoInizio", dataRapportoInizio);
 		query.bind("risorsa",risorsa);
+		
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
@@ -174,15 +177,17 @@ public class Commessa extends GenericModel{
 		return listaCommesse;
 	}
 	
-	public static List<CommessaACorpo> trovaCommesseACorpoPerRisorsa(int mese,
+	public static List<CommessaACorpo> findCommesseACorpoPerRisorsa(int mese,
 			int anno, Risorsa risorsa) {
 		List<CommessaACorpo> listaCommesse = new ArrayList<CommessaACorpo>();
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		
 		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
 		query.bind("dataRapportoFine", dataRapportoFine);
 		query.bind("dataRapportoInizio", dataRapportoInizio);
 		query.bind("risorsa",risorsa);
+		
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
@@ -193,6 +198,4 @@ public class Commessa extends GenericModel{
 		}
 		return listaCommesse;
 	}
-	
-	
 }

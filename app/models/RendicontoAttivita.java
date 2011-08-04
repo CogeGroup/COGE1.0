@@ -8,19 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.hql.classic.GroupByParser;
 
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.JPA;
-import play.db.jpa.GenericModel.JPAQuery;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -32,7 +22,6 @@ public class RendicontoAttivita extends GenericModel {
 	
 	@Required
 	public Integer oreLavorate;
-	
 	
 	public int mese;
 	
@@ -56,10 +45,8 @@ public class RendicontoAttivita extends GenericModel {
 	}
 
 	public static List<RendicontoAttivita> findByExample(Integer idRisorsa,int mese,int anno) {
-		
 		String query = "SELECT ra " +
 			"FROM RendicontoAttivita ra WHERE 1=1 ";
-		
 		if(idRisorsa != null && idRisorsa > 0){
 			Risorsa risorsa = Risorsa.findById(idRisorsa);
 			query += "AND ra.risorsa=" + risorsa; 
@@ -67,7 +54,6 @@ public class RendicontoAttivita extends GenericModel {
 		if(mese != -1 && anno != -1){
 			query += " AND ra.mese=" + mese + " AND anno=" + anno;
 		}
-		
 		query += "GROUP BY ra.risorsa, ra.mese, ra.anno " +
 			"ORDER BY ra.risorsa ASC, ra.anno ASC, ra.mese ASC";
 		
@@ -97,12 +83,11 @@ public class RendicontoAttivita extends GenericModel {
 		List<Risorsa> listaRisorse = Risorsa.findAll();
 		for (Risorsa risorsa : listaRisorse) {
 			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
-			List<Commessa> listaCommesse  = Commessa.trovaCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+			List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
 				listaAnomalie.add(risorsa);
 			}
 		}
 		return listaAnomalie;
 	}
-	
 }

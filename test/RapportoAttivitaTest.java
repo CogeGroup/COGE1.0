@@ -25,7 +25,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 	@Test
 	public void ricercaRisorsaPerCommesse() throws ParseException{
 		
-		List<Commessa> listaCommesse = Commessa.trovaCommesseFatturabiliPerRisorsa(7,2011,r1);
+		List<Commessa> listaCommesse = Commessa.findCommesseFatturabiliPerRisorsa(7,2011,r1);
 		 assertFalse(listaCommesse.isEmpty());
 		assertEquals(cm1, listaCommesse.get(0));
 		assertEquals(cm2, listaCommesse.get(1));
@@ -38,7 +38,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 //		for(Tariffa t:listaTariffe){
 //		System.out.println(t.risorsa);
 //		}
-		List<Commessa> listaCommesse = Commessa.trovaCommesseFatturabiliPerRisorsa(7,2011,r1);
+		List<Commessa> listaCommesse = Commessa.findCommesseFatturabiliPerRisorsa(7,2011,r1);
 		 assertFalse(listaCommesse.isEmpty());
 		assertEquals(cm1, listaCommesse.get(0));
 		assertEquals(cm2, listaCommesse.get(1));
@@ -49,7 +49,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 	public void ricercaRisorsaConUnaCommesse() throws ParseException{
 	    
 
-		List<Commessa> listaCommesse = Commessa.trovaCommesseFatturabiliPerRisorsa(7,2011,r2);
+		List<Commessa> listaCommesse = Commessa.findCommesseFatturabiliPerRisorsa(7,2011,r2);
 		 assertFalse(listaCommesse.isEmpty());
 		assertEquals(cm2, listaCommesse.get(0));
 		assertEquals(1,listaCommesse.size());
@@ -62,7 +62,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 		
 		r1 = new Risorsa("122","a","pippo", "pippo",new Date()).save();
 		 r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
-		  cl1 = new Cliente("cod","nome");
+		  cl1 = new Cliente("cod","nome",true);
 	      cl1.save();
 	       cm1 = new Commessa("desc","cod",true);
 	       cm2 = new Commessa("desc","cod",true);

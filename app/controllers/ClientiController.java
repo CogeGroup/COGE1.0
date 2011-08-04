@@ -1,26 +1,14 @@
 package controllers;
 
-import play.*;
+import java.util.List;
+
+import models.Cliente;
+import models.Commessa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.With;
 import secure.SecureCOGE;
-import utility.MyUtility;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
-
-import models.*;
 
 @With(SecureCOGE.class)
 public class ClientiController extends Controller {
@@ -83,5 +71,4 @@ public class ClientiController extends Controller {
     	flash.success("%s cancellato con successo", cliente.nominativo);
     	list();
     }
-    
 }

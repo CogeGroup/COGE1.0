@@ -161,7 +161,7 @@ public class Risorsa extends GenericModel {
 		}
 		for (RendicontoAttivita ra : listaRendicontoAttivita){
 			if(ra.commessa.fatturabile){
-				Tariffa t = Tariffa.calcolaTariffaForRisorsaAndCommessa(mese, anno, ra.risorsa,ra.commessa);
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa,ra.commessa);
 				importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
 			}
 		}
