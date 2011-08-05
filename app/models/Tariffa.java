@@ -65,7 +65,6 @@ public class Tariffa extends GenericModel{
 		this.commessa = commessa;
 	}
 	
-	
 	public Tariffa(Risorsa risorsa, int meseInizio, int annoInizio) {
 		this.risorsa = risorsa;
 		this.meseInizio = meseInizio;
@@ -73,8 +72,7 @@ public class Tariffa extends GenericModel{
 		this.commessa = new Commessa();
 	}
 
-
-
+	// Validazione
 	static class dataInizio extends Check {
 		static final String message = "validation.tariffa.dataInizio_before_dataInizoCommessa";
 		static final String message2 = "validation.tariffa.dataInizio_after_dataFineCommessa";
@@ -85,6 +83,7 @@ public class Tariffa extends GenericModel{
 			Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(((Tariffa) tariffa).meseInizio, ((Tariffa) tariffa).annoInizio);
 			Commessa commessa = ((Tariffa) tariffa).commessa;
 			Risorsa risorsa = ((Tariffa) tariffa).risorsa;
+			List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa", commessa, risorsa).fetch();
 			if(((Tariffa) tariffa).idTariffa == null){
 				if(commessa.dataInizioCommessa != null){
 					Date dataCommessa = commessa.dataInizioCommessa;
@@ -106,7 +105,6 @@ public class Tariffa extends GenericModel{
 				    	return false;
 					}
 				}
-				List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa", commessa, risorsa).fetch();
 				if(lista.size() > 0){
 					Tariffa t = lista.get(lista.size()-1);
 					if(t.dataFine == null){
@@ -114,12 +112,6 @@ public class Tariffa extends GenericModel{
 					       	setMessage(message3, new SimpleDateFormat("MMM/yyyy").format(t.dataInizio));
 					       	return false;
 					    }
-						Calendar c = Calendar.getInstance();
-						c.setTime(dataInizio);
-						c.add(Calendar.DAY_OF_MONTH, -1);
-						Date data = c.getTime();
-						t.dataFine=data;
-						t.save();
 					}else{
 						if(dataInizio.before(t.dataFine)){
 							setMessage(message3, new SimpleDateFormat("MMM/yyyy").format(t.dataFine));
@@ -128,7 +120,6 @@ public class Tariffa extends GenericModel{
 					}
 				}
 			}else{
-				List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa",commessa, risorsa).fetch();
 		        if(lista.size() > 0) {
 		        	// la penultima tariffa poiché l'ultima tariffa è quella da modificare
 		        	Tariffa t = lista.size() > 1 ? lista.get(lista.size()-2) : lista.get(0);
@@ -189,7 +180,6 @@ public class Tariffa extends GenericModel{
 		}
 	}
 	
-	
 	public static Tariffa findByRisorsaAndCommessaAndData(int mese,int anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
@@ -248,6 +238,9 @@ public class Tariffa extends GenericModel{
 					}else{
 						tariffa.dataFine = commessa.dataFineCommessa;
 					}
+				}
+				if(tariffa.dataFine.after(commessa.dataFineCommessa)){
+					tariffa.dataFine = commessa.dataFineCommessa;
 				}
 			}
     		tariffa.save();
