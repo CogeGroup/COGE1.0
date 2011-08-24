@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +44,22 @@ public class TariffeController extends Controller {
     		List<Integer> listaAnni = MyUtility.createListaAnni();
         	render("TariffeController/create.html", tariffa, listaCommesse, listaAnni);
         }
-    	tariffa.dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);
+    	
+    	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);
+    	List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa", tariffa.commessa, tariffa.risorsa).fetch();
+    	if(lista.size() > 0){
+			Tariffa t = lista.get(lista.size()-1);
+			if(t.dataFine == null && dataInizio.after(t.dataInizio)){
+				Calendar c = Calendar.getInstance();
+				c.setTime(tariffa.dataInizio);
+				c.add(Calendar.DAY_OF_MONTH, -1);
+				Date data = c.getTime();
+				t.dataFine=data;
+				t.save();
+			}
+		}
+    	
+    	tariffa.dataInizio = dataInizio;
         tariffa.importoGiornaliero = tariffa.commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
         tariffa.save();
         flash.success("Tariffa aggiunta con successo");

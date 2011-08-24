@@ -11,19 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import models.Risorsa.MatricolaCheck;
-
-import org.hibernate.annotations.Type;
-
-
 import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
-import play.data.validation.InFuture;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.GenericModel.JPAQuery;
 import utility.MyUtility;
 
 @javax.persistence.Entity

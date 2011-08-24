@@ -64,7 +64,6 @@ public class CommesseController extends Controller {
     		commessa.dataInizioCommessa = commessa.fatturabile == false ? null : commessa.dataInizioCommessa;
         	commessa.save();
     	}
-    	
     	flash.success("%s aggiunta con successo", commessa.codice);
     	list();
     }
@@ -83,7 +82,6 @@ public class CommesseController extends Controller {
     	commessa.codice = commessa.codice.toUpperCase();
     	commessa.dataInizioCommessa = commessa.fatturabile ? commessa.dataInizioCommessa : null;
     	commessa.dataFineCommessa = commessa.fatturabile ? commessa.dataFineCommessa : null;
-    	//verificare chiusura commesse
     	if(commessa.dataFineCommessa != null){
     		Tariffa.chiudiTariffeByCommessa(commessa);
     	}
