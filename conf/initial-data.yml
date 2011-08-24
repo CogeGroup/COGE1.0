@@ -156,95 +156,135 @@ Commessa(commessa4):
  fatturabile: true
  cliente: cliente2
 Commessa(ferie):
- codice: FERIE
+ codice: ST001
  descrizione: Ferie
  fatturabile: false
  cliente: solvingTeam
 Commessa(malattia):
- codice: MALATTIA
+ codice: ST002
  descrizione: Malattia
  fatturabile: false
  cliente: solvingTeam
 Commessa(permesso):
- codice: PERMESSO_RETRIBUITO
+ codice: ST003
  descrizione: Permesso retribuito
  fatturabile: false
  cliente: solvingTeam
 Commessa(recupero):
- codice: RECUPERO_ORE
+ codice: ST004
  descrizione: Recupero ore già lavorate
  fatturabile: false
  cliente: solvingTeam
 Commessa(rapporti):
- codice: RAPPORTI_DIR.NE/AMM.NE
- descrizione: Rapporti con la direzione o con l'amministrazione
+ codice: ST005
+ descrizione: Rapporti con DIR.NE/AMM.NE
  fatturabile: false
  cliente: solvingTeam
-Commessa(permesso2):
- codice: PERMESSO_RETRIBUITO_ALLATTAMENTO
- descrizione: Permesso retribuito per allattamento
+Commessa(permessoNonRetribuito):
+ codice: ST006
+ descrizione: Permesso Non retribuito
  fatturabile: false
  cliente: solvingTeam
-Commessa(marernita):
- codice: MATERNITA'
- descrizione: Maternità
+Commessa(legge 104):
+ codice: ST007
+ descrizione: Legge 104/92
  fatturabile: false
  cliente: solvingTeam
-Commessa(assenza):
- codice: ASSENZA_SERVIZIO_ELETTORALE
- descrizione: Assenza giustificata (Servizio Elettorale)
+Commessa(sciopero):
+ codice: ST008
+ descrizione: Sciopero
  fatturabile: false
  cliente: solvingTeam
-Commessa(lutto):
- codice: LUTTO
- descrizione: Lutto
+Commessa(Ore da recuperare):
+ codice: ST009
+ descrizione: Ore lavorate da recuperare
  fatturabile: false
  cliente: solvingTeam
-Commessa(assenza2):
- codice: ASSENZA_NASCITA_FIGLIO
- descrizione: Assenza giustificata (Nascita Figlio)
+Commessa(ferie2):
+ codice: ST010
+ descrizione: Ferie matrimoniali
  fatturabile: false
- cliente: solvingTeam
+ cliente: solvingTeam 
 Commessa(corso):
- codice: FORMAZIONE_CORSI
+ codice: ST011
  descrizione: Formazione e Corsi
  fatturabile: false
  cliente: solvingTeam
 Commessa(donazione):
- codice: DONAZIONE_SANGUE
- descrizione: Donazione del Sangue
+ codice: ST012
+ descrizione: Donazione Sangue
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(maternita):
+ codice: ST013
+ descrizione: Maternità
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(lutto):
+ codice: ST014
+ descrizione: Lutto
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(assenza2):
+ codice: ST015
+ descrizione: Assenza giustificata (Nascita Figlio)
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(corsoDocenza):
+ codice: ST016
+ descrizione: Formazione e Corsi (docenza)
+ fatturabile: false
+ cliente: solvingTeam 
+Commessa(permesso2):
+ codice: ST018
+ descrizione: Permesso retribuito per allattamento
+ fatturabile: false
+ cliente: solvingTeam
+Commessa(congedo):
+ codice: ST019
+ descrizione: Congedo parentale
  fatturabile: false
  cliente: solvingTeam
 Commessa(attivita):
- codice: ATTIVITA_PER_TERZI
+ codice: ST020
  descrizione: Attivita per terzi non retribuita
  fatturabile: false
  cliente: solvingTeam
+Commessa(assenza):
+ codice: ST021
+ descrizione: Assenza giustificata (Servizio Elettorale)
+ fatturabile: false
+ cliente: solvingTeam
 Commessa(attivita2):
- codice: ATTIVITA_INTERNA
+ codice: ST022
  descrizione: Attivita interna fuori progetto
  fatturabile: false
  cliente: solvingTeam
 Commessa(formazione):
- codice: FORMAZIONE_INTERNA
+ codice: ST023
  descrizione: Formazione interna
  fatturabile: false
  cliente: solvingTeam
 Commessa(risorsa):
- codice: NON_ALLOCATA
+ codice: ST077
  descrizione: Risorsa tecnica non allocata
  fatturabile: false
  cliente: solvingTeam
-Commessa(ferie2):
- codice: FERIA_MATRIMONIALI
- descrizione: Ferie matrimoniali
+Commessa(Attività non fatturabile):
+ codice: ST-INT
+ descrizione: Attvità interna non fatturabile
  fatturabile: false
  cliente: solvingTeam
-Commessa(congedo):
- codice: CONGEDO_PARENTALE
- descrizione: Congedo parentale
+Commessa(Affiancamento):
+ codice: ST-AVV
+ descrizione: Affiancamento o avvio attività
  fatturabile: false
  cliente: solvingTeam
+Commessa(Supporto):
+ codice: ST-SFOR
+ descrizione: Formazione interna - Supporto
+ fatturabile: false
+ cliente: solvingTeam  
 #COMMESSE A CORPO ---------
 CommessaACorpo(cAc1):
  codice: ACORPO
@@ -448,3 +488,15 @@ RendicontoAttivita(ra10):
  anno: 2011
  risorsa: Peter
  commessa: commessa3
+RendicontoAttivita(ra11):
+ oreLavorate: 10
+ mese: 6
+ anno: 2011
+ risorsa: Bruce
+ commessa: ferie
+RendicontoAttivita(ra12):
+ oreLavorate: 5
+ mese: 6
+ anno: 2011
+ risorsa: Bruce
+ commessa: permesso

@@ -9,7 +9,7 @@
    	<p class="error">${flash.error}</p>
 #{/if}
 
-<h1>Costi</h1>
+
 <div id="detail">
 <ul>
 	<li><label>Risorsa: </label>${risorsa.matricola}</li>
@@ -19,6 +19,7 @@
 </div>
 #{if paginator.size() > 0}
 	<table class="table_center">
+	<caption><h3>Costi</h3></caption>
 	<thead>
 		<tr>
 			<th scope="col">Importo</th>
