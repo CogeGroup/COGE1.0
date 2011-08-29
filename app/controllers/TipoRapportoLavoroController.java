@@ -22,7 +22,7 @@ public class TipoRapportoLavoroController extends Controller {
     public static void index() {
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by codice").fetch();
     	ValuePaginator paginator = new ValuePaginator(listaTipoRapportoLavoro);
-    	paginator.setPageSize(5);
+    	paginator.setPageSize(10);
         render(paginator);
     }
     

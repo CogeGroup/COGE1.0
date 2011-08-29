@@ -38,12 +38,12 @@ public class RendicontoAttivitaController extends Controller {
 			Risorsa risorsa = Risorsa.findById(idRisorsa);
 			listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
 		}else{
 			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
 		}
 		search();
@@ -53,7 +53,7 @@ public class RendicontoAttivitaController extends Controller {
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
-		paginator.setPageSize(5);
+		paginator.setPageSize(10);
 		render(paginator, risorsa, mese, anno);
 	}
 	
@@ -62,7 +62,7 @@ public class RendicontoAttivitaController extends Controller {
 		List<RendicontoAttivita> listaRapportini = new ArrayList<RendicontoAttivita>();
 			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
 	}
 	
@@ -214,10 +214,9 @@ public class RendicontoAttivitaController extends Controller {
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
 		}
-		
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
-		paginator.setPageSize(5);
+		paginator.setPageSize(10);
 		render(paginator, mese, anno);
     }
 	
