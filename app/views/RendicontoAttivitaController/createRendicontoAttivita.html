@@ -61,7 +61,7 @@
 				#{select 'comm', value:idCommessa, id:'addCommessa'}  
 					#{option 0}--Seleziona--#{/option}
 					#{list items:listaCommesseNonFatturabili, as:'commessa'}
-						#{option commessa.idCommessa}${commessa.codice}#{/option}
+						#{option commessa.idCommessa}${commessa.descrizione}#{/option}
 					#{/list}
 				#{/select}
 				<input type="button" id="addComm" value="Aggiungi"/>

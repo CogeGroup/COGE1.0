@@ -26,7 +26,7 @@ public class RendicontoAttivita extends GenericModel {
     public Integer idRendicontoAttivita;
 	
 	@Required
-	public Float oreLavorate;
+	public float oreLavorate;
 	
 	public int mese;
 	
@@ -40,7 +40,7 @@ public class RendicontoAttivita extends GenericModel {
 
 	public RendicontoAttivita() {}
 	
-	public RendicontoAttivita(Float oreLavorate, int mese, int anno,
+	public RendicontoAttivita(float oreLavorate, int mese, int anno,
 			Risorsa risorsa, Commessa commessa) {
 		this.oreLavorate = oreLavorate;
 		this.mese = mese;
@@ -82,18 +82,29 @@ public class RendicontoAttivita extends GenericModel {
 
 	public static List<Risorsa> listRapportiniIncompleti(int mese, int anno) {
 		List<Risorsa> listaAnomalie = new ArrayList<Risorsa>();
-		if(MyUtility.MeseEdAnnoToDataFine(mese, anno).after(new Date())){
-			return listaAnomalie;
-		}
 		List<Risorsa> listaRisorse = Risorsa.findAll();
 		for (Risorsa risorsa : listaRisorse) {
-			List<RendicontoAttivita> listaRendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
+			List<RendicontoAttivita> listaRendicontoAttivitas = listaRendicontoAttivitaFatturabili(risorsa,mese + 1,anno);
 			List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 			if(listaRendicontoAttivitas.size()<listaCommesse.size()){
 				listaAnomalie.add(risorsa);
 			}
 		}
 		return listaAnomalie;
+	}
+	
+	private static List<RendicontoAttivita> listaRendicontoAttivitaFatturabili(Risorsa risorsa, int mese, int anno){
+		String queryString = "SELECT ra.* " +
+		"FROM RendicontoAttivita ra " +
+		"inner join Commessa c on ra.commessa_idCommessa = c.idCommessa " +
+		"WHERE ra.risorsa_idRisorsa = " + risorsa.idRisorsa +
+		" AND ra.mese = " + mese + " AND ra.anno = " + anno +
+		" AND c.fatturabile = true";
+		
+		Session session = (Session)JPA.em().getDelegate();
+		List<RendicontoAttivita> listaRendicontoAttivitas = session.createSQLQuery(queryString).list();
+		
+		return listaRendicontoAttivitas;
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){

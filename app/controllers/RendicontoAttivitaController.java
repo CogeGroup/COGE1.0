@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import models.Commessa;
@@ -137,9 +138,9 @@ public class RendicontoAttivitaController extends Controller {
 				Integer idCommessa = Integer.parseInt(key.substring(3));
 				Commessa commessa = Commessa.findById(idCommessa);
 				if(!oreLavorateString.equals("")){
-					Integer oreLavorate = 0;
+					float oreLavorate = 0;
 					try {
-						oreLavorate = Integer.parseInt(oreLavorateString);
+						oreLavorate = Float.parseFloat(oreLavorateString);
 						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese, anno, risorsa, commessa);
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
@@ -208,11 +209,16 @@ public class RendicontoAttivitaController extends Controller {
     }
     
     public static void listRapportiniIncompleti(int mese, int anno) {
-    	mese++;
+    	Date data = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		if(!data.before(new Date())){
+			validation.addError("data", "Data selezionata non valida");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
+		}
+		
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
 		paginator.setPageSize(5);
-		mese--;
 		render(paginator, mese, anno);
     }
 	

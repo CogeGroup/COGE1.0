@@ -210,7 +210,7 @@ public class Tariffa extends GenericModel{
 		return query.fetch();
 	}
 	
-	public  float calcolaRicavoTariffa(int oreLavorate){
+	public  float calcolaRicavoTariffa(float oreLavorate){
 		return calcolaTariffaOraria() * oreLavorate;
 	}
 	
