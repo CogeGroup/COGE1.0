@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
   $(function() {
-   var listAction = #{jsAction @statisticaHTMLClienti(':anno') /}
+   var listAction = #{jsAction @statisticaHTMLCommesseNonFatturabili(':anno') /}
    $('#result').load(
        listAction({anno: ${anno}}),
         function(data,status) {
@@ -25,7 +25,7 @@
 </script>
 
 
-<a href="statisticaPDFClienti?anno=${anno}"><input id="export" type="button" class="button_submit" value="Esporta PDF" /></a>
+<a href="statisticaPDFCommesseNonFatturabili?anno=${anno}"><input id="export" type="button" class="button_submit" value="Esporta PDF" /></a>
 <div id="result" class="report">
   <center><img src="@{'/public/images/loading.gif'}" alt="" /></center>
 </div>

@@ -1,7 +1,9 @@
 package models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -9,8 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.Session;
+
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import play.db.jpa.JPA;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -90,4 +95,43 @@ public class RendicontoAttivita extends GenericModel {
 		}
 		return listaAnomalie;
 	}
+	
+	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione,sum(ra.oreLavorate)"+
+							" from rendicontoattivita ra                                                                                 "+
+							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
+							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
+							" where c.fatturabile=false and                                                                              "+
+							" ra.mese= "
+							+mese+
+							" and ra.anno= "
+							+anno+
+							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							" order by r.cognome,r.nome";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 Integer count = 0;
+		 Integer personaCorrente = null;
+		 HashMap map = null;
+		 for (Object[] objects : resultList) {
+			 if(personaCorrente != (Integer) objects[0]){
+				 count = 0;
+				 personaCorrente = (Integer) objects[0];
+				 map = new HashMap();
+				 map.put("idRisorsa", (Integer) objects[0]);
+				 map.put("matricola", (String) objects[2]);
+				 map.put("codiceRisorsa", (String) objects[3]);
+				 map.put("risorsa", (String) objects[4]);
+				 listaMapResult.add(map); 
+			 }
+			 map.put(""+objects[1], objects[7]);
+			 count  += ((BigDecimal)objects[7]).intValue();
+			 map.put("totaleOre", count);
+		 }
+		 return listaMapResult;
+	}
+	
+	
+	
 }
