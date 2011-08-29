@@ -54,9 +54,7 @@ public class Utente extends GenericModel {
 		this.abilitato = abilitato;
 	}
 	
-	public Utente() {
-		// TODO Auto-generated constructor stub
-	}
+	public Utente() {}
 	
 	public void addRuolo(Ruolo ruolo){
 		

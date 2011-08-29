@@ -14,8 +14,10 @@ import javax.persistence.ManyToOne;
 import org.hibernate.Session;
 
 import play.data.validation.Required;
+import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
+import sun.text.normalizer.Utility;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -76,6 +78,8 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
+// TODO		Date data = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		
     	JPAQuery query  = Risorsa.find("from Risorsa r where r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + (mese+1) + " and ra.anno = " + anno + " and ra.risorsa = r)");
     	return query.fetch();
 	}
