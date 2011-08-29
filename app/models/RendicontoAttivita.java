@@ -21,7 +21,7 @@ public class RendicontoAttivita extends GenericModel {
     public Integer idRendicontoAttivita;
 	
 	@Required
-	public Integer oreLavorate;
+	public Float oreLavorate;
 	
 	public int mese;
 	
@@ -35,7 +35,7 @@ public class RendicontoAttivita extends GenericModel {
 
 	public RendicontoAttivita() {}
 	
-	public RendicontoAttivita(int oreLavorate, int mese, int anno,
+	public RendicontoAttivita(Float oreLavorate, int mese, int anno,
 			Risorsa risorsa, Commessa commessa) {
 		this.oreLavorate = oreLavorate;
 		this.mese = mese;
