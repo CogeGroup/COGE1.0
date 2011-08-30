@@ -1,14 +1,17 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Cliente;
 import models.Commessa;
+import models.Risorsa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
 import secure.SecureCOGE;
+import utility.DomainWrapper;
 
 @With(SecureCOGE.class)
 public class ClientiController extends Controller {
@@ -22,6 +25,18 @@ public class ClientiController extends Controller {
 		ValuePaginator paginator = new ValuePaginator(listaClienti);
 		paginator.setPageSize(10);
 		render(paginator);
+    }
+    
+    public static void search(Integer idCliente) {
+    	if(idCliente == null || idCliente.equals("")){
+    		list();
+    	}
+    	Cliente cliente = Cliente.findById(idCliente);
+    	List<Cliente> listaClienti = new ArrayList<Cliente>();
+    	listaClienti.add(cliente);
+		ValuePaginator paginator = new ValuePaginator(listaClienti);
+		paginator.setPageSize(10);
+		render("ClientiController/list.html",paginator);
     }
     
     public static void create() {
@@ -70,5 +85,15 @@ public class ClientiController extends Controller {
     	cliente.save();
     	flash.success("%s cancellato con successo", cliente.nominativo);
     	list();
+    }
+    
+ // Auotocomplete dei clienti
+	public static void autocompleteCliente(String term) {
+		List<Cliente> listaClienti = Cliente.find("codice like ? or nominativo like ?","%"+term+"%","%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(Cliente cl:listaClienti){
+			listaResult.add(new DomainWrapper(cl.idCliente, cl.codice +" - "+ cl.nominativo));
+		}
+		renderJSON(listaResult);
     }
 }

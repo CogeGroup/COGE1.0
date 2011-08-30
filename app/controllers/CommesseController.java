@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
 import secure.SecureCOGE;
+import utility.DomainWrapper;
 
 @With(SecureCOGE.class)
 public class CommesseController extends Controller {
@@ -25,6 +27,18 @@ public class CommesseController extends Controller {
 		ValuePaginator paginator = new ValuePaginator(listaCommesse);
 		paginator.setPageSize(10);
 		render(paginator);
+    }
+    
+    public static void search(Integer idCommessa) {
+    	if(idCommessa == null || idCommessa.equals("")){
+    		list();
+    	}
+    	Commessa commessa = Commessa.findById(idCommessa);
+    	List<Commessa> listaCommesse = new ArrayList<Commessa>();
+    	listaCommesse.add(commessa);
+		ValuePaginator paginator = new ValuePaginator(listaCommesse);
+		paginator.setPageSize(10);
+		render("CommesseController/list.html",paginator);
     }
     
     public static void create() {
@@ -114,5 +128,15 @@ public class CommesseController extends Controller {
     	commessa.save();
     	flash.success("%s cancellata con successo", commessa.codice);
     	list();
+    }
+    
+    // Auotocomplete dei commessa
+	public static void autocompleteCommessa(String term) {
+		List<Commessa> listaCommesse = Commessa.find("codice like ? or descrizione like ?","%"+term+"%","%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(Commessa com:listaCommesse){
+			listaResult.add(new DomainWrapper(com.idCommessa, com.codice +" - "+ com.descrizione));
+		}
+		renderJSON(listaResult);
     }
 }

@@ -1,11 +1,11 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
 
+<h2>Rapportini del: ${mese}-${anno}</h2>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
 
-<h2>Rapportini del: ${mese}-${anno}</h2>
 #{if paginator.size() > 0}
 	<table class="table_center">
 		<thead>
@@ -41,4 +41,5 @@
 #{/else}
 <div id="buttonSubmit_center">
 	#{a @RendicontoAttivitaController.search() }<input type="button" class="button_submit" value="Indietro" />#{/a}
+	#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="button_submit" value="Inserisci nuovo rapportino"/>#{/a}
 </div>

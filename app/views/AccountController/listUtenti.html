@@ -1,35 +1,63 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Utenti' /}
 
+<!-- CSS -->
+#{stylesheet id:'autocoomplete',media:'screen',src:'jquery.autocomplete.css'  /}
+#{stylesheet id:'jquery-css',media:'screen',src:'test.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'autocomplete' , src:'jquery.ui.autocomplete.js', charset:'utf-8' /}
 
+<script type="text/javascript">
+	$(function() {
+		$("#utente").autocomplete({
+			source: "autocompleteUtente",
+			minLength: 2,
+			select: function( event, ui ) {
+				$("#idUtente").val(ui.item.value);
+				return false;
+			},
+			focus: function( event, ui ) {
+				$("#utente").val(ui.item.label);
+				return false;
+			}
+		});
+	});
+</script>
 
-   
-
+<h2>Utenti</h2>
 #{if flash.error}
  	<p class="error">${flash.error} </p>
 #{/ if}
 
 #{if flash.success}
-  <p class="success">
-        ${flash.success}
-    </p>
+  <p class="success">${flash.success} </p>
 #{/ if}
 
 #{if paginator.size() >0 }
+	<div id="search">
+		<form action="@{AccountController.searchUtente()}">
+			<label for="ricerca">Ricerca: </label>
+			<input type="text" class="txt_m" name="utente" id="utente" />
+			<input type="hidden" name="idUtente" id="idUtente" />
+			<input type="submit" value="Cerca" class="button_submit"/>
+		</form>
+		#{a @AccountController.listUtenti()}mostra tutti#{/a}
+		<p class="error">${flash.error}</p>
+	</div>
 	<table class="table_center">
-	<caption>
-	    <h3>Utenti</h3>
-	   </caption>
 		<thead>
-		<tr>
-		<th scope="col">Matricola</th>
-		<th scope="col">Username</th>
-		<th scope="col">E-Mail</th>
-		<th scope="col">Modifica</th>
-		<th scope="col">Elimina</th>
-		</tr>
+			<tr>
+			<th scope="col">Matricola</th>
+			<th scope="col">Username</th>
+			<th scope="col">E-Mail</th>
+			<th scope="col">Modifica</th>
+			<th scope="col">Elimina</th>
+			</tr>
 		</thead>
-			#{paginate.list items:paginator, as:'index'} 
+		#{paginate.list items:paginator, as:'index'} 
 		    <tr>
 		    	<td>${index.risorsa.matricola}</td>
 		    	<td>${index.username}</td>
@@ -37,17 +65,16 @@
 		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 		    </tr>
-		    #{/paginate.list}
+		   #{/paginate.list}
 	</table> 
-		<div id="datatable_utenti">
+	<div id="datatable_utenti">
 	    #{paginate.controls items:paginator /}
-	    </div>
+	</div>
 #{/if}    
 #{else}
     <center><h3>Non vi sono utenti nel sistema</h3></center>
 #{/else}
 <div id="buttonSubmitDouble_center">
 	<a href="@{AccountController.createUtente()}" ><input type="button" class="button_submit_double" value="Aggiungi"/></a>
-
 	<a href="@{AccountController.export()}" ><input type="button" class="button_submit_double" value="Esporta Utenti"/></a>
 </div>

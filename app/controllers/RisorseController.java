@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +19,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
 
+import models.Commessa;
 import models.Costo;
 import models.RapportoLavoro;
 import models.Risorsa;
@@ -30,6 +32,7 @@ import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.With;
 import secure.SecureCOGE;
+import utility.DomainWrapper;
 import utility.MyUtility;
 
 @With(SecureCOGE.class)
@@ -40,11 +43,22 @@ public class RisorseController extends Controller {
         render();
     }
     
-
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by matricola").fetch());
     	listaRisorse.setPageSize(10);
 		render(listaRisorse); 
+    }
+    
+    public static void search(Integer idRisorsa) {
+    	if(idRisorsa == null || idRisorsa.equals("")){
+    		list();
+    	}
+    	Risorsa risorsa = Risorsa.findById(idRisorsa);
+    	List<Risorsa> lista = new ArrayList<Risorsa>();
+    	lista.add(risorsa);
+		ValuePaginator listaRisorse = new ValuePaginator(lista);
+		listaRisorse.setPageSize(10);
+		render("RisorseController/list.html",listaRisorse);
     }
     
     public static void show(Integer idRisorsa) {
@@ -224,6 +238,16 @@ public class RisorseController extends Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+ // Auotocomplete dei risorsa
+	public static void autocompleteRisorsa(String term) {
+		List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or codice like ? or cognome like ? or nome like ?","%"+term+"%","%"+term+"%","%"+term+"%","%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(Risorsa ris:listaRisorse){
+			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.matricola + " - " + ris.cognome + " " + ris.nome));
+		}
+		renderJSON(listaResult);
     }
     
 }

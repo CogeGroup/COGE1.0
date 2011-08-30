@@ -10,7 +10,6 @@
 </div>
 
 <h2>Rapportino del: ${mese}-${anno}</h2>
-
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -44,5 +43,8 @@
 <div id="buttonSubmit_center">
 	#{a @RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}<input type="button" class="button_submit" value="Aggiungi attivita'"/>#{/a}
 	#{a @RendicontoAttivitaController.backList(mese,anno)}<input type="button" class="button_submit" value="Indietro"/>#{/a}
-	#{a @RendicontoAttivitaController.search()}<input type="button" class="button_submit" value="Nuova Ricerca"/>#{/a}
+	#{a @RendicontoAttivitaController.search()}<input type="button" class="button_submit" value="Nuova ricerca"/>#{/a}
+</div>
+<div id="buttonSubmit_center">
+	#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="button_submit" value="Inserisci nuovo rapportino"/>#{/a}
 </div>
