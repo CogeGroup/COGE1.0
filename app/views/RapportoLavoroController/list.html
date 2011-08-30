@@ -1,20 +1,18 @@
 #{extends 'menu.html' /}
 #{set title:'RapportoLavoroController/list.html' /}
 
+<div id="detail">
+	<ul>
+		<li><label>Risorsa: </label>${risorsa.matricola}</li>
+		<li><label>Nome: </label>${risorsa.nome}</li> 
+		<li><label>Cognome: </label>${risorsa.cognome}</li>
+	</ul>
+</div>
+
+<h2>Rapporto Lavoro</h2>
 #{if flash.success}
     <p class="success">${flash.success}</p>
 #{/if}
-
-<h2>Rapporto Lavoro</h2>
-<div id="detail">
-<ul>
-	<li><label>Risorsa: </label>${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
-</ul>
-</div>
-
-
 
 #{if risorsa.rapportiLavoro.size() > 0}
 			<table class="table_center">

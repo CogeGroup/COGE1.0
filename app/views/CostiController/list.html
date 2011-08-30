@@ -1,7 +1,15 @@
 #{extends 'menu.html' /}
 #{set title:'Lista Costi' /}
 
+<div id="detail">
+	<ul>
+		<li><label>Risorsa: </label>${risorsa.matricola}</li>
+		<li><label>Nome: </label>${risorsa.nome}</li> 
+		<li><label>Cognome: </label>${risorsa.cognome}</li>
+	</ul>
+</div>
 
+<h2>Costi</h2>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -9,28 +17,19 @@
    	<p class="error">${flash.error}</p>
 #{/if}
 
-
-<div id="detail">
-<ul>
-	<li><label>Risorsa: </label>${risorsa.matricola}</li>
-	<li><label>Nome: </label>${risorsa.nome}</li> 
-	<li><label>Cognome: </label>${risorsa.cognome}</li>
-</ul>
-</div>
 #{if paginator.size() > 0}
 	<table class="table_center">
-	<caption><h3>Costi</h3></caption>
-	<thead>
-		<tr>
-			<th scope="col">Importo</th>
-			<th scope="col">Data Inizio</th>
-			<th scope="col">Data Fine</th>
-			#{if !risorsa.dataOut}
-				<th scope="col">Modifica</th>
-				<th scope="col">Elimina</th>
-			#{/if}
-		</tr>
-	</thead>
+		<thead>
+			<tr>
+				<th scope="col">Importo</th>
+				<th scope="col">Data Inizio</th>
+				<th scope="col">Data Fine</th>
+				#{if !risorsa.dataOut}
+					<th scope="col">Modifica</th>
+					<th scope="col">Elimina</th>
+				#{/if}
+			</tr>
+		</thead>
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
 			<td>${costo.importo }</td>
@@ -44,7 +43,7 @@
 		#{/paginate.list} 
 	</table>
 	<div id="datatable_costi">
-	#{paginate.controls items:paginator /}
+		#{paginate.controls items:paginator /}
 	</div>
 #{/if}
 #{else}

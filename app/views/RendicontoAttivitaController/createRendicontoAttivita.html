@@ -24,7 +24,13 @@
        $('#'+a).remove();
    	}
 </script>
-
+ <div id="detail">
+			<ul>
+				<li><label>Risorsa: </label>${risorsa.matricola}</li>
+				<li><label>Nome: </label>${risorsa.nome}</li> 
+				<li><label>Cognome: </label>${risorsa.cognome}</li>
+			</ul>
+		</div>
 <h2>Inserimento Rapportino (2/2)</h2>
 <div id="editRapportino">
 	#{form @rendicontoattivitacontroller.saveRendicontoAttivita()} 

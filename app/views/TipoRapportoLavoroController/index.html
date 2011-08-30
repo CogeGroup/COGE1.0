@@ -1,9 +1,33 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Tipo Rapporti Lavoro' /}
 
+<!-- CSS -->
+#{stylesheet id:'autocoomplete',media:'screen',src:'jquery.autocomplete.css'  /}
+#{stylesheet id:'jquery-css',media:'screen',src:'test.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+<!-- JavaScript-->
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'autocomplete' , src:'jquery.ui.autocomplete.js', charset:'utf-8' /}
+
+<script type="text/javascript">
+	$(function() {
+		$("#tipoRapportoLavoro").autocomplete({
+			source: "autocompleteTipoRapportoLavoro",
+			minLength: 3,
+			select: function( event, ui ) {
+				$("#idTipoRapportoLavoro").val(ui.item.value);
+				return false;
+			},
+			focus: function( event, ui ) {
+				$("#tipoRapportoLavoro").val(ui.item.label);
+				return false;
+			}
+		});
+	});
+</script>
+
 <h2>Rapporti Lavoro</h2>
-
-
 #{if flash.success}
     <p class="success">${flash.success}</p>
 #{/if}
@@ -12,18 +36,26 @@
 #{/elseif}
 
 #{if paginator.size() > 0}
-
-
+	<div id="search">
+		<form action="@{TipoRapportoLavoroController.search()}">
+			<label for="ricerca">Ricerca: </label>
+			<input type="text" class="txt_m" name="tipoRapportoLavoro" id="tipoRapportoLavoro" />
+			<input type="hidden" name="idTipoRapportoLavoro" id="idTipoRapportoLavoro" />
+			<input type="submit" value="Cerca" class="button_submit"/>
+		</form>
+		#{a @TipoRapportoLavoroController.index()}mostra tutti#{/a}
+		<p class="error">${flash.error}</p>
+	</div>
 	<table class="table_center">
-	<thead>
-		<tr>
-			<th scope="col">Codice</th>
-			<th scope="col">Descrizione</th>
-			<th scope="col">Modifica</th>
-			<th scope="col">Elimina</th>
-			<td></td>
-		</tr>
-	</thead>
+		<thead>
+			<tr>
+				<th scope="col">Codice</th>
+				<th scope="col">Descrizione</th>
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
+				<td></td>
+			</tr>
+		</thead>
 		#{paginate.list items:paginator, as:'tipoRapportoLavoro'} 
 			<tr>
     			<td>
@@ -47,9 +79,8 @@
     <center><h3>Non vi sono Rapporti di lavoro presenti nel sistema.</h3></center>
 #{/else}
 
-
 <div id="buttonSubmit_center">
-#{form @TipoRapportoLavoroController.create()}
-        <input type="submit" class="button_submit" value="Aggiungi" />
-#{/form}
+	#{form @TipoRapportoLavoroController.create()}
+	        <input type="submit" class="button_submit" value="Aggiungi" />
+	#{/form}
 </div>
