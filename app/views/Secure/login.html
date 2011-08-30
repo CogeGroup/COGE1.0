@@ -56,6 +56,7 @@
 			<input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} />
 			<label for="remember">&{'secure.remember'}</label>
 		</p>
+		<!--  #{a @Application.recuperaPasswordAccount()} recupera pasword #{/a} -->
 		<p id="signin-field">
 			<input type="submit" id="signin" value="&{'secure.signin'}" />
 		</p>
@@ -68,7 +69,6 @@
 			<p>&copy; Copyright <strong>Solving Team</strong> &middot;</p>
           </div>
           </div>
-         
     </body>
 </html>
 

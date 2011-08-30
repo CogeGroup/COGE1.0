@@ -232,10 +232,13 @@ public class AccountController extends Controller {
 		        c3.setCellValue("NOMINATIVO");
 		        Cell c4 = row.createCell(3);
 		        c4.setCellStyle(style);
-		        c4.setCellValue("PASSWORD");
+		        c4.setCellValue("E-MAIL");
 		        Cell c5 = row.createCell(4);
 		        c5.setCellStyle(style);
-		        c5.setCellValue("ATTIVO");
+		        c5.setCellValue("PASSWORD");
+		        Cell c6 = row.createCell(5);
+		        c6.setCellStyle(style);
+		        c6.setCellValue("ATTIVO");
 		        short i = 1;
 		        List<Utente> listaUtenti = Utente.find("order by username").fetch();
 		        for(Utente utente : listaUtenti){
@@ -243,8 +246,9 @@ public class AccountController extends Controller {
 			        row.createCell(0).setCellValue(utente.username);
 			        row.createCell(1).setCellValue(utente.risorsa.matricola);
 			        row.createCell(2).setCellValue(utente.risorsa.nome + " " + utente.risorsa.cognome);
-			        row.createCell(3).setCellValue(utente.password);
-			        row.createCell(4).setCellValue(utente.abilitato == true ? "SI" : "NO");
+			        row.createCell(3).setCellValue(utente.email);
+			        row.createCell(4).setCellValue(utente.password);
+			        row.createCell(5).setCellValue(utente.abilitato == true ? "SI" : "NO");
 			        i++;
 			    }
 		        sheet.autoSizeColumn(0);
@@ -252,10 +256,12 @@ public class AccountController extends Controller {
 		        sheet.autoSizeColumn(2);
 		        sheet.autoSizeColumn(3);
 		        sheet.autoSizeColumn(4);
+		        sheet.autoSizeColumn(5);
 		        out.flush();
 		        wb.write(out);  
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 	    }
+	  
 }
