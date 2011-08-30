@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import models.Commessa;
@@ -37,12 +38,12 @@ public class RendicontoAttivitaController extends Controller {
 			Risorsa risorsa = Risorsa.findById(idRisorsa);
 			listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
 		}else{
 			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
 		}
 		search();
@@ -52,7 +53,7 @@ public class RendicontoAttivitaController extends Controller {
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
-		paginator.setPageSize(5);
+		paginator.setPageSize(10);
 		render(paginator, risorsa, mese, anno);
 	}
 	
@@ -61,7 +62,7 @@ public class RendicontoAttivitaController extends Controller {
 		List<RendicontoAttivita> listaRapportini = new ArrayList<RendicontoAttivita>();
 			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
-			paginator.setPageSize(5);
+			paginator.setPageSize(10);
 			render("RendicontoAttivitaController/list.html", paginator,mese,anno);
 	}
 	
@@ -137,9 +138,9 @@ public class RendicontoAttivitaController extends Controller {
 				Integer idCommessa = Integer.parseInt(key.substring(3));
 				Commessa commessa = Commessa.findById(idCommessa);
 				if(!oreLavorateString.equals("")){
-					Integer oreLavorate = 0;
+					float oreLavorate = 0;
 					try {
-						oreLavorate = Integer.parseInt(oreLavorateString);
+						oreLavorate = Float.parseFloat(oreLavorateString);
 						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese, anno, risorsa, commessa);
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
@@ -208,11 +209,14 @@ public class RendicontoAttivitaController extends Controller {
     }
     
     public static void listRapportiniIncompleti(int mese, int anno) {
-    	mese++;
+		if(!MyUtility.MeseEdAnnoToDataFine(mese, anno).before(new Date())){
+			validation.addError("data", "Data selezionata non valida");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
+		}
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
-		paginator.setPageSize(5);
-		mese--;
+		paginator.setPageSize(10);
 		render(paginator, mese, anno);
     }
 	

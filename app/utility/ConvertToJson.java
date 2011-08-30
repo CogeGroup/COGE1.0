@@ -30,7 +30,6 @@ public class ConvertToJson {
 				sb.append("},");
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 			

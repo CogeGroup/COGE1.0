@@ -23,7 +23,7 @@ public class CommesseController extends Controller {
     public static void list() {
     	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaCommesse);
-		paginator.setPageSize(5);
+		paginator.setPageSize(10);
 		render(paginator);
     }
     

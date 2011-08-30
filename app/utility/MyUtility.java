@@ -63,7 +63,9 @@ public class MyUtility {
     public static String dateToString(Date date) {
     	return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
-
-	
+    
+    public static String dateToString(Date date, String formato) {
+    	return new SimpleDateFormat(formato).format(date);
+    }
 
 }
