@@ -63,7 +63,6 @@ public class LogInController extends Controller {
 		Date dataRapporto = new SimpleDateFormat("dd/MM/yyyy").parse("01/" + "07" + "/" + "2009");
 		reportParams.put("DATA", dataRapporto);
 	} catch (ParseException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
         reportParams.put("cognome", "b");

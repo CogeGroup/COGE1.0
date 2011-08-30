@@ -29,9 +29,7 @@ public class TipoRapportoLavoro extends GenericModel {
 	@MaxSize(255)
 	public String descrizione;
 	
-	public TipoRapportoLavoro() {
-		// TODO Auto-generated constructor stub
-	}
+	public TipoRapportoLavoro() {}
 	
 	public TipoRapportoLavoro(String descrizione, String codice) {
 		super();

@@ -27,7 +27,7 @@ public class TariffeController extends Controller {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<Tariffa> listaTariffe = Tariffa.find("byRisorsa", risorsa).fetch();
     	ValuePaginator paginator = new ValuePaginator(listaTariffe);
-    	paginator.setPageSize(5);
+    	paginator.setPageSize(10);
         render(paginator, risorsa);
     }
     

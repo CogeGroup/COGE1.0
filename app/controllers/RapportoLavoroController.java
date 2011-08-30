@@ -20,7 +20,7 @@ public class RapportoLavoroController extends Controller {
 	public static void list(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	ValuePaginator paginator = new ValuePaginator(risorsa.rapportiLavoro);
-    	paginator.setPageSize(5);
+    	paginator.setPageSize(10);
         render(paginator, risorsa);
     }
     

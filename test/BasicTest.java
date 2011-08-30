@@ -100,7 +100,6 @@ public class BasicTest extends UnitTest {
       try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
       cm2 = new Commessa("desc","cod",true);

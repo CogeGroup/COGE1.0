@@ -43,7 +43,7 @@ public class RisorseController extends Controller {
 
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by matricola").fetch());
-    	listaRisorse.setPageSize(5);
+    	listaRisorse.setPageSize(10);
 		render(listaRisorse); 
     }
     

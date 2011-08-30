@@ -20,7 +20,7 @@ public class ClientiController extends Controller {
     public static void list() {
     	List<Cliente> listaClienti = Cliente.find("order by codice asc").fetch();
 		ValuePaginator paginator = new ValuePaginator(listaClienti);
-		paginator.setPageSize(5);
+		paginator.setPageSize(10);
 		render(paginator);
     }
     

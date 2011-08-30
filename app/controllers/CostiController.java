@@ -30,7 +30,7 @@ public class CostiController extends Controller {
 		};
 		Collections.sort(listaCosti, comparator);
     	ValuePaginator paginator = new ValuePaginator(listaCosti);
-    	paginator.setPageSize(5);
+    	paginator.setPageSize(10);
         render(paginator, risorsa);
     }
     
