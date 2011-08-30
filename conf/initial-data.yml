@@ -418,12 +418,14 @@ Job(j27):
 Utente(u1):
  username: a
  password: a
+ email: utente_a@email.it
  abilitato: true
  risorsa: Bruce
  ruoli: [ruolo1]
 Utente(u2):
  username: s
  password: s
+ email: utente_s@email.it
  abilitato: true
  risorsa: Peter
  ruoli: [ruolo2]

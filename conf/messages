@@ -5,6 +5,7 @@
 #---------------------
 validation.min = %s deve essere maggiore di %d
 validation.minSize = %s minimo %d caratteri
+validation.email= campo %s non valido
 validation.required=il campo %s è obbligatorio
 validation.invalid = formato non corretto
 # COSTO ----------------------
@@ -38,6 +39,7 @@ validation.rapportoLavoro.dataFine.lt.dataInizio = %s deve essere >= di %s
 utente.username= username
 utente.password = password
 utente.abilitato = abilitato 
+utente.email = e-mail 
 validation.utente.username_esistente = username esistente
 #CLIENTE ---------------------------
 cliente.codice = codice

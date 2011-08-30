@@ -24,6 +24,7 @@
 		<tr>
 		<th scope="col">Matricola</th>
 		<th scope="col">Username</th>
+		<th scope="col">E-Mail</th>
 		<th scope="col">Modifica</th>
 		<th scope="col">Elimina</th>
 		</tr>
@@ -32,8 +33,9 @@
 		    <tr>
 		    	<td>${index.risorsa.matricola}</td>
 		    	<td>${index.username}</td>
+		    	<td>${index.email}</td>
 		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+		    	<td class="eraser"><a href="deleteUtente?idU=${index.idUtente}" onclick="return confirm('Sei sicuro di voler procedere con la cancellazione?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 		    </tr>
 		    #{/paginate.list}
 	</table> 

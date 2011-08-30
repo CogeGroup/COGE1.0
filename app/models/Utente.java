@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
+import play.data.validation.Email;
 import play.data.validation.MaxSize;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
@@ -33,6 +34,10 @@ public class Utente extends GenericModel {
 	@MinSize(8)
 	@MaxSize(255)
 	public String password;
+	
+	@Required
+	@Email
+	public String email;
 	
 	@Required
 	public boolean abilitato;
