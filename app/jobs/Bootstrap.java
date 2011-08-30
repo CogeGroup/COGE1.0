@@ -24,7 +24,7 @@ public class Bootstrap extends play.jobs.Job {
     	
     	//leggo file YAML
     	if(Risorsa.count()==0){
-    		Fixtures.loadModels("initial-data.yml");
+    		Fixtures.loadModels("initial-data2.yml");
     	}
     	
     	
