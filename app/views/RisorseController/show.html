@@ -25,11 +25,15 @@
 				<label for="dataIn">Data In: </label>
 			    ${risorsa.dataIn.format('dd-MM-yyyy')}
 			</li>
-			<li>
-				#{if risorsa.dataOut != null}
+			#{if risorsa.dataOut != null}
+				<li>
 					<label for="dataOut">Data Out: </label>
 			    	${risorsa.dataOut.format('dd-MM-yyyy')}
-			    #{/if}
+				</li>
+			#{/if}
+			<li>
+				<label for="tipoStatoRisorsa">Stato: </label>
+			    ${risorsa.tipoStatoRisorsa.descrizione}
 			</li>
 	<ul>
 </div>

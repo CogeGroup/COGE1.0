@@ -53,6 +53,7 @@
 				<th scope="col">Cognome</th>
 				<th scope="col">Data In</th>
 				<th scope="col">Data Out</th>
+				<th scope="col">Stato</th>
 				<th scope="col">Modifica</th>
 				<th scope="col">Elimina</th>
 				<th scope="col">Rapporto Lavoro</th>
@@ -69,6 +70,7 @@
 	    			<td>${risorsa.cognome}</td>
 	    			<td>${risorsa.dataIn.format('dd-MM-yyyy')}</td>
 	    			<td>${risorsa.dataOut?.format('dd-MM-yyyy')}</td>
+	    			<td>${risorsa.tipoStatoRisorsa.codice}</td>
 	    			<td><a href="@{RisorseController.edit(risorsa.idRisorsa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 	    		    <td><a href="@{RisorseController.delete(risorsa.idRisorsa)}" onclick="return confirm('Disattivare la risorsa?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 	    			<td><a href="@{RapportoLavoroController.list(risorsa.idRisorsa)}"><img src="@{'/public/images/rapp.png'}" alt="rapporto lavoro" /></a></td>

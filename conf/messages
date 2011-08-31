@@ -25,6 +25,10 @@ risorsa.dataOut = data fine
 validation.risorsa.matricola_esistente = matricola esistente
 validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro = li campo %s deve essere <= di %s (inizio primo rapporto di lavoro)
 validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro = %s deve essere > di %s (inizio ultimo rapporto di lavoro)
+# TIPO STATO RISORSA ----------------------
+tipoStatoRisorsa.codice = codice
+tipoStatoRisorsa.descrizione = descrizione
+validation.tipoStatoRisorsa.codice_esistente = codice esistente
 # TIPO RAPPORTO LAVORO ----------------------
 tipoRapportoLavoro.codice = codice
 tipoRapportoLavoro.descrizione = descrizione

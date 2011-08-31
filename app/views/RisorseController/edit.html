@@ -51,7 +51,9 @@
 	    
 	        <label for="dataOut">Data Out:</label>
 	        <input type="text" class="txt_date" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
-	    
+	    	
+	    	<label for="tipoStatoRisorsa">Stato:</label>
+    		#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}
 	</div>
 	<div id="button_center"> 
 	    <input type="submit" class="submitbutton" value="Modifica" />

@@ -47,7 +47,10 @@
         <label for="dataIn">Data In:</label>
         <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa?.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 
-    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+    	<label for="tipoStatoRisorsa">Stato:</label>
+    	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}<br />
+		
+		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		#{select  'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
 			#{option 0}-- Seleziona--#{/option}
 		#{/select}

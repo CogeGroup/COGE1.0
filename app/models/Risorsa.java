@@ -83,6 +83,9 @@ public class Risorsa extends GenericModel {
 	@OneToMany (mappedBy="risorsa", cascade=CascadeType.ALL)
 	public List<RapportoAttivita> rapportiAttivita = new ArrayList<RapportoAttivita>();
 	
+	@OneToOne
+	public TipoStatoRisorsa tipoStatoRisorsa;
+	
 	@Transient
 	public float guadagno;
 	
