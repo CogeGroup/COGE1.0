@@ -5,16 +5,16 @@
 
 #{if paginator.size() > 0}
 	<table class="table_center">
-	<thead>
-		<tr>
-			<th scope="col">Id Risorsa</th>
-			<th scope="col">Matricola</th>
-			<th scope="col">Codice</th>
-			<th scope="col">Cognome</th>
-			<th scope="col">Nome</th>
-			<th scope="col">Rapportino</th>
-		</tr>
-	</thead>
+		<thead>
+			<tr>
+				<th scope="col">Id Risorsa</th>
+				<th scope="col">Matricola</th>
+				<th scope="col">Codice</th>
+				<th scope="col">Cognome</th>
+				<th scope="col">Nome</th>
+				<th scope="col">Rapportino</th>
+			</tr>
+		</thead>
 		#{paginate.list items:paginator, as:'risorsa'} 
 		<tr>
 			<td>${risorsa.idRisorsa }</td>

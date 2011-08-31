@@ -5,6 +5,7 @@ import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.*;
 import secure.SecureCOGE;
+import utility.DomainWrapper;
 
 import java.util.*;
 
@@ -24,6 +25,18 @@ public class TipoRapportoLavoroController extends Controller {
     	ValuePaginator paginator = new ValuePaginator(listaTipoRapportoLavoro);
     	paginator.setPageSize(10);
         render(paginator);
+    }
+    
+    public static void search(Integer idTipoRapportoLavoro) {
+    	if(idTipoRapportoLavoro == null || idTipoRapportoLavoro.equals("")){
+    		index();
+    	}
+    	TipoRapportoLavoro tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
+    	List<TipoRapportoLavoro> listaTipiRapportoLavoro = new ArrayList<TipoRapportoLavoro>();
+    	listaTipiRapportoLavoro.add(tipoRapportoLavoro);
+		ValuePaginator paginator = new ValuePaginator(listaTipiRapportoLavoro);
+		paginator.setPageSize(10);
+		render("TipoRapportoLavoroController/index.html",paginator);
     }
     
     public static void create() {
@@ -70,6 +83,16 @@ public class TipoRapportoLavoroController extends Controller {
     	TipoRapportoLavoro tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
     	render(tipoRapportoLavoro);
     	
+    }
+    
+ // Auotocomplete dei tipo rapporto lavoro
+	public static void autocompleteTipoRapportoLavoro(String term) {
+		List<TipoRapportoLavoro> listaCommesse = TipoRapportoLavoro.find("codice like ? or descrizione like ?","%"+term+"%","%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(TipoRapportoLavoro tpl:listaCommesse){
+			listaResult.add(new DomainWrapper(tpl.idTipoRapportoLavoro, tpl.codice +" - "+ tpl.descrizione));
+		}
+		renderJSON(listaResult);
     }
     
 }
