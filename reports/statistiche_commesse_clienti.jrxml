@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="ANNO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice,
+sum(if(ra.mese = 1, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_gennaio,
+sum(if(ra.mese = 2, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_febbraio,
+sum(if(ra.mese = 3, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_marzo,
+sum(if(ra.mese = 4, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_aprile,
+sum(if(ra.mese = 5, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_maggio,
+sum(if(ra.mese = 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_giugno,
+sum(if(ra.mese = 7, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_luglio,
+sum(if(ra.mese = 8, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_agosto,
+sum(if(ra.mese = 9, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_settembre,
+sum(if(ra.mese = 10, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_ottobre,
+sum(if(ra.mese = 11, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_novembre,
+sum(if(ra.mese = 12, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_dicembre,
+sum(if(ra.mese = 1, costo(ra.oreLavorate,costo.importo), 0)) as costo_gennaio,
+sum(if(ra.mese = 2, costo(ra.oreLavorate,costo.importo), 0)) as costo_febbraio,
+sum(if(ra.mese = 3, costo(ra.oreLavorate,costo.importo), 0)) as costo_marzo,
+sum(if(ra.mese = 4, costo(ra.oreLavorate,costo.importo), 0)) as costo_aprile,
+sum(if(ra.mese = 5, costo(ra.oreLavorate,costo.importo), 0)) as costo_maggio,
+sum(if(ra.mese = 6, costo(ra.oreLavorate,costo.importo), 0)) as costo_giugno,
+sum(if(ra.mese = 7, costo(ra.oreLavorate,costo.importo), 0)) as costo_luglio,
+sum(if(ra.mese = 8, costo(ra.oreLavorate,costo.importo), 0)) as costo_agosto,
+sum(if(ra.mese = 9, costo(ra.oreLavorate,costo.importo), 0)) as costo_settembre,
+sum(if(ra.mese = 10, costo(ra.oreLavorate,costo.importo), 0)) as costo_ottobre,
+sum(if(ra.mese = 11, costo(ra.oreLavorate,costo.importo), 0)) as costo_novembre,
+sum(if(ra.mese = 12, costo(ra.oreLavorate,costo.importo), 0)) as costo_dicembre
+              FROM RendicontoAttivita ra
+              inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
+              inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
+              inner join Cliente cl on com.cliente_idCliente=cl.idCliente
+              inner join Tariffa t on (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+              inner join Costo costo on costo.risorsa_idRisorsa = ris.idRisorsa
+              where com.DTYPE = 'Commessa' and com.fatturabile=1 and ra.anno=$P{ANNO}
+and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
+              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
+              and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
+              group by com.codice
+order by cl.nominativo, com.descrizione]]>
+	</queryString>
+	<field name="nominativo" class="java.lang.String"/>
+	<field name="descrizione" class="java.lang.String"/>
+	<field name="staff" class="java.lang.String"/>
+	<field name="codice" class="java.lang.String"/>
+	<field name="ricavo_gennaio" class="java.lang.Double"/>
+	<field name="ricavo_febbraio" class="java.lang.Double"/>
+	<field name="ricavo_marzo" class="java.lang.Double"/>
+	<field name="ricavo_aprile" class="java.lang.Double"/>
+	<field name="ricavo_maggio" class="java.lang.Double"/>
+	<field name="ricavo_giugno" class="java.lang.Double"/>
+	<field name="ricavo_luglio" class="java.lang.Double"/>
+	<field name="ricavo_agosto" class="java.lang.Double"/>
+	<field name="ricavo_settembre" class="java.lang.Double"/>
+	<field name="ricavo_ottobre" class="java.lang.Double"/>
+	<field name="ricavo_novembre" class="java.lang.Double"/>
+	<field name="ricavo_dicembre" class="java.lang.Double"/>
+	<field name="costo_gennaio" class="java.lang.Double"/>
+	<field name="costo_febbraio" class="java.lang.Double"/>
+	<field name="costo_marzo" class="java.lang.Double"/>
+	<field name="costo_aprile" class="java.lang.Double"/>
+	<field name="costo_maggio" class="java.lang.Double"/>
+	<field name="costo_giugno" class="java.lang.Double"/>
+	<field name="costo_luglio" class="java.lang.Double"/>
+	<field name="costo_agosto" class="java.lang.Double"/>
+	<field name="costo_settembre" class="java.lang.Double"/>
+	<field name="costo_ottobre" class="java.lang.Double"/>
+	<field name="costo_novembre" class="java.lang.Double"/>
+	<field name="costo_dicembre" class="java.lang.Double"/>
+	<variable name="TOTALE" class="java.lang.String" calculation="Sum"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="3" width="135" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORT COMMESSE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="3" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ANNO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="175" y="3" width="48" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$P{ANNO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="319" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="359" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FEB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="399" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="439" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[APR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="479" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MAG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="519" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GIU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="559" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[LUG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="599" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[AGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="639" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[SET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="679" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[OTT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="719" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NOV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="759" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="85" height="32" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="85" y="0" width="74" height="32" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[PROGETTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="159" y="0" width="99" height="32" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[STAFF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="258" y="0" width="61" height="32" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[CODICE COMMESSA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="361" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_febbraio} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_febbraio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="401" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_marzo} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_marzo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="441" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_aprile} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_aprile}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="481" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_maggio} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_maggio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="521" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_giugno} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_giugno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="561" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_luglio} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_luglio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="601" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_agosto} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_agosto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="641" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_settembre} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_settembre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="681" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_ottobre} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_ottobre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="721" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_novembre} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_novembre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="761" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_dicembre} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_dicembre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="321" y="1" width="37" height="18">
+					<printWhenExpression><![CDATA[$F{ricavo_gennaio} != 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_gennaio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="321" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_gennaio}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_gennaio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="361" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_febbraio}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_febbraio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="401" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_marzo}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_marzo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="441" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_aprile}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_aprile}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="481" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_maggio}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_maggio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="521" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_giugno}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_giugno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="561" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_luglio}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_luglio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="601" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_agosto}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_agosto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="641" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_settembre}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_settembre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="681" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_ottobre}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_ottobre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="721" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_novembre}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_novembre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="761" y="20" width="37" height="18" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[$F{costo_dicembre}!= 0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_dicembre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="1" width="81" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nominativo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="1" width="71" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="161" y="1" width="96" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{staff}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="1" width="58" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="39" width="799" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="85" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="159" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="258" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="319" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="359" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="399" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="439" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="479" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="519" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="559" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="599" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="639" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="679" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="719" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="759" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="799" y="0" width="1" height="39"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="43" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
