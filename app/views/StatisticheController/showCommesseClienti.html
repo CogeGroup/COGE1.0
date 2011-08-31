@@ -1,0 +1,31 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Commesse Clienti' /}
+
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+
+
+
+
+
+
+<script type="text/javascript">
+  $(function() {
+   var listAction = #{jsAction @statisticaHTMLCommesseClienti(':anno') /}
+   $('#result').load(
+       listAction({anno: ${anno}}),
+        function(data,status) {
+        	if(status == 'error'){
+          		$('#export').hide();
+           		$('#result').html(data);
+        	}
+       	}
+       ) 
+    });
+   
+</script>
+
+
+<a href="statisticaPDFCommesseClienti?anno=${anno}"><input id="export" type="button" class="button_submit" value="Esporta PDF" /></a>
+<div id="result" class="report">
+  <center><img src="@{'/public/images/loading.gif'}" alt="" /></center>
+</div>
