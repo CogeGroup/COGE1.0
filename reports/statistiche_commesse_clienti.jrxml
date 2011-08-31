@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="728"/>
-	<property name="ireport.y" value="55"/>
+	<property name="ireport.x" value="860"/>
+	<property name="ireport.y" value="23"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice,
+		<![CDATA[select cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice, tcom.idTipoCommessa as tipo,
 sum(if(ra.mese = 1, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_gennaio,
 sum(if(ra.mese = 2, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_febbraio,
 sum(if(ra.mese = 3, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_marzo,
@@ -38,7 +38,8 @@ sum(if(ra.mese = 12, costo(ra.oreLavorate,costo.importo), 0)) as costo_dicembre
               inner join Cliente cl on com.cliente_idCliente=cl.idCliente
               inner join Tariffa t on (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
               inner join Costo costo on costo.risorsa_idRisorsa = ris.idRisorsa
-              where com.DTYPE = 'Commessa' and com.fatturabile=1 and ra.anno=$P{ANNO}
+	   inner join TipoCommessa tcom on com.tipoCommessa_idTipoCommessa = tcom.idTipoCommessa
+              where com.fatturabile=1 and ra.anno=$P{ANNO}
 and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
               and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
@@ -50,6 +51,7 @@ order by cl.nominativo, com.descrizione]]>
 	<field name="descrizione" class="java.lang.String"/>
 	<field name="staff" class="java.lang.String"/>
 	<field name="codice" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.Integer"/>
 	<field name="ricavo_gennaio" class="java.lang.Double"/>
 	<field name="ricavo_febbraio" class="java.lang.Double"/>
 	<field name="ricavo_marzo" class="java.lang.Double"/>
@@ -272,7 +274,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[DIC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="85" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="0" y="0" width="74" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -286,7 +288,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[CLIENTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="85" y="0" width="74" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="74" y="0" width="74" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -300,7 +302,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[PROGETTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="159" y="0" width="99" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="148" y="0" width="89" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -314,7 +316,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[STAFF]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="258" y="0" width="61" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="237" y="0" width="61" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -326,6 +328,20 @@ order by cl.nominativo, com.descrizione]]>
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[CODICE COMMESSA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="298" y="0" width="21" height="32" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -548,28 +564,28 @@ order by cl.nominativo, com.descrizione]]>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_dicembre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="1" width="81" height="37"/>
+				<reportElement x="2" y="1" width="71" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nominativo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="87" y="1" width="71" height="37"/>
+				<reportElement x="76" y="1" width="71" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="161" y="1" width="96" height="37"/>
+				<reportElement x="150" y="1" width="86" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{staff}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="260" y="1" width="58" height="37"/>
+				<reportElement x="239" y="1" width="58" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -582,13 +598,13 @@ order by cl.nominativo, com.descrizione]]>
 				<reportElement x="0" y="0" width="1" height="39"/>
 			</line>
 			<line>
-				<reportElement x="85" y="0" width="1" height="39"/>
+				<reportElement x="74" y="0" width="1" height="39"/>
 			</line>
 			<line>
-				<reportElement x="159" y="0" width="1" height="39"/>
+				<reportElement x="148" y="0" width="1" height="39"/>
 			</line>
 			<line>
-				<reportElement x="258" y="0" width="1" height="39"/>
+				<reportElement x="237" y="0" width="1" height="39"/>
 			</line>
 			<line>
 				<reportElement x="319" y="0" width="1" height="39"/>
@@ -629,6 +645,16 @@ order by cl.nominativo, com.descrizione]]>
 			<line>
 				<reportElement x="799" y="0" width="1" height="39"/>
 			</line>
+			<line>
+				<reportElement x="298" y="0" width="1" height="39"/>
+			</line>
+			<textField>
+				<reportElement x="300" y="1" width="18" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
