@@ -293,8 +293,7 @@ public class StatisticheController extends Controller {
 				.setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
 		Collection dummyCollection = new ArrayList();
-		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabili(
-				mese, anno);
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabili(mese, anno);
 		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
 		Map param = new HashMap();
 		try {
