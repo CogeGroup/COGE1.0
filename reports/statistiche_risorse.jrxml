@@ -98,10 +98,18 @@ and ra.anno= $P{ANNO}
 		<band height="53" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="0" width="200" height="53"/>
-				<subreportParameter name="MESE"/>
-				<subreportParameter name="ANNO"/>
-				<subreportParameter name="DATA_INIZIO"/>
-				<subreportParameter name="DATA_FINE"/>
+				<subreportParameter name="MESE">
+					<subreportParameterExpression><![CDATA[$P{MESE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ANNO">
+					<subreportParameterExpression><![CDATA[$P{ANNO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATA_INIZIO">
+					<subreportParameterExpression><![CDATA[$P{DATA_INIZIO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="DATA_FINE">
+					<subreportParameterExpression><![CDATA[$P{DATA_FINE}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "report_tipoLavoro.jasper"]]></subreportExpression>
 			</subreport>
