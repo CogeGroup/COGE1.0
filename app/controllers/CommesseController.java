@@ -132,10 +132,10 @@ public class CommesseController extends Controller {
     
     // Auotocomplete dei commessa
 	public static void autocompleteCommessa(String term) {
-		List<Commessa> listaCommesse = Commessa.find("codice like ? or descrizione like ?","%"+term+"%","%"+term+"%").fetch();
+		List<Commessa> listaCommesse = Commessa.find("descrizione like ?","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Commessa com:listaCommesse){
-			listaResult.add(new DomainWrapper(com.idCommessa, com.codice +" - "+ com.descrizione));
+			listaResult.add(new DomainWrapper(com.idCommessa, com.descrizione));
 		}
 		renderJSON(listaResult);
     }

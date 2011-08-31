@@ -242,10 +242,10 @@ public class RisorseController extends Controller {
     
  // Auotocomplete dei risorsa
 	public static void autocompleteRisorsa(String term) {
-		List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or codice like ? or cognome like ? or nome like ?","%"+term+"%","%"+term+"%","%"+term+"%","%"+term+"%").fetch();
+		List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or codice like ? or cognome like ?","%"+term+"%","%"+term+"%","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Risorsa ris:listaRisorse){
-			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.matricola + " - " + ris.cognome + " " + ris.nome));
+			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.matricola + " - " + ris.cognome));
 		}
 		renderJSON(listaResult);
     }
