@@ -20,7 +20,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
-r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
+r.codice as codice,  r.cognome as cognome,trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
  sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
  sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale
  FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
@@ -45,7 +45,7 @@ and ra.anno= $P{ANNO}
 	<field name="codice" class="java.lang.String"/>
 	<field name="cognome" class="java.lang.String"/>
 	<field name="rappLavoro" class="java.lang.String"/>
-	<field name="ore_lavorate" class="java.math.BigDecimal"/>
+	<field name="ore_lavorate" class="java.lang.Double"/>
 	<field name="costo_totale" class="java.lang.Double"/>
 	<field name="ricavo_totale" class="java.lang.Double"/>
 	<field name="margine_totale" class="java.lang.Double"/>
