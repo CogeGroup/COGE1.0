@@ -87,10 +87,10 @@ public class TipoRapportoLavoroController extends Controller {
     
  // Auotocomplete dei tipo rapporto lavoro
 	public static void autocompleteTipoRapportoLavoro(String term) {
-		List<TipoRapportoLavoro> listaCommesse = TipoRapportoLavoro.find("codice like ? or descrizione like ?","%"+term+"%","%"+term+"%").fetch();
+		List<TipoRapportoLavoro> listaCommesse = TipoRapportoLavoro.find("descrizione like ?","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(TipoRapportoLavoro tpl:listaCommesse){
-			listaResult.add(new DomainWrapper(tpl.idTipoRapportoLavoro, tpl.codice +" - "+ tpl.descrizione));
+			listaResult.add(new DomainWrapper(tpl.idTipoRapportoLavoro, tpl.descrizione));
 		}
 		renderJSON(listaResult);
     }

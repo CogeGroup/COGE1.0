@@ -20,12 +20,12 @@ public class Bootstrap extends play.jobs.Job {
 	    
     public void doJob() {
     	
-    	Fixtures.deleteDatabase();
+    	//Fixtures.deleteDatabase();
     	
     	//leggo file YAML
-    	if(Risorsa.count()==0){
-    		Fixtures.loadModels("initial-data.yml");
-    	}
+//    	if(Risorsa.count()==0){
+//    		Fixtures.loadModels("initial-data2.yml");
+//    	}
     	
     	
 //      System.out.println(".....init"); 

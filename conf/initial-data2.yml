@@ -1,0 +1,125 @@
+# TIPI RAPPORTO LAVORO -------------
+TipoRapportoLavoro(DIP):
+ codice: DIP
+ descrizione: Dipendente Tempo Indeterminato
+TipoRapportoLavoro(DAP):
+ codice: DAP
+ descrizione: apprendista
+TipoRapportoLavoro(DIPT):
+ codice: DIPT
+ descrizione: Dipendenti Tempo Determinato
+TipoRapportoLavoro(DIPD):
+ codice: DIPD
+ descrizione: Dipendenti Distaccati
+TipoRapportoLavoro(CCP):
+ codice: CCP
+ descrizione: CO.CO.PRO.
+TipoRapportoLavoro(IVA):
+ codice: IVA
+ descrizione: Partita Iva.
+TipoRapportoLavoro(ACQ):
+ codice: ACQ
+ descrizione: Acquisto da Esterno
+TipoRapportoLavoro(INT):
+ codice: INT
+ descrizione: Interscambio
+TipoRapportoLavoro(COC):
+ codice: COC
+ descrizione: Collaboratori Occasionali
+# RAPPORTI LAVORO -------------------
+RapportoLavoro(rl1):
+ dataInizio: 2011-01-01
+ tipoRapportoLavoro: DIP
+ risorsa: Admin
+#RUOLI --------------------
+Ruolo(ruolo1):
+ descrizione: admin
+ jobs: [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9,j26]
+Ruolo(ruolo2):
+ descrizione: segreteria
+ jobs: [j0, j10, j11, j12, j13, j14, j15, j16, j17, j18, j19, j20, j21, j22, j23, j24, j25]
+#JOB --------------------
+Job(j0):
+ descrizione: LogInController/*
+ ruoli: [ruolo1, ruolo2]
+Job(j1):
+ descrizione: AccountController/*
+ ruoli: [ruolo1]
+Job(j2):
+ descrizione: ClientiController/*
+ ruoli: [ruolo1]
+Job(j3):
+ descrizione: CommesseController/*
+ ruoli: [ruolo1]
+Job(j4):
+ descrizione: CostiController/*
+ ruoli: [ruolo1]
+Job(j5):
+ descrizione: RendicontoAttivitaController/*
+ ruoli: [ruolo1]
+Job(j6):
+ descrizione: RisorseController/*
+ ruoli: [ruolo1]
+Job(j7):
+ descrizione: TariffeController/*
+ ruoli: [ruolo1]
+Job(j8):
+ descrizione: RapportoLavoroController/*
+ ruoli: [ruolo1]
+Job(j9):
+ descrizione: TipoRapportoLavoroController/*
+ ruoli: [ruolo1]
+Job(j10):
+ descrizione: AccountController/index
+ ruoli: [ruolo2]
+Job(j11):
+ descrizione: AccountController/listUtenti
+ ruoli: [ruolo2]
+Job(j12):
+ descrizione: ClientiController/list
+ ruoli: [ruolo2]
+Job(j13):
+ descrizione: ClientiController/show
+ ruoli: [ruolo2]
+Job(j14):
+ descrizione: CommesseController/list
+ ruoli: [ruolo2]
+Job(j15):
+ descrizione: CommesseController/show
+ ruoli: [ruolo2]
+Job(j16):
+ descrizione: RendicontoAttivitaController/*
+ ruoli: [ruolo2]
+Job(j17):
+ descrizione: RisorseController/list
+ ruoli: [ruolo2]
+Job(j18):
+ descrizione: RisorseController/index
+ ruoli: [ruolo2]
+Job(j19):
+ descrizione: RisorseController/show
+ ruoli: [ruolo2]
+Job(j20):
+ descrizione: RisorseController/listRapportoLavoro
+ ruoli: [ruolo2]
+Job(j21):
+ descrizione: TariffeController/list
+ ruoli: [ruolo2]
+Job(j22):
+ descrizione: RapportoLavoroController/list
+ ruoli: [ruolo2]
+Job(j23):
+ descrizione: RapportoLavoroController/show
+ ruoli: [ruolo2]
+Job(j24):
+ descrizione: CostiController/list
+ ruoli: [ruolo2]
+Job(j25):
+ descrizione: TipoRapportoLavoroController/index
+ ruoli: [ruolo2]
+Job(j26):
+ descrizione: StatisticheController/*
+ ruoli: [ruolo1]
+Job(j27):
+ descrizione: AnomalieController/*
+ ruoli: [ruolo1]
