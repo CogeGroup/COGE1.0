@@ -25,6 +25,7 @@ import models.RapportoLavoro;
 import models.Risorsa;
 import models.Tariffa;
 import models.TipoRapportoLavoro;
+import models.TipoStatoRisorsa;
 import models.Utente;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -44,7 +45,7 @@ public class RisorseController extends Controller {
     }
     
     public static void list() {
-    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by matricola").fetch());
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by cognome, nome").fetch());
     	listaRisorse.setPageSize(10);
 		render(listaRisorse); 
     }
@@ -69,14 +70,16 @@ public class RisorseController extends Controller {
     public static void create() {
     	Risorsa risorsa = new Risorsa();
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
-        render(risorsa, listaTipoRapportoLavoro);
+    	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+        render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa);
     }
     
     public static void save(@Valid Risorsa risorsa, Integer idTipoRapportoLavoro) {
     	validation.min(idTipoRapportoLavoro, 1).message("selezionare un tipo rapporto lavoro");
     	if(validation.hasErrors()) {
         	List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
-        	renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro);
+        	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+            renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa);
         }
 	 	//crea e popola il primo rapporto lavoro con data inizio uguale alla data in della risorsa
 	 	//aggiunge il primo rapporto lavoro alla lista rapportiLavoro della risorsa e salva il tutto
@@ -89,12 +92,14 @@ public class RisorseController extends Controller {
     
     public static void edit(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
-    	render(risorsa);
+    	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+        render(risorsa, listaTipoStatoRisorsa);
     }
     
     public static void update(@Valid Risorsa risorsa) {
     	if(validation.hasErrors()) {
-        	renderTemplate("RisorseController/edit.html", risorsa);
+    		List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+        	renderTemplate("RisorseController/edit.html", risorsa, listaTipoStatoRisorsa);
         }
     	//nel caso in cui viene settata data out della risorsa
     	//procedo alla disabilitazione della risorsa e delle info relative
@@ -215,6 +220,9 @@ public class RisorseController extends Controller {
 	        Cell c6 = row.createCell(5);
 	        c6.setCellStyle(style);
 	        c6.setCellValue("DATA OUT");
+	        Cell c7 = row.createCell(6);
+	        c7.setCellStyle(style);
+	        c7.setCellValue("STATO");
 	        short i = 1;
 	        List<Risorsa> listaRisorse = Risorsa.find("order by matricola").fetch();
 	        for(Risorsa risorsa : listaRisorse){
@@ -225,6 +233,7 @@ public class RisorseController extends Controller {
 		        row.createCell(3).setCellValue(risorsa.cognome);
 		        row.createCell(4).setCellValue(MyUtility.dateToString(risorsa.dataIn));
 		        row.createCell(5).setCellValue(risorsa.dataOut == null ? null : MyUtility.dateToString(risorsa.dataOut));
+		        row.createCell(6).setCellValue(risorsa.tipoStatoRisorsa.descrizione);
 		        i++;
 		    }
 	        sheet.autoSizeColumn(0);
@@ -233,6 +242,7 @@ public class RisorseController extends Controller {
 	        sheet.autoSizeColumn(3);
 	        sheet.autoSizeColumn(4);
 	        sheet.autoSizeColumn(5);
+	        sheet.autoSizeColumn(6);
 	        out.flush();
 	        wb.write(out);  
 		} catch (IOException e) {
