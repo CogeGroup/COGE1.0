@@ -89,10 +89,10 @@ public class ClientiController extends Controller {
     
  // Auotocomplete dei clienti
 	public static void autocompleteCliente(String term) {
-		List<Cliente> listaClienti = Cliente.find("codice like ? or nominativo like ?","%"+term+"%","%"+term+"%").fetch();
+		List<Cliente> listaClienti = Cliente.find("nominativo like ?","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Cliente cl:listaClienti){
-			listaResult.add(new DomainWrapper(cl.idCliente, cl.codice +" - "+ cl.nominativo));
+			listaResult.add(new DomainWrapper(cl.idCliente, cl.nominativo));
 		}
 		renderJSON(listaResult);
     }
