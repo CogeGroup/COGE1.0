@@ -45,10 +45,15 @@ public class Commessa extends GenericModel{
 	public Date dataFineCommessa;
 	
 	@ManyToOne
+	public TipoCommessa tipoCommessa;
+	
+	@ManyToOne
 	public Cliente cliente;
 	
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
 	public List<Tariffa> tariffe;
+	
+	public boolean flagCoCoPro;
 	
 	// Costruttori
 	public Commessa(){

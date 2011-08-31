@@ -8,6 +8,7 @@ import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
 import models.Tariffa;
+import models.TipoCommessa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
@@ -44,15 +45,18 @@ public class CommesseController extends Controller {
     public static void create() {
     	Commessa commessa = new Commessa();
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
+    	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+    	System.out.println(listaTipiCommessa.size());
     	String aCorpo = "no";
     	float importo = 0;
-        render(commessa, listaClienti, aCorpo, importo);
+        render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
     }
     
     public static void save(@Valid Commessa commessa, String aCorpo, float importo) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
-	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
+    		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+	        render("CommesseController/create.html", commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
 	    }
     	if(aCorpo != null && aCorpo.equals("si")){
     		if(importo < 0.1) {
@@ -63,7 +67,8 @@ public class CommesseController extends Controller {
     		}
     		if(validation.hasErrors()) {
         		List<Cliente> listaClienti = Cliente.findAllAttivo();
-    	        render("CommesseController/create.html", commessa, listaClienti, aCorpo, importo);
+        		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+    	        render("CommesseController/create.html", commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
     	    }
     		CommessaACorpo commessaACorpo = new CommessaACorpo();
     		commessaACorpo.codice = commessa.codice.toUpperCase();
@@ -85,13 +90,15 @@ public class CommesseController extends Controller {
     public static void edit(Integer id) {
     	Commessa commessa = Commessa.findById(id);
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
-        render(commessa, listaClienti);
+    	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+        render(commessa, listaClienti, listaTipiCommessa);
     }
     
     public static void update(@Valid Commessa commessa) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
-	        render("CommesseController/edit.html", commessa, listaClienti);
+    		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+	        render("CommesseController/edit.html", commessa, listaClienti,listaTipiCommessa);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
     	commessa.dataInizioCommessa = commessa.fatturabile ? commessa.dataInizioCommessa : null;

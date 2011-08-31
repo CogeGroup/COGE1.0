@@ -53,6 +53,11 @@
         </span>
   		<br />
   	#{/if}
+  	<label for="tipoCommessa">Tipo commessa: </label>
+	#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa }
+		#{option ''}- selezionare -#{/option}
+	#{/select}
+	<br />
 	<label for=dataInizioCommessa>Data inizio: </label>
     <input type="text" class="txt_date" id="datepicker1" name="commessa.dataInizioCommessa" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
    	<br />

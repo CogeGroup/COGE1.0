@@ -46,6 +46,9 @@ public class TariffeController extends Controller {
         }
     	
     	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);
+    	tariffa.dataInizio = dataInizio;
+    	System.out.println(dataInizio);
+    	System.out.println(tariffa.dataInizio);
     	List<Tariffa> lista = Tariffa.find("byCommessaAndRisorsa", tariffa.commessa, tariffa.risorsa).fetch();
     	if(lista.size() > 0){
 			Tariffa t = lista.get(lista.size()-1);
@@ -60,7 +63,6 @@ public class TariffeController extends Controller {
 		}
     	
     	tariffa.dataInizio = dataInizio;
-        tariffa.importoGiornaliero = tariffa.commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
         tariffa.save();
         flash.success("Tariffa aggiunta con successo");
     	list(tariffa.risorsa.idRisorsa);
@@ -100,7 +102,6 @@ public class TariffeController extends Controller {
         	tariffa.dataFine = null;
         }
         tariffa.dataInizio = MyUtility.MeseEdAnnoToDataInizio(tariffa.meseInizio, tariffa.annoInizio);    	
-    	tariffa.importoGiornaliero = tariffa.commessa instanceof CommessaACorpo ? 0 : tariffa.importoGiornaliero;
         tariffa.save();
         flash.success("Tariffa modificata con successo");
     	list(tariffa.risorsa.idRisorsa);

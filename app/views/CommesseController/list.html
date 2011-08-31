@@ -47,6 +47,8 @@
 	   <thead>
 			<tr>
 				<th scope="col">Codice</th>
+				<th scope="col">Tipo commessa</th>
+				<th scope="col">Commessa a corpo</th>
 				<th scope="col">Descrizione</th>
 				<th scope="col">Cliente</th>
 				<th scope="col">Fatturabile</th>
@@ -59,6 +61,13 @@
 		#{paginate.list items:paginator, as:'commessa'} 
 			<tr>
 				<td><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a></td>
+				<td>${commessa?.tipoCommessa?.descrizione }</td>
+				<td>#{if commessa instanceof models.CommessaACorpo }
+						si 
+					#{/if}
+					#{else}
+						no
+					#{/else} </td>
 				<td>${commessa.descrizione }</td>
 				<td>${commessa.cliente.nominativo }</td>
 				<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>

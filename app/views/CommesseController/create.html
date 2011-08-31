@@ -43,13 +43,15 @@
 	    NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" />
 	    </span>
 	    <br />
+	   	<label for="tipoCommessa">Tipo commessa: </label>
+		#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa /}
+	    <br />
 	    <label for=dataInizioCommessa>Data inizio: </label>
 	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
 	    <br />
 	   	<label for="cliente">Cliente: </label>
-
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
-	    <br>
+	    <br />
 	    <span class="linea">
 	    	<hr>
 	    </span>

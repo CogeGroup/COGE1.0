@@ -172,7 +172,11 @@ public class Tariffa extends GenericModel{
 		
 		@Override
 		public boolean isSatisfied(Object tariffa, Object dataInizio) {
-			if(!(((Tariffa)tariffa).commessa instanceof CommessaACorpo) && ((Tariffa) tariffa).importoGiornaliero <= 0){
+//			if(!(((Tariffa)tariffa).commessa instanceof CommessaACorpo) && ((Tariffa) tariffa).importoGiornaliero <= 0){
+//				setMessage(message);
+//				return false;
+//			}
+			if(((Tariffa) tariffa).importoGiornaliero <= 0){
 				setMessage(message);
 				return false;
 			}

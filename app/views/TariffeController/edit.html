@@ -86,11 +86,9 @@
 		#{option -1}-- Anno --#{/option}
 	#{/select}
 	<br>
-	#{if !tariffa.commessa instanceof models.CommessaACorpo }
   	    <label for=importo>Importo giornaliero: </label>
   	    <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
 		<br>
-	#{/if}
 	   
 	<label for="commessa">Commessa:</label>
 	#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}
