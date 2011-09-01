@@ -231,6 +231,183 @@ public class StatisticheController extends Controller {
 	}
 
 	
+	/*COMMESSE DIPENDENTI ANNO*/
+	public static void commesseAnno() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+
+	public static void showCommesseAnno(Integer anno) {
+		render(anno);
+
+	}
+
+	public static void statisticaHTMLCommesseAnno(String anno) {
+        boolean result = true;
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
+				.fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(10))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliAnno(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+			
+			
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public static void statisticaPDFCommesseAnno(String anno) {
+
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
+				.fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder
+						.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(15))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliAnno(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
+					new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			response.setHeader("Content-disposition",
+					"attachment;filename=report.pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	/*COMMESSE*/
 	public static void commesse() {
 
@@ -265,15 +442,20 @@ public class StatisticheController extends Controller {
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
 		try {
-			drb.addColumn("nominativo", "risorsa", String.class.getName(), 30,
-					styleNome, styleNome);
-			drb.addColumn("Totale Ore", "totaleOre", Integer.class.getName(),
-					30, styleNome, styleNome);
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
 			for (Commessa c : listaCommessa) {
-				AbstractColumn columnState = ColumnBuilder
-						.getNew()
-						.setColumnProperty(c.idCommessa.toString(),
-								BigDecimal.class.getName())
+				AbstractColumn columnState = ColumnBuilder.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
 						.setTitle(c.descrizione).setWidth(new Integer(10))
 						.setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
@@ -285,7 +467,7 @@ public class StatisticheController extends Controller {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		drb.setTitle("REPORT COMMESSE NON FATTURABILI")
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
 				.setDefaultStyles(null, null, headerStyle, null)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
@@ -297,8 +479,7 @@ public class StatisticheController extends Controller {
 		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
 		Map param = new HashMap();
 		try {
-			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
-					new ClassicLayoutManager(), param);
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
 			jrprint = JasperFillManager.fillReport(jr, param, ds);
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
@@ -352,16 +533,23 @@ public class StatisticheController extends Controller {
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
 		try {
-			drb.addColumn("nominativo", "risorsa", String.class.getName(), 30,
-					styleNome, styleNome);
-			drb.addColumn("Totale Ore", "totaleOre", Integer.class.getName(),
-					30, styleNome, styleNome);
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			
 			for (Commessa c : listaCommessa) {
 				AbstractColumn columnState = ColumnBuilder
 						.getNew()
-						.setColumnProperty(c.idCommessa.toString(),
-								BigDecimal.class.getName())
-						.setTitle(c.descrizione).setWidth(new Integer(10))
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(15))
 						.setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 				drb.addColumn(columnState);
@@ -372,7 +560,7 @@ public class StatisticheController extends Controller {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		drb.setTitle("REPORT COMMESSE NON FATTURABILI")
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
 				.setDefaultStyles(null, null, headerStyle, null)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
@@ -380,8 +568,7 @@ public class StatisticheController extends Controller {
 				.setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
 		Collection dummyCollection = new ArrayList();
-		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabili(
-				mese, anno);
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabili(mese, anno);
 		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
 		Map param = new HashMap();
 		try {
@@ -397,6 +584,378 @@ public class StatisticheController extends Controller {
 		}
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*COMMESSE COCOPRO MESE*/
+	public static void commesseCollaboratoriMese() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+
+	public static void showCommesseCollaboratoriMese(Integer mese, Integer anno) {
+		render(mese, anno);
+
+	}
+
+	public static void statisticaHTMLCommesseCollaboratoriMese(String mese, String anno) {
+        boolean result = true;
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(10))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(5))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
+				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliCollaboratori(mese, anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+			
+			
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public static void statisticaPDFCommesseCollaboratoriMese(String mese, String anno) {
+
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(80);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		styleNome.setFont(Font.ARIAL_SMALL);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(10))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder
+						.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(5))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
+				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliCollaboratori(mese, anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
+					new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			response.setHeader("Content-disposition",
+					"attachment;filename=report.pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}	
+	
+	
+	/*COMMESSE COCOPRO ANNO*/
+	public static void commesseCollaboratoriAnno() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+
+	public static void showCommesseCollaboratoriAnno(Integer anno) {
+		render(anno);
+
+	}
+
+	public static void statisticaHTMLCommesseCollaboratoriAnno(String anno) {
+        boolean result = true;
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(10))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(5))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliCollaboratoriAnno(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+			
+			
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public static void statisticaPDFCommesseCollaboratoriAnno(String anno) {
+
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(80);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		styleNome.setFont(Font.ARIAL_SMALL);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(10))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder
+						.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(5))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliCollaboratoriAnno(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
+					new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			response.setHeader("Content-disposition",
+					"attachment;filename=report.pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}	
+	
+	
+	
+
+	
+	
+	
+	
 	
 /*COMMESSE FATTURABILI*/
 	
@@ -472,7 +1031,10 @@ public class StatisticheController extends Controller {
 
 	}
 	
+
+
 /*COMMESSE NON FATTURABILI*/
+
 	
 	public static void commesseNonFatturabili() {
 
@@ -545,6 +1107,83 @@ public class StatisticheController extends Controller {
 		}
 
 	}
+	
+/*COMMESSE NON FATTURABILI COLLABORATORI ANNO*/
+	
+	public static void commesseNonFatturabiliCollaboratoriAnno() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+	
+	public static void showCommesseNonFatturabiliCollaboratoriAnno(Integer anno) {
+		render(anno);
+	}
+	
+	public static void statisticaHTMLCommesseNonFatturabiliCollaboratoriAnno(Integer anno) {
+		boolean result = true;
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void statisticaPDFCommesseNonFatturabiliCollaboratoriAnno(Integer anno) {
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
+				.format(new Date());
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			response.setHeader("Content-disposition",
+					"attachment;filename=report_" + dateStr + ".pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
 	
 	/*TEST JASPER REPORT*/
 	public static void showTest() {
@@ -666,6 +1305,255 @@ public class StatisticheController extends Controller {
 	
 	}
 
+	/*COMMESSE COCOPRO DETTAGLIO ASSENZA RETRIBUITA*/
+	public static void commesseDettaglioAssenzaRetribuita() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+
+	public static void showCommesseDettaglioAssenzaRetribuita(Integer anno) {
+		render(anno);
+
+	}
+
+	public static void statisticaHTMLCommesseDettaglioAssenzaRetribuita(String anno) {
+        boolean result = true;
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
+				.fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(10))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheDettaglioAssenzaRetribuitaCollaboratori(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+			
+			
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	public static void statisticaPDFCommesseDettaglioAssenzaRetribuita(String anno) {
+
+		JasperPrint jrprint;
+		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
+				.fetch();
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.ARIAL_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		try {
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
+			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder
+					.getNew()
+					.setColumnProperty("totaleGiorni",Double.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setHeaderStyle(styleNome)
+						.setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			
+			
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder
+						.getNew()
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(15))
+						.setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
+			}
+
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
+				.setSubtitle(" ANNO: " + anno)
+				.setDefaultStyles(null, null, headerStyle, null)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
+				.setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheDettaglioAssenzaRetribuitaCollaboratori(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
+					new ClassicLayoutManager(), param);
+			jrprint = JasperFillManager.fillReport(jr, param, ds);
+			response.setHeader("Content-disposition",
+					"attachment;filename=report.pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+/*PORTAFOGLIO ORDINI*/
+	
+	public static void portafoglioOrdini() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+	
+	public static void showPortafoglioOrdini(Integer anno) {
+		render(anno);
+	}
+	
+	public static void statisticaHTMLPortafoglioOrdini(Integer anno) {
+		boolean result = true;
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/portafoglio_ordini.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void statisticaPDFPortafoglioOrdini(Integer anno) {
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
+				.format(new Date());
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/portafoglio_ordini.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			response.setHeader("Content-disposition",
+					"attachment;filename=report_" + dateStr + ".pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 	
 

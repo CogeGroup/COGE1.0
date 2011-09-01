@@ -110,11 +110,19 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
-	public static List<Commessa> listaCommesseFatturabiliAttive(){
+	public static List<Commessa> findCommesseFatturabili(){
+		return Commessa.find("SELECT com FROM Commessa com WHERE com.fatturabile is true ORDER BY com.codice asc").fetch();
+	}
+	
+	public static List<Commessa> findCommesseNonFatturabili(){
+		return Commessa.find("SELECT com FROM Commessa com WHERE com.fatturabile is false ORDER BY com.codice asc").fetch();
+	}
+	
+	public static List<Commessa> findCommesseFatturabiliAttive(){
 		return Commessa.find("select cm from Commessa cm where cm.fatturabile is true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
-	public static List<Commessa> listaCommesseNonFatturabiliAttive(){
+	public static List<Commessa> findCommesseNonFatturabiliAttive(){
 		return Commessa.find("select cm from Commessa cm where cm.fatturabile is false and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	

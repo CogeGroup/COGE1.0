@@ -1,0 +1,51 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Risorse' /}
+
+#{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+<script type="text/javascript">
+  		  $(function() {
+    		$.datepicker.setDefaults($.datepicker.regional['it']);
+		   	  $('#datepicker1').datepicker({
+				changeMonth: true,
+				changeYear: true,
+				yearRange:'-59:+50'
+	
+		});
+  });
+</script>  		  
+
+<div id="edit">
+
+
+#{form @StatisticheController.showCommesseDettaglioAssenzaRetribuita()}
+<ul>
+   
+     <li>
+    	<label for="anno">Anno:</label>
+		#{select  'anno', items:listaAnni}
+		#{/select}
+	</li>
+    
+    
+    
+  
+	</ul>
+</div>
+<div id="button_center">	
+        <input type="submit" class="submitbutton" value="Invia" />
+    
+    
+#{/form}
+
+#{form @StatisticheController.index()} 
+	
+        <input type="submit" class="submitbutton" value="Indietro" />
+    
+#{/form}
+</div>
+	

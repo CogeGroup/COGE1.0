@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import play.data.validation.Min;
 import play.data.validation.Required;
 
@@ -16,5 +19,16 @@ public class CommessaACorpo extends Commessa {
 			boolean fatturabile, float importo) {
 		super(descrizione, codice, fatturabile);
 		this.importo = importo;
+	}
+	
+	public static List<CommessaACorpo> findCommesseACorpo(){
+		List<Commessa> listaCommesse = Commessa.find("ORDER BY codice asc").fetch();
+    	List<CommessaACorpo> listaCommesseACorpo = new ArrayList<CommessaACorpo>();
+    	for (Commessa commessa : listaCommesse) {
+			if(commessa instanceof CommessaACorpo){
+				listaCommesseACorpo.add((CommessaACorpo) commessa);
+			}
+		}
+		return listaCommesseACorpo;
 	}
 }

@@ -1,0 +1,36 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Commesse non Fatturabili' /}
+
+ 		  
+
+<div id="edit">
+
+
+#{form @StatisticheController.showCommesseNonFatturabiliCollaboratoriAnno()}
+<ul>
+   
+  
+     <li>
+    	<label for="anno">Anno:</label>
+		#{select  'anno', items:listaAnni}
+		#{/select}
+	</li>
+    
+    
+    
+  
+	</ul>
+</div>
+<div id="button_center">	
+        <input type="submit" class="submitbutton" value="Invia" />
+    
+    
+#{/form}
+
+#{form @StatisticheController.index()} 
+	
+        <input type="submit" class="submitbutton" value="Indietro" />
+    
+#{/form}
+</div>
+	

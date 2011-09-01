@@ -112,26 +112,28 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione,sum(ra.oreLavorate)"+
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
 							" from rendicontoattivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" where c.fatturabile=false and                                                                              "+
-							" ra.mese= "
+							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
+							" where c.fatturabile=false                                                                               	 "+
+							" and ra.mese= "
 							+mese+
 							" and ra.anno= "
 							+anno+
+							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro != 5 														 "+
 							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
 							" order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
-		 Integer count = 0;
+		 Double count = 0.0;
 		 Integer personaCorrente = null;
 		 HashMap map = null;
 		 for (Object[] objects : resultList) {
 			 if(personaCorrente != (Integer) objects[0]){
-				 count = 0;
+				 count = 0.0;
 				 personaCorrente = (Integer) objects[0];
 				 map = new HashMap();
 				 map.put("idRisorsa", (Integer) objects[0]);
@@ -141,11 +143,165 @@ public class RendicontoAttivita extends GenericModel {
 				 listaMapResult.add(map); 
 			 }
 			 map.put(""+objects[1], objects[7]);
-			 count  += ((BigDecimal)objects[7]).intValue();
-			 map.put("totaleOre", count);
+			 count  += ((Double)objects[7]);
+			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
 		 }
 		 return listaMapResult;
 	}
+	
+	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliAnno(String anno){
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
+							" from rendicontoattivita ra                                                                                 "+
+							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
+							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
+							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
+							" where c.fatturabile=false                                                                               	 "+
+							" and ra.anno= "
+							+anno+
+							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro != 5 														 "+
+							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							" order by r.cognome,r.nome";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 Double count = 0.0;
+		 Integer personaCorrente = null;
+		 HashMap map = null;
+		 for (Object[] objects : resultList) {
+			 if(personaCorrente != (Integer) objects[0]){
+				 count = 0.0;
+				 personaCorrente = (Integer) objects[0];
+				 map = new HashMap();
+				 map.put("idRisorsa", (Integer) objects[0]);
+				 map.put("matricola", (String) objects[2]);
+				 map.put("codiceRisorsa", (String) objects[3]);
+				 map.put("risorsa", (String) objects[4]);
+				 listaMapResult.add(map); 
+			 }
+			 map.put(""+objects[1], objects[7]);
+			 count  += ((Double)objects[7]);
+			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
+		 }
+		 return listaMapResult;
+	}
+	
+	
+	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratori(String mese,String anno){
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
+							" from rendicontoattivita ra                                                                                 "+
+							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
+							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
+							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
+							" where c.fatturabile=false                                                                               	 "+
+							" and ra.mese= "
+							+mese+
+							" and ra.anno= "
+							+anno+
+							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
+							" and c.flagCoCoPro = true 														 "+
+							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							" order by r.cognome,r.nome";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 Double count = 0.0;
+		 Integer personaCorrente = null;
+		 HashMap map = null;
+		 for (Object[] objects : resultList) {
+			 if(personaCorrente != (Integer) objects[0]){
+				 count = 0.0;
+				 personaCorrente = (Integer) objects[0];
+				 map = new HashMap();
+				 map.put("idRisorsa", (Integer) objects[0]);
+				 map.put("matricola", (String) objects[2]);
+				 map.put("codiceRisorsa", (String) objects[3]);
+				 map.put("risorsa", (String) objects[4]);
+				 listaMapResult.add(map); 
+			 }
+			 map.put(""+objects[1], objects[7]);
+			 count  += ((Double)objects[7]);
+			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
+		 }
+		 return listaMapResult;
+	}
+	
+	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratoriAnno(String anno){
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
+							" from rendicontoattivita ra                                                                                 "+
+							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
+							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
+							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
+							" where c.fatturabile=false                                                                               	 "+
+							" and ra.anno= "
+							+anno+
+							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
+							" and c.flagCoCoPro = true 														 							 "+
+							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							" order by r.cognome,r.nome";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 Double count = 0.0;
+		 Integer personaCorrente = null;
+		 HashMap map = null;
+		 for (Object[] objects : resultList) {
+			 if(personaCorrente != (Integer) objects[0]){
+				 count = 0.0;
+				 personaCorrente = (Integer) objects[0];
+				 map = new HashMap();
+				 map.put("idRisorsa", (Integer) objects[0]);
+				 map.put("matricola", (String) objects[2]);
+				 map.put("codiceRisorsa", (String) objects[3]);
+				 map.put("risorsa", (String) objects[4]);
+				 listaMapResult.add(map); 
+			 }
+			 map.put(""+objects[1], objects[7]);
+			 count  += ((Double)objects[7]);
+			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
+		 }
+		 return listaMapResult;
+	}
+	
+	
+	
+	public static ArrayList<HashMap> statisticheDettaglioAssenzaRetribuitaCollaboratori(String anno){
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)   "+
+							" from rendicontoattivita ra                                                                                 "+
+							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
+							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
+							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
+							" where c.fatturabile=false                                                                               	 "+
+							" and ra.anno= "
+							+anno+
+							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
+							" and c.flagCoCoPro = true 														 							 "+
+							" and c.idCommessa = 91 														 							 "+
+							" group by r.idRisorsa,c.idCommessa,r.matricola,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							" order by r.cognome,r.nome";
+		 Session session = (Session)JPA.em().getDelegate();
+		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
+		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
+		 Double count = 0.0;
+		 Integer personaCorrente = null;
+		 HashMap map = null;
+		 for (Object[] objects : resultList) {
+			 if(personaCorrente != (Integer) objects[0]){
+				 count = 0.0;
+				 personaCorrente = (Integer) objects[0];
+				 map = new HashMap();
+				 map.put("idRisorsa", (Integer) objects[0]);
+				 map.put("matricola", (String) objects[2]);
+				 map.put("codiceRisorsa", (String) objects[3]);
+				 map.put("risorsa", (String) objects[4]);
+				 listaMapResult.add(map); 
+			 }
+			 map.put(""+objects[1], objects[7]);
+			 count  += ((Double)objects[7]);
+			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
+		 }
+		 return listaMapResult;
+	}
+	
 	
 	
 	
