@@ -97,7 +97,10 @@ public class RendicontoAttivitaController extends Controller {
 		}
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
 		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
-		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byFatturabile", false).fetch();
+		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byFatturabile", false).fetch();
+		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
+			listaCommesseNonFatturabili = Commessa.find("byFatturabileAndFlagCoCoPro", false, true).fetch();
+		}
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 	}
 	

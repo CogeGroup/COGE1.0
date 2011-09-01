@@ -40,9 +40,13 @@
 			<input type="hidden" name="idCommessa" id="idCommessa" />
 			<input type="submit" value="Cerca" class="button_submit"/>
 		</form>
-		#{a @CommesseController.list()}mostra tutti#{/a}
+		#{a @CommesseController.list()}Mostra tutti#{/a}<br />
+		#{a @CommesseController.listFatturabili()}Commesse fatturabili#{/a}<br />
+		#{a @CommesseController.listNonFatturabili()}Commesse non fatturabili#{/a}<br />
+		#{a @CommesseController.listACorpo()}Commesse a corpo#{/a}
 		<p class="error">${flash.error}</p>
 	</div>
+	<p>Numero commesse: ${paginator.size() }</p>
 	<table class="table_center">
 	   <thead>
 			<tr>

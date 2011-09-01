@@ -472,6 +472,80 @@ public class StatisticheController extends Controller {
 
 	}
 	
+/*PORTAFOGLIO ORDINI*/
+	
+	public static void portafoglioOrdini() {
+
+		List<String> listaAnni = RendicontoAttivita.find(
+				"select distinct anno from RendicontoAttivita").fetch();
+		render(listaAnni);
+	}
+	
+	public static void showPortafoglioOrdini(Integer anno) {
+		render(anno);
+	}
+	
+	public static void statisticaHTMLPortafoglioOrdini(Integer anno) {
+		boolean result = true;
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/portafoglio_ordini.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
+						Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
+						"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
+						"/images/");
+				exporter.setParameter(
+						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+						Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						response.out);
+				exporter.exportReport();
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void statisticaPDFPortafoglioOrdini(Integer anno) {
+		Map reportParams = new HashMap();
+		reportParams.put("ANNO", anno);
+		JasperPrint jrprint;
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
+				.format(new Date());
+		try {
+			VirtualFile vf = VirtualFile
+					.fromRelativePath("reports/portafoglio_ordini.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf
+					.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
+					DB.getConnection());
+			response.setHeader("Content-disposition",
+					"attachment;filename=report_" + dateStr + ".pdf");
+			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 /*COMMESSE NON FATTURABILI*/
 	
 	public static void commesseNonFatturabili() {

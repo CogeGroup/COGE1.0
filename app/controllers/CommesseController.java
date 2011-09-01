@@ -24,10 +24,27 @@ public class CommesseController extends Controller {
     }
     
     public static void list() {
-    	List<Commessa> listaCommesse = Commessa.find("order by codice asc").fetch();
-		ValuePaginator paginator = new ValuePaginator(listaCommesse);
+		ValuePaginator paginator = new ValuePaginator(Commessa.find("ORDER BY fatturabile desc").fetch());
 		paginator.setPageSize(10);
 		render(paginator);
+    }
+    
+    public static void listFatturabili() {
+    	ValuePaginator paginator = new ValuePaginator(Commessa.findCommesseFatturabili());
+		paginator.setPageSize(10);
+		render("CommesseController/list.html",paginator);
+    }
+    
+    public static void listNonFatturabili() {
+    	ValuePaginator paginator = new ValuePaginator(Commessa.findCommesseNonFatturabili());
+		paginator.setPageSize(10);
+		render("CommesseController/list.html",paginator);
+    }
+    
+    public static void listACorpo() {
+		ValuePaginator paginator = new ValuePaginator(CommessaACorpo.findCommesseACorpo());
+		paginator.setPageSize(10);
+		render("CommesseController/list.html",paginator);
     }
     
     public static void search(Integer idCommessa) {
@@ -46,7 +63,6 @@ public class CommesseController extends Controller {
     	Commessa commessa = new Commessa();
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
     	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
-    	System.out.println(listaTipiCommessa.size());
     	String aCorpo = "no";
     	float importo = 0;
         render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
