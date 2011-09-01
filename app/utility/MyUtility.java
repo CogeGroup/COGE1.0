@@ -1,5 +1,7 @@
 package utility;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +68,24 @@ public class MyUtility {
     
     public static String dateToString(Date date, String formato) {
     	return new SimpleDateFormat(formato).format(date);
+    }
+    
+    //calcola i giorni partendo dalle ore
+    public static Double calcolaGiorni(Double ore){
+    	Double totaleGiorni=0.0;
+    	 NumberFormat fmt = NumberFormat.getInstance();
+         fmt.setMaximumFractionDigits(2);
+        
+      if(ore!=0){
+    		totaleGiorni=ore/8;
+    	}
+    	 Number number = null;
+		try {
+			number = fmt.parse(fmt.format(totaleGiorni));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	return number.doubleValue();
     }
 
 }

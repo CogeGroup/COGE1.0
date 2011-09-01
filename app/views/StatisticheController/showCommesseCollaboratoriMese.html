@@ -1,0 +1,36 @@
+#{extends 'menu.html' /}
+#{set title:'Statistiche Risorse' /}
+
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+
+
+
+
+
+
+<script type="text/javascript">
+  $(function() {
+   var listAction = #{jsAction @statisticaHTMLCommesseCollaboratoriMese(':mese',':anno') /}
+   $('#result').load(
+       listAction({mese: ${mese}, anno: ${anno}}),
+        function(data,status) {
+        	if(status == 'error'){
+          		$('#export').hide();
+           		$('#result').html(data);
+        	}
+       	b}
+       )
+      
+    });
+   
+</script>
+
+
+<a href="statisticaPDFCommesseCollaboratoriMese?anno=${anno}&amp;mese=${mese}"><input id="export" type="button" class="button_submit" value="Esporta PDF" /></a>
+<div id="result" class="report">
+  <center><img src="@{'/public/images/loading.gif'}" alt="loading" /></center>
+		
+</div>
+
+
+
