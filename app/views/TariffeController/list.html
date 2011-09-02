@@ -1,6 +1,24 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Tariffe'/}
 
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+
+<script type="text/javascript">
+$(function() {	
+		$( "#dialog-message" ).dialog( "destroy" );
+		$( "#dialog-message" ).dialog({
+			modal: true,
+			buttons: {
+				chiudi: function() {
+					$( this ).dialog( "destroy" );
+				}
+			}
+			});
+		});
+
+
+</script>
+
 <div id="detail">
 	<ul>
 		<li><label>Risorsa: </label>${risorsa.matricola}</li>
@@ -41,7 +59,7 @@
 				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.importoGiornaliero }</td>
-				<td>${tariffa.commessa.codice }</td>
+				<td><a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice}</a></td>
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}
 						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
