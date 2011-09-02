@@ -31,6 +31,7 @@ import ar.com.fdvs.dj.domain.constants.Font;
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
 import ar.com.fdvs.dj.domain.constants.Page;
 import ar.com.fdvs.dj.domain.constants.Rotation;
+import ar.com.fdvs.dj.domain.constants.Stretching;
 import ar.com.fdvs.dj.domain.constants.Transparency;
 import ar.com.fdvs.dj.domain.constants.VerticalAlign;
 import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
@@ -91,8 +92,7 @@ public class StatisticheController extends Controller {
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
 		reportParams.put("SUBREPORT_DIR", "reports/");
-		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
-				.format(new Date());
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
 
 		try {
@@ -337,6 +337,7 @@ public class StatisticheController extends Controller {
 
 	public static void statisticaPDFCommesseAnno(String anno) {
 
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
 		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
 				.fetch();
@@ -355,13 +356,14 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		style.setFont(new Font(5,Font._FONT_ARIAL,true));
 		try {
-			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 70,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
 			AbstractColumn columnState2 = ColumnBuilder
 					.getNew()
 					.setColumnProperty("totaleGiorni",Double.class.getName())
-						.setTitle("Totale Giorni").setWidth(new Integer(30))
+						.setTitle("Totale Giorni").setWidth(new Integer(35))
 						.setHeaderStyle(styleNome)
 						.setStyle(styleNome).build();
 			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
@@ -372,7 +374,7 @@ public class StatisticheController extends Controller {
 				AbstractColumn columnState = ColumnBuilder
 						.getNew()
 						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
-						.setTitle(c.descrizione).setWidth(new Integer(15))
+						.setTitle(c.descrizione).setWidth(new Integer(16))
 						.setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 				drb.addColumn(columnState);
@@ -386,7 +388,7 @@ public class StatisticheController extends Controller {
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle(" ANNO: " + anno)
 				.setDefaultStyles(null, null, headerStyle, null)
-				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setDetailHeight(5).setMargins(10, 10, 10, 28)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
@@ -514,6 +516,7 @@ public class StatisticheController extends Controller {
 
 	public static void statisticaPDFCommesse(String mese, String anno) {
 
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
 		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
 				.fetch();
@@ -530,10 +533,15 @@ public class StatisticheController extends Controller {
 		Style styleNome = new Style();
 		styleNome.setRotation(Rotation.NONE);
 		styleNome.setBorder(Border.PEN_1_POINT);
+		styleNome.setFont(Font.ARIAL_SMALL);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		style.setFont(new Font(5,Font._FONT_ARIAL,true));
+		//style.setFont(Font.ARIAL_SMALL);
+			
+		
 		try {
-			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 60,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
 			AbstractColumn columnState2 = ColumnBuilder
 					.getNew()
@@ -543,17 +551,22 @@ public class StatisticheController extends Controller {
 						.setStyle(styleNome).build();
 			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
 			drb.addColumn(columnState2);
-			
-			
 			for (Commessa c : listaCommessa) {
 				AbstractColumn columnState = ColumnBuilder
 						.getNew()
-						.setColumnProperty(c.idCommessa.toString(),Double.class.getName())
-						.setTitle(c.descrizione).setWidth(new Integer(15))
+						.setColumnProperty(c.idCommessa.toString(),Double.class.getName()).setWidth(200)
+						.setTitle(c.descrizione).setWidth(new Integer(16))
 						.setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 				drb.addColumn(columnState);
 			}
+//			AbstractColumn columnStateTest = ColumnBuilder
+//					.getNew()
+//					.setColumnProperty("test",Double.class.getName()).setWidth(200)
+//					.setTitle("stest").setWidth(new Integer(16))
+//					.setStyle(style).build();
+//			
+//			drb.addColumn(columnStateTest);
 
 		} catch (ColumnBuilderException e1) {
 			e1.printStackTrace();
@@ -563,7 +576,7 @@ public class StatisticheController extends Controller {
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
 				.setDefaultStyles(null, null, headerStyle, null)
-				.setDetailHeight(15).setMargins(30, 20, 30, 15)
+				.setDetailHeight(5).setMargins(10, 10, 10, 28)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
@@ -575,8 +588,7 @@ public class StatisticheController extends Controller {
 			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
 					new ClassicLayoutManager(), param);
 			jrprint = JasperFillManager.fillReport(jr, param, ds);
-			response.setHeader("Content-disposition",
-					"attachment;filename=report.pdf");
+			response.setHeader("Content-disposition","attachment;filename=report"+dateStr+".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 
 		} catch (JRException e) {
