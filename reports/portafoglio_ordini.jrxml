@@ -80,6 +80,87 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 	<field name="margine_val" class="java.lang.Double"/>
 	<field name="margine_perc" class="java.lang.Double"/>
 	<variable name="TOTALE" class="java.lang.String" calculation="Sum"/>
+	<variable name="ricavo_Totale_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_Totale}]]></variableExpression>
+	</variable>
+	<variable name="costo_Totale_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_Totale}]]></variableExpression>
+	</variable>
+	<variable name="margine_val_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{margine_val}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_gennaio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_gennaio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_febbraio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_febbraio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_marzo_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_marzo}]]></variableExpression>
+	</variable>
+	<variable name="costo_gennaio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_gennaio}]]></variableExpression>
+	</variable>
+	<variable name="costo_febbraio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_febbraio}]]></variableExpression>
+	</variable>
+	<variable name="costo_marzo_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_marzo}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_aprile_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_aprile}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_maggio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_maggio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_giugno_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_giugno}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_luglio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_luglio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_agosto_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_agosto}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_settembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_settembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_aprile_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_aprile}]]></variableExpression>
+	</variable>
+	<variable name="costo_maggio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_maggio}]]></variableExpression>
+	</variable>
+	<variable name="costo_giugno_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_giugno}]]></variableExpression>
+	</variable>
+	<variable name="costo_luglio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_luglio}]]></variableExpression>
+	</variable>
+	<variable name="costo_agosto_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_agosto}]]></variableExpression>
+	</variable>
+	<variable name="costo_settembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_settembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_ottobre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_ottobre}]]></variableExpression>
+	</variable>
+	<variable name="costo_novembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_novembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_dicembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_dicembre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_ottobre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_ottobre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_novembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_novembre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_dicembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_dicembre}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -109,7 +190,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 	<columnHeader>
 		<band height="32" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="290" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<reportElement mode="Opaque" x="290" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -123,7 +204,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[GEN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="330" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<reportElement mode="Opaque" x="330" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -137,7 +218,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[FEB]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="370" y="0" width="40" height="32" backcolor="#99CCFF"/>
+				<reportElement mode="Opaque" x="370" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -151,7 +232,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[MAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="410" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="410" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -165,7 +246,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[APR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="450" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="450" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -179,7 +260,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[MAG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="490" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="490" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -193,7 +274,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[GIU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="530" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="530" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -207,7 +288,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[LUG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="570" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="570" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -221,7 +302,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[AGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="610" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="610" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -235,7 +316,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[SET]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="650" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="650" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -249,7 +330,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[OTT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="690" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="690" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -263,7 +344,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[NOV]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="730" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="730" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -277,7 +358,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[DIC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="34" y="0" width="101" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="34" y="0" width="103" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -288,10 +369,10 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[PROGETTO]]></text>
+				<text><![CDATA[PORTAFOGLIO ORDINI]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="135" y="0" width="33" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="137" y="0" width="31" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -305,7 +386,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[TIPO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="229" y="0" width="61" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="229" y="0" width="61" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -319,7 +400,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<text><![CDATA[MARGINE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="168" y="0" width="61" height="32" backcolor="#FFFF99"/>
+				<reportElement mode="Opaque" x="168" y="0" width="61" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -336,7 +417,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 	</columnHeader>
 	<detail>
 		<band height="40" splitType="Stretch">
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="332" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_febbraio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -345,7 +426,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_febbraio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="372" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_marzo} != 0]]></printWhenExpression>
 				</reportElement>
@@ -354,7 +435,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_marzo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="412" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_aprile} != 0]]></printWhenExpression>
 				</reportElement>
@@ -363,7 +444,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_aprile}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="452" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_maggio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -372,7 +453,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_maggio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="492" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_giugno} != 0]]></printWhenExpression>
 				</reportElement>
@@ -381,7 +462,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_giugno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="532" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_luglio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -390,7 +471,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_luglio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="572" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_agosto} != 0]]></printWhenExpression>
 				</reportElement>
@@ -399,7 +480,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_agosto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="612" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_settembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -408,7 +489,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_settembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="652" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_ottobre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -417,7 +498,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_ottobre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="692" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_novembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -426,7 +507,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_novembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="732" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_dicembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -435,7 +516,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_dicembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="292" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_gennaio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -444,7 +525,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_gennaio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="292" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_gennaio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -453,7 +534,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_gennaio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="332" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_febbraio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -462,7 +543,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_febbraio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="372" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_marzo}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -471,7 +552,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_marzo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="412" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_aprile}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -480,7 +561,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_aprile}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="452" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_maggio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -489,7 +570,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_maggio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="492" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_giugno}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -498,7 +579,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_giugno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="532" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_luglio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -507,7 +588,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_luglio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="572" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_agosto}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -516,7 +597,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_agosto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="612" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_settembre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -525,7 +606,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_settembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="652" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_ottobre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -534,7 +615,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_ottobre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="692" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_novembre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -543,7 +624,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_novembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00">
+			<textField pattern="#,##0.0">
 				<reportElement x="732" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_dicembre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -553,20 +634,20 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_dicembre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="36" y="1" width="97" height="37"/>
+				<reportElement x="36" y="1" width="100" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.0">
 				<reportElement x="170" y="1" width="58" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ricavo_Totale}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.0">
 				<reportElement x="170" y="20" width="58" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -574,20 +655,34 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{costo_Totale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="136" y="1" width="31" height="37"/>
+				<reportElement x="139" y="1" width="28" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
 			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="231" y="20" width="58" height="18" forecolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{margine_val}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0 %">
+				<reportElement mode="Opaque" x="231" y="2" width="58" height="18" backcolor="#FFFF33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_perc}]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement x="33" y="39" width="737" height="1"/>
+				<reportElement x="34" y="39" width="737" height="1"/>
 			</line>
 			<line>
 				<reportElement x="34" y="0" width="1" height="39"/>
 			</line>
 			<line>
-				<reportElement x="134" y="0" width="1" height="39"/>
+				<reportElement x="137" y="0" width="1" height="39"/>
 			</line>
 			<line>
 				<reportElement x="168" y="0" width="1" height="39"/>
@@ -634,29 +729,508 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 			<line>
 				<reportElement x="770" y="0" width="1" height="39"/>
 			</line>
-			<textField>
-				<reportElement x="231" y="20" width="58" height="18" forecolor="#000000"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{margine_val}]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00 %">
-				<reportElement x="231" y="1" width="58" height="18"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_perc}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="43" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement x="55" y="2" width="112" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTALE PORTAFOGLIO (ASSOLUTO)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="41" width="112" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTALE PORTAFOGLIO (PROGRESSIVO)]]></text>
+			</staticText>
+			<textField pattern="#,##0.0">
+				<reportElement x="170" y="2" width="58" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_Totale_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="170" y="21" width="58" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_Totale_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="231" y="21" width="58" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{margine_val_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0 %">
+				<reportElement mode="Opaque" x="231" y="2" width="58" height="18" backcolor="#FFFF33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[($V{ricavo_Totale_1}-$V{costo_Totale_1})/$V{ricavo_Totale_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="292" y="1" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="332" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="372" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="292" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="332" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="372" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="292" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="292" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="332" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="332" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="412" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="452" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="492" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="532" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="572" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="612" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="412" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="452" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="492" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="532" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="572" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="612" y="21" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="372" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="372" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="412" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="412" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="452" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="452" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="492" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="492" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="532" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+$V{ricavo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="532" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="572" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
+$V{ricavo_luglio_1}+$V{ricavo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="572" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="652" y="22" width="37" height="17" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="692" y="22" width="37" height="17" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="732" y="22" width="37" height="17" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_dicembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="612" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
+$V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="612" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
+$V{costo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="652" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
+$V{costo_settembre_1}+$V{costo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="652" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
+$V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}+
+$V{costo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="652" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="692" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="732" y="2" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_dicembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="692" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
+$V{costo_settembre_1}+$V{costo_ottobre_1}+$V{ricavo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="692" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
+$V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}+
+$V{costo_ottobre_1}+$V{costo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="732" y="61" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
+$V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
+$V{costo_settembre_1}+$V{costo_ottobre_1}+$V{costo_novembre_1}+
+$V{costo_dicembre_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="732" y="41" width="37" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
+$V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
+$V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}+
+$V{costo_ottobre_1}+$V{costo_novembre_1}+$V{ricavo_dicembre_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="290" y="79" width="480" height="1"/>
+			</line>
+			<line>
+				<reportElement x="55" y="39" width="715" height="1"/>
+			</line>
+			<line>
+				<reportElement x="168" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="229" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="290" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="290" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="330" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="330" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="370" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="370" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="410" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="450" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="490" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="410" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="450" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="490" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="530" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="530" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="610" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="730" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="570" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="770" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="650" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="690" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="610" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="730" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="570" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="770" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="650" y="40" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="690" y="40" width="1" height="39"/>
+			</line>
+		</band>
 	</summary>
 </jasperReport>
