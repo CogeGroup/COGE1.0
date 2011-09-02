@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="860"/>
-	<property name="ireport.y" value="23"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -77,6 +77,78 @@ order by cl.nominativo, com.descrizione]]>
 	<field name="costo_novembre" class="java.lang.Double"/>
 	<field name="costo_dicembre" class="java.lang.Double"/>
 	<variable name="TOTALE" class="java.lang.String" calculation="Sum"/>
+	<variable name="ricavo_gennaio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_gennaio}]]></variableExpression>
+	</variable>
+	<variable name="costo_gennaio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_gennaio}]]></variableExpression>
+	</variable>
+	<variable name="costo_febbraio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_febbraio}]]></variableExpression>
+	</variable>
+	<variable name="costo_marzo_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_marzo}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_febbraio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_febbraio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_marzo_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_marzo}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_aprile_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_aprile}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_maggio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_maggio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_giugno_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_giugno}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_luglio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_luglio}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_agosto_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_agosto}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_settembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_settembre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_ottobre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_ottobre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_novembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_novembre}]]></variableExpression>
+	</variable>
+	<variable name="ricavo_dicembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ricavo_dicembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_aprile_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_aprile}]]></variableExpression>
+	</variable>
+	<variable name="costo_maggio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_maggio}]]></variableExpression>
+	</variable>
+	<variable name="costo_giugno_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_giugno}]]></variableExpression>
+	</variable>
+	<variable name="costo_luglio_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_luglio}]]></variableExpression>
+	</variable>
+	<variable name="costo_agosto_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_agosto}]]></variableExpression>
+	</variable>
+	<variable name="costo_settembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_settembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_ottobre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_ottobre}]]></variableExpression>
+	</variable>
+	<variable name="costo_novembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_novembre}]]></variableExpression>
+	</variable>
+	<variable name="costo_dicembre_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{costo_dicembre}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -148,7 +220,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[MAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="439" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="439" y="0" width="40" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -162,7 +234,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[APR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="479" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="479" y="0" width="40" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -176,7 +248,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[MAG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="519" y="0" width="40" height="32" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="519" y="0" width="40" height="32" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -190,7 +262,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[GIU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="559" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="559" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -204,7 +276,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[LUG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="599" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="599" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -218,7 +290,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[AGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="639" y="0" width="40" height="32" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="639" y="0" width="40" height="32" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -232,7 +304,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[SET]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="679" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="679" y="0" width="40" height="32" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -246,7 +318,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[OTT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="719" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="719" y="0" width="40" height="32" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -260,7 +332,7 @@ order by cl.nominativo, com.descrizione]]>
 				<text><![CDATA[NOV]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="759" y="0" width="40" height="32" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="759" y="0" width="40" height="32" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -592,7 +664,7 @@ order by cl.nominativo, com.descrizione]]>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="39" width="799" height="1"/>
+				<reportElement x="0" y="39" width="798" height="1"/>
 			</line>
 			<line>
 				<reportElement x="0" y="0" width="1" height="39"/>
@@ -657,13 +729,218 @@ order by cl.nominativo, com.descrizione]]>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="43" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="479" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="439" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="319" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="399" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="359" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="639" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="559" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="719" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="679" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="519" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="759" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="799" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="599" y="0" width="1" height="39"/>
+			</line>
+			<line>
+				<reportElement x="319" y="39" width="479" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="321" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="481" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="561" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="601" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="641" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="681" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="721" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="761" y="1" width="37" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_dicembre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_febbraio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_marzo_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_aprile_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="481" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_maggio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_giugno_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="561" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_luglio_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="601" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_agosto_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="641" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_settembre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="681" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_ottobre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="721" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_novembre_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="761" y="20" width="37" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_dicembre_1}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
