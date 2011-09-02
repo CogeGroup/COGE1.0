@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="104"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="62"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select cl.codice, cl.nominativo,
+		<![CDATA[select *
+from (select sum(xxx.ricavo_Totale) as totale
+from (select sum(ricavo(ra.oreLavorate,t.importoGiornaliero)) as ricavo_Totale
+FROM RendicontoAttivita ra
+              inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
+              inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
+              inner join Cliente cl on  com.cliente_idCliente=cl.idCliente
+              inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+              inner join Costo costo on   costo.risorsa_idRisorsa = ris.idRisorsa
+              where com.DTYPE = 'Commessa' and com.fatturabile=1 and ra.anno=$P{ANNO}
+and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
+              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
+              and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
+              group by cl.codice) as xxx) as tabella1, (select cl.codice, cl.nominativo,
 sum(ricavo(ra.oreLavorate,t.importoGiornaliero)) as ricavo_Totale,
 sum(costo(ra.oreLavorate,costo.importo)) as costo_Totale,
 sum(if(ra.mese <= 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_primo_semestre,
@@ -49,8 +63,9 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
               and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
-              group by cl.codice]]>
+              group by cl.codice) as tabella2]]>
 	</queryString>
+	<field name="totale" class="java.lang.Double"/>
 	<field name="codice" class="java.lang.String"/>
 	<field name="nominativo" class="java.lang.String"/>
 	<field name="ricavo_Totale" class="java.lang.Double"/>
@@ -175,7 +190,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 		<variableExpression><![CDATA[$F{costo_dicembre}]]></variableExpression>
 	</variable>
 	<variable name="percentuale" class="java.lang.Double">
-		<variableExpression><![CDATA[($F{ricavo_Totale}) / $V{ricavo_Totale_1}]]></variableExpression>
+		<variableExpression><![CDATA[($F{ricavo_Totale}) /$F{totale}]]></variableExpression>
 	</variable>
 	<title>
 		<band height="49" splitType="Stretch">
@@ -799,12 +814,12 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 			<line>
 				<reportElement x="168" y="0" width="1" height="41"/>
 			</line>
-			<textField evaluationTime="Auto" pattern="#,##0.0 %" isBlankWhenNull="true">
+			<textField pattern="#,##0.0 %" isBlankWhenNull="true">
 				<reportElement x="170" y="1" width="30" height="39"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{percentuale}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
