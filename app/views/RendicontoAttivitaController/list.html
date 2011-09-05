@@ -40,6 +40,6 @@
 	</center>
 #{/else}
 <div id="buttonSubmit_center">
-	#{a @RendicontoAttivitaController.search() }<input type="button" class="button_submit" value="Indietro" />#{/a}
+	<input type="button" class="button_submit" value="Indietro" onClick="history.back()"/>
 	#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="button_submit" value="Inserisci nuovo rapportino"/>#{/a}
 </div>

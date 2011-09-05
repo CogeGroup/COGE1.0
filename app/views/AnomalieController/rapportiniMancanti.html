@@ -29,7 +29,5 @@
 	<div id="button_center">
     	<input type="submit" class="submitbutton" value="Cerca" />
 	#{/form}
-	#{form @AnomalieController.index()}
-		<input type="submit" class="submitbutton" value="Indietro" />   
-	#{/form}
+	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
 	</div>

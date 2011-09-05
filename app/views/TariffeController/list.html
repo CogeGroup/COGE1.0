@@ -27,7 +27,6 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Id Tariffa</th>
 				<th scope="col">Data Inizio</th>
 				<th scope="col">Data Fine</th>
 				<th scope="col">Importo Giornaliero</th>
@@ -40,7 +39,6 @@
 		</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
 			<tr>
-				<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
 				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.importoGiornaliero }</td>
@@ -71,5 +69,5 @@
 	#{if !risorsa.dataOut}
 		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
-	#{a @RisorseController.list()}<input type="submit" class="submitbutton" value="Indietro" />#{/a}
+	<a id="create" href="@{RisorseController.list()}"><input type="button" class="button_submit_double" value="Indietro"/></a>
 </div>
