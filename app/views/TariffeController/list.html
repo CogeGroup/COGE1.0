@@ -1,32 +1,17 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Tariffe'/}
 
-#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+<!-- CSS -->
+#{stylesheet id:'colorbox',media:'screen',src:'colorbox.css'  /}
+<!-- JavaScript -->
+#{script id:'jquery' , src:'jquery.min-1.6.1.js', charset:'utf-8' /}
+#{script id:'jquery' , src:'jquery.colorbox.js', charset:'utf-8' /}
 
-<script type="text/javascript">
-$(function() {	
-		$( "#dialog-message" ).dialog( "destroy" );
-		$( "#dialog-message" ).dialog({
-			modal: true,
-			buttons: {
-				chiudi: function() {
-					$( this ).dialog( "destroy" );
-				}
-			}
-			});
-		});
-
-
-</script>
-
-<div id="detail">
-	<ul>
-		<li><label>Risorsa: </label>${risorsa.matricola}</li>
-		<li><label>Nome: </label>${risorsa.nome}</li> 
-		<li><label>Cognome: </label>${risorsa.cognome}</li>
-	</ul>
-</div>
-
+<script> 
+	$(document).ready(function(){
+		$(".modalbox").colorbox();
+	});
+</script> 
 
 <h2>Gestione Tariffe</h2>
 #{if flash.success}
@@ -40,26 +25,27 @@ $(function() {
 
 #{if paginator.size() > 0}
 	<table class="table_center">
-	<thead>
-		<tr>
-			<th scope="col">Id Tariffa</th>
-			<th scope="col">Data Inizio</th>
-			<th scope="col">Data Fine</th>
-			<th scope="col">Importo Giornaliero</th>
-			<th scope="col">Commessa</th>
-			#{if !risorsa.dataOut}
-				<th scope="col">Modifica</th>
-				<th scope="col">Chiudi</th>
-			#{/if}
-		</tr>
-	</thead>
+		<thead>
+			<tr>
+				<th scope="col">Id Tariffa</th>
+				<th scope="col">Data Inizio</th>
+				<th scope="col">Data Fine</th>
+				<th scope="col">Importo Giornaliero</th>
+				<th scope="col">Commessa</th>
+				#{if !risorsa.dataOut}
+					<th scope="col">Modifica</th>
+					<th scope="col">Chiudi</th>
+				#{/if}
+			</tr>
+		</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
 			<tr>
 				<td><a href="@{TariffeController.show(tariffa.idTariffa)}">${tariffa.idTariffa }</a></td>
 				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
 				<td>${tariffa.importoGiornaliero }</td>
-				<td><a href="@{CommesseController.show(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice}</a></td>
+				<td><a class='modalbox' href="@{CommesseController.showCommessaModalBox(tariffa.commessa.idCommessa)}">${tariffa.commessa.codice }</a></td>
+				
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}
 						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
