@@ -150,6 +150,16 @@ public class Risorsa extends GenericModel {
 		rl.risorsa=this;
 	}
 	
+	public static List<Risorsa> findByCommessa(Commessa commessa) {
+		JPAQuery query  = Risorsa.find("SELECT distinct r FROM Tariffa t, Risorsa r " +
+				"WHERE t.commessa = :commessa " +
+				"AND (t.dataFine is null OR ( t.dataFine >= :data AND t.dataFine <= :data)) " +
+				"AND t.risorsa = r");
+		query.bind("commessa",commessa);
+		query.bind("data",new Date());
+		return query.fetch();
+	}
+	
 	public Float calcolaRicavo(int mese,int anno){
 		Float importoTotale = 0f;
 		List<Tariffa> listaTariffa = Tariffa.findByRisorsaAndMeseAndAnno(mese,anno,this);

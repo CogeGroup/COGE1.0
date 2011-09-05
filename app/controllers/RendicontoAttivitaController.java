@@ -26,7 +26,7 @@ public class RendicontoAttivitaController extends Controller {
 // Ricerca rapportino
 	public static void search(){
 		List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+    	int mese = (Calendar.getInstance().get(Calendar.MONTH)) - 1;
         int anno = Calendar.getInstance().get(Calendar.YEAR);
 		render(listaAnni, mese, anno);
 	}
@@ -67,9 +67,10 @@ public class RendicontoAttivitaController extends Controller {
 	}
 	
 // Inserimento nuovo rapportino
+//mese - 1 per inserire il rapportino del mese precedente
 	public static void chooseRisorsa() {
 		List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+    	int mese = (Calendar.getInstance().get(Calendar.MONTH)) - 1;
         int anno = Calendar.getInstance().get(Calendar.YEAR);
 		render(listaAnni, mese, anno);
     }
@@ -206,7 +207,7 @@ public class RendicontoAttivitaController extends Controller {
 // Rapportini incompleti
 	public static void rapportiniIncompleti() {
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+    	int mese = (Calendar.getInstance().get(Calendar.MONTH)) - 1;
         int anno = Calendar.getInstance().get(Calendar.YEAR);
         render(mese, listaAnni, anno);
     }

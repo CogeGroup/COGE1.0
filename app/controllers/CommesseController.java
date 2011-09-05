@@ -7,6 +7,7 @@ import java.util.List;
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
+import models.Risorsa;
 import models.Tariffa;
 import models.TipoCommessa;
 import play.data.validation.Valid;
@@ -129,7 +130,8 @@ public class CommesseController extends Controller {
     
     public static void show(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-        render(commessa);
+    	List<Risorsa> listaRisorse = commessa.fatturabile == true ? Risorsa.findByCommessa(commessa) : null;
+        render(commessa,listaRisorse);
     }
     
     public static void delete(Integer id) {

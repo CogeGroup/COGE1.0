@@ -75,7 +75,7 @@
        		<input type="hidden" name="mese" value="${mese}"/>
         	<input type="hidden" name="idRisorsa" value="${idRisorsa}"/>    
  			<input type="submit" class="submitbutton" value="Aggiorna" />
- 			#{a @RendicontoAttivitaController.dettaglio(idRisorsa,mese,anno) }<input type="button" class="submitbutton" value="Indietro" />#{/a}
+ 			<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
  		</div>
 	#{/form}
 </div>

@@ -107,11 +107,6 @@ public class TariffeController extends Controller {
     	list(tariffa.risorsa.idRisorsa);
     }
 
-    public static void show(Integer idTariffa) {
-    	Tariffa tariffa = Tariffa.findById(idTariffa);
-        render(tariffa);
-    }
-    
     public static void delete(Integer idTariffa) {
     	Tariffa tariffa = Tariffa.findById(idTariffa);
     	// Controlla se la tariffa da modificare è l'ultima
