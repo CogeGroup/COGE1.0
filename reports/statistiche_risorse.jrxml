@@ -25,7 +25,7 @@ r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rapp
 sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale,
 t.importoGiornaliero as tariffa_importo,
 concat(cl.codice, '-', com.codice) as cliente_commessa,
-if(tsr.codice = 'IN', '', tsr.codice) as stato_risorsa
+if(tsr.codice = 'ATTIVO', '', tsr.codice) as stato_risorsa
  FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
  WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
  and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
