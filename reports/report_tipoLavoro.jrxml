@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_tipoLavoro" language="groovy" pageWidth="328" pageHeight="802" orientation="Landscape" columnWidth="328" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="2.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_tipoLavoro" language="groovy" pageWidth="408" pageHeight="802" orientation="Landscape" columnWidth="408" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="MESE" class="java.lang.Integer">
@@ -58,112 +58,151 @@ group by trl.idTipoRapportoLavoro, trl.codice, trl.descrizione;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="23" splitType="Stretch">
-			<staticText>
-				<reportElement x="115" y="1" width="62" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[CODICE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[RAPPORTO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="1" y="1" width="47" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[RISORSE]]></text>
-			</staticText>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="215" y="1" width="38" height="20" backcolor="#00CC33"/>
-				<textElement textAlignment="Right">
-					<font isPdfEmbedded="true"/>
+		<band height="20" splitType="Stretch">
+			<textField evaluationTime="Report" pattern="#,##0.00">
+				<reportElement mode="Opaque" x="241" y="0" width="60" height="20" backcolor="#33CC00"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$V{RICAVO_TOTALE}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="253" y="1" width="38" height="20" backcolor="#FF0000"/>
-				<textElement textAlignment="Right">
-					<font isPdfEmbedded="true"/>
+			<textField evaluationTime="Report" pattern="#,##0.00">
+				<reportElement mode="Opaque" x="301" y="0" width="60" height="20" backcolor="#FF0000"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{COSTO_TOTALE}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="177" y="1" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement textAlignment="Right">
-					<font isPdfEmbedded="true"/>
+			<textField evaluationTime="Report" pattern="#,##0.0">
+				<reportElement mode="Opaque" x="194" y="0" width="47" height="20" backcolor="#99CCFF"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{ORE_LAVORATE}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report" pattern="#,##0.00 %">
-				<reportElement mode="Opaque" x="291" y="1" width="38" height="20" backcolor="#00CCCC"/>
-				<textElement textAlignment="Right">
-					<font isPdfEmbedded="true"/>
+			<textField evaluationTime="Report" pattern="#,##0.0 %">
+				<reportElement mode="Opaque" x="361" y="0" width="47" height="20" backcolor="#99CCFF"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$V{MARGINE_MEDIO}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="0" y="21" width="328" height="1"/>
-			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement mode="Transparent" x="48" y="1" width="67" height="20" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="26" y="0" width="140" height="20" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="177" y="1" width="38" height="20"/>
+			<textField pattern="#,##0.0">
+				<reportElement x="194" y="0" width="47" height="20"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{oreLavorate}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="215" y="1" width="38" height="20"/>
+			<textField pattern="#,##0.00">
+				<reportElement x="241" y="0" width="60" height="20"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavoTotale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="1" width="47" height="20"/>
+				<reportElement x="0" y="0" width="26" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Long"><![CDATA[$F{numRisorse}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00 %">
-				<reportElement x="291" y="1" width="38" height="20"/>
+			<textField pattern="#,##0.0 %">
+				<reportElement x="361" y="0" width="47" height="20"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margineTot}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="115" y="1" width="62" height="20"/>
+				<reportElement x="166" y="0" width="28" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="0" y="20" width="328" height="1"/>
-			</line>
-			<textField>
-				<reportElement x="253" y="1" width="38" height="20"/>
+			<textField pattern="#,##0.00">
+				<reportElement x="301" y="0" width="60" height="20"/>
+				<box rightPadding="2">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font isPdfEmbedded="true"/>
+					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
 			</textField>
