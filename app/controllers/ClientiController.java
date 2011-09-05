@@ -96,4 +96,5 @@ public class ClientiController extends Controller {
 		}
 		renderJSON(listaResult);
     }
+	
 }

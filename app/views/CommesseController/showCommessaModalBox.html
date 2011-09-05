@@ -1,0 +1,33 @@
+<div id="edit">
+	<h2>Dettaglio Commessa</h2>
+   	<ul>	
+		<li>
+	        <label for="codice">Codice commessa:</label>
+	        ${commessa.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione:</label>
+	       	${commessa.descrizione }
+	    </li>
+	    <li>
+	        <label for="fatturabile">Fatturabile:</label>
+	        ${commessa.fatturabile == true ? 'si' : 'no' }
+	    </li>
+	    #{if commessa.dataInizioCommessa}
+		    <li>
+		        <label for=dataInizioCommessa>Data inizio:</label>
+		       	${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }
+		    </li>
+	    #{/if}
+	    #{if commessa instanceof models.CommessaACorpo }
+		    <li>
+		        <label for=importo>Importo:</label>
+		       	${commessa.importo }
+		    </li>
+		#{/if}
+	    <li>
+	       <label for="cliente">Cliente:</label>
+	       ${commessa.cliente.nominativo }
+	    </li>
+	</ul>
+</div>

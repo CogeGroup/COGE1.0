@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="113"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="DATA_INIZIO" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -25,7 +25,7 @@ r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rapp
 sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale,
 t.importoGiornaliero as tariffa_importo,
 concat(cl.codice, '-', com.codice) as cliente_commessa,
-if(tsr.codice = 'IN', '', tsr.codice) as stato_risorsa
+tsr.codice as stato_risorsa
  FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
  WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
  and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
@@ -104,9 +104,9 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="53" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="53"/>
+				<reportElement x="0" y="0" width="408" height="55"/>
 				<subreportParameter name="MESE">
 					<subreportParameterExpression><![CDATA[$P{MESE}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -127,7 +127,7 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="33" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="0" y="0" width="26" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -136,12 +136,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[MATR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="33" y="0" width="38" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="26" y="0" width="30" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -150,12 +150,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[COD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="71" y="0" width="120" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="56" y="0" width="110" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -164,12 +164,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[NOME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="226" y="0" width="35" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="194" y="0" width="47" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -178,12 +178,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[ORE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="261" y="0" width="50" height="20" backcolor="#33FF33"/>
+				<reportElement mode="Opaque" x="241" y="0" width="60" height="20" backcolor="#33CC00"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -192,12 +192,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[RICAVO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="361" y="0" width="47" height="20" backcolor="#00FFFF"/>
+				<reportElement mode="Opaque" x="361" y="0" width="47" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -206,12 +206,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[MARGINE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="191" y="0" width="35" height="20" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="166" y="0" width="28" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -220,12 +220,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RAPP]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="311" y="0" width="50" height="20" backcolor="#FF0000"/>
+				<reportElement mode="Opaque" x="301" y="0" width="60" height="20" backcolor="#FF0000"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -234,12 +234,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[COSTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="408" y="0" width="44" height="20" backcolor="#FFFF33"/>
+				<reportElement mode="Opaque" x="408" y="0" width="38" height="20" backcolor="#FFFF33"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -248,12 +248,12 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[TARIFFA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="452" y="0" width="78" height="20" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="446" y="0" width="84" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -262,7 +262,7 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true" isPdfEmbedded="true"/>
+					<font size="8" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[CLIENTE/PROG.]]></text>
 			</staticText>
@@ -271,37 +271,39 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement x="1" y="0" width="32" height="20"/>
+				<reportElement x="1" y="0" width="25" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{matricola}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="33" y="0" width="38" height="20" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="26" y="0" width="30" height="20" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codice}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="71" y="0" width="120" height="20"/>
+				<reportElement x="56" y="0" width="110" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cognome}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0" isBlankWhenNull="true">
-				<reportElement x="227" y="0" width="34" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+				<reportElement x="195" y="0" width="46" height="20"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ore_lavorate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="261" y="0" width="50" height="20"/>
+				<reportElement x="241" y="0" width="60" height="20"/>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
 			</textField>
@@ -309,8 +311,9 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 				<reportElement x="361" y="0" width="47" height="20">
 					<printWhenExpression><![CDATA[$F{margine_totale} >= 0.05]]></printWhenExpression>
 				</reportElement>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_totale}]]></textFieldExpression>
 			</textField>
@@ -318,39 +321,44 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 				<reportElement x="0" y="20" width="530" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="191" y="0" width="35" height="20"/>
+				<reportElement x="166" y="0" width="28" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{rappLavoro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="311" y="0" width="50" height="20"/>
+				<reportElement x="301" y="0" width="60" height="20"/>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_totale}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
-				<reportElement x="408" y="0" width="43" height="20">
+				<reportElement x="408" y="0" width="38" height="20">
 					<printWhenExpression><![CDATA[$F{tariffa_importo} >= 0.05]]></printWhenExpression>
 				</reportElement>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Float"><![CDATA[$F{tariffa_importo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="453" y="0" width="77" height="20"/>
+				<reportElement x="447" y="0" width="83" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cliente_commessa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="531" y="0" width="24" height="20"/>
+				<reportElement x="531" y="0" width="24" height="20">
+					<printWhenExpression><![CDATA[!$F{stato_risorsa}.equals("ATTIVO")]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="2"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{stato_risorsa}]]></textFieldExpression>
 			</textField>
@@ -358,10 +366,10 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 				<reportElement x="0" y="0" width="1" height="20"/>
 			</line>
 			<line>
-				<reportElement x="226" y="0" width="1" height="20"/>
+				<reportElement x="194" y="0" width="1" height="20"/>
 			</line>
 			<line>
-				<reportElement x="452" y="0" width="1" height="20"/>
+				<reportElement x="446" y="0" width="1" height="20"/>
 			</line>
 			<line>
 				<reportElement x="530" y="0" width="1" height="20"/>
@@ -370,8 +378,9 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 				<reportElement x="361" y="0" width="47" height="20" forecolor="#CCCC00">
 					<printWhenExpression><![CDATA[$F{margine_totale} >= 0 && $F{margine_totale} < 0.05]]></printWhenExpression>
 				</reportElement>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_totale}]]></textFieldExpression>
 			</textField>
@@ -379,8 +388,9 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 				<reportElement x="361" y="0" width="47" height="20" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{margine_totale} < 0]]></printWhenExpression>
 				</reportElement>
+				<box rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_totale}]]></textFieldExpression>
 			</textField>

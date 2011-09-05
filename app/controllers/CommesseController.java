@@ -162,4 +162,9 @@ public class CommesseController extends Controller {
 		}
 		renderJSON(listaResult);
     }
+	
+	public static void showCommessaModalBox(Integer id) {
+		Commessa commessa = Commessa.findById(id);
+        render(commessa);
+	}
 }
