@@ -177,9 +177,9 @@ public class Commessa extends GenericModel{
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   if(!(t.commessa instanceof CommessaACorpo)){
+			   //if(!(t.commessa instanceof CommessaACorpo)){
 				   listaCommesse.add(t.commessa);
-			   }
+			   //}
 		   }
 		}
 		return listaCommesse;
