@@ -33,6 +33,17 @@
        <label for="cliente">Cliente:</label>
        <a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a>
     </li>
+    
+    #{if listaRisorse != null && listaRisorse.size() > 0 }
+    <li>
+        <label for="risorse">Risorse: </label>
+       	<ul>
+			#{list items:listaRisorse, as:'risorsa'}
+				<li>${risorsa.matricola } - ${risorsa.cognome } ${risorsa.nome } </li>
+			#{/list}
+		</ul>
+    </li>
+    #{/if}
   </ul>
 </div>	
 <div id="button_center_single">
