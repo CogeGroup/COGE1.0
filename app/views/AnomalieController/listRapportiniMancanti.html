@@ -35,7 +35,5 @@
 #{/else}
 
 <div id="button_center">		
-	#{form @AnomalieController.rapportiniMancanti()}
-		<input type="submit" class="submitbutton" value="Indietro" />   
-	#{/form}
+	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
 </div>
