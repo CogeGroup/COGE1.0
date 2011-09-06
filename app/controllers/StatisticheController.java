@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.fonts.FontFamily;
 import play.db.DB;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -91,7 +92,8 @@ public class StatisticheController extends Controller {
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
-		reportParams.put("SUBREPORT_DIR", "reports/");
+		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
 
@@ -120,13 +122,12 @@ public class StatisticheController extends Controller {
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
-		reportParams.put("SUBREPORT_DIR", "reports/");
+		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		JasperPrint jrprint;
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_risorse.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile()
-					.getAbsolutePath(), reportParams, DB.getConnection());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_risorse.jasper");
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, DB.getConnection());
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
@@ -254,7 +255,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -262,8 +263,12 @@ public class StatisticheController extends Controller {
 		Style styleNome = new Style();
 		styleNome.setRotation(Rotation.NONE);
 		styleNome.setBorder(Border.PEN_1_POINT);
+		styleNome.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		style.setFont(new Font(5,Font._FONT_TIMES_NEW_ROMAN,true));
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -292,7 +297,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -310,15 +315,13 @@ public class StatisticheController extends Controller {
 				exporter.setParameter(
 						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
 						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,"./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,"/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
 						Boolean.FALSE);
 				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
 						response.out);
+				
 				exporter.exportReport();
 
 			} else {
@@ -346,7 +349,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -356,16 +359,18 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
-		style.setFont(new Font(5,Font._FONT_ARIAL,true));
+		style.setFont(new Font(5,Font._FONT_TIMES_NEW_ROMAN,true));
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 70,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
 			AbstractColumn columnState2 = ColumnBuilder
 					.getNew()
 					.setColumnProperty("totaleGiorni",Double.class.getName())
-						.setTitle("Totale Giorni").setWidth(new Integer(35))
-						.setHeaderStyle(styleNome)
-						.setStyle(styleNome).build();
+					.setTitle("Totale Giorni").setWidth(new Integer(35))
+					.setHeaderStyle(styleNome)
+					.setStyle(styleNome).build();
 			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
 			drb.addColumn(columnState2);
 			
@@ -387,7 +392,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(5).setMargins(10, 10, 10, 28)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -400,8 +405,7 @@ public class StatisticheController extends Controller {
 			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
 					new ClassicLayoutManager(), param);
 			jrprint = JasperFillManager.fillReport(jr, param, ds);
-			response.setHeader("Content-disposition",
-					"attachment;filename=report.pdf");
+			response.setHeader("Content-disposition","attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 
 		} catch (JRException e) {
@@ -433,7 +437,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -443,6 +447,8 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -471,7 +477,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -525,7 +531,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -533,12 +539,12 @@ public class StatisticheController extends Controller {
 		Style styleNome = new Style();
 		styleNome.setRotation(Rotation.NONE);
 		styleNome.setBorder(Border.PEN_1_POINT);
-		styleNome.setFont(Font.ARIAL_SMALL);
+		styleNome.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
-		style.setFont(new Font(5,Font._FONT_ARIAL,true));
-		//style.setFont(Font.ARIAL_SMALL);
-			
+		style.setFont(new Font(5,Font._FONT_TIMES_NEW_ROMAN,true));
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));	
 		
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 60,styleNome, styleNome);
@@ -575,7 +581,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(5).setMargins(10, 10, 10, 28)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -630,7 +636,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -640,6 +646,8 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -668,7 +676,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -720,7 +728,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(80);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -728,9 +736,11 @@ public class StatisticheController extends Controller {
 		Style styleNome = new Style();
 		styleNome.setRotation(Rotation.NONE);
 		styleNome.setBorder(Border.PEN_1_POINT);
-		styleNome.setFont(Font.ARIAL_SMALL);
+		styleNome.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -761,7 +771,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
 				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -807,7 +817,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -817,6 +827,8 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -845,7 +857,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -897,7 +909,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(80);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -905,9 +917,11 @@ public class StatisticheController extends Controller {
 		Style styleNome = new Style();
 		styleNome.setRotation(Rotation.NONE);
 		styleNome.setBorder(Border.PEN_1_POINT);
-		styleNome.setFont(Font.ARIAL_SMALL);
+		styleNome.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -938,7 +952,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -1248,7 +1262,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		// headerStyle.setPadding(1000);
@@ -1340,7 +1354,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -1350,6 +1364,8 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -1378,7 +1394,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
@@ -1431,7 +1447,7 @@ public class StatisticheController extends Controller {
 		headerStyle.setBorder(Border.PEN_1_POINT);
 		headerStyle.setBorderColor(Color.black);
 		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-		headerStyle.setFont(Font.ARIAL_SMALL);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
 		drb.setHeaderHeight(100);
 		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
 		headerStyle.setRotation(Rotation.LEFT);
@@ -1441,6 +1457,8 @@ public class StatisticheController extends Controller {
 		styleNome.setBorder(Border.PEN_1_POINT);
 		Style style = new Style();
 		style.setBorder(Border.PEN_1_POINT);
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 45,styleNome, styleNome);
 			//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
@@ -1471,7 +1489,7 @@ public class StatisticheController extends Controller {
 		}
 		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI")
 				.setSubtitle(" ANNO: " + anno)
-				.setDefaultStyles(null, null, headerStyle, null)
+				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
 				.setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
 				.setUseFullPageWidth(true);
