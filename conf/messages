@@ -55,6 +55,7 @@ commessa.descrizione = descrizione
 commessa.dataInizioCommessa = data inizio commessa
 validation.commessa.codice_esistente = codice esistente
 validation.commessa.data_inizio_se_fatturabile = Una commessa fatturabile deve avere una data di inizio
+validation.commessa.dataInizio_null = Non puoi inserire data fine senza data inizio
 validation.commessa.data_fine_after_dataInizio = La data fine deve essere maggiore della data inizio
 # COMMESSA A CORPO --------------------------
 commessaACorpo.importo = importo
