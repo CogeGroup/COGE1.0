@@ -1,6 +1,17 @@
 #{extends 'menu.html' /}
 #{set title:'RapportoLavoroController/edit.html' /}
 
+<script type="text/javascript">
+	function toggle_visibility(id) {
+		var e = document.getElementById(id);
+		if(document.getElementById("select").value == ${idCoCoPro}){
+		   	e.style.display = 'block';
+		}else {
+		   	e.style.display = 'none';
+		}
+    }
+</script>
+
 <h2>Modifica Rapporto Lavoro</h2>
 <div id="detail">
 <ul>
@@ -56,11 +67,26 @@
 			#{option -1}-- Anno --#{/option}
 		#{/select}
 	<br />
-    	<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
-		#{select 'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
-			#{option 0}-- Seleziona --#{/option}
-		#{/select}
-	<br />
+	
+		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 
+			<option value="0" >-- Seleziona --</option>
+			#{list items: listaTipoRapportoLavoro, as: 'tipoRapportoLavoro'}
+		    	<option value="${tipoRapportoLavoro.idTipoRapportoLavoro}" 
+		    		#{if tipoRapportoLavoro.idTipoRapportoLavoro == idTipoRapportoLavoro}
+		    			selected="selected"
+		    		#{/if}
+		    		>${tipoRapportoLavoro.descrizione}</option>
+		    #{/list}
+		</select><br />
+		
+		<span id="giorni" #{if idTipoRapportoLavoro != idCoCoPro}
+				    			style="display: none"
+				    		#{/if}>
+			<label for="ggAssRetr">Giorni di assenza retribuiti:</label>
+			<input type="text" name="rapportoLavoro.giorniAssenzeRetribuite" value="${rapportoLavoro.giorniAssenzeRetribuite}" />
+		</span>
+		<br />
 </div>
 <div id="button_center">
 	

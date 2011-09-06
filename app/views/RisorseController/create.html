@@ -7,33 +7,38 @@
 #{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
 #{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
 #{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+
 <script type="text/javascript">
-  		  $(function() {
-    		$.datepicker.setDefaults($.datepicker.regional['it']);
-		   	  $('#datepicker1').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				yearRange:'-59:+50'
-	
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker1').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
 		});
-  });
-</script>  		  
+	});
+
+	function toggle_visibility(id) {
+		var e = document.getElementById(id);
+		if(document.getElementById("select").value == ${idCoCoPro}){
+		   	e.style.display = 'block';
+		}else {
+		   	e.style.display = 'none';
+		}
+    }
+</script>  
+				  
 <h2>Aggiungi Risorsa</h2>
 <div id="align_form">
 #{ifErrors}
     <p class="error">${errors[0]}</p>
 #{/ifErrors}
 
-
 #{form @RisorseController.save()}
-
-
-
    
         <label for="matricola">Matricola:</label>
    
         <input type="text" class="txt_s" name="risorsa.matricola" id="matricola" value="${risorsa?.matricola}"/><br />
-   
 
         <label for="codice">Codice:</label>
         <input type="text" class="txt_s"  name="risorsa.codice" id="codice" value="${risorsa?.codice}"/><br />
@@ -51,21 +56,32 @@
     	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}<br />
 		
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
-		#{select  'idTipoRapportoLavoro', items:listaTipoRapportoLavoro, labelProperty:'descrizione', valueProperty:'idTipoRapportoLavoro', value:idTipoRapportoLavoro}
-			#{option 0}-- Seleziona--#{/option}
-		#{/select}
+		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 
+			<option value="0" >-- Seleziona --</option>
+			#{list items: listaTipoRapportoLavoro, as: 'tipoRapportoLavoro'}
+		    	<option value="${tipoRapportoLavoro.idTipoRapportoLavoro}" 
+		    		#{if tipoRapportoLavoro.idTipoRapportoLavoro == idTipoRapportoLavoro}
+		    			selected="selected"
+		    		#{/if}
+		    		>${tipoRapportoLavoro.descrizione}</option>
+		    #{/list}
+		</select><br />
+		
+		<span id="giorni" #{if idTipoRapportoLavoro != idCoCoPro}
+				    			style="display: none"
+				    		#{/if}>
+			<label for="ggAssRetr">Giorni di assenza retribuiti:</label>
+			<input type="text" name="giorniAssenzeRetribuite" value="${giorniAssenzeRetribuite}"/>
+		</span>
+		<br />
 
 </div>
 <div id="button_center">		
         <input type="submit" class="button_submit_double"  value="Aggiungi" />
-    
-    
 #{/form}
 
 #{form @RisorseController.list()} 
-	
         <input type="submit" class="button_submit_double" value="Indietro" />
-    
 #{/form}
 
 </div>

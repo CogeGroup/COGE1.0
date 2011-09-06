@@ -47,7 +47,6 @@
 		#{a @CommesseController.listACorpo()}Commesse a corpo#{/a}
 		<p class="error">${flash.error}</p>
 	</div>
-	<p>Numero commesse: ${paginator.size() }</p>
 	<table class="table_center">
 	   <thead>
 			<tr>
@@ -81,7 +80,7 @@
 				#{if commessa.cliente.attivo }
 					<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 					<td>
-						#{if commessa.fatturabile == true}
+						#{if commessa.fatturabile == true && commessa.dataInizioCommessa != null}
 							<a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
 						#{/if}
 					</td>

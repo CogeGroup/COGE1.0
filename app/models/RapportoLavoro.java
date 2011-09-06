@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 import play.data.binding.*;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
+import play.data.validation.Min;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.GenericModel.JPAQuery;
@@ -38,6 +39,15 @@ public class RapportoLavoro extends GenericModel{
 	@As("dd-MM-yyyy")
 	public Date dataFine;
 	
+	@Min(0)
+	public int giorniAssenzeRetribuite;
+	
+	@ManyToOne
+	public TipoRapportoLavoro tipoRapportoLavoro;
+	
+	@ManyToOne
+	public Risorsa risorsa;
+	
 	@Transient
 	public int meseInizio;
 	
@@ -50,12 +60,7 @@ public class RapportoLavoro extends GenericModel{
 	@Transient
 	public int annoFine;
 	
-	@ManyToOne
-	public TipoRapportoLavoro tipoRapportoLavoro;
-	
-	
-	@ManyToOne
-	public Risorsa risorsa;
+	public RapportoLavoro() {}
 	
 	public RapportoLavoro(Date dataInizio,
 			TipoRapportoLavoro tipoRapportoLavoro, Risorsa risorsa) {
