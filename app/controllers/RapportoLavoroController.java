@@ -30,7 +30,8 @@ public class RapportoLavoroController extends Controller {
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
     	List<Integer> listaAnni = MyUtility.createListaAnni();
     	Integer idTipoRapportoLavoro = 0; 
-    	render(listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro);
+    	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+    	render(listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro,idCoCoPro);
     }
     
     //PREMESSA a questo punto la risorsa avrà già almeno un rapporto di lavoro!
@@ -40,11 +41,15 @@ public class RapportoLavoroController extends Controller {
     	if (validation.hasErrors()) {
     		List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
 	 		List<Integer> listaAnni = MyUtility.createListaAnni();
-	    	renderTemplate("RapportoLavoroController/create.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro);
+	 		Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+	 		renderTemplate("RapportoLavoroController/create.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro, idCoCoPro);
         }
     	//se la validazione è andata a buon fine setta dataInizio e tipoRapportoLavoro
     	rapportoLavoro.dataInizio = MyUtility.MeseEdAnnoToDataInizio(rapportoLavoro.meseInizio, rapportoLavoro.annoInizio);
     	rapportoLavoro.tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
+    	if(!rapportoLavoro.tipoRapportoLavoro.codice.equals("CCP")){
+    		rapportoLavoro.giorniAssenzeRetribuite = 0;
+    	}
     	//procedo alla chiusura dell'ultimo rapporto di lavoro (solo se ha dataFine null) 
     	RapportoLavoro ultimoRapportoLavoro = rapportoLavoro.risorsa.rapportiLavoro.get(rapportoLavoro.risorsa.rapportiLavoro.size() - 1);
     	if (ultimoRapportoLavoro.dataFine == null) {
@@ -65,8 +70,9 @@ public class RapportoLavoroController extends Controller {
     	rapportoLavoro.annoFine = rapportoLavoro.dataFine == null ? -1 : MyUtility.getAnnoFromDate(rapportoLavoro.dataFine);
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	Integer idTipoRapportoLavoro = rapportoLavoro.tipoRapportoLavoro.idTipoRapportoLavoro; 
-    	render(listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro);
+    	Integer idTipoRapportoLavoro = rapportoLavoro.tipoRapportoLavoro.idTipoRapportoLavoro;
+    	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+    	render(listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro,idCoCoPro);
     }
     
     //PREMESSA si può modificare solo l'ultimo rapporto lavoro della risorsa
@@ -75,10 +81,14 @@ public class RapportoLavoroController extends Controller {
     	if (validation.hasErrors()) {
     		List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
 	 		List<Integer> listaAnni = MyUtility.createListaAnni();
-	    	renderTemplate("RapportoLavoroController/edit.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro);
+	 		Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+	    	renderTemplate("RapportoLavoroController/edit.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, listaAnni, rapportoLavoro, idCoCoPro);
         }
     	//se va tutto bene procediamo alla modifica del rapporto lavoro
     	rapportoLavoro.tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
+    	if(!rapportoLavoro.tipoRapportoLavoro.codice.equals("CCP")){
+    		rapportoLavoro.giorniAssenzeRetribuite = 0;
+    	}
     	Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(rapportoLavoro.meseInizio, rapportoLavoro.annoInizio);
     	//nel caso in cui si tratti del primo rapporto di lavoro e la data inizio del rapporto è < di quella di in della risorsa
     	//dataInizio rapporto diventa uguale a dataIn risorsa

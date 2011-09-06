@@ -141,7 +141,7 @@ public class Costo extends GenericModel {
 	
 	public static float totaleCosto(Costo costo, Risorsa risorsa, int mese, int anno) {
 		List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
-		float tot = 0;
+		Float tot = 0f;
 		for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
 			tot += rendicontoAttivita.oreLavorate;
 		}

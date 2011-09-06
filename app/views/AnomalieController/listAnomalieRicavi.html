@@ -7,7 +7,6 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Id Risorsa</th>
 				<th scope="col">Matricola</th>
 				<th scope="col">Codice</th>
 				<th scope="col">Cognome</th>
@@ -17,7 +16,6 @@
 		</thead>
 		#{paginate.list items:paginator, as:'risorsa'} 
 		<tr>
-			<td>${risorsa.idRisorsa }</td>
 			<td>${risorsa.matricola }</td>
 			<td>${risorsa.codice }</td>
 			<td>${risorsa.cognome }</td>

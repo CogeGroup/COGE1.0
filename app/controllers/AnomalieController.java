@@ -26,16 +26,16 @@ public class AnomalieController extends Controller {
     
     public static void rapportiniMancanti() {
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+    	int mese = Calendar.getInstance().get(Calendar.MONTH)-1;
         int anno = Calendar.getInstance().get(Calendar.YEAR);
         render(mese, listaAnni, anno);
     }
 
     public static void listRapportiniMancanti(int mese, int anno) {
-    	if(!MyUtility.MeseEdAnnoToDataInizio(mese, anno).before(new Date())){
+    	if(!MyUtility.MeseEdAnnoToDataFine(mese, anno).before(new Date())){
 			Validation.addError("data", "Data selezionata non valida");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
-			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
+			render("anomaliecontroller/rapportiniMancanti.html",listaAnni,mese,anno);
 		}
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniMancanti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
@@ -45,7 +45,7 @@ public class AnomalieController extends Controller {
     
     public static void anomalieRicavi() {
     	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	int mese = Calendar.getInstance().get(Calendar.MONTH);
+    	int mese = Calendar.getInstance().get(Calendar.MONTH)-1;
         int anno = Calendar.getInstance().get(Calendar.YEAR);
         render(mese, listaAnni, anno);
     }
