@@ -140,6 +140,9 @@ public class CommesseController extends Controller {
     		flash.success("Non si puo' chiudere una commessa non fatturabile");
     		list();
     	}
+    	if(commessa.dataInizioCommessa == null ){
+    		flash.success("La commessa non ha una data inizio");
+    	}
     	if(commessa.dataFineCommessa != null){
     		flash.success("Commessa gia chiusa");
     		list();
@@ -151,7 +154,7 @@ public class CommesseController extends Controller {
     	
     	Tariffa.chiudiTariffeByCommessa(commessa);
     	commessa.save();
-    	flash.success("%s cancellata con successo", commessa.codice);
+    	flash.success("%s chiusa con successo", commessa.codice);
     	list();
     }
     
