@@ -37,7 +37,6 @@ public class Commessa extends GenericModel{
 	public boolean fatturabile;
 	
 	@As("dd-MM-yyyy")
-	@CheckWith(DataInizioCheck.class)
 	public Date dataInizioCommessa;
 	
 	@As("dd-MM-yyyy")
@@ -81,29 +80,23 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
-	static class DataInizioCheck extends Check {
-		static final String message = "validation.commessa.data_inizio_se_fatturabile";
-		
-		@Override
-		public boolean isSatisfied(Object commessa, Object dataInizio) {
-			if(((Commessa) commessa).fatturabile == true && (dataInizio == null || dataInizio.equals(""))) {
-				setMessage(message);
-				return false;
-	    	}
-			return true;
-		}
-	}
-	
 	static class DataFineCheck extends Check {
-		static final String message = "validation.commessa.data_fine_after_dataInizio";
+		static final String MESSAGE_DATA_INIZIO_NULL = "validation.commessa.dataInizio_null";
+		static final String MESSAGE_DF_AFTER_DI = "validation.commessa.data_fine_after_dataInizio";
 		
 		@Override
 		public boolean isSatisfied(Object commessa, Object dataFine) {
+			
 			if(((Commessa) commessa).idCommessa != null && 
+					((Commessa) commessa).fatturabile == true && 
+					dataFine != null && ((Commessa) commessa).dataInizioCommessa == null) {
+					setMessage(MESSAGE_DATA_INIZIO_NULL);
+					return false;
+		    	}
+			else if(((Commessa) commessa).idCommessa != null && 
 				((Commessa) commessa).fatturabile == true && 
 				dataFine != null && !((Date) dataFine).after(((Commessa) commessa).dataInizioCommessa)) {
-				
-				setMessage(message);
+				setMessage(MESSAGE_DF_AFTER_DI);
 				return false;
 	    	}
 			return true;
