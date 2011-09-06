@@ -64,7 +64,9 @@ public class RisorseController extends Controller {
     
     public static void show(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
-        render(risorsa);
+    	List<Tariffa> listaTariffe = Tariffa.find("byRisorsa", risorsa).fetch();
+    	List<Costo> listaCosti = Costo.find("byRisorsa", risorsa).fetch();
+        render(risorsa,listaTariffe,listaCosti);
     }
     
     public static void create() {

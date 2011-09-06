@@ -122,7 +122,7 @@ public class RendicontoAttivitaController extends Controller {
 			listaCommesseNonFatturabili = Commessa.find("byFatturabileAndFlagCoCoPro", false, true).fetch();
 		}
 		
-		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita);
+		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 	}
 
 	private static List<Commessa> listaCommesseNonFattSalvate(List<RendicontoAttivita> listaRendicontoAttivita) {

@@ -1,43 +1,105 @@
 #{extends 'menu.html' /}
-
+#{set title:'RisorseController/show.html' /}
 
 <h2>Dettaglio Risorsa</h2>
 <div id="show_risorsa">
-#{set title:'RisorseController/show.html' /}
 	<ul>
+		<li>
+			<label for="matricola">Matricola: </label>
+		    ${risorsa.matricola}
+		</li>
+		<li>
+			<label for="codice">Codice: </label>
+		    ${risorsa.codice}
+		</li>
+		<li>
+			<label for="nome">Nome: </label>
+		    ${risorsa.nome}
+		</li>
+		<li>
+			<label for="cognome">Cognome: </label>
+		    ${risorsa.cognome}
+		</li>
+		<li>
+			<label for="dataIn">Data In: </label>
+		    ${risorsa.dataIn.format('dd-MM-yyyy')}
+		</li>
+		#{if risorsa.dataOut != null}
 			<li>
-				<label for="matricola">Matricola: </label>
-			    ${risorsa.matricola}
+				<label for="dataOut">Data Out: </label>
+		    	${risorsa.dataOut.format('dd-MM-yyyy')}
 			</li>
-			<li>
-				<label for="codice">Codice: </label>
-			    ${risorsa.codice}
-			</li>
-			<li>
-				<label for="nome">Nome: </label>
-			    ${risorsa.nome}
-			</li>
-			<li>
-				<label for="cognome">Cognome: </label>
-			    ${risorsa.cognome}
-			</li>
-			<li>
-				<label for="dataIn">Data In: </label>
-			    ${risorsa.dataIn.format('dd-MM-yyyy')}
-			</li>
-			#{if risorsa.dataOut != null}
-				<li>
-					<label for="dataOut">Data Out: </label>
-			    	${risorsa.dataOut.format('dd-MM-yyyy')}
-				</li>
-			#{/if}
-			<li>
-				<label for="tipoStatoRisorsa">Stato: </label>
-			    ${risorsa.tipoStatoRisorsa.descrizione}
-			</li>
-	<ul>
+		#{/if}
+		<li>
+			<label for="tipoStatoRisorsa">Stato: </label>
+		    ${risorsa.tipoStatoRisorsa.descrizione}
+		</li>
+	</ul>
 </div>
+<br />
+<div id="costi">
+	<center><h2>Costi</h2></center>
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Importo</th>
+				<th scope="col">Data Inizio</th>
+				<th scope="col">Data Fine</th>
+			</tr>
+		</thead>
+		#{list items:listaCosti, as:'costo'} 
+		<tr>
+			<td>${costo.importo }</td>
+			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
+			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
+		</tr>
+		#{/list} 
+	</table>
+</div>
+<br />
+<div id="tariffe">
+	<center><h2>Tariffe</h2></center>
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Data Inizio</th>
+				<th scope="col">Data Fine</th>
+				<th scope="col">Importo Giornaliero</th>
+				<th scope="col">Commessa</th>
+			</tr>
+		</thead>
+		#{list items:listaTariffe, as:'tariffa'} 
+			<tr>
+				<td>${tariffa.dataInizio?.format('dd-MM-yyyy') }</td>
+				<td>${tariffa.dataFine?.format('dd-MM-yyyy') }</td>
+				<td>${tariffa.importoGiornaliero }</td>
+				<td>${tariffa.commessa.codice }</td>
+			</tr>
+		#{/list} 
+	</table>
+</div>
+<br />
+<div id="rapportiLavoro">
+	<center><h2>Rapporti di lavoro</h2></center>
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Data Inizio</th>
+				<th scope="col">Data Fine</th>
+				<th scope="col">Tipo Rapporto Lavoro</th>
+			</tr>
+		</thead>
+		#{list items:risorsa.rapportiLavoro, as:'rapportoLavoro'} 
+			<tr>
+				<td>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</td>
+			    <td>${rapportoLavoro.dataFine?.format('dd-MM-yyyy')}</td>
+			    <td>${rapportoLavoro.tipoRapportoLavoro.codice} - ${rapportoLavoro.tipoRapportoLavoro.descrizione}</td>
+			</tr>
+		#{/list}
+  	</table>
+</div>
+
 <div id="button_center">
-		<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
-		<a href="@{RisorseController.list()}"><input type="button" class="submitbutton" value="Lista risorse" /></a>
-	</div>	
+	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+	<a href="@{RisorseController.list()}"><input type="button" class="submitbutton" value="Lista risorse" /></a>
+</div>
