@@ -20,9 +20,10 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT distinct r.idRisorsa as idRisorsa, r.matricola as matricola,
-r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,
- sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
-sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale,
+r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.calcoloRicavi=true,ra.oreLavorate,0)) as ore_lavorate,
+ if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
+ sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
+if(c.importoMensile is null, sum(margine(costo(c.importoGiornaliero,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))), sum(margine(c.importoMensile, ricavo(t.importoGiornaliero,ra.oreLavorate)))) as margine_totale,
 t.importoGiornaliero as tariffa_importo,
 concat(cl.codice, '-', com.codice) as cliente_commessa,
 tsr.codice as stato_risorsa
@@ -106,7 +107,7 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 	<pageHeader>
 		<band height="60" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="408" height="55"/>
+				<reportElement x="0" y="1" width="408" height="55"/>
 				<subreportParameter name="MESE">
 					<subreportParameterExpression><![CDATA[$P{MESE}]]></subreportParameterExpression>
 				</subreportParameter>
