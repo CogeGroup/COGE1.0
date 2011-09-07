@@ -36,6 +36,10 @@ public class Commessa extends GenericModel{
 	
 	public boolean fatturabile;
 	
+	public boolean calcoloCosti;
+	
+	public boolean calcoloRicavi;
+	
 	@As("dd-MM-yyyy")
 	public Date dataInizioCommessa;
 	

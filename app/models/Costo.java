@@ -26,22 +26,14 @@ public class Costo extends GenericModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer idCosto;
+	
 	@Required
 	@Min(0.001)
 	public Float importo;
 	
-	@Transient
-	public int meseInizio;
+	public Float importoGiornaliero;
 	
-	@Transient
-	public int annoInizio;
-	
-	@Transient
-	public int meseFine;
-	
-	@Transient
-	public int annoFine;
-
+	public Float importoMensile;
 
 	@CheckWith(MyCostoDateCheck.class)
 	@As("dd-MM-yyyy")
@@ -53,6 +45,18 @@ public class Costo extends GenericModel {
 	@Required
 	@ManyToOne
 	public Risorsa risorsa;
+
+	@Transient
+	public int meseInizio;
+	
+	@Transient
+	public int annoInizio;
+	
+	@Transient
+	public int meseFine;
+	
+	@Transient
+	public int annoFine;
 
 	public Costo(Float importo, Date dataInizio, Risorsa risorsa) {
 		super();
