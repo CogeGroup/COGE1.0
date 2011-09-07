@@ -34,10 +34,9 @@ public class Commessa extends GenericModel{
 	@Required
 	public String descrizione;
 	
-	public boolean fatturabile;
-	
 	public boolean calcoloCosti;
 	
+	@CheckWith(CalcoloRicavi.class)
 	public boolean calcoloRicavi;
 	
 	@As("dd-MM-yyyy")
@@ -63,10 +62,11 @@ public class Commessa extends GenericModel{
 		this.cliente = new Cliente();
 	}
 
-	public Commessa(String descrizione, String codice, boolean fatturabile) {
+	public Commessa(String descrizione, String codice, boolean calcoloCosti, boolean calcoloRicavi) {
 		this.descrizione = descrizione;
 		this.codice = codice;
-		this.fatturabile = fatturabile;
+		this.calcoloCosti = calcoloCosti;
+		this.calcoloRicavi = calcoloRicavi;
 	}
 	
 	// Validazione
@@ -84,6 +84,19 @@ public class Commessa extends GenericModel{
 		}
 	}
 	
+	static class CalcoloRicavi extends Check {
+		static final String message = "validation.commessa.calcoloRicavi";
+		
+		@Override
+		public boolean isSatisfied(Object commessa, Object calcoloRicavi) {
+			if(((Commessa) commessa).calcoloRicavi == true && ((Commessa) commessa).calcoloCosti == false) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	static class DataFineCheck extends Check {
 		static final String MESSAGE_DATA_INIZIO_NULL = "validation.commessa.dataInizio_null";
 		static final String MESSAGE_DF_AFTER_DI = "validation.commessa.data_fine_after_dataInizio";
@@ -92,13 +105,13 @@ public class Commessa extends GenericModel{
 		public boolean isSatisfied(Object commessa, Object dataFine) {
 			
 			if(((Commessa) commessa).idCommessa != null && 
-					((Commessa) commessa).fatturabile == true && 
+					((Commessa) commessa).calcoloRicavi == true && 
 					dataFine != null && ((Commessa) commessa).dataInizioCommessa == null) {
 					setMessage(MESSAGE_DATA_INIZIO_NULL);
 					return false;
 		    	}
 			else if(((Commessa) commessa).idCommessa != null && 
-				((Commessa) commessa).fatturabile == true && 
+				((Commessa) commessa).calcoloRicavi == true && 
 				dataFine != null && !((Date) dataFine).after(((Commessa) commessa).dataInizioCommessa)) {
 				setMessage(MESSAGE_DF_AFTER_DI);
 				return false;
@@ -108,19 +121,19 @@ public class Commessa extends GenericModel{
 	}
 	
 	public static List<Commessa> findCommesseFatturabili(){
-		return Commessa.find("SELECT com FROM Commessa com WHERE com.fatturabile is true ORDER BY com.codice asc").fetch();
+		return Commessa.find("SELECT com FROM Commessa com WHERE com.calcoloRicavi is true ORDER BY com.codice asc").fetch();
 	}
 	
 	public static List<Commessa> findCommesseNonFatturabili(){
-		return Commessa.find("SELECT com FROM Commessa com WHERE com.fatturabile is false ORDER BY com.codice asc").fetch();
+		return Commessa.find("SELECT com FROM Commessa com WHERE com.calcoloRicavi is false and com.calcoloCosti is false ORDER BY com.codice asc").fetch();
 	}
 	
 	public static List<Commessa> findCommesseFatturabiliAttive(){
-		return Commessa.find("select cm from Commessa cm where cm.fatturabile is true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+		return Commessa.find("select cm from Commessa cm where cm.calcoloRicavi is true and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
 	public static List<Commessa> findCommesseNonFatturabiliAttive(){
-		return Commessa.find("select cm from Commessa cm where cm.fatturabile is false and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+		return Commessa.find("select cm from Commessa cm where com.calcoloRicavi is false and com.calcoloCosti is false and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
 	}
 	
 	public float calcolaRicavo(int mese, int anno) {
@@ -166,7 +179,7 @@ public class Commessa extends GenericModel{
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		
-		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.calcoloRicavi is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
 		query.bind("dataRapportoFine", dataRapportoFine);
 		query.bind("dataRapportoInizio", dataRapportoInizio);
 		query.bind("risorsa",risorsa);
@@ -188,7 +201,7 @@ public class Commessa extends GenericModel{
 		Date dataRapportoFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataRapportoInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		
-		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.fatturabile is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.calcoloRicavi is true and t.dataInizio <= :dataRapportoFine and (t.dataFine is null or t.dataFine >= :dataRapportoInizio)");
 		query.bind("dataRapportoFine", dataRapportoFine);
 		query.bind("dataRapportoInizio", dataRapportoInizio);
 		query.bind("risorsa",risorsa);

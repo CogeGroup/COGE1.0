@@ -172,10 +172,6 @@ public class Tariffa extends GenericModel{
 		
 		@Override
 		public boolean isSatisfied(Object tariffa, Object dataInizio) {
-//			if(!(((Tariffa)tariffa).commessa instanceof CommessaACorpo) && ((Tariffa) tariffa).importoGiornaliero <= 0){
-//				setMessage(message);
-//				return false;
-//			}
 			if(((Tariffa) tariffa).importoGiornaliero <= 0){
 				setMessage(message);
 				return false;
@@ -205,8 +201,8 @@ public class Tariffa extends GenericModel{
 	}
 	
 	public static List<Tariffa> findByRisorsaAndMeseAndAnno(int mese,int anno,Risorsa risorsa){
-		Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese+1, anno);
-		Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese+1, anno);
+		Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
 		query.bind("risorsa",risorsa);
 		query.bind("dataInizioRapporto", dataInizioRapporto);

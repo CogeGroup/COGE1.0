@@ -181,14 +181,14 @@ public class Bootstrap extends play.jobs.Job {
       cl1 = new Cliente("COD","nome",true);
       cl1.save();
       
-       cm1 = new Commessa("desc","COMMESSA1",true);
+       cm1 = new Commessa("desc","COMMESSA1",true,true);
        try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
 		e.printStackTrace();
 	}
 
-      cm2 = new Commessa("desc","COMMESSA2",true);
+      cm2 = new Commessa("desc","COMMESSA2",true,true);
       
       try {
   		cm2.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("07/07/2011");
@@ -202,7 +202,7 @@ public class Bootstrap extends play.jobs.Job {
       cm2.save();
       
       
-      CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","ACORPO",true,200.00f);
+      CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","ACORPO",true,true,200.00f);
       try {
     	  cAc1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/07/2011");
     	} catch (ParseException e) {
@@ -214,8 +214,9 @@ public class Bootstrap extends play.jobs.Job {
   
      
       
-      float importo = 100;
-      Costo cs1 = new Costo(importo,new Date(),r1);
+      float importoGiornaliero = 100;
+      float importoMensile = 2000;
+      Costo cs1 = new Costo(importoGiornaliero,importoMensile,new Date(),r1);
       cs1.save();
       
       Ruolo ruolo1 = new Ruolo("admin").save();

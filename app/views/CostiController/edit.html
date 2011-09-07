@@ -1,15 +1,16 @@
 #{extends 'menu.html' /}
 #{set title:'Aggiungi nuovo costo' /}
 
-<h2>Modifica costo</h2>
 <div id="detail">
-<ul>
-	<li><label>Risorsa: </label>${costo.risorsa.matricola}</li>
-	<li><label>Nome: </label>${costo.risorsa.nome}</li> 
-	<li><label>Cognome: </label>${costo.risorsa.cognome}</li>
-</ul>
+	<ul>
+		<li><label>Risorsa: </label>${costo.risorsa.matricola}</li>
+		<li><label>Nome: </label>${costo.risorsa.nome}</li> 
+		<li><label>Cognome: </label>${costo.risorsa.cognome}</li>
+		<li><label>Rapporto di lavoro: </label>${costo.risorsa.rapportiLavoro.get(costo.risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.descrizione}</li>
+	</ul>
 </div>
 
+<h2>Modifica costo</h2>
 <div id="align_form_short">
 #{form @CostiController.update()}
 	
@@ -17,57 +18,55 @@
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
 	
-        <label for="importo">Importo: </label>
-        <input type="text" class="txt_s" id="importo" name="costo.importo" value="${costo?.importo}"/>
+    <label for="importoGiornaliero">Importo giornaliero: </label>
+    <input type="text" class="txt_s" id="importoGiornaliero" name="costo.importoGiornaliero" value="${costo?.importoGiornaliero}"/>
     <br />
-        <label for="dataInizio">Data Inizio:</label>
-		#{select 'costo.meseInizio', value:costo.meseInizio}
-				#{option 0}GEN#{/option}
-				#{option 1}FEB#{/option}
-				#{option 2}MAR#{/option}
-				#{option 3}APR#{/option}
-				#{option 4}MAG#{/option}
-				#{option 5}GIU#{/option}
-				#{option 6}LUG#{/option}
-				#{option 7}AGO#{/option}
-				#{option 8}SET#{/option}
-				#{option 9}OTT#{/option}
-				#{option 10}NOV#{/option}
-				#{option 11}DIC#{/option}
-			#{/select}
+    <label for="importoMensile">Importo mensile: </label>
+    <input type="text" class="txt_s" id="importoMensile" name="costo.importoMensile" value="${costo?.importoMensile}"/>
+    <br />
+    <label for="dataInizio">Data Inizio:</label>
+	#{select 'costo.meseInizio', value:costo.meseInizio}
+		#{option 0}GEN#{/option}
+		#{option 1}FEB#{/option}
+		#{option 2}MAR#{/option}
+		#{option 3}APR#{/option}
+		#{option 4}MAG#{/option}
+		#{option 5}GIU#{/option}
+		#{option 6}LUG#{/option}
+		#{option 7}AGO#{/option}
+		#{option 8}SET#{/option}
+		#{option 9}OTT#{/option}
+		#{option 10}NOV#{/option}
+		#{option 11}DIC#{/option}
+	#{/select}
+	
+	#{select 'costo.annoInizio', items:listaAnni, labelProperty:'costo.annoInizio', valueProperty:'annoInizio', value:costo.annoInizio /}
+    <br />
+    <label for="dataFine">Data Fine:</label>
+    #{select 'costo.meseFine', value:costo.meseFine}
+		#{option -1}-- Mese --#{/option}
+		#{option 0}GEN#{/option}
+		#{option 1}FEB#{/option}
+		#{option 2}MAR#{/option}
+		#{option 3}APR#{/option}
+		#{option 4}MAG#{/option}
+		#{option 5}GIU#{/option}
+		#{option 6}LUG#{/option}
+		#{option 7}AGO#{/option}
+		#{option 8}SET#{/option}
+		#{option 9}OTT#{/option}
+		#{option 10}NOV#{/option}
+		#{option 11}DIC#{/option}
+	#{/select}
 			
-			#{select 'costo.annoInizio', items:listaAnni, labelProperty:'costo.annoInizio', valueProperty:'annoInizio', value:costo.annoInizio}
-			#{/select} 
-  <br />
-        <label for="dataFine">Data Fine:</label>
-        #{select 'costo.meseFine', value:costo.meseFine}
-				#{option -1}-- Mese --#{/option}
-				#{option 0}GEN#{/option}
-				#{option 1}FEB#{/option}
-				#{option 2}MAR#{/option}
-				#{option 3}APR#{/option}
-				#{option 4}MAG#{/option}
-				#{option 5}GIU#{/option}
-				#{option 6}LUG#{/option}
-				#{option 7}AGO#{/option}
-				#{option 8}SET#{/option}
-				#{option 9}OTT#{/option}
-				#{option 10}NOV#{/option}
-				#{option 11}DIC#{/option}
-			#{/select}
-			
-			#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
-				#{option -1}-- Anno --#{/option}
-			#{/select} 
- 
+	#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
+		#{option -1}-- Anno --#{/option}
+	#{/select} 
 </div>
 	
-		<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
-
-  <div id="button_center">
-        <input type="submit" class="submitbutton" value="Salva" />
-    
-
+<div id="button_center">
+	<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
+	<input type="submit" class="submitbutton" value="Salva" />
 #{/form}
-<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
 </div>

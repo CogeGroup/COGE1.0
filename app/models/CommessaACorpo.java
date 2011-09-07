@@ -15,9 +15,8 @@ public class CommessaACorpo extends Commessa {
 	
 	public CommessaACorpo() {}
 
-	public CommessaACorpo(String descrizione, String codice,
-			boolean fatturabile, float importo) {
-		super(descrizione, codice, fatturabile);
+	public CommessaACorpo(String descrizione, String codice, boolean calcoloCosti, boolean calcoloRicavi, float importo) {
+		super(descrizione, codice, calcoloCosti, calcoloRicavi);
 		this.importo = importo;
 	}
 	

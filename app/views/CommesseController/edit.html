@@ -46,12 +46,12 @@
    	<input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
    	<br />
 	#{if !commessa instanceof models.CommessaACorpo }
-		<label for="fatturabile">Fatturabile: </label>
-		<span class="checkbox">
-        SI <input type="radio" id="descrizione" name="commessa.fatturabile" value="true" #{if commessa.fatturabile==true}checked="checked"#{/if}/>
-        NO <input type="radio" id="descrizione" name="commessa.fatturabile" value="false" #{if commessa.fatturabile==false}checked="checked"#{/if}/>
-        </span>
-  		<br />
+  		<label for="calcoloCosti">Calcola costi: </label>
+	    <input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
+	    <br />
+	    <label for="calcoloRicavi">Calcola ricavi: </label>
+	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
+	    <br />
   	#{/if}
   	<label for="tipoCommessa">Tipo commessa: </label>
 	#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa }
@@ -73,6 +73,8 @@
     #{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 </div>
 	<div id="button_center">
+		<input type="hidden" name="commessa.calcoloCosti" value="false" /> 
+		<input type="hidden" name="commessa.calcoloRicavi" value="false" /> 
 		<input type="hidden" name="commessa.idCommessa" value="${commessa.idCommessa }" />
 	    <input type="submit" class="submitbutton" value="Salva" />
 #{/form}

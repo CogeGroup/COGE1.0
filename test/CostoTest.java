@@ -32,21 +32,21 @@ public class CostoTest extends UnitTest {
 	@Test
 	 public void testDataCostoDentroPeriodoChiuso(){
 		 Risorsa bob = Risorsa.find("byMatricola", "123").first();
-		 Costo costo = new Costo(50.0f, new DateMidnight(2011,10,30).toDate(), bob);
+		 Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011,10,30).toDate(), bob);
 		 assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineNull(){
 		Risorsa bonnie = Risorsa.find("byMatricola", "537").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 3, 2).toDate(),bonnie);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 3, 2).toDate(),bonnie);
 		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineInPeriodoEsistente(){
 		Risorsa bob = Risorsa.find("byMatricola", "123").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 4, 20).toDate(),bob);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 4, 20).toDate(),bob);
 		costo.dataFine = new DateMidnight(2011, 5, 5).toDate();
 		assertFalse(costo.validateAndSave());
 	 }
@@ -54,7 +54,7 @@ public class CostoTest extends UnitTest {
 	@Test
 	 public void testInserimentoPeriodoPrecedenteAPeriodoAperto(){
 		Risorsa bob = Risorsa.find("byMatricola", "123").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 4, 20).toDate(),bob);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 4, 20).toDate(),bob);
 		costo.dataFine = new DateMidnight(2011, 4, 30).toDate();
 		assertTrue(costo.validateAndSave());
 	 }
@@ -63,7 +63,7 @@ public class CostoTest extends UnitTest {
 	 public void testInserimentoCostoDataFineInternaAPeriodoAperto(){
 		
 		Risorsa jack = Risorsa.find("byMatricola", "666").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 3, 2).toDate(),jack);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 3, 2).toDate(),jack);
 		costo.dataFine = new DateMidnight(2011, 9, 3).toDate();
 		assertFalse(costo.validateAndSave());
 	 }
@@ -79,20 +79,20 @@ public class CostoTest extends UnitTest {
 	 public void testInserimentoPeriodoPiuEsteso(){
 		
 		Risorsa bob = Risorsa.find("byMatricola", "123").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 8, 29).toDate(),bob);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 8, 29).toDate(),bob);
 		costo.dataFine = new DateMidnight(2011, 11, 1).toDate();
 		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	public void inserisciCostoSenzaRisorsa() {
-		Costo costoNew = new Costo(100f, new Date(), null);
+		Costo costoNew = new Costo(100f, 2000f, new Date(), null);
 		assertFalse(costoNew.validateAndSave());
 	}
 	
 	@Test
 	public void inserisciImportoNull() {
-		Costo costoNew = new Costo(null, new Date(), r1);
+		Costo costoNew = new Costo(null, null, new Date(), r1);
 		assertFalse(costoNew.validateAndSave());
 	}
 	
@@ -108,7 +108,7 @@ public class CostoTest extends UnitTest {
 	@Test
 	public void dataFineMaggioreDataInizio(){
 		Risorsa bob = Risorsa.find("byMatricola", "123").first();
-		Costo costo = new Costo(50.0f, new DateMidnight(2011, 11, 30).toDate(),bob);
+		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 11, 30).toDate(),bob);
 		costo.dataFine = new DateMidnight(2011, 11, 01).toDate();
 		assertFalse(costo.validateAndSave());
 	}

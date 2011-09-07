@@ -144,8 +144,20 @@ public class RapportoLavoro extends GenericModel{
 	   query.bind("tipoRapportoLavoro", tipoRapLav);
 	   query.bind("dataRapporto", dataRapporto);
 	   List<RapportoLavoro> list  =  query.fetch();
-	   System.out.println("....SIZE:" + list.size());
 	   return list;
+   }
+   
+   public static TipoRapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , int mese, int anno) {
+	   Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+	   Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+	   JPAQuery query = TipoRapportoLavoro.find("select trl from TipoRapportoLavoro trl, RapportoLavoro ral " +
+	   		"where ral.risorsa = :risorsa and ral.dataInizio <= :dataFine and (ral.dataFine is null or ral.dataFine >= :dataInizio)" +
+	   		"and ral.tipoRapportoLavoro = trl");
+	   query.bind("risorsa", risorsa);
+	   query.bind("dataInizio", dataInizio);
+	   query.bind("dataFine", dataFine);
+	   TipoRapportoLavoro trl  =  query.first();
+	   return trl;
    }
    
 }

@@ -80,7 +80,6 @@ public class RendicontoAttivita extends GenericModel {
 	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-//    	JPAQuery query  = Risorsa.find("from Risorsa r where r.dataIn < '" + MyUtility.dateToString(dataFine, "yyyy-MM-dd") + "' and r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + (mese+1) + " and ra.anno = " + anno + " and ra.risorsa = r)");
 		JPAQuery query  = Risorsa.find("from Risorsa r where r.dataIn < '" + MyUtility.dateToString(dataFine, "yyyy-MM-dd") + "' " +
 				"and (r.dataOut is null or r.dataOut >= '" + MyUtility.dateToString(dataInizio, "yyyy-MM-dd") + "') " +
 				"and r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + (mese+1) + " and ra.anno = " + anno + " and ra.risorsa = r)");
@@ -106,7 +105,7 @@ public class RendicontoAttivita extends GenericModel {
 		"inner join Commessa c on ra.commessa_idCommessa = c.idCommessa " +
 		"WHERE ra.risorsa_idRisorsa = " + risorsa.idRisorsa +
 		" AND ra.mese = " + mese + " AND ra.anno = " + anno +
-		" AND c.fatturabile = true";
+		" AND c.calcoloRicavi = true";
 		
 		Session session = (Session)JPA.em().getDelegate();
 		List<RendicontoAttivita> listaRendicontoAttivitas = session.createSQLQuery(queryString).list();
@@ -120,7 +119,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.fatturabile=false                                                                               	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                             	 "+
 							" and ra.mese= "
 							+mese+
 							" and ra.anno= "
@@ -158,7 +157,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.fatturabile=false                                                                               	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                               	 "+
 							" and ra.anno= "
 							+anno+
 							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro != 5 														 "+
@@ -188,14 +187,13 @@ public class RendicontoAttivita extends GenericModel {
 		 return listaMapResult;
 	}
 	
-	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratori(String mese,String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
 							" from rendicontoattivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.fatturabile=false                                                                               	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
 							" and ra.mese= "
 							+mese+
 							" and ra.anno= "
@@ -234,7 +232,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.fatturabile=false                                                                               	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
 							" and ra.anno= "
 							+anno+
 							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
@@ -265,15 +263,13 @@ public class RendicontoAttivita extends GenericModel {
 		 return listaMapResult;
 	}
 	
-	
-	
 	public static ArrayList<HashMap> statisticheDettaglioAssenzaRetribuitaCollaboratori(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)   "+
 							" from rendicontoattivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.fatturabile=false                                                                               	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
 							" and ra.anno= "
 							+anno+
 							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
@@ -304,8 +300,5 @@ public class RendicontoAttivita extends GenericModel {
 		 }
 		 return listaMapResult;
 	}
-	
-	
-	
 	
 }
