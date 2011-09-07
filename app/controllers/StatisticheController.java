@@ -630,7 +630,7 @@ public class StatisticheController extends Controller {
 	public static void statisticaHTMLCommesseCollaboratoriMese(String mese, String anno) {
         boolean result = true;
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloCostiAndCalcoloRicaviAndFlagCoCoPro", false, false, true).fetch();
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -722,7 +722,7 @@ public class StatisticheController extends Controller {
 	public static void statisticaPDFCommesseCollaboratoriMese(String mese, String anno) {
 
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloCostiAndCalcoloRicaviAndFlagCoCoPro", false, false, true).fetch();
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -811,7 +811,7 @@ public class StatisticheController extends Controller {
 	public static void statisticaHTMLCommesseCollaboratoriAnno(String anno) {
         boolean result = true;
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloCostiAndCalcoloRicaviAndFlagCoCoPro", false, false, true).fetch();
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -903,7 +903,7 @@ public class StatisticheController extends Controller {
 	public static void statisticaPDFCommesseCollaboratoriAnno(String anno) {
 
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byFatturabileAndFlagCoCoPro", false,true).fetch();
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloCostiAndCalcoloRicaviAndFlagCoCoPro", false, false, true).fetch();
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -1440,7 +1440,7 @@ public class StatisticheController extends Controller {
 	public static void statisticaPDFCommesseDettaglioAssenzaRetribuita(String anno) {
 
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloCostiAndCalcoloRicavi", false, false)
 				.fetch();
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
