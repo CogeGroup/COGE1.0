@@ -55,7 +55,8 @@
 				<th scope="col">Commessa a corpo</th>
 				<th scope="col">Descrizione</th>
 				<th scope="col">Cliente</th>
-				<th scope="col">Fatturabile</th>
+				<th scope="col">Calcola costi</th>
+				<th scope="col">Calcola ricavi</th>
 				<th scope="col">Data inizio</th>
 				<th scope="col">Data fine</th>
 				<th scope="col">Modifica</th>
@@ -74,13 +75,14 @@
 					#{/else} </td>
 				<td>${commessa.descrizione }</td>
 				<td><a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.codice }</a></td>
-				<td>${commessa.fatturabile == true ? 'si' : 'no' }</td>
+				<td>${commessa.calcoloCosti == true ? 'si' : 'no' }</td>
+				<td>${commessa.calcoloRicavi == true ? 'si' : 'no' }</td>
 				<td>${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }</td>
 				<td>${commessa.dataFineCommessa?.format('dd-MM-yyyy') }</td>
 				#{if commessa.cliente.attivo }
 					<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 					<td>
-						#{if commessa.fatturabile == true && commessa.dataInizioCommessa != null}
+						#{if commessa.calcoloRicavi == true && commessa.dataInizioCommessa != null}
 							<a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
 						#{/if}
 					</td>

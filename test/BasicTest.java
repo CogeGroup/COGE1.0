@@ -96,22 +96,23 @@ public class BasicTest extends UnitTest {
      cl1 = new Cliente("cod","nome",true);
      cl1.save();
      
-      cm1 = new Commessa("desc","cod",true);
+      cm1 = new Commessa("desc","cod",true,true);
       try {
 		cm1.dataInizioCommessa = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2011");
 	} catch (ParseException e) {
 		e.printStackTrace();
 	}
-      cm2 = new Commessa("desc","cod",true);
+      cm2 = new Commessa("desc","cod",true,true);
       cm1.cliente=cl1;
       cm2.cliente=cl1;
      cm1.save();
      cm2.save();
-     CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","codCorpo",true,200.00f);
+     CommessaACorpo cAc1 = new CommessaACorpo("desccorpo","codCorpo",true,true,200.00f);
      cAc1.cliente=cl1;
      cAc1.save();
-     float importo = 100;
-     Costo cs1 = new Costo(importo,new Date(),r1);
+     float importoGiornaliero = 100;
+     float importoMensile = 2000;
+     Costo cs1 = new Costo(importoGiornaliero,importoMensile,new Date(),r1);
      cs1.save();
      Ruolo ruolo1 = new Ruolo("admin");
      Utente u1 = new Utente("a","a",true);

@@ -29,10 +29,10 @@ public class Costo extends GenericModel {
 	
 	@Required
 	@Min(0.001)
-	public Float importo;
-	
 	public Float importoGiornaliero;
 	
+	@CheckWith(ImportoMensileCheck.class)
+	@Min(0.001)
 	public Float importoMensile;
 
 	@CheckWith(MyCostoDateCheck.class)
@@ -58,9 +58,10 @@ public class Costo extends GenericModel {
 	@Transient
 	public int annoFine;
 
-	public Costo(Float importo, Date dataInizio, Risorsa risorsa) {
+	public Costo(Float importoGiornaliero, Float importoMensile, Date dataInizio, Risorsa risorsa) {
 		super();
-		this.importo = importo;
+		this.importoGiornaliero = importoGiornaliero;
+		this.importoMensile = importoMensile;
 		this.dataInizio = dataInizio;
 		this.risorsa = risorsa;
 	}
@@ -109,6 +110,21 @@ public class Costo extends GenericModel {
 		}
 	}
 	
+	static class ImportoMensileCheck extends Check {
+		static final String MESSAGE = "validation.costo.importoMensile";
+		
+		public boolean isSatisfied(Object costo, Object value) {
+			Costo c = (Costo) costo;
+			TipoRapportoLavoro trl = RapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.meseInizio, c.annoInizio);
+			if( !trl.codice.equals("CCP") && (((Costo) costo).importoMensile == null 
+					|| ((Costo) costo).importoMensile == 0) ){
+				setMessage(MESSAGE);
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	//verifica che la dataInizio inserita non sia sovrapposta (ovvero contenuta) agli altri costi della risorsa
 	public static List<Costo> dataInizioSovrapposta(Costo costo) {
 		StringBuffer query = new StringBuffer("from Costo c where ? >= c.dataInizio and (c.dataFine is null or ? <= c.dataFine) and c.risorsa = ?");
@@ -144,18 +160,24 @@ public class Costo extends GenericModel {
 	}
 	
 	public static float totaleCosto(Costo costo, Risorsa risorsa, int mese, int anno) {
+		if (costo.importoMensile != null)  {
+			return costo.importoMensile;
+		}
 		List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
+		System.out.println(rendicontoAttivitas.size());
 		Float tot = 0f;
 		for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
 			tot += rendicontoAttivita.oreLavorate;
 		}
-		return (costo.importo/8) * tot;
+		// TODO importoGiornaliero?
+		return (costo.importoGiornaliero/8) * tot;
 	}
 	
 	public static Costo extractCostoByMeseAndAnno(Risorsa risorsa, int mese, int anno) {
+		System.out.println(mese);
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
-		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataInizio and c.dataFine >= :dataFine");
+		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine);

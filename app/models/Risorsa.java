@@ -166,19 +166,19 @@ public class Risorsa extends GenericModel {
 		if(listaTariffa == null || listaTariffa.size() == 0) {
 			return null;
 		}
-		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese,anno).fetch();
+		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",this,mese+1,anno).fetch();
 		for (Tariffa tariffa : listaTariffa) {
 			if(tariffa.commessa instanceof CommessaACorpo) {
 				importoTotale += ((CommessaACorpo) tariffa.commessa).importo;
 			}
 		}
 		for (RendicontoAttivita ra : listaRendicontoAttivita){
-			if(ra.commessa.fatturabile){
+			if(ra.commessa.calcoloRicavi){
 				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa,ra.commessa);
 				importoTotale += t.calcolaRicavoTariffa(ra.oreLavorate);
 			}
 		}
-		return importoTotale;
+		return importoTotale == 0 ? null : importoTotale;
 	}
 	
 	public static float calcolaRicavoPerTipoRapportoLavoro(int mese, int anno, TipoRapportoLavoro tiporapLav){

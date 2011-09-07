@@ -15,6 +15,7 @@ costo.dataFine = dataFine
 validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
 validation.costo.dataFine.lt.dataInizio = la data fine è precedente alla data inizio
 validation.costo.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
+validation.costo.importoMensile=Un dipendente deve avere l'importo mensile
 # RISORSA ----------------------------------
 risorsa.matricola = matricola
 risorsa.codice = codice
@@ -51,6 +52,7 @@ cliente.nominativo = nominativo
 validation.cliente.codice_esistente = codice esistente
 # COMMESSA --------------------------
 commessa.codice = codice
+validation.commessa.calcoloRicavi = Selezionare calcolo costi
 commessa.descrizione = descrizione
 commessa.dataInizioCommessa = data inizio commessa
 validation.commessa.codice_esistente = codice esistente

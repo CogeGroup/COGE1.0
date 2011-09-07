@@ -25,7 +25,7 @@ public class CommesseController extends Controller {
     }
     
     public static void list() {
-		ValuePaginator paginator = new ValuePaginator(Commessa.find("ORDER BY fatturabile desc").fetch());
+		ValuePaginator paginator = new ValuePaginator(Commessa.find("ORDER BY calcoloRicavi desc").fetch());
 		paginator.setPageSize(10);
 		render(paginator);
     }
@@ -79,9 +79,6 @@ public class CommesseController extends Controller {
     		if(importo < 0.1) {
         		validation.addError("importo", "L'importo deve essere maggiore di 0");
         	}
-    		if(commessa.dataInizioCommessa == null || commessa.dataInizioCommessa.equals("")) {
-    			validation.addError("commessaACorpo.dataInizioCommessa", "Data obligatoria");
-    		}
     		if(validation.hasErrors()) {
         		List<Cliente> listaClienti = Cliente.findAllAttivo();
         		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
@@ -91,13 +88,15 @@ public class CommesseController extends Controller {
     		commessaACorpo.codice = commessa.codice.toUpperCase();
     		commessaACorpo.descrizione = commessa.descrizione;
     		commessaACorpo.dataInizioCommessa = commessa.dataInizioCommessa;
-    		commessaACorpo.fatturabile = true;
+    		commessaACorpo.calcoloCosti = true;
+    		commessaACorpo.calcoloRicavi = true;
     		commessaACorpo.cliente = commessa.cliente;
     		commessaACorpo.importo = importo;
     		commessaACorpo.save();
     	}else{
     		commessa.codice = commessa.codice.toUpperCase();
-    		commessa.dataInizioCommessa = commessa.fatturabile == false ? null : commessa.dataInizioCommessa;
+    		commessa.dataInizioCommessa = 
+    			commessa.calcoloCosti == false && commessa.calcoloRicavi == false ? null : commessa.dataInizioCommessa;
         	commessa.save();
     	}
     	flash.success("%s aggiunta con successo", commessa.codice);
@@ -111,15 +110,15 @@ public class CommesseController extends Controller {
         render(commessa, listaClienti, listaTipiCommessa);
     }
     
-    public static void update(@Valid Commessa commessa) {
+    public static void update(@Valid Commessa commessa, boolean calcoloRicavi, boolean calcoloCosti) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
 	        render("CommesseController/edit.html", commessa, listaClienti,listaTipiCommessa);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
-    	commessa.dataInizioCommessa = commessa.fatturabile ? commessa.dataInizioCommessa : null;
-    	commessa.dataFineCommessa = commessa.fatturabile ? commessa.dataFineCommessa : null;
+    	commessa.dataInizioCommessa = commessa.calcoloRicavi == true ? commessa.dataInizioCommessa : null;
+    	commessa.dataFineCommessa = commessa.calcoloRicavi == true ? commessa.dataFineCommessa : null;
     	if(commessa.dataFineCommessa != null){
     		Tariffa.chiudiTariffeByCommessa(commessa);
     	}
@@ -130,13 +129,13 @@ public class CommesseController extends Controller {
     
     public static void show(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	List<Risorsa> listaRisorse = commessa.fatturabile == true ? Risorsa.findByCommessa(commessa) : null;
+    	List<Risorsa> listaRisorse = commessa.calcoloRicavi == true ? Risorsa.findByCommessa(commessa) : null;
         render(commessa,listaRisorse);
     }
     
     public static void delete(Integer id) {
     	Commessa commessa = Commessa.findById(id);
-    	if(commessa.fatturabile == false){
+    	if(commessa.calcoloRicavi == false && commessa.calcoloCosti == false){
     		flash.success("Non si puo' chiudere una commessa non fatturabile");
     		list();
     	}
@@ -160,10 +159,10 @@ public class CommesseController extends Controller {
     
     // Auotocomplete dei commessa
 	public static void autocompleteCommessa(String term) {
-		List<Commessa> listaCommesse = Commessa.find("descrizione like ?","%"+term+"%").fetch();
+		List<Commessa> listaCommesse = Commessa.find("codice like ? or descrizione like ?","%"+term+"%","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Commessa com:listaCommesse){
-			listaResult.add(new DomainWrapper(com.idCommessa, com.descrizione));
+			listaResult.add(new DomainWrapper(com.idCommessa, com.codice + " - " + com.descrizione));
 		}
 		renderJSON(listaResult);
     }

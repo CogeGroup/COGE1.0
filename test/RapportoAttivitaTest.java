@@ -64,8 +64,8 @@ public class RapportoAttivitaTest  extends UnitTest {
 		 r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
 		  cl1 = new Cliente("cod","nome",true);
 	      cl1.save();
-	       cm1 = new Commessa("desc","cod",true);
-	       cm2 = new Commessa("desc","cod",true);
+	       cm1 = new Commessa("desc","cod",true,true);
+	       cm2 = new Commessa("desc","cod",true,true);
 	       cm1.cliente=cl1;
 	       cm2.cliente=cl1;
 	       cm1.save();

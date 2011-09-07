@@ -10,8 +10,12 @@
 	       	${commessa.descrizione }
 	    </li>
 	    <li>
-	        <label for="fatturabile">Fatturabile:</label>
-	        ${commessa.fatturabile == true ? 'si' : 'no' }
+        <label for="calcoloCosti">Calcola costi:</label>
+	        ${commessa.calcoloCosti == true ? 'si' : 'no' }
+	    </li>
+	    <li>
+	        <label for="calcoloRicavi">Calcola ricavi:</label>
+	        ${commessa.calcoloRcavi == true ? 'si' : 'no' }
 	    </li>
 	    #{if commessa.dataInizioCommessa}
 		    <li>

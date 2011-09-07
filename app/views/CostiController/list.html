@@ -22,7 +22,8 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Importo</th>
+				<th scope="col">Importo giornaliero</th>
+				<th scope="col">Importo mensile</th>
 				<th scope="col">Data Inizio</th>
 				<th scope="col">Data Fine</th>
 				#{if !risorsa.dataOut}
@@ -33,7 +34,8 @@
 		</thead>
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
-			<td>${costo.importo }</td>
+			<td>${costo.importoGiornaliero }</td>
+			<td>${costo.importoMensile }</td>
 			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
 			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
 			#{if !risorsa.dataOut}
