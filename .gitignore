@@ -6,7 +6,6 @@ application.conf
 eclipse
 tmp
 test-result
-.gitignore
 test-result/
 precompiled/
 
