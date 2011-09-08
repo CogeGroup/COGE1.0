@@ -82,7 +82,7 @@ public class RendicontoAttivitaController extends Controller {
 			chooseRisorsa();
 		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
-		if(risorsa.dataOut.before(MyUtility.MeseEdAnnoToDataInizio(mese, anno))){
+		if(risorsa.dataOut != null && risorsa.dataOut.before(MyUtility.MeseEdAnnoToDataInizio(mese, anno))){
 			validation.addError("risorsa.dataOut", "La risorsa è in uscita dal: " + MyUtility.dateToString(risorsa.dataOut, "dd-MM-yyyy"));
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
@@ -91,7 +91,6 @@ public class RendicontoAttivitaController extends Controller {
 		if(ra != null){
 			validation.addError("meseAnno", "il rapportino per il mese " + (mese+1) + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
-			mese--;
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
 		if(risorsa == null){
@@ -100,7 +99,7 @@ public class RendicontoAttivitaController extends Controller {
 			chooseRisorsa();
 		}
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
-		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese+1, anno, risorsa);
+		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
 		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
 			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCostiAndFlagCoCoPro", false, false, true).fetch();
