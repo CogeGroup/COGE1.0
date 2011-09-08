@@ -193,7 +193,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
+							" where c.calcoloRicavi=false                                                                               	 "+
 							" and ra.mese= "
 							+mese+
 							" and ra.anno= "
@@ -232,7 +232,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
+							" where c.calcoloRicavi=false                                                                                 	 "+
 							" and ra.anno= "
 							+anno+
 							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
@@ -269,7 +269,7 @@ public class RendicontoAttivita extends GenericModel {
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                                	 "+
+							" where c.calcoloRicavi=false and c.calcoloCosti=true                                                                                	 "+
 							" and ra.anno= "
 							+anno+
 							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
