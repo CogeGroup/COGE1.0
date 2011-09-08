@@ -82,14 +82,16 @@ public class RendicontoAttivitaController extends Controller {
 			chooseRisorsa();
 		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
-		mese++;
-		
-		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).first();
-		if(ra != null){
-			validation.addError("meseAnno", "il rapportino per il mese " + mese + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
+		if(risorsa.dataOut.before(MyUtility.MeseEdAnnoToDataInizio(mese, anno))){
+			validation.addError("risorsa.dataOut", "La risorsa è in uscita dal: " + MyUtility.dateToString(risorsa.dataOut, "dd-MM-yyyy"));
 			List<Integer> listaAnni = MyUtility.createListaAnni();
-			mese--;
-			render("RendicontoAttivitaController/chooserisorsa.html", listaAnni, mese, anno);
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
+		}
+		RendicontoAttivita ra = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese+1,anno).first();
+		if(ra != null){
+			validation.addError("meseAnno", "il rapportino per il mese " + (mese+1) + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
 		if(risorsa == null){
 			flash.error("Risorsa non trovata");
@@ -97,7 +99,7 @@ public class RendicontoAttivitaController extends Controller {
 			chooseRisorsa();
 		}
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
-		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese+1, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
 		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
 			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCostiAndFlagCoCoPro", false, false, true).fetch();
@@ -121,7 +123,7 @@ public class RendicontoAttivitaController extends Controller {
 		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
 			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCostiAndFlagCoCoPro", false, false, true).fetch();
 		}
-		
+		mese--;
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 	}
 
@@ -138,7 +140,7 @@ public class RendicontoAttivitaController extends Controller {
 // Salva il rapportino aggiungendo nuovi rendicontoAttivita
 	public static void saveRendicontoAttivita(int mese, int anno, Integer idRisorsa){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
-		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
+		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese+1, anno).fetch();
 		for (String key : params.all().keySet()) {
 			if(key.contains("id_")){
 				String oreLavorateString = params.get(key);
@@ -148,7 +150,7 @@ public class RendicontoAttivitaController extends Controller {
 					float oreLavorate = 0;
 					try {
 						oreLavorate = Float.parseFloat(oreLavorateString);
-						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese, anno, risorsa, commessa);
+						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese+1, anno, risorsa, commessa);
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
 								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa){
@@ -167,10 +169,10 @@ public class RendicontoAttivitaController extends Controller {
 						}
 					} catch (IllegalArgumentException e) {
 						validation.addError("oreLavorate", "inserire correttamente le ore totali");
-						List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+						List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese+1, anno, risorsa);
 						List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
-								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita);
+								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 					}
 				}else{
 					for (RendicontoAttivita ra : listaRendicontoAttivita) {
@@ -182,7 +184,7 @@ public class RendicontoAttivitaController extends Controller {
 			}
 		}
 		flash.success("Attivita aggiunta con successo");
-		dettaglio(idRisorsa, mese,anno);
+		dettaglio(idRisorsa, mese+1,anno);
 	}
 	
 	// rimuove tutte le commesse non fatturabili gia inserite nel rapportino

@@ -80,7 +80,7 @@ public class RendicontoAttivita extends GenericModel {
 	public static List<Risorsa> listRapportiniMancanti(int mese, int anno) {
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-		JPAQuery query  = Risorsa.find("from Risorsa r where r.dataIn < '" + MyUtility.dateToString(dataFine, "yyyy-MM-dd") + "' " +
+		JPAQuery query  = Risorsa.find("from Risorsa r where r.dataIn <= '" + MyUtility.dateToString(dataFine, "yyyy-MM-dd") + "' " +
 				"and (r.dataOut is null or r.dataOut >= '" + MyUtility.dateToString(dataInizio, "yyyy-MM-dd") + "') " +
 				"and r not in (select r from Risorsa r, RendicontoAttivita ra where ra.mese = " + (mese+1) + " and ra.anno = " + anno + " and ra.risorsa = r)");
     	return query.fetch();
