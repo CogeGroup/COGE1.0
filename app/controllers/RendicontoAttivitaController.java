@@ -81,6 +81,11 @@ public class RendicontoAttivitaController extends Controller {
 			validation.keep();
 			chooseRisorsa();
 		}
+		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
+			validation.addError("data", "Data selezionata non valida");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
+		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		if(risorsa.dataOut != null && risorsa.dataOut.before(MyUtility.MeseEdAnnoToDataInizio(mese, anno))){
 			validation.addError("risorsa.dataOut", "La risorsa è in uscita dal: " + MyUtility.dateToString(risorsa.dataOut, "dd-MM-yyyy"));
@@ -111,7 +116,6 @@ public class RendicontoAttivitaController extends Controller {
 	public static void aggiungiAttivita(Integer idRisorsa, int mese, int anno){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
-		
 		// lista Commesse fatturabili piu le commesse non fatturabili gia salvate
 		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		listaCommesse.addAll(listaCommesseNonFattSalvate(listaRendicontoAttivita));
