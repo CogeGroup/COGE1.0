@@ -27,7 +27,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
   inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
   inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa
   inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa
-  where com.DTYPE = 'Commessa' and com.calcoloRicavi=false and com.calcoloCosti=false and ra.anno=$P{ANNO}
+  where com.DTYPE = 'Commessa' and com.calcoloRicavi=false and ra.anno=$P{ANNO}
   and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5
   and com.flagCoCoPro = true
   group by com.codice,com.descrizione]]>
