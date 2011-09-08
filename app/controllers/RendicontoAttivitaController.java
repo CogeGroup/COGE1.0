@@ -91,6 +91,7 @@ public class RendicontoAttivitaController extends Controller {
 		if(ra != null){
 			validation.addError("meseAnno", "il rapportino per il mese " + (mese+1) + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
+			mese--;
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
 		if(risorsa == null){

@@ -23,7 +23,10 @@
 r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.calcoloRicavi=true,ra.oreLavorate,0)) as ore_lavorate,
  if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
  sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
-if(c.importoMensile is null, sum(margine(costo(c.importoGiornaliero,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))), sum(margine(c.importoMensile, ricavo(t.importoGiornaliero,ra.oreLavorate)))) as margine_totale,
+if(c.importoMensile is null,
+margine(sum(costo(c.importoGiornaliero,ra.oreLavorate)), sum(ricavo(t.importoGiornaliero,ra.oreLavorate))),
+margine(c.importoMensile, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)))
+) as margine_totale,
 t.importoGiornaliero as tariffa_importo,
 concat(cl.codice, '-', com.codice) as cliente_commessa,
 tsr.codice as stato_risorsa
@@ -44,7 +47,7 @@ and r.idRisorsa = rl.risorsa_idRisorsa
 and r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 and ra.mese= $P{MESE}
 and ra.anno= $P{ANNO}
- group by r.idRisorsa, r.matricola
+group by r.idRisorsa, r.matricola
 ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 	</queryString>
 	<field name="idRisorsa" class="java.lang.Integer"/>
