@@ -75,6 +75,7 @@ public class RendicontoAttivitaController extends Controller {
 		render(listaAnni, mese, anno);
     }
 	
+	@SuppressWarnings("unused")
 	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") Integer idRisorsa, int mese, int anno) {
 		if(validation.hasErrors()){
 			flash.error("");
