@@ -89,7 +89,7 @@ public class RendicontoAttivitaController extends Controller {
 			validation.addError("meseAnno", "il rapportino per il mese " + mese + "-" + anno +" della risorsa " + risorsa.cognome + " già esistente");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			mese--;
-			render("RendicontoAttivitaController/chooserisorsa.html", listaAnni, mese, anno);
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
 		if(risorsa == null){
 			flash.error("Risorsa non trovata");
