@@ -178,7 +178,6 @@ public class Commessa extends GenericModel{
 		List<Commessa> listaCommesse = new ArrayList<Commessa>();
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese-1, anno);
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese-1, anno);
-		
 		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.calcoloRicavi is true and t.dataInizio <= :dataFine and (t.dataFine is null or t.dataFine >= :dataInizio)");
 		query.bind("dataFine", dataFine);
 		query.bind("dataInizio", dataInizio);
