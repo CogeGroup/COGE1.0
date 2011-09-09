@@ -47,13 +47,13 @@
 		<table class="table_center">
 		   <thead>
 			<tr>
-				<th scope="col">Matricola</th>
-				<th scope="col">Codice</th>
-				<th scope="col">Nome</th>
-				<th scope="col">Cognome</th>
-				<th scope="col">Data In</th>
-				<th scope="col">Data Out</th>
-				<th scope="col">Stato</th>
+				<th scope="col"><a href="@{RisorseController.order('matricola',ordinamento,lastParametro)}">Matricola</a></th>
+				<th scope="col"><a href="@{RisorseController.order('codice',ordinamento,lastParametro)}">Codice</a></th>
+				<th scope="col"><a href="@{RisorseController.order('nome',ordinamento,lastParametro)}">Nome</a></th>
+				<th scope="col"><a href="@{RisorseController.order('cognome',ordinamento,lastParametro)}">Cognome</a></th>
+				<th scope="col"><a href="@{RisorseController.order('dataIn',ordinamento,lastParametro)}">Data In</a></th>
+				<th scope="col"><a href="@{RisorseController.order('dataOut',ordinamento,lastParametro)}">Data Out</a></th>
+				<th scope="col"><a href="@{RisorseController.order('tipoStatoRisorsa',ordinamento,lastParametro)}">Stato</a></th>
 				<th scope="col">Modifica</th>
 				<th scope="col">Elimina</th>
 				<th scope="col">Rapporto Lavoro</th>

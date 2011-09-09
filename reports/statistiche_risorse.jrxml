@@ -19,20 +19,29 @@
 		<defaultValueExpression><![CDATA["reports/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT distinct r.idRisorsa as idRisorsa, r.matricola as matricola,
-r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, sum(if(com.calcoloRicavi=true,ra.oreLavorate,0)) as ore_lavorate,
- if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
- sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
-if(c.importoMensile is null,
-margine(sum(costo(c.importoGiornaliero,ra.oreLavorate)), sum(ricavo(t.importoGiornaliero,ra.oreLavorate))),
-margine(c.importoMensile, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)))
-) as margine_totale,
+		<![CDATA[SELECT idRisorsa, matricola,
+codice,  cognome,
+rappLavoro, idTipoRapportoLavoro,
+sum(ore_lavorate) as ore_lavorate,
+sum(costo_totale) as costo_totale,
+sum(ricavo_totale) as ricavo_totale,
+margine(sum(costo_totale), sum(ricavo_totale)) as margine_totale,
+tariffa_importo,
+cliente_commessa,
+stato_risorsa
+from
+(
+(
+SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, sum(ra.oreLavorate) as ore_lavorate,
+if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
+sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
 t.importoGiornaliero as tariffa_importo,
 concat(cl.codice, '-', com.codice) as cliente_commessa,
 tsr.codice as stato_risorsa
- FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
- WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
- and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
+FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
+WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
+and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
 ) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
 and com.cliente_idCliente = cl.idCliente
  and t.dataInizio <= $P{DATA_INIZIO}
@@ -48,17 +57,44 @@ and r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 and ra.mese= $P{MESE}
 and ra.anno= $P{ANNO}
 group by r.idRisorsa, r.matricola
-ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
+)
+union
+(
+SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,
+trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro,
+ra.oreLavorate as ore_lavorate,
+if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) as costo_totale,
+0 as ricavo_totale,
+0 as tariffa_importo,
+concat(cl.codice, '-', com.codice) as cliente_commessa,
+'' as stato_risorsa
+FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl
+WHERE r.idRisorsa = c.risorsa_idRisorsa
+and r.idRisorsa = rl.risorsa_idRisorsa
+and r.idRisorsa = ra.risorsa_idRisorsa
+and ra.commessa_idCommessa = com.idCommessa
+and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+and r.idRisorsa = rl.risorsa_idRisorsa
+and com.cliente_idCliente = cl.idCliente
+and com.codice = 'ST-ASSR'
+and ra.mese= $P{MESE}
+and ra.anno= $P{ANNO}
+)
+) as tab
+group by idRisorsa
+ORDER BY idTipoRapportoLavoro, cognome]]>
 	</queryString>
 	<field name="idRisorsa" class="java.lang.Integer"/>
 	<field name="matricola" class="java.lang.String"/>
 	<field name="codice" class="java.lang.String"/>
 	<field name="cognome" class="java.lang.String"/>
 	<field name="rappLavoro" class="java.lang.String"/>
+	<field name="idTipoRapportoLavoro" class="java.lang.Integer"/>
 	<field name="ore_lavorate" class="java.lang.Double"/>
 	<field name="costo_totale" class="java.lang.Double"/>
 	<field name="ricavo_totale" class="java.lang.Double"/>
-	<field name="margine_totale" class="java.lang.Double"/>
+	<field name="margine_totale" class="java.lang.Float"/>
 	<field name="tariffa_importo" class="java.lang.Float"/>
 	<field name="cliente_commessa" class="java.lang.String"/>
 	<field name="stato_risorsa" class="java.lang.String"/>
@@ -110,7 +146,7 @@ ORDER BY trl.idTipoRapportoLavoro, r.cognome, r.nome]]>
 	<pageHeader>
 		<band height="60" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="1" width="408" height="55"/>
+				<reportElement x="0" y="0" width="408" height="55"/>
 				<subreportParameter name="MESE">
 					<subreportParameterExpression><![CDATA[$P{MESE}]]></subreportParameterExpression>
 				</subreportParameter>

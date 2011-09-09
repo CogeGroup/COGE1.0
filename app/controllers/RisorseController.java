@@ -40,11 +40,25 @@ import utility.MyUtility;
 @With(SecureCOGE.class)
 public class RisorseController extends Controller {
 
-
 	public static void index() {
         render();
     }
-    
+	
+	public static void order(String parametro, String ordinamento, String lastParametro) {
+		if(ordinamento == null || (lastParametro != null && !lastParametro.equals(parametro))){
+			ordinamento = "asc";
+		}
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by " + parametro + " " + ordinamento).fetch());
+    	listaRisorse.setPageSize(10);
+    	if(ordinamento.equals("desc")){
+    		ordinamento = "asc";
+    	}else{
+    		ordinamento = "desc";
+    	}
+    	lastParametro = parametro;
+		render("RisorseController/list.html",listaRisorse,ordinamento,lastParametro); 
+    }
+	
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by cognome, nome").fetch());
     	listaRisorse.setPageSize(10);

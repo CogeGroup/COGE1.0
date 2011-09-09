@@ -1,8 +1,10 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-
+*       /               module:secure
 # Home page
+# Set context name 
+
 GET     /                                       LogInController.index
 
 
@@ -14,5 +16,5 @@ GET     /public/                                staticDir:public
 
 GET		/costi/{action}							CostiController.{action}
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*      /{controller}/{action}                  {controller}.{action}
 
