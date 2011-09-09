@@ -23,20 +23,28 @@ sum(t.costo_totale) as costoTot,
 sum(t.ricavo_totale) as ricavoTotale,
 margine(sum(t.costo_totale), sum(t.ricavo_totale)) as margineTotale
 from(
-SELECT distinct r.idRisorsa as idRisorsa, r.matricola as matricola,
-trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.codice as rappLavoro_cod, trl.descrizione as rappLavoro_desc,
-sum(if(com.calcoloRicavi=true,ra.oreLavorate,0)) as ore_lavorate,
+SELECT idRisorsa, matricola,
+rappLavoro as rappLavoro_cod, descrizione as rappLavoro_desc, idTipoRapportoLavoro,
+sum(ore_lavorate) as ore_lavorate,
+sum(costo_totale) as costo_totale,
+sum(ricavo_totale) as ricavo_totale
+from
+(
+(
+SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.descrizione as descrizione,
+sum(ra.oreLavorate) as ore_lavorate,
 if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
 sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale
 FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
 WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
-and (c.dataFine is null or c.dataFine >= $P{DATA_FINE})
-and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
+and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
 and t.dataInizio <= $P{DATA_INIZIO}
-and (t.dataFine is null or t.dataFine >= $P{DATA_FINE})
-and r.idRisorsa = rl.risorsa_idRisorsa and rl.dataInizio <= $P{DATA_INIZIO}
-and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE})
-and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
+and (t.dataFine is null or t.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = rl.risorsa_idRisorsa and rl.dataInizio <= $P{DATA_INIZIO}
+ and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE}
+) and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
 and rl.dataInizio <= $P{DATA_INIZIO}
 and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE})
 and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
@@ -44,6 +52,27 @@ and r.idRisorsa = rl.risorsa_idRisorsa
 and ra.mese= $P{MESE}
 and ra.anno= $P{ANNO}
 group by r.idRisorsa, r.matricola
+)
+union
+(
+SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.descrizione as descrizione,
+ra.oreLavorate as ore_lavorate,
+if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) as costo_totale,
+0 as ricavo_totale
+FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl
+WHERE r.idRisorsa = c.risorsa_idRisorsa
+and r.idRisorsa = rl.risorsa_idRisorsa
+and r.idRisorsa = ra.risorsa_idRisorsa
+and ra.commessa_idCommessa = com.idCommessa
+and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+and r.idRisorsa = rl.risorsa_idRisorsa
+and com.codice = 'ST-ASSR'
+and ra.mese= $P{MESE}
+and ra.anno= $P{ANNO}
+)
+) as tab
+group by idRisorsa
 ) as t
 group by t.idTipoRapportoLavoro]]>
 	</queryString>
