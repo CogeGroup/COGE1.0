@@ -2,9 +2,10 @@
 .project
 .settings
 conf/application.conf
+modules/
 eclipse
 tmp
 test-result
 test-result/
 precompiled/
-
+logs/
