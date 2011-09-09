@@ -3,19 +3,18 @@
 # ~~~~
 *         /               module:secure
 # Home page
-GET     /                                       LogInController.index
+# Set context name 
+%{ ctx = play.configuration.getProperty('war.context', '') }%
+GET     ${ctx}/                                       LogInController.index
 
 
 # Ignore favicon requests
-GET     /favicon.ico                            404
+GET     ${ctx}/favicon.ico                            404
 
 # Map static resources from the /app/public folder to the /public path
-GET     /public/                                staticDir:public
+GET     ${ctx}/public/                                staticDir:public
 
-GET		/costi/{action}							CostiController.{action}
+GET		${ctx}/costi/{action}							CostiController.{action}
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*      ${ctx}/{controller}/{action}                  {controller}.{action}
 
-GET			/login			LogInController.index
-GET         /logout         LogInController.index
-POST        /login          LogInController.index
