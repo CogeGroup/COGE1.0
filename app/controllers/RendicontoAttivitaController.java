@@ -108,7 +108,7 @@ public class RendicontoAttivitaController extends Controller {
 		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
 		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCostiAndFlagCoCoPro", false, false, true).fetch();
+			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
 		}
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 	}
@@ -126,7 +126,7 @@ public class RendicontoAttivitaController extends Controller {
 		List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
 		listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
 		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCostiAndFlagCoCoPro", false, false, true).fetch();
+			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
 		}
 		mese--;
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
@@ -176,6 +176,9 @@ public class RendicontoAttivitaController extends Controller {
 						validation.addError("oreLavorate", "inserire correttamente le ore totali");
 						List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese+1, anno, risorsa);
 						List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
+						if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
+							listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+						}
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
 								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 					}
