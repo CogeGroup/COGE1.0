@@ -16,3 +16,5 @@ GET		/costi/{action}							CostiController.{action}
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
 
+GET			/login			LogInController.index
+GET         /logout         LogInController.index
