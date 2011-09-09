@@ -18,3 +18,4 @@ GET		/costi/{action}							CostiController.{action}
 
 GET			/login			LogInController.index
 GET         /logout         LogInController.index
+POST        /login          LogInController.index
