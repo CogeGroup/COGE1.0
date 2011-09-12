@@ -82,7 +82,7 @@
 				#{if commessa.cliente.attivo }
 					<td><a href="@{CommesseController.edit(commessa.idCommessa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 					<td>
-						#{if commessa.calcoloRicavi == true && commessa.dataInizioCommessa != null}
+						#{if commessa.calcoloRicavi == true && commessa.dataInizioCommessa != null && commessa.dataFineCommessa == null}
 							<a href="@{CommesseController.delete(commessa.idCommessa)}" onclick="return confirm('Sei sicuro di voler eliminare la commessa?')"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
 						#{/if}
 					</td>

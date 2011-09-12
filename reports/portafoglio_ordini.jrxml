@@ -171,7 +171,7 @@ and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m'
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PORTAFOGLIO ORDINI]]></text>
+				<text><![CDATA[Portafoglio Ordini]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="330" y="3" width="40" height="20"/>

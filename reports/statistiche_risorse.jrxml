@@ -111,7 +111,7 @@ ORDER BY idTipoRapportoLavoro, cognome]]>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[REPORT RISORSE ]]></text>
+				<text><![CDATA[Report Risorse]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="146" y="3" width="36" height="20"/>
