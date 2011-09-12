@@ -84,6 +84,7 @@ public class Risorsa extends GenericModel {
 	public List<RapportoAttivita> rapportiAttivita = new ArrayList<RapportoAttivita>();
 	
 	@OneToOne
+	@CheckWith(TipoStatoRisorsaCheck.class)
 	public TipoStatoRisorsa tipoStatoRisorsa;
 	
 	@Transient
@@ -139,6 +140,21 @@ public class Risorsa extends GenericModel {
 			Risorsa risorsa2 = (Risorsa) risorsa;
 			if(dataOut != null && !((Date) dataOut).after(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio)) {
 				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio));
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	
+	static class TipoStatoRisorsaCheck extends Check {
+		static final String message = "validation.risorsa.tipoStatoRisorsa.stato_chiuso_non_valido";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object tipoStatoRisorsa) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			if (risorsa2.dataOut == null && ((TipoStatoRisorsa) tipoStatoRisorsa).codice.equals("CHIUSO")) {
+				setMessage(message);
 				return false;
 			}
 			return true;
@@ -280,7 +296,7 @@ public class Risorsa extends GenericModel {
 				"r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome, trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate, "+
 				"sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale, "+
 				"sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale "+
-				"FROM `risorsa` r, `costo` c, `tariffa` t, `commessa` com, `rendicontoattivita` ra,`rapportolavoro` rl,`tiporapportolavoro` trl "+
+				"FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl "+
 				"WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= '"
 				+dataInizio.toDate()+
 				"' and (c.dataFine is null or c.dataFine >= '"

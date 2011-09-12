@@ -26,6 +26,7 @@ risorsa.dataOut = data fine
 validation.risorsa.matricola_esistente = matricola esistente
 validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro = li campo %s deve essere <= di %s (inizio primo rapporto di lavoro)
 validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro = %s deve essere > di %s (inizio ultimo rapporto di lavoro)
+validation.risorsa.tipoStatoRisorsa.stato_chiuso_non_valido = la stato non puo' essere chiuso se la risorsa non ha una data fine
 # TIPO STATO RISORSA ----------------------
 tipoStatoRisorsa.codice = codice
 tipoStatoRisorsa.descrizione = descrizione
