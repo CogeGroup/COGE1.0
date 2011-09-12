@@ -39,11 +39,14 @@
 				<label for="ricerca">Ricerca: </label>
 				<input type="text" class="txt_m" name="risorsa" id="risorsa" />
 				<input type="hidden" name="idRisorsa" id="idRisorsa" />
-				<input type="submit" value="Cerca" class="button_submit"/>
+				<input type="submit" value="Cerca" class="button_search"/>
 			</form>
-			#{a @RisorseController.list()}mostra tutti#{/a}<br />
-			#{a @RisorseController.listDipendenti()}Risorse dipendenti#{/a}<br />
-			#{a @RisorseController.listCoCoPro()}Risorse Co.Co.Pro.#{/a}<br />
+			<br />
+			<span class="search">
+				#{a @RisorseController.list()}Mostra tutto#{/a}
+				#{a @RisorseController.listDipendenti()}Risorse dipendenti#{/a}
+				#{a @RisorseController.listCoCoPro()}Risorse Co.Co.Pro.#{/a}
+			</span>
 			<p class="error">${flash.error}</p>
 		</div>
 		<table class="table_center">
