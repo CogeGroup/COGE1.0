@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_commesse_non_fatturabili_collaboratori" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="41"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="9"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -104,7 +104,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[GIORNI STATISTICHE (CO.CO.Pro.)]]></text>
+				<text><![CDATA[Giorni Statistiche (CO.CO.Pro.)]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="314" y="10" width="54" height="20"/>
@@ -123,7 +123,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 	<pageHeader>
 		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="38" height="22" backcolor="#CCCC00"/>
+				<reportElement mode="Opaque" x="0" y="0" width="38" height="22" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -137,7 +137,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[CODICE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="322" y="0" width="40" height="22" backcolor="#FFFF66"/>
+				<reportElement mode="Opaque" x="322" y="0" width="40" height="22" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -151,7 +151,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[GEN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="482" y="0" width="40" height="22" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="482" y="0" width="40" height="22" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -165,7 +165,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[MAG]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="522" y="0" width="40" height="22" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="522" y="0" width="40" height="22" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -179,7 +179,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[GIU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="602" y="0" width="40" height="22" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="602" y="0" width="40" height="22" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -193,7 +193,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[AGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="762" y="0" width="40" height="22" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="762" y="0" width="40" height="22" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -207,7 +207,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[DIC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="722" y="0" width="40" height="22" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="722" y="0" width="40" height="22" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -221,7 +221,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[NOV]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="682" y="0" width="40" height="22" backcolor="#CC3300"/>
+				<reportElement mode="Opaque" x="682" y="0" width="40" height="22" backcolor="#FFCC99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -235,7 +235,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[OTT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="402" y="0" width="40" height="22" backcolor="#FFFF66"/>
+				<reportElement mode="Opaque" x="402" y="0" width="40" height="22" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -249,7 +249,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[MAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="362" y="0" width="40" height="22" backcolor="#FFFF66"/>
+				<reportElement mode="Opaque" x="362" y="0" width="40" height="22" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -263,7 +263,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[FEB]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="38" y="0" width="129" height="22" backcolor="#CCCC00"/>
+				<reportElement mode="Opaque" x="38" y="0" width="129" height="22" backcolor="#FFFF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -277,7 +277,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[DESCRIZIONE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="167" y="0" width="55" height="22" backcolor="#00CCCC"/>
+				<reportElement mode="Opaque" x="167" y="0" width="55" height="22" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -291,7 +291,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[TOTALE ANNO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="562" y="0" width="40" height="22" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="562" y="0" width="40" height="22" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -335,7 +335,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
  SEM.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="442" y="0" width="40" height="22" backcolor="#CCCCFF"/>
+				<reportElement mode="Opaque" x="442" y="0" width="40" height="22" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -349,7 +349,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<text><![CDATA[APR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="642" y="0" width="40" height="22" backcolor="#9999FF"/>
+				<reportElement mode="Opaque" x="642" y="0" width="40" height="22" backcolor="#99FF99"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -594,7 +594,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 	<summary>
 		<band height="20" splitType="Stretch">
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="167" y="0" width="55" height="20" backcolor="#FF3333"/>
+				<reportElement mode="Opaque" x="167" y="0" width="55" height="20" backcolor="#FF9999"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -607,7 +607,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ore_totali_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="222" y="0" width="50" height="20" backcolor="#FFFF00"/>
+				<reportElement mode="Opaque" x="222" y="0" width="50" height="20" backcolor="#FFFF99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -620,7 +620,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ore_totali_primo_semestre_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="272" y="0" width="50" height="20" backcolor="#FFFF00"/>
+				<reportElement mode="Opaque" x="272" y="0" width="50" height="20" backcolor="#FFFF99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -633,7 +633,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ore_totali_secondo_semestre_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="322" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="322" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -646,7 +646,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_gennaio_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="362" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="362" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -659,7 +659,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_febbraio_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="402" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="402" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -672,7 +672,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_marzo_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="442" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="442" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -685,7 +685,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_aprile_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="482" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="482" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -698,7 +698,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_maggio_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="522" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="522" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -711,7 +711,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_giugno_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="562" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="562" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -724,7 +724,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_luglio_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="602" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="602" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -737,7 +737,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_agosto_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="642" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="642" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -750,7 +750,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_settembre_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="682" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="682" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -763,7 +763,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_ottobre_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="722" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="722" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -776,7 +776,7 @@ sum(if(ra.mese = 12, ra.oreLavorate,0))/8 as totale_dicembre
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{totale_novembre_1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0">
-				<reportElement mode="Opaque" x="762" y="0" width="40" height="20" backcolor="#FFCC66"/>
+				<reportElement mode="Opaque" x="762" y="0" width="40" height="20" backcolor="#FFCC99"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>

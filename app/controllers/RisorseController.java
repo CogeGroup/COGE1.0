@@ -87,7 +87,7 @@ public class RisorseController extends Controller {
     public static void create() {
     	Risorsa risorsa = new Risorsa();
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
-    	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+    	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
     	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
         render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa,idCoCoPro);
     }
@@ -96,7 +96,7 @@ public class RisorseController extends Controller {
     	validation.min(idTipoRapportoLavoro, 1).message("selezionare un tipo rapporto lavoro");
     	if(validation.hasErrors()) {
         	List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
-        	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
+        	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
         	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
             renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, giorniAssenzeRetribuite);
         }
@@ -113,7 +113,7 @@ public class RisorseController extends Controller {
     public static void edit(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
-        render(risorsa, listaTipoStatoRisorsa);
+    	render(risorsa, listaTipoStatoRisorsa);
     }
     
     public static void update(@Valid Risorsa risorsa) {
@@ -201,6 +201,7 @@ public class RisorseController extends Controller {
 		} else if (risorsa.dataOut.after(dataChiusura)) {
 			risorsa.dataOut = risorsa.dataIn.before(dataChiusura) ? dataChiusura : risorsa.dataIn;
 		}
+    	risorsa.tipoStatoRisorsa = TipoStatoRisorsa.find("byCodice", "CHIUSO").first();
     }
     
     public static void export() {
