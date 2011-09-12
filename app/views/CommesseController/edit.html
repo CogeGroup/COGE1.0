@@ -27,6 +27,15 @@
 			yearRange:'-59:+50'
 		});
 	});
+
+	function toggle_visibility_true(id) {
+		var e = document.getElementById(id);
+		e.style.display = 'block';
+    }
+    function toggle_visibility_false(id) {
+		var e = document.getElementById(id);
+		e.style.display = 'none';
+    }
 </script>
 
 <h2>Modifica commessa</h2>
@@ -45,14 +54,12 @@
    	<label for="descrizione">Descrizione: </label>
    	<input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
    	<br />
-	#{if !commessa instanceof models.CommessaACorpo }
-  		<label for="calcoloCosti">Calcola costi: </label>
-	    <input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
-	    <br />
-	    <label for="calcoloRicavi">Calcola ricavi: </label>
-	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
-	    <br />
-  	#{/if}
+  	<label for="calcoloCosti">Calcola costi: </label>
+	<input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
+	<br />
+	<label for="calcoloRicavi">Calcola ricavi: </label>
+	<input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
+	<br />
   	<label for="tipoCommessa">Tipo commessa: </label>
 	#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa }
 		#{option ''}- selezionare -#{/option}
@@ -64,13 +71,22 @@
 	<label for=dataFineCommessa>Data fine: </label>
     <input type="text" class="txt_date" id="datepicker2" name="commessa.dataFineCommessa" value="${commessa.dataFineCommessa?.format('dd-MM-yyyy') }"/>
 	<br />
-	#{if commessa instanceof models.CommessaACorpo }
-        <label for=importo>Importo:</label>
-        <input type="text" class="txt_s" id="importo" name="commessa.importo" value="${commessa.importo }"/>
-	    <br />
-	#{/if}
     <label for="cliente">Cliente: </label>
     #{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
+    <br />
+    <label for="aCorpo">A corpo: </label>
+	    <span class="checkbox">
+        SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if commessa instanceof models.CommessaACorpo}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>
+        NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if !(commessa instanceof models.CommessaACorpo)}checked="checked"#{/if} onclick="toggle_visibility_false('divACorpo');"/>
+	    </span><br /><br />
+	    <div id="divACorpo" #{if !(commessa instanceof models.CommessaACorpo)}style="display: none" #{/if}>
+	    	<span class="linea">
+		    	<hr>
+		    </span>
+			<label for=importo>Importo: </label>
+		    <input type="text" class="txt_s" name="importo" value="${importo }"/>
+		    <br /><br />
+		</div>
 </div>
 	<div id="button_center">
 		<input type="hidden" name="commessa.calcoloCosti" value="false" /> 

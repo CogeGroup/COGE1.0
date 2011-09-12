@@ -7,6 +7,9 @@
 		<li><label>Nome: </label>${costo.risorsa.nome}</li> 
 		<li><label>Cognome: </label>${costo.risorsa.cognome}</li>
 		<li><label>Rapporto di lavoro: </label>${costo.risorsa.rapportiLavoro.get(costo.risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.descrizione}</li>
+		#{if costo.risorsa.rapportiLavoro.get(costo.risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice == 'CCP' }
+			<li><label>Giorni assenza retribuita: </label>${costo.risorsa.rapportiLavoro.get(costo.risorsa.rapportiLavoro.size()-1).giorniAssenzeRetribuite }</li>
+		#{/if}
 	</ul>
 </div>
 
@@ -63,7 +66,7 @@
 	#{select 'costo.annoFine', items:listaAnni, labelProperty:'costo.annoFine', valueProperty:'annoFine', value:costo.annoFine}
 		#{option -1}-- Anno --#{/option}
 	#{/select} 
-    
+    <br /><br />
 </div>
 <div id="button_center">
 	<input type="hidden" name="costo.risorsa.idRisorsa" value="${costo?.risorsa?.idRisorsa}">

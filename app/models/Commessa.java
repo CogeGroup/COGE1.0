@@ -11,12 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.Session;
+
 import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
+import play.db.jpa.JPA;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -134,6 +137,18 @@ public class Commessa extends GenericModel{
 	
 	public static List<Commessa> findCommesseNonFatturabiliAttive(){
 		return Commessa.find("select cm from Commessa cm where com.calcoloRicavi is false and com.calcoloCosti is false and cm.dataFineCommessa is null or cm.dataFineCommessa >= ? order by codice asc", new Date()).fetch();
+	}
+	
+	public static void commessaToCommessaACorpo(Integer id, float importo) {
+		Session session = (Session)JPA.em().getDelegate();
+		session.createSQLQuery("UPDATE Commessa SET DTYPE = 'CommessaACorpo', importo = " + importo + " WHERE idCommessa = " + id).executeUpdate();
+		return;
+	}
+	
+	public static void commessaACorpoToCommessa(Integer id) {
+		Session session = (Session)JPA.em().getDelegate();
+		session.createSQLQuery("UPDATE Commessa SET DTYPE = 'Commessa', importo = 0 WHERE idCommessa = " + id).executeUpdate();
+		return;
 	}
 	
 	public float calcolaRicavo(int mese, int anno) {

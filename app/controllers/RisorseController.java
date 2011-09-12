@@ -65,6 +65,18 @@ public class RisorseController extends Controller {
 		render(listaRisorse); 
     }
     
+    public static void listCoCoPro() {
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findCoCoPro());
+    	listaRisorse.setPageSize(10);
+		render("RisorseController/list.html",listaRisorse); 
+    }
+    
+    public static void listDipendenti() {
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findDipendenti());
+    	listaRisorse.setPageSize(10);
+		render("RisorseController/list.html",listaRisorse); 
+    }
+    
     public static void search(Integer idRisorsa) {
     	if(idRisorsa == null || idRisorsa.equals("")){
     		list();

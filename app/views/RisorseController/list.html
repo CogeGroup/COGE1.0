@@ -42,7 +42,11 @@
 				<input type="submit" value="Cerca" class="button_search"/>
 			</form>
 			<br />
-			<span class="search">#{a @RisorseController.list()}Mostra tutto#{/a}</span>
+			<span class="search">
+				#{a @RisorseController.list()}Mostra tutto#{/a}
+				#{a @RisorseController.listDipendenti()}Risorse dipendenti#{/a}
+				#{a @RisorseController.listCoCoPro()}Risorse Co.Co.Pro.#{/a}
+			</span>
 			<p class="error">${flash.error}</p>
 		</div>
 		<table class="table_center">

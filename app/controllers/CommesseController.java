@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
+
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
+import models.RendicontoAttivita;
 import models.Risorsa;
 import models.Tariffa;
 import models.TipoCommessa;
 import play.data.validation.Valid;
+import play.db.jpa.JPA;
+import play.db.jpa.JPABase;
+import play.db.jpa.GenericModel.JPAQuery;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -107,10 +115,15 @@ public class CommesseController extends Controller {
     	Commessa commessa = Commessa.findById(id);
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
     	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
-        render(commessa, listaClienti, listaTipiCommessa);
+    	float importo = 0;
+    	if(commessa instanceof CommessaACorpo) {
+    		importo = ((CommessaACorpo)commessa).importo;
+    	}
+        render(commessa, listaClienti, listaTipiCommessa, importo);
     }
     
-    public static void update(@Valid Commessa commessa, boolean calcoloRicavi, boolean calcoloCosti) {
+    public static void update(@Valid Commessa commessa, boolean calcoloRicavi, boolean calcoloCosti, 
+    		String aCorpo, float importo) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
@@ -121,6 +134,11 @@ public class CommesseController extends Controller {
     	commessa.dataFineCommessa = commessa.calcoloRicavi == true ? commessa.dataFineCommessa : null;
     	if(commessa.dataFineCommessa != null){
     		Tariffa.chiudiTariffeByCommessa(commessa);
+    	}
+    	if(aCorpo != null && aCorpo.equals("si")) {
+    		Commessa.commessaToCommessaACorpo(commessa.idCommessa, importo);
+    	}else if(aCorpo != null && aCorpo.equals("no")){
+    		Commessa.commessaACorpoToCommessa(commessa.idCommessa);
     	}
     	commessa.save();
     	flash.success("%s modificata con successo", commessa.codice);
