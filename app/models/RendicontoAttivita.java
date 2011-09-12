@@ -115,7 +115,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from rendicontoattivita ra                                                                                 "+
+							" from RendicontoAttivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
@@ -153,7 +153,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliAnno(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from rendicontoattivita ra                                                                                 "+
+							" from RendicontoAttivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
@@ -189,7 +189,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratori(String mese,String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from rendicontoattivita ra                                                                                 "+
+							" from RendicontoAttivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
@@ -228,7 +228,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratoriAnno(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from rendicontoattivita ra                                                                                 "+
+							" from RendicontoAttivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
@@ -265,7 +265,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheDettaglioAssenzaRetribuitaCollaboratori(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.matricola,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)   "+
-							" from rendicontoattivita ra                                                                                 "+
+							" from RendicontoAttivita ra                                                                                 "+
 							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
 							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
 							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
