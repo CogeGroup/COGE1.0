@@ -36,8 +36,6 @@ import play.db.jpa.JPA;
 import play.db.jpa.GenericModel.JPAQuery;
 import utility.MyUtility;
 
-
-
 @javax.persistence.Entity
 public class Risorsa extends GenericModel {
 	
@@ -164,6 +162,18 @@ public class Risorsa extends GenericModel {
 	public void addRapportoLavoro(RapportoLavoro rl){
 		rapportiLavoro.add(rl);
 		rl.risorsa=this;
+	}
+	
+	public static List<Risorsa> findCoCoPro() {
+		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
+				"where trl.codice = 'CCP' and trl = rl.tipoRapportoLavoro " +
+				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
+	}
+	
+	public static List<Risorsa> findDipendenti() {
+		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
+				"where trl.codice <> 'CCP' and trl = rl.tipoRapportoLavoro " +
+				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
 	}
 	
 	public static List<Risorsa> findByCommessa(Commessa commessa) {

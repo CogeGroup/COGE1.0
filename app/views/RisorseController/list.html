@@ -41,7 +41,9 @@
 				<input type="hidden" name="idRisorsa" id="idRisorsa" />
 				<input type="submit" value="Cerca" class="button_submit"/>
 			</form>
-			#{a @RisorseController.list()}mostra tutti#{/a}
+			#{a @RisorseController.list()}mostra tutti#{/a}<br />
+			#{a @RisorseController.listDipendenti()}Risorse dipendenti#{/a}<br />
+			#{a @RisorseController.listCoCoPro()}Risorse Co.Co.Pro.#{/a}<br />
 			<p class="error">${flash.error}</p>
 		</div>
 		<table class="table_center">

@@ -23,11 +23,15 @@
 
 <h2>Nuova tariffa</h2>
 <div id="detail">
-<ul>
-	<li><label>Risorsa: </label>${tariffa.risorsa.matricola}</li>
-	<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
-	<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
-</ul>
+	<ul>
+		<li><label>Risorsa: </label>${tariffa.risorsa.matricola}</li>
+		<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
+		<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
+		<li><label>Rapporto di lavoro: </label>${tariffa.risorsa.rapportiLavoro.get(tariffa.risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.descrizione}</li>
+		#{if tariffa.risorsa.rapportiLavoro.get(tariffa.risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice == 'CCP' }
+			<li><label>Giorni assenza retribuita: </label>${tariffa.risorsa.rapportiLavoro.get(tariffa.risorsa.rapportiLavoro.size()-1).giorniAssenzeRetribuite }</li>
+		#{/if}
+	</ul>
 </div>
 
 
