@@ -95,7 +95,7 @@ input.returnbutton {
 {
 	border               : 1px solid #CCC;
 	border-collapse      : collapse;
-  font                 : small/1.5 "Lucida grande", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+  font                 : "Lucida grande", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;	
 }
 table
 {
@@ -436,6 +436,13 @@ input.button_submit {
 	font-weight: bold; 
 }
 
+input.button_search { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+}
+
 #buttonSubmitDouble_center	{
  	text-align:center;
  	height:75px;
@@ -456,7 +463,7 @@ input.button_submit_double {
 
 #detail { 
  	
-	width: 110px; 
+	width: 320px; 
 	padding: 8px 10px 0 8px; 
 	border:1px solid;
 	margin:7px;
@@ -662,3 +669,18 @@ margin:auto;
  padding: 10px;
 }
 
+#search{
+margin:auto;
+
+}
+
+.search{
+
+	
+}
+.search a{
+ background: #FFF url(../images/tr_bck.gif);
+ color: #000000;
+ border:1px dotted black;
+ padding:1px;
+}

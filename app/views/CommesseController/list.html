@@ -39,12 +39,15 @@
 			<label for="ricerca">Ricerca: </label>
 			<input type="text" class="txt_m" name="commessa" id="commessa" />
 			<input type="hidden" name="idCommessa" id="idCommessa" />
-			<input type="submit" value="Cerca" class="button_submit"/>
+			<input type="submit" value="Cerca" class="button_search"/>
 		</form>
-		#{a @CommesseController.list()}Mostra tutti#{/a}<br />
-		#{a @CommesseController.listFatturabili()}Commesse fatturabili#{/a}<br />
-		#{a @CommesseController.listNonFatturabili()}Commesse non fatturabili#{/a}<br />
-		#{a @CommesseController.listACorpo()}Commesse a corpo#{/a}
+		<span class="search">
+		<br />
+		#{a @CommesseController.list()}Mostra tutto#{/a}
+		#{a @CommesseController.listFatturabili()}Fatturabili#{/a}
+		#{a @CommesseController.listNonFatturabili()}Non fatturabili#{/a}
+		#{a @CommesseController.listACorpo()}A corpo#{/a}
+		</span>
 		<p class="error">${flash.error}</p>
 	</div>
 	<table class="table_center">

@@ -38,9 +38,10 @@
 			<label for="ricerca">Ricerca: </label>
 			<input type="text" class="txt_m" name="cliente" id="cliente" />
 			<input type="hidden" name="idCliente" id="idCliente" />
-			<input type="submit" value="Cerca" class="button_submit"/>
+			<input type="submit" value="Cerca" class="button_search"/>
 		</form>
-		#{a @ClientiController.list()}mostra tutti#{/a}
+		<br />
+		<span class="search">#{a @ClientiController.list()}Mostra tutto#{/a}</span>
 		<p class="error">${flash.error}</p>
 	</div>
 	<table class="table_center">
