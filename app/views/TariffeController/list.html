@@ -58,7 +58,7 @@
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}
 						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 					#{/if}
 					#{else}
 						<td></td>

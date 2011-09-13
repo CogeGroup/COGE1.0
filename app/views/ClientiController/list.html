@@ -60,7 +60,7 @@
 				<td>${cliente.nominativo }</td>
 				<td>${cliente.attivo == true ? 'si' : 'no' }</td>
 				<td><a href="@{ClientiController.edit(cliente.idCliente)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-				<td><a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Continuare con la cancellazzione di cliente: ${cliente.nominativo }');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+				<td><a href="@{ClientiController.delete(cliente.idCliente)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 				
 			</tr>
 		#{/paginate.list} 

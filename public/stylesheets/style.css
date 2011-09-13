@@ -27,7 +27,7 @@ h2 { font: normal 1.6em lucida grande, Arial, Sans-Serif; margin: 0 0 12px; }
 h3 a { font-size: 1em; }
 #main h3 a { font-size: .84em; color: #808080; font-weight: normal; text-transform: uppercase; }
 
-#content { width: 940px; margin: 0 auto; padding: 20px 0 0 0; border-top: 5px solid #eee; }
+#content { width: 940px; margin: 0 auto; padding: 20px 0 0 0; }
 
 #top{ float: left; }
 #top a { color: #808080; margin: 0 0 0 13px; background: #fff url(../images/toparrow.png) no-repeat center left; padding: 0 0 0 12px; }

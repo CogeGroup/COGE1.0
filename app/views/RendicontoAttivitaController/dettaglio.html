@@ -32,7 +32,7 @@
 				<td>${rendicontoAttivita.commessa.codice }</td>
 				<td>${rendicontoAttivita.oreLavorate }</td>
 				<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
-					onclick="return confirm('Continuare con la cancellazzione della commessa?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+				onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			</tr>
 		#{/paginate.list}  
 	</table>
