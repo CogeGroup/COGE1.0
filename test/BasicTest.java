@@ -17,7 +17,7 @@ public class BasicTest extends UnitTest {
  @Test
  public void testCalcoloRicavoPerRisorsa() throws ParseException{
     	
-    	Risorsa r1 = Risorsa.find("byMatricola", "a").first();
+    	Risorsa r1 = Risorsa.find("byCodice", "a").first();
     	
     	 new Tariffa(new Date(),8000.0f,r1,cm1).save();
          new Tariffa(new Date(),8000.0f,r1,cm2).save();
@@ -76,8 +76,8 @@ public class BasicTest extends UnitTest {
  @Before
  public void setup() throws ParseException{
 	  
-     Risorsa r1 = new Risorsa("a","a","pippo", "pippo",new Date());
-     Risorsa r2 = new Risorsa("b","b","risorsa2", "risorsa2",new Date());
+     Risorsa r1 = new Risorsa("a","pippo", "pippo",new Date());
+     Risorsa r2 = new Risorsa("b","risorsa2", "risorsa2",new Date());
      
      TipoRapportoLavoro tipoRappLav1 = new TipoRapportoLavoro("tipoRap1","cod");
      TipoRapportoLavoro tipoRappLav2 = new TipoRapportoLavoro("tipoRap2","cod2");

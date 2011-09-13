@@ -87,7 +87,7 @@ public class AccountController extends Controller {
 			listaRuoliUtente.add(r);
 		}		  
 		if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){  
-			//find della risorsa by matricola e controllo se non esiste nessun utente associato alla risorsa
+			//find della risorsa by id e controllo se non esiste nessun utente associato alla risorsa
 			Risorsa r = Risorsa.findById(idRisorsa);
 			if(r!=null){
 				//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
@@ -141,7 +141,7 @@ public class AccountController extends Controller {
 			listaRuoliUtente.add(r);
 		}
 		if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){
-			//find della risorsa by matricola e controllo se non esiste nessun utente oltre al associato alla risorsa
+			//find della risorsa by id e controllo se non esiste nessun utente oltre al associato alla risorsa
 			Risorsa r = Risorsa.findById(idRisorsa);
 			if(r!=null){
 				//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
@@ -187,13 +187,13 @@ public class AccountController extends Controller {
 	}
 	  
 	public static void autocompleteRisorsa(String term) {
-		List<Risorsa> listaRisorse = Risorsa.find("dataOut is null and matricola like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
+		List<Risorsa> listaRisorse = Risorsa.find("codice like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
-		for(Risorsa r:listaRisorse){
-			listaResult.add(new DomainWrapper(r.idRisorsa, r.matricola +" "+r.cognome));
+		for(Risorsa ris:listaRisorse){
+			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.codice + " - " + ris.cognome));
 		}
 		renderJSON(listaResult);
-	}
+    }
 	  
 	public static void autocompleteRuolo(String term) {
 		List<Ruolo> listaRuoli = Ruolo.find("descrizione like ?", "%"+term+"%").fetch();
@@ -235,19 +235,16 @@ public class AccountController extends Controller {
 		    Cell c1 = row.createCell(0);
 		    c1.setCellStyle(style);
 		    c1.setCellValue("USERNAME");
-		    Cell c2 = row.createCell(1);
-		    c2.setCellStyle(style);
-		    c2.setCellValue("MATRICOLA");
-		    Cell c3 = row.createCell(2);
+		    Cell c3 = row.createCell(1);
 		    c3.setCellStyle(style);
 		    c3.setCellValue("NOMINATIVO");
-		    Cell c4 = row.createCell(3);
+		    Cell c4 = row.createCell(2);
 		    c4.setCellStyle(style);
 		    c4.setCellValue("E-MAIL");
-		    Cell c5 = row.createCell(4);
+		    Cell c5 = row.createCell(3);
 		    c5.setCellStyle(style);
 		    c5.setCellValue("PASSWORD");
-		    Cell c6 = row.createCell(5);
+		    Cell c6 = row.createCell(4);
 		    c6.setCellStyle(style);
 		    c6.setCellValue("ATTIVO");
 		    short i = 1;
@@ -255,11 +252,10 @@ public class AccountController extends Controller {
 		    for(Utente utente : listaUtenti){
 		    	row = sheet.createRow(i);
 			    row.createCell(0).setCellValue(utente.username);
-			    row.createCell(1).setCellValue(utente.risorsa.matricola);
-			    row.createCell(2).setCellValue(utente.risorsa.nome + " " + utente.risorsa.cognome);
-			    row.createCell(3).setCellValue(utente.email);
-			    row.createCell(4).setCellValue(utente.password);
-			    row.createCell(5).setCellValue(utente.abilitato == true ? "SI" : "NO");
+			    row.createCell(1).setCellValue(utente.risorsa.nome + " " + utente.risorsa.cognome);
+			    row.createCell(2).setCellValue(utente.email);
+			    row.createCell(3).setCellValue(utente.password);
+			    row.createCell(4).setCellValue(utente.abilitato == true ? "SI" : "NO");
 			    i++;
 		    }
 			sheet.autoSizeColumn(0);
@@ -267,7 +263,6 @@ public class AccountController extends Controller {
 		    sheet.autoSizeColumn(2);
 		    sheet.autoSizeColumn(3);
 		    sheet.autoSizeColumn(4);
-		    sheet.autoSizeColumn(5);
 		    out.flush();
 		    wb.write(out);  
 		} catch (IOException e) {

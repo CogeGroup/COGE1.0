@@ -31,21 +31,21 @@ public class CostoTest extends UnitTest {
 
 	@Test
 	 public void testDataCostoDentroPeriodoChiuso(){
-		 Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		 Risorsa bob = Risorsa.find("byCodice", "a").first();
 		 Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011,10,30).toDate(), bob);
 		 assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineNull(){
-		Risorsa bonnie = Risorsa.find("byMatricola", "537").first();
+		Risorsa bonnie = Risorsa.find("byCodice", "b").first();
 		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 3, 2).toDate(),bonnie);
 		assertFalse(costo.validateAndSave());
 	 }
 	
 	@Test
 	 public void testDataFineInPeriodoEsistente(){
-		Risorsa bob = Risorsa.find("byMatricola", "123").first();
+		Risorsa bob = Risorsa.find("byCodice", "a").first();
 		Costo costo = new Costo(50.0f, 1000f, new DateMidnight(2011, 4, 20).toDate(),bob);
 		costo.dataFine = new DateMidnight(2011, 5, 5).toDate();
 		assertFalse(costo.validateAndSave());
@@ -122,8 +122,8 @@ public class CostoTest extends UnitTest {
 	public void setup() throws ParseException {
 		Fixtures.loadModels("data.yml");
 
-		r1 = new Risorsa("a", "a", "pippo", "pippo", new Date());
-		r2 = new Risorsa("b", "b", "risorsa2", "risorsa2", new Date());
+		r1 = new Risorsa("a", "pippo", "pippo", new Date());
+		r2 = new Risorsa("b", "risorsa2", "risorsa2", new Date());
 
 		r1.save();
 		r2.save();

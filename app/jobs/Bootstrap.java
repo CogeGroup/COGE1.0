@@ -46,7 +46,7 @@ public class Bootstrap extends play.jobs.Job {
     
     public void testCalcoloTariffePerCommessa() throws ParseException{
     	
-    	Risorsa r1 = Risorsa.find("byMatricola", "a").first();
+    	Risorsa r1 = Risorsa.find("byCognome", "a").first();
     	
     	 new Tariffa(new Date(),8000.0f,r1,cm1).save();
          new Tariffa(new Date(),8000.0f,r1,cm2).save();
@@ -76,7 +76,7 @@ public class Bootstrap extends play.jobs.Job {
 	 
 	 
     	
-    	Risorsa r1 = Risorsa.find("byMatricola", "a").first();
+    	Risorsa r1 = Risorsa.find("byCognome", "a").first();
     	
     	 Tariffa trf1 = new Tariffa(new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"),3000.0f,r1,cm1);
     	 trf1.dataFine = new SimpleDateFormat("dd/MM/yyyy").parse("30/06/2011");
@@ -111,8 +111,8 @@ public class Bootstrap extends play.jobs.Job {
 	 
 	 
  	
- 	Risorsa r1 = Risorsa.find("byMatricola", "a").first();
- 	Risorsa r2 = Risorsa.find("byMatricola", "b").first();
+ 	Risorsa r1 = Risorsa.find("byCognome", "a").first();
+ 	Risorsa r2 = Risorsa.find("byCognome", "b").first();
  	TipoRapportoLavoro tp1 = TipoRapportoLavoro.find("byDescrizione","tipoRap1").first();
  	TipoRapportoLavoro tp2 = TipoRapportoLavoro.find("byDescrizione","tipoRap2").first();
  	tp2.save();
@@ -160,8 +160,8 @@ public class Bootstrap extends play.jobs.Job {
  
       public void setup() throws ParseException{
     	  
-      Risorsa r1 = new Risorsa("122","a","pippo", "pippo", new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
-      Risorsa r2 = new Risorsa("123","b","risorsa2", "risorsa2",new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
+      Risorsa r1 = new Risorsa("a","pippo", "pippo", new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
+      Risorsa r2 = new Risorsa("b","risorsa2", "risorsa2",new SimpleDateFormat("dd/MM/yyyy").parse("01/06/2011"));
       
       TipoRapportoLavoro tipoRappLav1 = new TipoRapportoLavoro("tipoRap1","cod");
       TipoRapportoLavoro tipoRappLav2 = new TipoRapportoLavoro("tipoRap2","cod2");

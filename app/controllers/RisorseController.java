@@ -118,7 +118,7 @@ public class RisorseController extends Controller {
         primoRapportoLavoro.giorniAssenzeRetribuite = giorniAssenzeRetribuite;
         risorsa.addRapportoLavoro(primoRapportoLavoro);
         risorsa.save();
-		flash.success("risorsa %s inserita con successo", risorsa.matricola);
+		flash.success("risorsa inserita con successo");
 		list();
 	}
     
@@ -140,7 +140,7 @@ public class RisorseController extends Controller {
         }
     	//procede alla modifica
         risorsa.save();
-		flash.success("risorsa %s modificata con successo", risorsa.matricola);
+		flash.success("risorsa modificata con successo");
 		list();
 	}
     
@@ -151,9 +151,9 @@ public class RisorseController extends Controller {
     	
     	//procede alla cancellazione logica
         if(risorsa.save() != null) {
-			 flash.success("risorsa %s disabilitata con successo", risorsa.matricola);
+			 flash.success("risorsa disabilitata con successo");
 		 } else {
-			flash.error("si sono verificati dei problemi nel disabilitare la risorsa %s", risorsa.matricola);
+			flash.error("si sono verificati dei problemi nel disabilitare la risorsa");
 		}		 
 		list();
     }
@@ -235,38 +235,34 @@ public class RisorseController extends Controller {
 			style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 			style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 			HSSFRow row = sheet.createRow((short)0);
-	        Cell c1 = row.createCell(0);
-	        c1.setCellStyle(style);
-	        c1.setCellValue("MATRICOLA");
-	        Cell c2 = row.createCell(1);
+	        Cell c2 = row.createCell(0);
 	        c2.setCellStyle(style);
 	        c2.setCellValue("CODICE");
-	        Cell c3 = row.createCell(2);
+	        Cell c3 = row.createCell(1);
 	        c3.setCellStyle(style);
 	        c3.setCellValue("NOME");
-	        Cell c4 = row.createCell(3);
+	        Cell c4 = row.createCell(2);
 	        c4.setCellStyle(style);
 	        c4.setCellValue("COGNOME");
-	        Cell c5 = row.createCell(4);
+	        Cell c5 = row.createCell(3);
 	        c5.setCellStyle(style);
 	        c5.setCellValue("DATA IN");
-	        Cell c6 = row.createCell(5);
+	        Cell c6 = row.createCell(4);
 	        c6.setCellStyle(style);
 	        c6.setCellValue("DATA OUT");
-	        Cell c7 = row.createCell(6);
+	        Cell c7 = row.createCell(5);
 	        c7.setCellStyle(style);
 	        c7.setCellValue("STATO");
 	        short i = 1;
-	        List<Risorsa> listaRisorse = Risorsa.find("order by matricola").fetch();
+	        List<Risorsa> listaRisorse = Risorsa.find("order by cognome").fetch();
 	        for(Risorsa risorsa : listaRisorse){
 		        row = sheet.createRow(i);
-		        row.createCell(0).setCellValue(risorsa.matricola);
-		        row.createCell(1).setCellValue(risorsa.codice);
-		        row.createCell(2).setCellValue(risorsa.nome);
-		        row.createCell(3).setCellValue(risorsa.cognome);
-		        row.createCell(4).setCellValue(MyUtility.dateToString(risorsa.dataIn));
-		        row.createCell(5).setCellValue(risorsa.dataOut == null ? null : MyUtility.dateToString(risorsa.dataOut));
-		        row.createCell(6).setCellValue(risorsa.tipoStatoRisorsa.descrizione);
+		        row.createCell(0).setCellValue(risorsa.codice);
+		        row.createCell(1).setCellValue(risorsa.nome);
+		        row.createCell(2).setCellValue(risorsa.cognome);
+		        row.createCell(3).setCellValue(MyUtility.dateToString(risorsa.dataIn));
+		        row.createCell(4).setCellValue(risorsa.dataOut == null ? null : MyUtility.dateToString(risorsa.dataOut));
+		        row.createCell(5).setCellValue(risorsa.tipoStatoRisorsa.descrizione);
 		        i++;
 		    }
 	        sheet.autoSizeColumn(0);
@@ -275,7 +271,6 @@ public class RisorseController extends Controller {
 	        sheet.autoSizeColumn(3);
 	        sheet.autoSizeColumn(4);
 	        sheet.autoSizeColumn(5);
-	        sheet.autoSizeColumn(6);
 	        out.flush();
 	        wb.write(out);  
 		} catch (IOException e) {
@@ -285,10 +280,10 @@ public class RisorseController extends Controller {
     
  // Auotocomplete dei risorsa
 	public static void autocompleteRisorsa(String term) {
-		List<Risorsa> listaRisorse = Risorsa.find("matricola like ? or codice like ? or cognome like ?","%"+term+"%","%"+term+"%","%"+term+"%").fetch();
+		List<Risorsa> listaRisorse = Risorsa.find("codice like ? or cognome like ?","%"+term+"%","%"+term+"%").fetch();
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Risorsa ris:listaRisorse){
-			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.matricola + " - " + ris.cognome));
+			listaResult.add(new DomainWrapper(ris.idRisorsa, ris.codice + " - " + ris.cognome));
 		}
 		renderJSON(listaResult);
     }
