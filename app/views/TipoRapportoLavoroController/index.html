@@ -41,9 +41,10 @@
 			<label for="ricerca">Ricerca: </label>
 			<input type="text" class="txt_m" name="tipoRapportoLavoro" id="tipoRapportoLavoro" />
 			<input type="hidden" name="idTipoRapportoLavoro" id="idTipoRapportoLavoro" />
-			<input type="submit" value="Cerca" class="button_submit"/>
+			<input type="submit" value="Cerca" class="button_search"/>
 		</form>
-		#{a @TipoRapportoLavoroController.index()}mostra tutti#{/a}
+		<br />
+		<span class="search">#{a @TipoRapportoLavoroController.index()}Mostra tutto#{/a}</span>
 		<p class="error">${flash.error}</p>
 	</div>
 	<table class="table_center">

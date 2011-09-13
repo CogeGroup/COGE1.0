@@ -52,7 +52,6 @@
 		<table class="table_center">
 		   <thead>
 			<tr>
-				<th scope="col"><a href="@{RisorseController.order('matricola',ordinamento,lastParametro)}">Matricola</a></th>
 				<th scope="col"><a href="@{RisorseController.order('codice',ordinamento,lastParametro)}">Codice</a></th>
 				<th scope="col"><a href="@{RisorseController.order('nome',ordinamento,lastParametro)}">Nome</a></th>
 				<th scope="col"><a href="@{RisorseController.order('cognome',ordinamento,lastParametro)}">Cognome</a></th>
@@ -69,8 +68,7 @@
 			
 	  		#{paginate.list items:listaRisorse, as:'risorsa'}
 	  			<tr>
-	    			<td><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.matricola}</a></td>
-	    			<td>${risorsa.codice}</td>
+	    			<td><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.codice}</a></td>
 	    			<td>${risorsa.nome}</td>
 	    			<td>${risorsa.cognome}</td>
 	    			<td>${risorsa.dataIn.format('dd-MM-yyyy')}</td>

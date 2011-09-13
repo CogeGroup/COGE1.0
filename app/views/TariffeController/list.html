@@ -15,7 +15,6 @@
 
 <div id="detail">
 	<ul>
-		<li><label>Risorsa: </label>${risorsa.matricola}</li>
 		<li><label>Nome: </label>${risorsa.nome}</li> 
 		<li><label>Cognome: </label>${risorsa.cognome}</li>
 		<li><label>Rapporto di lavoro: </label>${risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.descrizione}</li>
@@ -59,7 +58,7 @@
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}
 						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Continuare con la cancellazzione della tariffa ');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 					#{/if}
 					#{else}
 						<td></td>

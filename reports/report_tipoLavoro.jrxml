@@ -23,7 +23,7 @@ sum(t.costo_totale) as costoTot,
 sum(t.ricavo_totale) as ricavoTotale,
 margine(sum(t.costo_totale), sum(t.ricavo_totale)) as margineTotale
 from(
-SELECT idRisorsa, matricola,
+SELECT idRisorsa,
 rappLavoro as rappLavoro_cod, descrizione as rappLavoro_desc, idTipoRapportoLavoro,
 sum(ore_lavorate) as ore_lavorate,
 sum(costo_totale) as costo_totale,
@@ -31,7 +31,7 @@ sum(ricavo_totale) as ricavo_totale
 from
 (
 (
-SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+SELECT r.idRisorsa as idRisorsa,
 trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.descrizione as descrizione,
 sum(ra.oreLavorate) as ore_lavorate,
 if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
@@ -51,11 +51,11 @@ and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
 and r.idRisorsa = rl.risorsa_idRisorsa
 and ra.mese= $P{MESE}
 and ra.anno= $P{ANNO}
-group by r.idRisorsa, r.matricola
+group by r.idRisorsa
 )
 union
 (
-SELECT r.idRisorsa as idRisorsa, r.matricola as matricola,
+SELECT r.idRisorsa as idRisorsa,
 trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, trl.descrizione as descrizione,
 ra.oreLavorate as ore_lavorate,
 if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) as costo_totale,

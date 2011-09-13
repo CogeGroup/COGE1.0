@@ -44,11 +44,6 @@ public class Risorsa extends GenericModel {
     public Integer idRisorsa;
 	
 	@Required
-	@CheckWith(MatricolaCheck.class)
-	@MaxSize(255)
-	public String matricola;
-	
-	@Required
 	@MaxSize(255)
 	public String codice;
 	
@@ -92,28 +87,13 @@ public class Risorsa extends GenericModel {
 	public Risorsa() {
 	}
 
-	public Risorsa(String matricola, String codice, String nome,
+	public Risorsa(String codice, String nome,
 			String cognome, Date dataIn) {
 		super();
-		this.matricola = matricola;
 		this.codice = codice;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataIn = dataIn;
-	}
-	
-	static class MatricolaCheck extends Check {
-		static final String message = "validation.risorsa.matricola_esistente";
-		
-		@Override
-		public boolean isSatisfied(Object risorsa, Object matricola) {
-			Risorsa app = Risorsa.find("byMatricola", matricola).first();
-			if(app != null && ((Risorsa) risorsa).idRisorsa != app.idRisorsa) {
-				setMessage(message);
-				return false;
-			}
-			return true;
-		}
 	}
 	
 	static class DataInCheck extends Check {
@@ -255,7 +235,7 @@ public class Risorsa extends GenericModel {
 //	public static ArrayList<HashMap> statisticaRisorsa(int mese,int anno){
 //		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1).withMonthOfYear(mese).withYear(anno);
 //		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese).withYear(anno).dayOfMonth().withMaximumValue();
-//		String queryString = "SELECT r.idRisorsa as idRisorsa, r.matricola as matricola, " +
+//		String queryString = "SELECT r.idRisorsa as idRisorsa, " +
 //				"r.codice as codice, r.cognome as cognome, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate,"+
 //				" sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,"+
 //				" sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale, t.importoGiornaliero as importo_tariffa "+
@@ -278,20 +258,19 @@ public class Risorsa extends GenericModel {
 //				+mese+ 
 //				"and ra.anno= "
 //				+anno+
-//				" group by r.idRisorsa, r.matricola";
+//				" group by r.idRisorsa";
 //		 Session session = (Session)JPA.em().getDelegate();
 //		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 //		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
 //		 for (Object[] objects : resultList) {
 //			 HashMap map = new HashMap();
-//			 map.put("matricola", (String) objects[1]);
-//			 map.put("codice", (String) objects[2]);
-//			 map.put("cognome", (String) objects[3]);
-//			 map.put("ore_lavorate", (Integer) objects[4]);
-//			 map.put("costo_totale", (Double) objects[5]);
-//			 map.put("ricavo_totale", (String) objects[6]);
-//			 map.put("margine_totale", (String) objects[7]);
-//			 map.put("importo_tariffa", (String) objects[8]);
+//			 map.put("codice", (String) objects[1]);
+//			 map.put("cognome", (String) objects[2]);
+//			 map.put("ore_lavorate", (Integer) objects[3]);
+//			 map.put("costo_totale", (Double) objects[4]);
+//			 map.put("ricavo_totale", (String) objects[5]);
+//			 map.put("margine_totale", (String) objects[6]);
+//			 map.put("importo_tariffa", (String) objects[7]);
 //			 listaMapResult.add(map); 
 //		 }
 //		 
@@ -302,8 +281,7 @@ public class Risorsa extends GenericModel {
 	public static ArrayList<HashMap> statisticaRisorsa(int mese,int anno){
 		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1).withMonthOfYear(mese).withYear(anno);
 		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese).withYear(anno).dayOfMonth().withMaximumValue();
-		String queryString = "SELECT r.matricola as matricola, "+
-				"r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome, trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate, "+
+		String queryString = "SELECT r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome, trl.codice as rappLavoro, sum(if(com.fatturabile=true,ra.oreLavorate,0)) as ore_lavorate, "+
 				"sum(costo(c.importo,ra.oreLavorate)) as costo_totale, sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale, "+
 				"sum(margine(costo(c.importo,ra.oreLavorate), ricavo(t.importoGiornaliero,ra.oreLavorate))) as margine_totale "+
 				"FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl "+
@@ -329,20 +307,19 @@ public class Risorsa extends GenericModel {
 				+mese+
 				" and ra.anno= "
 				+anno+
-				 " group by r.idRisorsa, r.matricola";
+				 " group by r.idRisorsa";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
 		 for (Object[] objects : resultList) {
 			 HashMap map = new HashMap();
-			 map.put("matricola", (String) objects[0]);
-			 map.put("codice", (String) objects[1]);
-			 map.put("cognome", (String) objects[2]);
-			 map.put("rappLavoro", (String) objects[3]);
-			 map.put("ore_lavorate", (BigDecimal) objects[4]);
-			 map.put("costo_totale", (Double) objects[5]);
-			 map.put("ricavo_totale", (Double) objects[6]);
-			 map.put("margine_totale", (Double) objects[7]);
+			 map.put("codice", (String) objects[0]);
+			 map.put("cognome", (String) objects[1]);
+			 map.put("rappLavoro", (String) objects[2]);
+			 map.put("ore_lavorate", (BigDecimal) objects[3]);
+			 map.put("costo_totale", (Double) objects[4]);
+			 map.put("ricavo_totale", (Double) objects[5]);
+			 map.put("margine_totale", (Double) objects[6]);
 			 listaMapResult.add(map); 
 		 }
 		 return listaMapResult;

@@ -17,13 +17,11 @@ validation.costo.dataFine.lt.dataInizio = la data fine è precedente alla data i
 validation.costo.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
 validation.costo.importoMensile=Un dipendente deve avere l'importo mensile
 # RISORSA ----------------------------------
-risorsa.matricola = matricola
 risorsa.codice = codice
 risorsa.nome = nome
 risorsa.cognome = cognome
 risorsa.dataIn = data inizio
 risorsa.dataOut = data fine
-validation.risorsa.matricola_esistente = matricola esistente
 validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro = li campo %s deve essere <= di %s (inizio primo rapporto di lavoro)
 validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro = %s deve essere > di %s (inizio ultimo rapporto di lavoro)
 validation.risorsa.tipoStatoRisorsa.stato_chiuso_non_valido = la stato non puo' essere chiuso se la risorsa non ha una data fine

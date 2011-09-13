@@ -20,8 +20,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 	private Commessa cm1;
 	private Commessa cm2;
 	private Cliente cl1;
-	private Date dataIniz;
-
+	
 	@Test
 	public void ricercaRisorsaPerCommesse() throws ParseException{
 		
@@ -60,8 +59,8 @@ public class RapportoAttivitaTest  extends UnitTest {
 	public void setup() throws ParseException {
 		Fixtures.deleteAll();
 		
-		r1 = new Risorsa("122","a","pippo", "pippo",new Date()).save();
-		 r2 = new Risorsa("123","b","risorsa2", "risorsa2",new Date()).save();
+		r1 = new Risorsa("a","pippo", "pippo",new Date()).save();
+		 r2 = new Risorsa("b","risorsa2", "risorsa2",new Date()).save();
 		  cl1 = new Cliente("cod","nome",true);
 	      cl1.save();
 	       cm1 = new Commessa("desc","cod",true,true);

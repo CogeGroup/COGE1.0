@@ -10,7 +10,6 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Matricola</th>
 				<th scope="col">Cognome</th>
 				<th scope="col">Nome</th>
 				<th scope="col">Mese</th>
@@ -20,7 +19,6 @@
 		</thead>
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
 			<tr>
-				<td>${rendicontoAttivita.risorsa.matricola }</td>
 				<td>${rendicontoAttivita.risorsa.cognome }</td>
 				<td>${rendicontoAttivita.risorsa.nome }</td>
 				<td>${rendicontoAttivita.mese }</td>

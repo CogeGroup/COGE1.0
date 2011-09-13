@@ -5,8 +5,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import models.Risorsa.MatricolaCheck;
-
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;

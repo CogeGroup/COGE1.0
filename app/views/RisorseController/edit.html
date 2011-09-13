@@ -34,9 +34,6 @@
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
 	   
-	        <label for="matricola">Matricola:</label>
-	        <input type="text" class="txt_s" name="risorsa.matricola" id="matricola" value="${risorsa.matricola}"/><br />
-	    
 	        <label for="codice">Codice:</label>
 	        <input type="text" class="txt_s" name="risorsa.codice" id="codice" value="${risorsa.codice}"/><br />
 	    
@@ -58,7 +55,6 @@
 	<div id="button_center"> 
 	    <input type="submit" class="submitbutton" value="Modifica" />
 	    <input type="hidden" name="risorsa.idRisorsa" value="${risorsa.idRisorsa}" />
-	    <input type="hidden" name="matricolaOriginale" value="${matricolaOriginale}" />
 	#{/form}
 		#{form @RisorseController.list()} 
 	        <input type="submit" class="submitbutton" value="Indietro" />
