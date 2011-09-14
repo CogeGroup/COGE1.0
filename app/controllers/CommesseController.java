@@ -1,8 +1,11 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -11,10 +14,13 @@ import org.hibernate.Session;
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
+import models.Gruppo;
 import models.RendicontoAttivita;
 import models.Risorsa;
+import models.Ruolo;
 import models.Tariffa;
 import models.TipoCommessa;
+import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.db.jpa.JPA;
 import play.db.jpa.JPABase;
@@ -23,6 +29,7 @@ import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
 import secure.SecureCOGE;
+import utility.ConvertToJson;
 import utility.DomainWrapper;
 
 @With(SecureCOGE.class)
@@ -68,16 +75,24 @@ public class CommesseController extends Controller {
 		render("CommesseController/list.html",paginator);
     }
     
+    public static void show(Integer id) {
+    	Commessa commessa = Commessa.findById(id);
+    	List<Gruppo> listaGruppi = Gruppo.findByCommessa(commessa);
+    	List<Risorsa> listaRisorse = commessa.calcoloRicavi == true ? Risorsa.findByCommessa(commessa) : null;
+    	render(commessa, listaRisorse, listaGruppi);
+    }
+    
     public static void create() {
     	Commessa commessa = new Commessa();
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
     	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
+    	List<Gruppo> listaGruppi = Gruppo.findAll();
     	String aCorpo = "no";
     	float importo = 0;
-        render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
+        render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo, listaGruppi);
     }
     
-    public static void save(@Valid Commessa commessa, String aCorpo, float importo) {
+    public static void save(@Valid Commessa commessa, String aCorpo, float importo, @Required(message="Inserire un gruppo")String gruppo) {
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
@@ -105,7 +120,19 @@ public class CommesseController extends Controller {
     		commessa.codice = commessa.codice.toUpperCase();
     		commessa.dataInizioCommessa = 
     			commessa.calcoloCosti == false && commessa.calcoloRicavi == false ? null : commessa.dataInizioCommessa;
-        	commessa.save();
+    		commessa.save();
+    		if (commessa.calcoloRicavi == false){
+    			//Lista Gruppi
+    			String [] listaG = gruppo.split(",");
+    			//rimuovo gli eventuali valori doppi
+    			Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
+    			Object [] uniqueGruppo = uniquesetGruppo.toArray();
+    			for(int i = 0;i<uniqueGruppo.length;i++){
+    				Gruppo g = Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString()));
+    				g.commesse.add(commessa);
+	    			g.save();
+    			}	
+    		}
     	}
     	flash.success("%s aggiunta con successo", commessa.codice);
     	list();
@@ -119,15 +146,29 @@ public class CommesseController extends Controller {
     	if(commessa instanceof CommessaACorpo) {
     		importo = ((CommessaACorpo)commessa).importo;
     	}
-        render(commessa, listaClienti, listaTipiCommessa, importo);
+    	List<Gruppo> lista = Gruppo.findByCommessa(commessa);
+    	String listaGruppi = ConvertToJson.convert(lista, "idGruppo", "descrizione"); 
+        render(commessa, listaClienti, listaTipiCommessa, importo, listaGruppi);
     }
     
     public static void update(@Valid Commessa commessa, boolean calcoloRicavi, boolean calcoloCosti, 
-    		String aCorpo, float importo) {
+    		String aCorpo, float importo, @Required(message="Inserire un gruppo")String gruppo) {
+		//Lista Gruppi
+		String [] listaG = gruppo.split(",");
+		//rimuovo gli eventuali valori doppi
+		Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
+		Object [] uniqueGruppo = uniquesetGruppo.toArray();
+		List<Gruppo> lista = new ArrayList<Gruppo>();
+		for(int i = 0;i<uniqueGruppo.length;i++){
+			Gruppo g = Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString()));
+			lista.add(g);
+		}
+		// Validazione
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
-	        render("CommesseController/edit.html", commessa, listaClienti,listaTipiCommessa);
+    		String listaGruppi = ConvertToJson.convert(lista, "idGruppo", "descrizione"); 
+	        render("CommesseController/edit.html", commessa, listaClienti,listaTipiCommessa,listaGruppi);
 	    }
     	commessa.codice = commessa.codice.toUpperCase();
     	commessa.dataInizioCommessa = commessa.calcoloRicavi == true ? commessa.dataInizioCommessa : null;
@@ -141,14 +182,19 @@ public class CommesseController extends Controller {
     		Commessa.commessaACorpoToCommessa(commessa.idCommessa);
     	}
     	commessa.save();
+    	if (commessa.calcoloRicavi == false){
+	    	// Salvataggio modifiche gruppi
+	    	for (Gruppo g : Gruppo.findByCommessa(commessa)) {
+				g.commesse.remove(commessa);
+				g.save();
+			}
+	    	for (Gruppo g : lista) {
+				g.commesse.add(commessa);
+				g.save();
+			}
+    	}
     	flash.success("%s modificata con successo", commessa.codice);
         list();
-    }
-    
-    public static void show(Integer id) {
-    	Commessa commessa = Commessa.findById(id);
-    	List<Risorsa> listaRisorse = commessa.calcoloRicavi == true ? Risorsa.findByCommessa(commessa) : null;
-        render(commessa,listaRisorse);
     }
     
     public static void delete(Integer id) {
@@ -188,5 +234,14 @@ public class CommesseController extends Controller {
 	public static void showCommessaModalBox(Integer id) {
 		Commessa commessa = Commessa.findById(id);
         render(commessa);
+	}
+	
+	public static void autocompleteGruppo(String term) {
+		List<Gruppo> listaGruppi = Gruppo.find("descrizione like ?", "%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(Gruppo g:listaGruppi){
+			listaResult.add(new DomainWrapper(g.idGruppo, g.descrizione));
+		}
+		renderJSON(listaResult);
 	}
 }

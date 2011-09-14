@@ -50,6 +50,9 @@
 
     	<label for="tipoStatoRisorsa">Stato:</label>
     	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}<br />
+    	
+    	<label for="gruppo">Gruppo:</label>
+    	#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}<br />
 		
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 

@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 
 import models.Commessa;
 import models.Costo;
+import models.Gruppo;
 import models.RapportoLavoro;
 import models.Risorsa;
 import models.Tariffa;
@@ -44,21 +45,6 @@ public class RisorseController extends Controller {
         render();
     }
 	
-	public static void order(String parametro, String ordinamento, String lastParametro) {
-		if(ordinamento == null || (lastParametro != null && !lastParametro.equals(parametro))){
-			ordinamento = "asc";
-		}
-    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by " + parametro + " " + ordinamento).fetch());
-    	listaRisorse.setPageSize(10);
-    	if(ordinamento.equals("desc")){
-    		ordinamento = "asc";
-    	}else{
-    		ordinamento = "desc";
-    	}
-    	lastParametro = parametro;
-		render("RisorseController/list.html",listaRisorse,ordinamento,lastParametro); 
-    }
-	
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by cognome, nome").fetch());
     	listaRisorse.setPageSize(10);
@@ -66,15 +52,41 @@ public class RisorseController extends Controller {
     }
     
     public static void listCoCoPro() {
-    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findCoCoPro());
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findCoCoPro("cognome","asc"));
     	listaRisorse.setPageSize(10);
-		render("RisorseController/list.html",listaRisorse); 
+    	String filtro = "CCP";
+    	String lastParametro = "cognome";
+    	String ordinamento = "desc";
+		render("RisorseController/list.html",listaRisorse, filtro, lastParametro, ordinamento); 
     }
     
     public static void listDipendenti() {
-    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findDipendenti());
+    	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findDipendenti("cognome","asc"));
     	listaRisorse.setPageSize(10);
-		render("RisorseController/list.html",listaRisorse); 
+    	String filtro = "DIP";
+    	String lastParametro = "cognome";
+    	String ordinamento = "desc";
+		render("RisorseController/list.html",listaRisorse, filtro, lastParametro, ordinamento); 
+    }
+    
+    public static void order(String parametro, String ordinamento, String lastParametro, String filtro) {
+		if(ordinamento == null || (lastParametro != null && !lastParametro.equals(parametro))){
+			ordinamento = "asc";
+		}
+		ValuePaginator listaRisorse = null;
+		if(filtro.equals("DIP")){
+			listaRisorse = new ValuePaginator(Risorsa.findDipendenti(parametro,ordinamento));
+		}else{
+			listaRisorse = new ValuePaginator(Risorsa.findCoCoPro(parametro,ordinamento));
+		}
+    	if(ordinamento.equals("desc")){
+    		ordinamento = "asc";
+    	}else{
+    		ordinamento = "desc";
+    	}
+    	lastParametro = parametro;
+    	listaRisorse.setPageSize(10);
+		render("RisorseController/list.html",listaRisorse,ordinamento,lastParametro,filtro); 
     }
     
     public static void search(Integer idRisorsa) {
@@ -101,7 +113,8 @@ public class RisorseController extends Controller {
     	List<TipoRapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
     	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
     	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
-        render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa,idCoCoPro);
+    	List<Gruppo> listaGruppi = Gruppo.findAll();
+        render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, listaGruppi);
     }
     
     public static void save(@Valid Risorsa risorsa, Integer idTipoRapportoLavoro, @Min(0) int giorniAssenzeRetribuite) {
@@ -125,7 +138,8 @@ public class RisorseController extends Controller {
     public static void edit(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
-    	render(risorsa, listaTipoStatoRisorsa);
+    	List<Gruppo> listaGruppi = Gruppo.findAll();
+    	render(risorsa, listaTipoStatoRisorsa, listaGruppi);
     }
     
     public static void update(@Valid Risorsa risorsa) {

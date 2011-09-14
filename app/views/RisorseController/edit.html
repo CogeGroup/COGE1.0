@@ -7,28 +7,27 @@
 #{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
 #{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
 #{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+
 <script type="text/javascript">
-  		  $(function() {
-    		$.datepicker.setDefaults($.datepicker.regional['it']);
-		   	  $('#datepicker1').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				yearRange:'-59:+50'
-	
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker1').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
 		});
-  });
-  		$(function() {
-    		$.datepicker.setDefaults($.datepicker.regional['it']);
-		   	  $('#datepicker2').datepicker({
-				changeMonth: true,
-				changeYear: true,
-				yearRange:'-59:+50'
-	
+	});
+  	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+	  	$('#datepicker2').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
 		});
-  });
+	});
 </script>  		  
 
-	#{form @RisorseController.update()}
+#{form @RisorseController.update()}
 <div id="align_form">
 	#{ifErrors}
     	<p class="error">${errors[0]}</p>
@@ -50,7 +49,10 @@
 	        <input type="text" class="txt_date" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    	
 	    	<label for="tipoStatoRisorsa">Stato:</label>
-    		#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}
+    		#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa /}<br />
+    		
+    		<label for="gruppo">Gruppo:</label>
+    		#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}
 	</div>
 	<div id="button_center"> 
 	    <input type="submit" class="submitbutton" value="Modifica" />

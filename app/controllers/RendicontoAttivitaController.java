@@ -75,6 +75,7 @@ public class RendicontoAttivitaController extends Controller {
 		render(listaAnni, mese, anno);
     }
 	
+	// TODO Usare i gruppi
 	@SuppressWarnings("unused")
 	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") Integer idRisorsa, int mese, int anno) {
 		if(validation.hasErrors()){
@@ -104,6 +105,7 @@ public class RendicontoAttivitaController extends Controller {
 			validation.keep();
 			chooseRisorsa();
 		}
+		// liste Commesse
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
 		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
