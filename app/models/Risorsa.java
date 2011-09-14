@@ -106,6 +106,10 @@ public class Risorsa extends GenericModel {
 		@Override
 		public boolean isSatisfied(Object risorsa, Object dataIn) {
 			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataIn è valorizzata
+			if(risorsa2.dataIn == null) {
+				return true;
+			}
 			if(risorsa2.rapportiLavoro != null && risorsa2.rapportiLavoro.size() > 0 && ((Date) dataIn).after(risorsa2.rapportiLavoro.get(0).dataInizio)) {
 				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(0).dataInizio));
 				return false;
@@ -120,6 +124,10 @@ public class Risorsa extends GenericModel {
 		@Override
 		public boolean isSatisfied(Object risorsa, Object dataOut) {
 			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataIn è valorizzata
+			if(risorsa2.dataIn == null) {
+				return true;
+			}
 			if(dataOut != null && !((Date) dataOut).after(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio)) {
 				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio));
 				return false;
