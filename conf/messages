@@ -9,13 +9,14 @@ validation.email= campo %s non valido
 validation.required=il campo %s è obbligatorio
 validation.invalid = formato non corretto
 # COSTO ----------------------
-costo.importo = importo
+costo.importoGiornaliero = importo giornaliero
+costo.importoMensile = importo mensile
+validation.costo.importoMensile = Un dipendente deve avere l'importo mensile
 costo.dataInizio = dataInizio
 costo.dataFine = dataFine
 validation.costo.sovrapposto = il costo inserito si sovrappone ad altri costi 
-validation.costo.dataFine.lt.dataInizio = la data fine è precedente alla data inizio
-validation.costo.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
-validation.costo.importoMensile=Un dipendente deve avere l'importo mensile
+validation.costo.dataInizio = %s deve essere maggiore di %s
+validation.costo.dataFine.lt.dataInizio = %s deve essere maggiore o uguale di %s
 # RISORSA ----------------------------------
 risorsa.codice = codice
 risorsa.nome = nome
@@ -37,8 +38,7 @@ validation.tipoRapportoLavoro.codice_esistente = codice esistente
 rapportoLavoro.dataInizio = data inizio
 rapportoLavoro.dataFine= data fine
 validation.rapportoLavoro.dataInizio = %s deve essere maggiore di %s
-validation.rapportoLavoro.meseFine.annoFine.wrongSelection = selezionare/deselezionare contemporaneamente mese ed anno fine
-validation.rapportoLavoro.dataFine.lt.dataInizio = %s deve essere >= di %s
+validation.rapportoLavoro.dataFine.lt.dataInizio = %s deve essere maggiore o uguale di %s
 # UTENTI ----------------------------
 utente.username= username
 utente.password = password

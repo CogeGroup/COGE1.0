@@ -21,14 +21,6 @@ public class CostiController extends Controller {
     public static void list(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<Costo> listaCosti = Costo.find("byRisorsa", risorsa).fetch();
-    	Comparator<Costo> comparator = new Comparator<Costo>() {
-			
-			@Override
-			public int compare(Costo o1, Costo o2) {
-				return o1.dataInizio.compareTo(o2.dataInizio);
-			}
-		};
-		Collections.sort(listaCosti, comparator);
     	ValuePaginator paginator = new ValuePaginator(listaCosti);
     	paginator.setPageSize(10);
         render(paginator, risorsa);
@@ -37,40 +29,37 @@ public class CostiController extends Controller {
     public static void create(Integer idRisorsa) {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	Costo costo = new Costo(risorsa);
-    	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	render(costo, listaAnni);
+    	render(costo);
 	}
     public static void save(@Valid Costo costo){
     	// Validazione del form
     	if(validation.hasErrors()) {
-    		List<Integer> listaAnni = MyUtility.createListaAnni();
-        	render("CostiController/create.html",costo, listaAnni);
+    		render("CostiController/create.html", costo);
     	}
-    	costo.dataInizio = MyUtility.MeseEdAnnoToDataInizio(costo.meseInizio, costo.annoInizio);
-    	costo.dataFine = costo.meseFine == -1 ? null : MyUtility.MeseEdAnnoToDataFine(costo.meseFine, costo.annoFine);
-    	// Salvataggio tariffa
-        costo.save();
+    	//se esistono già dei costi associati alla risorsa
+    	//procedo alla chiusura dell'ultimo (solo se ha dataFine null) 
+    	List<Costo> listaCosti = Costo.find("byRisorsa", costo.risorsa).fetch();
+    	if(listaCosti != null && listaCosti.size() > 0) {
+    		Costo ultimoCosto = listaCosti.get(listaCosti.size() - 1);
+        	if (ultimoCosto.dataFine == null) {
+				ultimoCosto.dataFine = MyUtility.subOneDay(costo.dataInizio);
+				ultimoCosto.save();
+			}
+    	}
+    	costo.save();
         flash.success("Costo aggiunto con successo");
     	list(costo.risorsa.idRisorsa);
     	
     }
     public static void edit(Integer idCosto){
     	Costo costo = Costo.findById(idCosto);
-    	costo.meseInizio = MyUtility.getMeseFromDate(costo.dataInizio);
-    	costo.annoInizio = MyUtility.getAnnoFromDate(costo.dataInizio);
-    	costo.meseFine = costo.dataFine == null ? -1 : MyUtility.getMeseFromDate(costo.dataFine);
-    	costo.annoFine = costo.dataFine == null ? -1 : MyUtility.getAnnoFromDate(costo.dataFine);
-    	List<Integer> listaAnni = MyUtility.createListaAnni();
-    	render(costo, listaAnni);
+    	render(costo);
 	}
     public static void update(@Valid Costo costo){
     	// Validazione del form
     	if(validation.hasErrors()) {
-    		List<Integer> listaAnni = MyUtility.createListaAnni();
-        	render("CostiController/edit.html",costo, listaAnni);
+    		render("CostiController/edit.html", costo);
     	}
-    	costo.dataInizio = MyUtility.MeseEdAnnoToDataInizio(costo.meseInizio, costo.annoInizio);
-    	costo.dataFine = costo.meseFine == -1 ? null : MyUtility.MeseEdAnnoToDataFine(costo.meseFine, costo.annoFine);
     	costo.save();
     	flash.success("Costo aggiornato con successo");
     	list(costo.risorsa.idRisorsa);
@@ -81,6 +70,4 @@ public class CostiController extends Controller {
     	flash.success("Costo rimosso con successo");
     	list(costo.risorsa.idRisorsa);
     }
-    
-
 }
