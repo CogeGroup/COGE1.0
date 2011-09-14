@@ -78,20 +78,16 @@ public class Costo extends GenericModel {
 	    		//caso aggiunta primo costo
 	    		if(listaCosti == null || listaCosti.size() == 0) {
 	    			dataMinima = MyUtility.subOneDay(costo.risorsa.dataIn);
-	    			System.out.println("caso aggiunta primo costo");
 	    		} else if (listaCosti.indexOf(costo) < 0) {
 	    			//caso inserimento nuovi costi
 	    			Costo ultimoCosto = listaCosti.get(listaCosti.size() - 1);
 		    		dataMinima = ultimoCosto.dataFine == null ? ultimoCosto.dataInizio : ultimoCosto.dataFine;
-		    		System.out.println("caso inserimento nuovi costi");
 	    		} else if (listaCosti.size() == 1) {
 					//caso modifica primo costo
 					dataMinima = MyUtility.subOneDay(costo.risorsa.dataIn);
-					System.out.println("caso modifica primo costo");
 	    		} else {
 	    			//caso modifica ultimo costo
 	    			dataMinima = listaCosti.get(listaCosti.size() - 2).dataFine;
-	    			System.out.println("caso modifica ultimo costo");
 	    		}
 	    		if (!dataInizio.after(dataMinima)) {
 		    		setMessage(message, MyUtility.dateToString(dataMinima));
@@ -131,7 +127,8 @@ public class Costo extends GenericModel {
 			if(c.dataInizio == null) {
 				return true;
 			}
-			TipoRapportoLavoro trl = RapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, MyUtility.getMeseFromDate(c.dataInizio), MyUtility.getAnnoFromDate(c.dataInizio));
+			// TODO se la data fine scavalca la fine del rapporto lavoro non valida...
+			TipoRapportoLavoro trl = RapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.dataInizio, c.dataInizio);
 			if( trl != null && !trl.codice.equals("CCP") && (((Costo) costo).importoMensile == null 
 					|| ((Costo) costo).importoMensile == 0) ){
 				setMessage(MESSAGE);

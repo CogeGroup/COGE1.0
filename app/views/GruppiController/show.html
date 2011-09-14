@@ -1,0 +1,117 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Gruppi' /}
+
+<h2> Dettaglio Cliente</h2>
+
+<div id="edit">
+	<ul>
+		<li>
+	        <label for="codice">Codice Gruppo: </label>
+	        ${gruppo.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione: </label>
+	        ${gruppo.descrizione }
+	    </li>
+	    
+<!-- Liste di commesse e di risorse -->
+*{
+	    #{if gruppo.commesse.size() > 0 }
+	    <li>
+	    	<div style="border:1px solid #000000; padding: 5px; margin-bottom: 5px;">
+		        <label for="commesse">Commesse: </label><br />
+		        <div style=" max-height:150px;
+				    		overflow:auto;
+				    		padding: 4px;">
+			        <ul>
+			        #{list items:gruppo.commesse, as:'commessa'}
+						<li><a href="@{CommesseController.show(commessa.idCommessa)}">${commessa.codice }</a></li>
+					#{/list}
+					</ul> 
+				</div>
+			</div>
+	    </li>
+	    #{/if}
+	    #{if gruppo.risorse.size() > 0 }
+	    <li>
+	    	<div style="padding: 5px; margin-bottom: 5px;">
+		        <label for="risorse">Risorse: </label><br />
+		        <div style="max-height:150px;
+				    		overflow:auto;
+				    		padding: 4px;">
+			        <ul>
+			        #{list items:gruppo.risorse, as:'risorsa'}
+						<li><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.cognome } ${risorsa.nome }</a></li>
+					#{/list}
+					</ul> 
+				</div>
+			</div>
+	    </li>
+	    #{/if}
+}*
+	</ul>
+</div>
+*{
+<br />
+<table class="table_center">
+	<thead>
+		<tr>
+			<th scope="col">Codice</th>
+			<th scope="col">Nome</th>
+			<th scope="col">Cognome</th>
+			<th scope="col">Stato</th>
+		</tr>
+	</thead>
+			
+	#{paginate.list items:listaRisorse, as:'risorsa'}
+		<tr>
+	    	<td>${risorsa.codice}</td>
+	    	<td>${risorsa.nome}</td>
+	    	<td>${risorsa.cognome}</td>
+	    	<td>${risorsa.tipoStatoRisorsa.codice}</td>
+	    </tr>
+	#{/paginate.list}
+</table>
+<div id="datatable">
+	#{paginate.controls items:listaRisorse /}
+</div>
+
+<br />
+<table class="table_center">
+	<thead>
+		<tr>
+			<th scope="col">Codice</th>
+			<th scope="col">Descrizione</th>
+			<th scope="col">Tipo commessa</th>
+			<th scope="col">Cliente</th>
+			<th scope="col">Commessa a corpo</th>
+			<th scope="col">Calcola costi</th>
+			<th scope="col">Calcola ricavi</th>
+		</tr>
+	</thead>
+	#{paginate.list items:listaCommesse, as:'commessa'} 
+		<tr>
+			<td>${commessa.codice }</td>
+			<td>${commessa.descrizione }</td>
+			<td>${commessa?.tipoCommessa?.descrizione }</td>
+			<td>${commessa.cliente.codice }</td>
+			<td>#{if commessa instanceof models.CommessaACorpo }
+					si 
+				#{/if}
+				#{else}
+					no
+				#{/else} </td>
+			<td>${commessa.calcoloCosti == true ? 'si' : 'no' }</td>
+			<td>${commessa.calcoloRicavi == true ? 'si' : 'no' }</td>
+		</tr>
+	#{/paginate.list} 
+</table>
+<div id="datatable">
+	#{paginate.controls items:listaCommesse /}
+</div>
+}*
+	
+<div id="button_center">
+	<a href="@{GruppiController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>	
+

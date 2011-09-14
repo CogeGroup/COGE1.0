@@ -129,9 +129,7 @@ public class RapportoLavoro extends GenericModel{
 	   return list;
    }
    
-   public static TipoRapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , int mese, int anno) {
-	   Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-	   Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+   public static TipoRapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , Date dataInizio, Date dataFine) {
 	   JPAQuery query = TipoRapportoLavoro.find("select trl from TipoRapportoLavoro trl, RapportoLavoro ral " +
 	   		"where ral.risorsa = :risorsa and ral.dataInizio <= :dataFine and (ral.dataFine is null or ral.dataFine >= :dataInizio)" +
 	   		"and ral.tipoRapportoLavoro = trl");
