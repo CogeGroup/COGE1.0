@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.h2.constant.SysProperties;
+
 import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
@@ -150,8 +152,7 @@ public class Costo extends GenericModel {
 		if (costo.importoMensile != null)  {
 			return costo.importoMensile;
 		}
-		List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
-		System.out.println(rendicontoAttivitas.size());
+		List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,(mese+1),anno).fetch();
 		Float tot = 0f;
 		for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
 			tot += rendicontoAttivita.oreLavorate;
@@ -161,7 +162,6 @@ public class Costo extends GenericModel {
 	}
 	
 	public static Costo extractCostoByMeseAndAnno(Risorsa risorsa, int mese, int anno) {
-		System.out.println(mese);
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
