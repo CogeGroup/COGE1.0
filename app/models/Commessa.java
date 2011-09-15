@@ -202,7 +202,12 @@ public class Commessa extends GenericModel{
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   listaCommesse.add(t.commessa);
+			   // Prova
+			   List<RapportoLavoro> listaRapportiLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnno(risorsa, mese, anno);
+			   for (RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
+				   System.out.println(rapportoLavoro.tipoRapportoLavoro);
+				   listaCommesse.add(t.commessa);
+			   }
 		   }
 		}
 		return listaCommesse;

@@ -6,8 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 import models.Commessa;
+import models.Costo;
+import models.RapportoLavoro;
 import models.RendicontoAttivita;
 import models.Risorsa;
+import models.TipoRapportoLavoro;
 import play.data.validation.Required;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
@@ -75,7 +78,6 @@ public class RendicontoAttivitaController extends Controller {
 		render(listaAnni, mese, anno);
     }
 	
-	@SuppressWarnings("unused")
 	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") Integer idRisorsa, int mese, int anno) {
 		if(validation.hasErrors()){
 			List<Integer> listaAnni = MyUtility.createListaAnni();
@@ -103,64 +105,84 @@ public class RendicontoAttivitaController extends Controller {
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
-		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
-		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+		
+		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = risorsa.gruppo.commesse;
-		
-//		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
-//		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-//			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
-//		}
-		
-		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
+		render(idRisorsa,listaRendicontoAttivita,listaCommesseNonFatturabili,mese,anno,risorsa);
 	}
 	
-// Modifica o aggiunge rendicontoAttivita nel rapportino
+	// Modifica o aggiunge rendicontoAttivita nel rapportino
 	public static void aggiungiAttivita(Integer idRisorsa, int mese, int anno){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
-		// lista Commesse fatturabili piu le commesse non fatturabili gia salvate
-		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
-		listaCommesse.addAll(listaCommesseNonFattSalvate(listaRendicontoAttivita));
+
+		// lista commesse fatturabile meno quelle gia salvate
+		List<RendicontoAttivita> listaCommesse = RendicontoAttivita.findCommesseFatturabiliPerRisorsa(mese-1, anno, risorsa);
+		listaRendicontoAttivita = commesseFatturabiliNonSalvate(listaRendicontoAttivita, listaCommesse);
 		
 		// lista commesse non fatturabile meno quelle gia salvate
-		List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
 		List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
-		listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, listaCommesseNonFatturabili);
-		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
-		}
+		List<Commessa> listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, risorsa.gruppo.commesse);
 		mese--;
-		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
-	}
-
-	private static List<Commessa> listaCommesseNonFattSalvate(List<RendicontoAttivita> listaRendicontoAttivita) {
-		List<Commessa> daAggiungere = new ArrayList<Commessa>();
-		for (RendicontoAttivita rendicontoAttivita : listaRendicontoAttivita) {
-			if(rendicontoAttivita.commessa.calcoloRicavi == false && rendicontoAttivita.commessa.calcoloCosti == false){
-				daAggiungere.add(rendicontoAttivita.commessa);
-			}
-		}
-		return daAggiungere;
+		render(idRisorsa,listaRendicontoAttivita,listaCommesseNonFatturabili,mese,anno,risorsa);
 	}
 	
-// Salva il rapportino aggiungendo nuovi rendicontoAttivita
+	// rimuove tutte le commesse fatturabili gia inserite nel rendicontoAttivita
+	private static List<RendicontoAttivita> commesseFatturabiliNonSalvate(List<RendicontoAttivita> listaAttivitaSalvate, List<RendicontoAttivita> listaAttivita){
+		List<RendicontoAttivita> commesseDaTogliere = new ArrayList<RendicontoAttivita>();
+		for (RendicontoAttivita ra : listaAttivita) {
+			for (RendicontoAttivita raSalvato : listaAttivitaSalvate) {
+				if(ra.commessa.idCommessa == raSalvato.commessa.idCommessa && ra.rapportoLavoro.idRapportoLavoro == raSalvato.rapportoLavoro.idRapportoLavoro){
+					commesseDaTogliere.add(ra);
+				}
+			}
+		}
+		listaAttivita.removeAll(commesseDaTogliere);
+		listaAttivitaSalvate.addAll(listaAttivita);
+		return listaAttivitaSalvate;
+	}
+	
+	// rimuove tutte le commesse non fatturabili gia inserite nel rendicontoAttivita
+	private static List<Commessa> commesseNonFatturabiliNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesseNonFatturabili){
+		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
+		for (Commessa commessa : listaCommesseNonFatturabili) {
+			for (RendicontoAttivita ra : attivitaSalvate) {
+				if(ra.commessa.idCommessa == commessa.idCommessa){
+					commesseDaTogliere.add(commessa);
+				}
+			}
+		}
+		listaCommesseNonFatturabili.removeAll(commesseDaTogliere);
+		return listaCommesseNonFatturabili;
+	}
+
+	// Salva il rapportino aggiungendo nuovi rendicontoAttivita
 	public static void saveRendicontoAttivita(int mese, int anno, Integer idRisorsa){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese+1, anno).fetch();
 		for (String key : params.all().keySet()) {
 			if(key.contains("id_")){
 				String oreLavorateString = params.get(key);
-				Integer idCommessa = Integer.parseInt(key.substring(3));
+				String[] s = key.split("_");
+				Integer idCommessa = Integer.parseInt(s[1]);
 				Commessa commessa = Commessa.findById(idCommessa);
 				if(!oreLavorateString.equals("")){
 					float oreLavorate = 0;
 					try {
 						oreLavorate = Float.parseFloat(oreLavorateString);
 						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese+1, anno, risorsa, commessa);
+						if(s.length != 2){
+							TipoRapportoLavoro trl = TipoRapportoLavoro.find("byCodice",s[2]).first();
+							rendicontoAttivita.rapportoLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnnoAndTipoRapportoLavoro(risorsa, trl, mese, anno);
+						}else{
+							RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(risorsa, MyUtility.MeseEdAnnoToDataFine(mese, anno), MyUtility.MeseEdAnnoToDataInizio(mese, anno));
+							rendicontoAttivita.rapportoLavoro = ral;
+						}
+						rendicontoAttivita.costo = Costo.extractByRisorsaAndPeriodo(risorsa, rendicontoAttivita.rapportoLavoro.dataInizio, rendicontoAttivita.rapportoLavoro.dataFine);
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
-								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa){
+								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa && ra.rapportoLavoro != null 
+										&& ra.rapportoLavoro.idRapportoLavoro == rendicontoAttivita.rapportoLavoro.idRapportoLavoro){
 									rendicontoAttivita = ra;
 									rendicontoAttivita.oreLavorate = oreLavorate;
 									rendicontoAttivita.save();
@@ -169,20 +191,24 @@ public class RendicontoAttivitaController extends Controller {
 							rendicontoAttivita.save();
 						}else{
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
-								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa){
+								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa
+										&& ra.rapportoLavoro.idRapportoLavoro == rendicontoAttivita.rapportoLavoro.idRapportoLavoro){
 									ra.delete();
 								}
 							}
 						}
 					} catch (IllegalArgumentException e) {
-						validation.addError("oreLavorate", "inserire correttamente le ore totali");
-						List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese+1, anno, risorsa);
-						List<Commessa> listaCommesseNonFatturabili  = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
-						if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-							listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+						if(listaRendicontoAttivita.size()==0){
+							listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese+1, anno).fetch();
+							for (RendicontoAttivita ra : listaRendicontoAttivita) {
+								ra.delete();
+							}
 						}
+						validation.addError("oreLavorate", "inserire correttamente le ore totali");
+						List<RendicontoAttivita> listaCommesse = RendicontoAttivita.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
+						List<Commessa> listaCommesseNonFatturabili = risorsa.gruppo.commesse;
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
-								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
+								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,risorsa);
 					}
 				}else{
 					for (RendicontoAttivita ra : listaRendicontoAttivita) {
@@ -195,20 +221,6 @@ public class RendicontoAttivitaController extends Controller {
 		}
 		flash.success("Attivita aggiunta con successo");
 		dettaglio(idRisorsa, mese+1,anno);
-	}
-	
-	// rimuove tutte le commesse non fatturabili gia inserite nel rapportino
-	private static List<Commessa> commesseNonFatturabiliNonSalvate(List<RendicontoAttivita> attivitaSalvate, List<Commessa> listaCommesseNonFatturabili){
-		List<Commessa> commesseDaTogliere = new ArrayList<Commessa>();
-		for (Commessa commessa : listaCommesseNonFatturabili) {
-			for (RendicontoAttivita ra : attivitaSalvate) {
-				if(ra.commessa.idCommessa == commessa.idCommessa){
-					commesseDaTogliere.add(commessa);
-				}
-			}
-		}
-		listaCommesseNonFatturabili.removeAll(commesseDaTogliere);
-		return listaCommesseNonFatturabili;
 	}
 	
 // Cancella rendicontoAttivita

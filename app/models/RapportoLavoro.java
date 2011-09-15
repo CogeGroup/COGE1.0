@@ -138,5 +138,30 @@ public class RapportoLavoro extends GenericModel{
 		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
 		return query.first();
 	}
+	
+	public static List<RapportoLavoro> findByRisorsaAndMeseAndAnno(Risorsa risorsa , int mese, int anno) {
+		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
+				"where ral.risorsa = :risorsa and (ral.dataInizio < :dataFine) " +
+		   		"and (ral.dataFine is null or (ral.dataFine > :dataInizio))");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine);
+		return query.fetch();
+	}
+	
+	public static RapportoLavoro findByRisorsaAndMeseAndAnnoAndTipoRapportoLavoro(Risorsa risorsa , TipoRapportoLavoro trl, int mese, int anno) {
+		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
+				"where ral.risorsa = :risorsa and ral.tipoRapportoLavoro = :trl and (ral.dataInizio < :dataFine) " +
+		   		"and (ral.dataFine is null or (ral.dataFine > :dataInizio))");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine);
+		query.bind("trl", trl);
+		return query.first();
+	}
    
 }
