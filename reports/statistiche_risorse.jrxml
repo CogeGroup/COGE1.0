@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="225"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="DATA_INIZIO" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -21,67 +21,68 @@
 	<queryString>
 		<![CDATA[SELECT idRisorsa, codice, cognome,
 rappLavoro, idTipoRapportoLavoro,
-sum(ore_lavorate) as ore_lavorate,
-sum(costo_totale) as costo_totale,
-sum(ricavo_totale) as ricavo_totale,
-margine(sum(costo_totale), sum(ricavo_totale)) as margine_totale,
+SUM(ore_lavorate) AS ore_lavorate,
+SUM(costo_totale) AS costo_totale,
+SUM(ricavo_totale) AS ricavo_totale,
+margine(SUM(costo_totale), SUM(ricavo_totale)) AS margine_totale,
 tariffa_importo,
 cliente_commessa,
 stato_risorsa
-from
+FROM
 (
 (
-SELECT r.idRisorsa as idRisorsa,
-r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro, sum(ra.oreLavorate) as ore_lavorate,
-if(c.importoMensile is null, sum(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) as costo_totale,
-sum(ricavo(t.importoGiornaliero,ra.oreLavorate)) as ricavo_totale,
-t.importoGiornaliero as tariffa_importo,
-concat(cl.codice, '-', com.codice) as cliente_commessa,
-tsr.codice as stato_risorsa
+SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nome)  AS cognome,
+trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
+SUM(ra.oreLavorate) AS ore_lavorate,
+if(c.importoMensile is null, SUM(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) AS costo_totale,
+SUM(ricavo(t.importoGiornaliero,ra.oreLavorate)) AS ricavo_totale,
+t.importoGiornaliero AS tariffa_importo,
+concat(cl.codice, '-', com.codice) AS cliente_commessa,
+tsr.codice AS stato_risorsa
 FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
-WHERE r.idRisorsa = c.risorsa_idRisorsa and c.dataInizio <= $P{DATA_INIZIO}
-and (c.dataFine is null or c.dataFine >= $P{DATA_FINE}
-) and r.idRisorsa = t.risorsa_idRisorsa and t.commessa_idCommessa = com.idCommessa
-and com.cliente_idCliente = cl.idCliente
- and t.dataInizio <= $P{DATA_INIZIO}
-and (t.dataFine is null or t.dataFine >= $P{DATA_FINE}
-) and r.idRisorsa = rl.risorsa_idRisorsa and rl.dataInizio <= $P{DATA_INIZIO}
- and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE}
-) and r.idRisorsa = ra.risorsa_idRisorsa and ra.commessa_idCommessa = com.idCommessa
-and rl.dataInizio <= $P{DATA_INIZIO}
-and (rl.dataFine is null or rl.dataFine >= $P{DATA_FINE})
-and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
-and r.idRisorsa = rl.risorsa_idRisorsa
-and r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
-and ra.mese= $P{MESE}
-and ra.anno= $P{ANNO}
-group by r.idRisorsa
+WHERE r.idRisorsa = c.risorsa_idRisorsa
+AND r.idRisorsa = t.risorsa_idRisorsa
+AND t.commessa_idCommessa = com.idCommessa
+AND com.cliente_idCliente = cl.idCliente
+AND r.idRisorsa = ra.risorsa_idRisorsa
+AND ra.commessa_idCommessa = com.idCommessa
+AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+AND r.idRisorsa = rl.risorsa_idRisorsa
+AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
+AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
+AND ra.costo_idCosto = c.idCosto
+AND ((c.dataInizio <= $P{DATA_INIZIO} AND (c.dataFine is null OR c.dataFine >= $P{DATA_FINE})) OR (c.dataInizio <= $P{DATA_INIZIO} AND c.dataFine >= $P{DATA_INIZIO} AND c.dataFine <= $P{DATA_FINE}) OR (c.dataInizio >= $P{DATA_INIZIO} AND c.dataInizio <= $P{DATA_FINE} AND (c.dataFine is null OR c.dataFine >= $P{DATA_FINE})) OR (c.dataInizio > $P{DATA_INIZIO} AND c.dataFine < $P{DATA_FINE}))
+AND ((t.dataInizio <= $P{DATA_INIZIO} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio <= $P{DATA_INIZIO} AND t.dataFine >= $P{DATA_INIZIO} AND t.dataFine <= $P{DATA_FINE}) OR (t.dataInizio >= $P{DATA_INIZIO} AND t.dataInizio <= $P{DATA_FINE} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio > $P{DATA_INIZIO} AND t.dataFine < $P{DATA_FINE}))
+AND ((rl.dataInizio <= $P{DATA_INIZIO} AND (rl.dataFine is null OR rl.dataFine >= $P{DATA_FINE})) OR (rl.dataInizio <= $P{DATA_INIZIO} AND rl.dataFine >= $P{DATA_INIZIO} AND rl.dataFine <= $P{DATA_FINE}) OR (rl.dataInizio >= $P{DATA_INIZIO} AND rl.dataInizio <= $P{DATA_FINE} AND (rl.dataFine is null OR rl.dataFine >= $P{DATA_FINE})) OR (rl.dataInizio > $P{DATA_INIZIO} AND rl.dataFine < $P{DATA_FINE}))
+AND ra.mese= $P{MESE}
+AND ra.anno= $P{ANNO}
+GROUP BY idRisorsa, idTipoRapportoLavoro
 )
-union
+UNION
 (
-SELECT r.idRisorsa as idRisorsa,
-r.codice as codice,  concat(r.cognome,' ',r.nome)  as cognome,
-trl.codice as rappLavoro, trl.idTipoRapportoLavoro as idTipoRapportoLavoro,
-ra.oreLavorate as ore_lavorate,
-if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) as costo_totale,
-0 as ricavo_totale,
-0 as tariffa_importo,
-concat(cl.codice, '-', com.codice) as cliente_commessa,
-'' as stato_risorsa
+SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nome)  AS cognome,
+trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
+ra.oreLavorate AS ore_lavorate,
+if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) AS costo_totale,
+0 AS ricavo_totale,
+0 AS tariffa_importo,
+concat(cl.codice, '-', com.codice) AS cliente_commessa,
+'' AS stato_risorsa
 FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl
 WHERE r.idRisorsa = c.risorsa_idRisorsa
-and r.idRisorsa = rl.risorsa_idRisorsa
-and r.idRisorsa = ra.risorsa_idRisorsa
-and ra.commessa_idCommessa = com.idCommessa
-and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
-and r.idRisorsa = rl.risorsa_idRisorsa
-and com.cliente_idCliente = cl.idCliente
-and com.codice = 'ST-ASSR'
-and ra.mese= $P{MESE}
-and ra.anno= $P{ANNO}
+AND r.idRisorsa = rl.risorsa_idRisorsa
+AND r.idRisorsa = ra.risorsa_idRisorsa
+AND ra.commessa_idCommessa = com.idCommessa
+AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+AND com.cliente_idCliente = cl.idCliente
+AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
+AND ra.costo_idCosto = c.idCosto
+AND com.codice = 'ST-ASSR'
+AND ra.mese= $P{MESE}
+AND ra.anno= $P{ANNO}
 )
-) as tab
-group by idRisorsa
+) AS tab
+GROUP BY idRisorsa, idTipoRapportoLavoro
 ORDER BY idTipoRapportoLavoro, cognome]]>
 	</queryString>
 	<field name="idRisorsa" class="java.lang.Integer"/>
