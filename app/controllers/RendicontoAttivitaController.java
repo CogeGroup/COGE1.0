@@ -75,20 +75,23 @@ public class RendicontoAttivitaController extends Controller {
 		render(listaAnni, mese, anno);
     }
 	
-	// TODO Usare i gruppi
 	@SuppressWarnings("unused")
 	public static void createRendicontoAttivita(@Required(message="Inserire una risorsa") Integer idRisorsa, int mese, int anno) {
 		if(validation.hasErrors()){
-			flash.error("");
-			validation.keep();
-			chooseRisorsa();
-		}
-		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
-			validation.addError("data", "Data selezionata non valida");
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
+//		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
+//			validation.addError("data", "Data selezionata non valida");
+//			List<Integer> listaAnni = MyUtility.createListaAnni();
+//			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
+//		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
+		if(risorsa == null){
+			validation.addError("risorsa", "Risorsa non trovata");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
+		}
 		if(risorsa.dataOut != null && risorsa.dataOut.before(MyUtility.MeseEdAnnoToDataInizio(mese, anno))){
 			validation.addError("risorsa.dataOut", "La risorsa è in uscita dal: " + MyUtility.dateToString(risorsa.dataOut, "dd-MM-yyyy"));
 			List<Integer> listaAnni = MyUtility.createListaAnni();
@@ -100,18 +103,15 @@ public class RendicontoAttivitaController extends Controller {
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
-		if(risorsa == null){
-			flash.error("Risorsa non trovata");
-			validation.keep();
-			chooseRisorsa();
-		}
-		// liste Commesse
 		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
 		List<Commessa> listaCommesse  = Commessa.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
-		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
-		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
-			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
-		}
+		List<Commessa> listaCommesseNonFatturabili = risorsa.gruppo.commesse;
+		
+//		List<Commessa> listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndCalcoloCosti", false, false).fetch();
+//		if(risorsa.rapportiLavoro.get(risorsa.rapportiLavoro.size()-1).tipoRapportoLavoro.codice.equals("CCP")){
+//			listaCommesseNonFatturabili = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+//		}
+		
 		render(idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,listaRendicontoAttivita,risorsa);
 	}
 	
