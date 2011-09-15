@@ -129,15 +129,14 @@ public class RapportoLavoro extends GenericModel{
 	   return list;
    }
    
-   public static TipoRapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , Date dataInizio, Date dataFine) {
-	   JPAQuery query = TipoRapportoLavoro.find("select trl from TipoRapportoLavoro trl, RapportoLavoro ral " +
-	   		"where ral.risorsa = :risorsa and ral.dataInizio <= :dataFine and (ral.dataFine is null or ral.dataFine >= :dataInizio)" +
-	   		"and ral.tipoRapportoLavoro = trl");
-	   query.bind("risorsa", risorsa);
-	   query.bind("dataInizio", dataInizio);
-	   query.bind("dataFine", dataFine);
-	   TipoRapportoLavoro trl  =  query.first();
-	   return trl;
-   }
+	public static RapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , Date dataInizio, Date dataFine) {
+		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
+				"where ral.risorsa = :risorsa and (ral.dataInizio <= :dataInizio) " +
+		   		"and (ral.dataFine is null or (ral.dataFine >= :dataFine))");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
+		return query.first();
+	}
    
 }

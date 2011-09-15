@@ -113,6 +113,11 @@ public class Costo extends GenericModel {
 				setMessage(DATAFINE_LESS_THAN_DATAINIZIO, MyUtility.dateToString(costo.dataInizio));
 				return false;
 			}
+			RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(costo.risorsa, costo.dataInizio, dataFine);
+			if(ral == null){
+				setMessage("Errore dataFine");
+				return false;
+			}
 			return true;
 		}
 	}
@@ -127,8 +132,7 @@ public class Costo extends GenericModel {
 			if(c.dataInizio == null) {
 				return true;
 			}
-			// TODO se la data fine scavalca la fine del rapporto lavoro non valida...
-			TipoRapportoLavoro trl = RapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.dataInizio, c.dataInizio);
+			TipoRapportoLavoro trl = TipoRapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.dataInizio, c.dataFine);
 			if( trl != null && !trl.codice.equals("CCP") && (((Costo) costo).importoMensile == null 
 					|| ((Costo) costo).importoMensile == 0) ){
 				setMessage(MESSAGE);
