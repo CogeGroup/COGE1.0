@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.Commessa;
 import models.Gruppo;
 import models.Risorsa;
 import play.data.validation.Valid;

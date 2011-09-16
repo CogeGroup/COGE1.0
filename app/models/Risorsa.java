@@ -162,9 +162,6 @@ public class Risorsa extends GenericModel {
 				"and rl.risorsa = r " +
 				"order by r." + parametro + " " + ordinamento);
 		return query.fetch();
-//		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
-//				"where trl.codice = 'CCP' and trl = rl.tipoRapportoLavoro " +
-//				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
 	}
 	
 	public static List<Risorsa> findDipendenti(String parametro, String ordinamento) {
@@ -173,9 +170,6 @@ public class Risorsa extends GenericModel {
 				"and rl.risorsa = r " +
 				"order by r." + parametro + " " + ordinamento);
 		return query.fetch();
-//		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
-//				"where trl.codice <> 'CCP' and trl = rl.tipoRapportoLavoro " +
-//				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
 	}
 	
 	public static List<Risorsa> findByCommessa(Commessa commessa) {

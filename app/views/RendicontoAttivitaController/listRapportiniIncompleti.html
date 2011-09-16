@@ -29,5 +29,5 @@
 	<center><h2>Nessuna Anomalia Presente</h2></center>
 #{/else}
 <div id="button_center">
-	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+	#{a @RendicontoAttivitaController.rapportiniIncompleti()}<input type="button" class="submitbutton" value="Nuova ricerca" />#{/a}
 </div>

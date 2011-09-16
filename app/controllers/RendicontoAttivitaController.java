@@ -83,11 +83,11 @@ public class RendicontoAttivitaController extends Controller {
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
-//		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
-//			validation.addError("data", "Data selezionata non valida");
-//			List<Integer> listaAnni = MyUtility.createListaAnni();
-//			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
-//		}
+		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
+			validation.addError("data", "Data selezionata non valida");
+			List<Integer> listaAnni = MyUtility.createListaAnni();
+			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
+		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		if(risorsa == null){
 			validation.addError("risorsa", "Risorsa non trovata");
