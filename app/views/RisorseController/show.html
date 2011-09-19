@@ -1,5 +1,5 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/show.html' /}
+#{set title:'Mostra risorsa' /}
 
 <h2>Dettaglio Risorsa</h2>
 <div id="show_risorsa">
@@ -29,6 +29,10 @@
 		<li>
 			<label for="tipoStatoRisorsa">Stato: </label>
 		    ${risorsa.tipoStatoRisorsa.descrizione}
+		</li>
+		<li>
+			<label for="gruppo">Gruppo: </label>
+		    ${risorsa.gruppo?.descrizione}
 		</li>
 	</ul>
 </div>

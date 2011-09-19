@@ -1,5 +1,5 @@
 #{extends 'menu.html' /}
-#{set title:'RisorseController/index.html' /}
+#{set title:'Aggiungi risorsa' /}
 
 #{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
 #{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
@@ -50,6 +50,9 @@
 
     	<label for="tipoStatoRisorsa">Stato:</label>
     	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}<br />
+    	
+    	<label for="gruppo">Gruppo:</label>
+    	#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}<br />
 		
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 

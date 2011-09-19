@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -80,6 +81,9 @@ public class Risorsa extends GenericModel {
 	@CheckWith(TipoStatoRisorsaCheck.class)
 	public TipoStatoRisorsa tipoStatoRisorsa;
 	
+	@ManyToOne
+	public Gruppo gruppo;
+	
 	@Transient
 	public float guadagno;
 	
@@ -102,6 +106,10 @@ public class Risorsa extends GenericModel {
 		@Override
 		public boolean isSatisfied(Object risorsa, Object dataIn) {
 			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataIn è valorizzata
+			if(risorsa2.dataIn == null) {
+				return true;
+			}
 			if(risorsa2.rapportiLavoro != null && risorsa2.rapportiLavoro.size() > 0 && ((Date) dataIn).after(risorsa2.rapportiLavoro.get(0).dataInizio)) {
 				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(0).dataInizio));
 				return false;
@@ -116,6 +124,10 @@ public class Risorsa extends GenericModel {
 		@Override
 		public boolean isSatisfied(Object risorsa, Object dataOut) {
 			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataIn è valorizzata
+			if(risorsa2.dataIn == null) {
+				return true;
+			}
 			if(dataOut != null && !((Date) dataOut).after(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio)) {
 				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataInizio));
 				return false;
@@ -144,16 +156,20 @@ public class Risorsa extends GenericModel {
 		rl.risorsa=this;
 	}
 	
-	public static List<Risorsa> findCoCoPro() {
-		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
+	public static List<Risorsa> findCoCoPro(String parametro, String ordinamento) {
+		JPAQuery query  = Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
 				"where trl.codice = 'CCP' and trl = rl.tipoRapportoLavoro " +
-				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
+				"and rl.risorsa = r " +
+				"order by r." + parametro + " " + ordinamento);
+		return query.fetch();
 	}
 	
-	public static List<Risorsa> findDipendenti() {
-		return  Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
+	public static List<Risorsa> findDipendenti(String parametro, String ordinamento) {
+		JPAQuery query  = Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
 				"where trl.codice <> 'CCP' and trl = rl.tipoRapportoLavoro " +
-				"and rl.risorsa = r order by r.cognome, r.nome").fetch();
+				"and rl.risorsa = r " +
+				"order by r." + parametro + " " + ordinamento);
+		return query.fetch();
 	}
 	
 	public static List<Risorsa> findByCommessa(Commessa commessa) {

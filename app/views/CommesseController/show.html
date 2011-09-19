@@ -37,7 +37,16 @@
        <label for="cliente">Cliente:</label>
        <a href="@{ClientiController.show(commessa.cliente.idCliente)}">${commessa.cliente.nominativo }</a>
     </li>
-    
+    #{if listaGruppi != null && listaGruppi.size() > 0 }
+    <li>
+        <label for="gruppo">Gruppi: </label>
+       	<ul>
+			#{list items:listaGruppi, as:'gruppo'}
+				<li> ${gruppo.descrizione} </li>
+			#{/list}
+		</ul>
+    </li>
+    #{/if}
     #{if listaRisorse != null && listaRisorse.size() > 0 }
     <li>
         <label for="risorse">Risorse: </label>

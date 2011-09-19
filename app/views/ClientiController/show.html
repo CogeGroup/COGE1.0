@@ -8,17 +8,17 @@
 
 	<li>
         <label for="codice">Codice cliente: </label>
-        <label>${cliente.codice }</label>
+        ${cliente.codice }
     </li>
     <li>
         <label for="nominativo">Nominativo: </label>
-        <label>${cliente.nominativo }</label>
+        ${cliente.nominativo }
 
     </li>
 
     <li>
         <label for="attivo">Attivo: </label>
-        <label>${cliente.attivo == true ? 'si' : 'no' }</label>
+        ${cliente.attivo == true ? 'si' : 'no' }
     </li>
     #{if cliente.commesse.size() > 0 }
     <li>

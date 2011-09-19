@@ -21,6 +21,7 @@
 	<table class="table_center">
 		<thead>
 			<tr>
+				<th scope="col">TipoRapportoLavoro</th>
 				<th scope="col">Commessa</th>
 				<th scope="col">Ore</th>
 				<th scope="col">Elimina</th>
@@ -29,7 +30,8 @@
 			
 		#{paginate.list items:paginator, as:'rendicontoAttivita'} 
 			<tr>
-				<td>${rendicontoAttivita.commessa.codice }</td>
+				<td>${rendicontoAttivita.rapportoLavoro?.tipoRapportoLavoro?.codice }</td>
+				<td>${rendicontoAttivita.commessa.descrizione }</td>
 				<td>${rendicontoAttivita.oreLavorate }</td>
 				<td><a href="@{RendicontoAttivitaController.delete(rendicontoAttivita.idRendicontoAttivita)}" 
 				onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>

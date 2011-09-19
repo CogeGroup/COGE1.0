@@ -1,18 +1,34 @@
 #{extends 'menu.html' /}
-#{set title:'RapportoLavoroController/create.html' /}
+#{set title:'Aggiungi rapporto lavoro' /}
+
+#{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
+#{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+#{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
+#{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
+#{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
+#{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
 
 <script type="text/javascript">
+	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker1').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+
 	function toggle_visibility(id) {
 		var e = document.getElementById(id);
 		if(document.getElementById("select").value == ${idCoCoPro}){
 		   	e.style.display = 'block';
-		} else {
+		}else {
 		   	e.style.display = 'none';
 		}
     }
-</script>
+</script>  
 
-<h2>Crea Rapporto Lavoro</h2>
+<h2>Aggiungi Rapporto Lavoro</h2>
 <div id="detail">
 	<ul>
 		<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
@@ -31,23 +47,8 @@
 	#{/ifErrors}
 			
 	    	<label for="dataInizio">Data Inizio:</label>
-			#{select 'rapportoLavoro.meseInizio', value:rapportoLavoro.meseInizio}
-				#{option 0}GEN#{/option}
-				#{option 1}FEB#{/option}
-				#{option 2}MAR#{/option}
-				#{option 3}APR#{/option}
-				#{option 4}MAG#{/option}
-				#{option 5}GIU#{/option}
-				#{option 6}LUG#{/option}
-				#{option 7}AGO#{/option}
-				#{option 8}SET#{/option}
-				#{option 9}OTT#{/option}
-				#{option 10}NOV#{/option}
-				#{option 11}DIC#{/option}
-			#{/select}
-			
-			#{select 'rapportoLavoro.annoInizio', items:listaAnni, labelProperty:'rapportoLavoro.annoInizio', valueProperty:'rapportoLavoro.annoInizio', value:rapportoLavoro.annoInizio}
-			#{/select}
+	    	<input type="text" class="txt_date" name="rapportoLavoro.dataInizio" id="datepicker1" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	    	
 		<br />
 	
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
@@ -73,8 +74,6 @@
 <div id="button_center">
 	
         <input type="hidden" name="rapportoLavoro.risorsa.idRisorsa" value="${rapportoLavoro.risorsa.idRisorsa}" />
-    	<input type="hidden" name="rapportoLavoro.meseFine" value="${rapportoLavoro.meseFine}" />
-    	<input type="hidden" name="rapportoLavoro.annoFine" value="${rapportoLavoro.annoFine}" />
     	<input type="submit" class="submitbutton" value="Aggiungi" />
    
 #{/form}

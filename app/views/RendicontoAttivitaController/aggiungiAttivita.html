@@ -45,18 +45,12 @@
 	   	#{/ifErrors}
 
 		<h2>Lista Commesse ${mese + 1}-${anno}</h2>
-  		#{if listaCommesse!= null}
-			<ul>
-				#{list items:listaCommesse, as:'commessa'}
-	    			<li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" 
-		    			#{list items:listaRendicontoAttivita, as:'randicontoAttivita'}
-		    				#{if randicontoAttivita.commessa.idCommessa == commessa.idCommessa}
-		    					value="${randicontoAttivita.oreLavorate }"
-		    				#{/if}
-		    			#{/list}
-		    			/></li>
-				#{/list}
-	    	</ul>
+  		#{if listaRendicontoAttivita != null && listaRendicontoAttivita.size() > 0}
+		    <ul>
+			#{list items:listaRendicontoAttivita, as:'ra'}
+			    <li><label>${ra.commessa.descrizione} (${ra.rapportoLavoro?.tipoRapportoLavoro?.codice})<label> - Totale Ore: <input type="text" class="txt_s" name="id_${ra.commessa.idCommessa}_${ra.rapportoLavoro?.tipoRapportoLavoro?.codice}" value="${ra.oreLavorate }" /></li>
+		    #{/list}
+		    </ul>
 		#{/if}
 	 	#{else}
 	   		<h3>Non vi sono commesse fatturabili</h3><br>
@@ -85,7 +79,7 @@
        		<input type="hidden" name="mese" value="${mese}"/>
         	<input type="hidden" name="idRisorsa" value="${idRisorsa}"/>    
  			<input type="submit" class="submitbutton" value="Aggiorna" />
- 			<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+ 			#{a @RendicontoAttivitaController.dettaglio(idRisorsa,(mese+1),anno)}<input type="button" class="submitbutton" value="Indietro" />#{/a}
  		</div>
 	#{/form}
 </div>

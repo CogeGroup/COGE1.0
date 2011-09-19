@@ -17,6 +17,7 @@ import play.data.validation.Required;
 import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
+import play.db.jpa.GenericModel.JPAQuery;
 import sun.text.normalizer.Utility;
 import utility.MyUtility;
 
@@ -39,6 +40,12 @@ public class RendicontoAttivita extends GenericModel {
 	
 	@ManyToOne
 	public Commessa commessa;
+	
+	@ManyToOne
+	public RapportoLavoro rapportoLavoro;
+	
+	@ManyToOne
+	public Costo costo;
 
 	public RendicontoAttivita() {}
 	
@@ -111,6 +118,32 @@ public class RendicontoAttivita extends GenericModel {
 		List<RendicontoAttivita> listaRendicontoAttivitas = session.createSQLQuery(queryString).list();
 		
 		return listaRendicontoAttivitas;
+	}
+	
+	public static List<RendicontoAttivita> findCommesseFatturabiliPerRisorsa(int mese,
+			int anno, Risorsa risorsa) {
+		List<RendicontoAttivita> listaRendicontoAttivita = new ArrayList<RendicontoAttivita>();
+		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa.calcoloRicavi is true and t.dataInizio <= :dataFine and (t.dataFine is null or t.dataFine >= :dataInizio)");
+		query.bind("dataFine", dataFine);
+		query.bind("dataInizio", dataInizio);
+		query.bind("risorsa",risorsa);
+		
+		List<Tariffa> listaTariffe = query.fetch();
+		List<RapportoLavoro> listaRapportiLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnno(risorsa, mese, anno);
+		if (listaTariffe != null && !listaTariffe.isEmpty()){
+		   for(Tariffa t:listaTariffe){
+			   // Prova
+			   for (RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
+				   RendicontoAttivita ra = new RendicontoAttivita();
+				   ra.commessa = t.commessa;
+				   ra.rapportoLavoro = rapportoLavoro;
+				   listaRendicontoAttivita.add(ra);
+			   }
+		   }
+		}
+		return listaRendicontoAttivita;
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){

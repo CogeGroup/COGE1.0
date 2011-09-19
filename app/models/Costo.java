@@ -1,6 +1,8 @@
 package models;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -37,28 +39,18 @@ public class Costo extends GenericModel {
 	@Min(0.001)
 	public Float importoMensile;
 
-	@CheckWith(MyCostoDateCheck.class)
+	@Required
+	@CheckWith(MyDataInizioCheck.class)
 	@As("dd-MM-yyyy")
 	public Date dataInizio;
 	
+	@CheckWith(MyDataFineCheck.class)
 	@As("dd-MM-yyyy")
 	public Date dataFine;
 
 	@Required
 	@ManyToOne
 	public Risorsa risorsa;
-
-	@Transient
-	public int meseInizio;
-	
-	@Transient
-	public int annoInizio;
-	
-	@Transient
-	public int meseFine;
-	
-	@Transient
-	public int annoFine;
 
 	public Costo(Float importoGiornaliero, Float importoMensile, Date dataInizio, Risorsa risorsa) {
 		super();
@@ -69,56 +61,79 @@ public class Costo extends GenericModel {
 	}
 	public Costo(Risorsa risorsa) {
 		this.risorsa = risorsa;
-		this.meseInizio = Calendar.getInstance().get(Calendar.MONTH);
-		this.annoInizio = Calendar.getInstance().get(Calendar.YEAR);
-		this.meseFine= -1;
-		this.annoFine= -1;
 	}
 	
+	static class MyDataInizioCheck extends Check {
+
+		static final String message = "validation.costo.dataInizio";
+
+		public boolean isSatisfied(Object object, Object value) {
+			//se dataInizio è null salta la validazione
+			Date dataInizio = (Date) value;
+	    	if(dataInizio != null) {
+				Costo costo = (Costo) object;
+				Date dataMinima = null;
+	    		//popolo la lista dei costi della risorsa
+	    		List<Costo> listaCosti = Costo.find("byRisorsa", costo.risorsa).fetch();
+	    		//caso aggiunta primo costo
+	    		if(listaCosti == null || listaCosti.size() == 0) {
+	    			dataMinima = MyUtility.subOneDay(costo.risorsa.dataIn);
+	    		} else if (listaCosti.indexOf(costo) < 0) {
+	    			//caso inserimento nuovi costi
+	    			Costo ultimoCosto = listaCosti.get(listaCosti.size() - 1);
+		    		dataMinima = ultimoCosto.dataFine == null ? ultimoCosto.dataInizio : ultimoCosto.dataFine;
+	    		} else if (listaCosti.size() == 1) {
+					//caso modifica primo costo
+					dataMinima = MyUtility.subOneDay(costo.risorsa.dataIn);
+	    		} else {
+	    			//caso modifica ultimo costo
+	    			dataMinima = listaCosti.get(listaCosti.size() - 2).dataFine;
+	    		}
+	    		if (!dataInizio.after(dataMinima)) {
+		    		setMessage(message, MyUtility.dateToString(dataMinima));
+		    		return false;
+				}
+		    	return true;
+			}
+			return true;
+		}
+	}
 	
-	
-	static class MyCostoDateCheck extends Check {
-		static final String DATE_SOVRAPPOSTE_MESSAGE = "validation.costo.sovrapposto";
+	static class MyDataFineCheck extends Check {
 		static final String DATAFINE_LESS_THAN_DATAINIZIO = "validation.costo.dataFine.lt.dataInizio";
-		static final String MESE_ED_ANNO_NON_SELEZIONATE_CONTEMPORANEAMENTE = "validation.costo.meseFine.annoFine.wrongSelection";
 		
-		public boolean isSatisfied(Object costo, Object value) {
-			Costo costo2 = (Costo) costo;
-			costo2.dataInizio = MyUtility.MeseEdAnnoToDataInizio(costo2.meseInizio, costo2.annoInizio);
-			//valido dataInizio (ovvero non sovrapposta a nessun costo della risorsa)
-			if(!dataInizioSovrapposta(costo2).isEmpty()){
-				setMessage(DATE_SOVRAPPOSTE_MESSAGE);
+		public boolean isSatisfied(Object object, Object value) {
+			Costo costo = (Costo) object;
+			//effettuo la validazione solo se dataInizio è valorizzata
+			if(costo.dataInizio == null) {
+				return true;
+			}
+			Date dataFine = (Date) value;
+			if (dataFine != null && dataFine.compareTo(costo.dataInizio) < 0) {
+				setMessage(DATAFINE_LESS_THAN_DATAINIZIO, MyUtility.dateToString(costo.dataInizio));
 				return false;
 			}
-			//verifico che meseFine e annoFine siano entrambi contemporaneamente selezionati/deselezionati
-			if (costo2.meseFine > -1 ^ costo2.annoFine > -1) {
-				setMessage(MESE_ED_ANNO_NON_SELEZIONATE_CONTEMPORANEAMENTE);
-				return false;
-			}
-			//se arrivo a questo punto meseFine ed annoFine saranno entrambe od uguali a -1 oppure entrambi valorizzati
-			//indi faccio solo il controllo meseFine == -1 (inoltre dataInizio è valida)
-			costo2.dataFine = costo2.meseFine == -1 ? null : MyUtility.MeseEdAnnoToDataFine(costo2.meseFine, costo2.annoFine);
-			//controllo che dataInizio sia > di dataFine
-			if(costo2.dataFine != null && costo2.dataFine.compareTo(costo2.dataInizio) <=0){
-				setMessage(DATAFINE_LESS_THAN_DATAINIZIO);
-				return false;
-			}
-			//controllo che il costo non sia sovrapposto a nessun altro
-			if (!costoSovrapposto(costo2).isEmpty()) {
-				setMessage(DATE_SOVRAPPOSTE_MESSAGE);
+			RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(costo.risorsa, costo.dataInizio, dataFine);
+			if(ral == null){
+				setMessage("Errore dataFine");
 				return false;
 			}
 			return true;
 		}
 	}
+
 	
 	static class ImportoMensileCheck extends Check {
 		static final String MESSAGE = "validation.costo.importoMensile";
 		
 		public boolean isSatisfied(Object costo, Object value) {
 			Costo c = (Costo) costo;
-			TipoRapportoLavoro trl = RapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.meseInizio, c.annoInizio);
-			if( !trl.codice.equals("CCP") && (((Costo) costo).importoMensile == null 
+			//valido l'importo mensile solo se la dataInizio del costo è stata valorizzata
+			if(c.dataInizio == null) {
+				return true;
+			}
+			TipoRapportoLavoro trl = TipoRapportoLavoro.findByRisorsaAndPeriodo(c.risorsa, c.dataInizio, c.dataFine);
+			if( trl != null && !trl.codice.equals("CCP") && (((Costo) costo).importoMensile == null 
 					|| ((Costo) costo).importoMensile == 0) ){
 				setMessage(MESSAGE);
 				return false;
@@ -127,40 +142,13 @@ public class Costo extends GenericModel {
 		}
 	}
 	
-	//verifica che la dataInizio inserita non sia sovrapposta (ovvero contenuta) agli altri costi della risorsa
-	public static List<Costo> dataInizioSovrapposta(Costo costo) {
-		StringBuffer query = new StringBuffer("from Costo c where ? >= c.dataInizio and (c.dataFine is null or ? <= c.dataFine) and c.risorsa = ?");
-		if(costo.isPersistent()) {
-			query.append(" and c != ?");
-			return Costo.find(query.toString(), costo.dataInizio, costo.dataInizio, costo.risorsa, costo).fetch();
-		}
-		return Costo.find(query.toString(), costo.dataInizio, costo.dataInizio, costo.risorsa).fetch();
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof Costo ? ((Costo) other).idCosto == this.idCosto: false;
 	}
+
 	
-	
-	//verifica che la dataFine inserita non sia sovrapposta (ovvero contenuta) agli altri costi della risorsa
-	//NB: viene invocato solo dopo aver verificato che dataInizio sia valida
-	public static List<Costo> costoSovrapposto(Costo costo) {
-		StringBuffer query = new StringBuffer();
-		//se dataFine è null, mi interessa verificare che non vi siano costi successivi già inseriti
-		if (costo.dataFine == null) {
-			query.append("from Costo c where c.dataInizio > ? and c.risorsa = ?");
-			if(costo.isPersistent()) {
-				query.append(" and c != ?");
-				return Costo.find(query.toString(), costo.dataInizio, costo.risorsa, costo).fetch();
-			}
-			return Costo.find(query.toString(), costo.dataInizio, costo.risorsa).fetch();
-		} else {
-			query.append("from Costo c where ? >= c.dataInizio and (c.dataFine is null or ? <= c.dataFine) and c.risorsa = ?");
-			if(costo.isPersistent()) {
-				query.append(" and c != ?");
-				return Costo.find(query.toString(), costo.dataFine, costo.dataFine, costo.risorsa, costo).fetch();
-			}
-			return Costo.find(query.toString(), costo.dataFine, costo.dataFine, costo.risorsa).fetch();
-		}
 		
-	}
-	
 	public static float totaleCosto(Costo costo, Risorsa risorsa, int mese, int anno) {
 		if (costo.importoMensile != null)  {
 			return costo.importoMensile;
@@ -184,56 +172,102 @@ public class Costo extends GenericModel {
 		return query.first();
 	}
 	
+	public static Costo extractByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
+		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		if(dataFine == null){
+			dataFine = MyUtility.MeseEdAnnoToDataFine(MyUtility.getMeseFromDate(dataInizio), MyUtility.getAnnoFromDate(dataInizio));
+		}
+		query.bind("dataFine", dataFine);
+		return query.first();
+	}
+	
+	
 }
 
 //static class MyDataInizioCheck extends Check {
 //
-//static final String mes = "validation.costo.sovrapposto";
+//	static final String mes = "validation.costo.sovrapposto";
 //
-//public boolean isSatisfied(Object costo, Object value) {
-//	if(!Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()){
-//		setMessage(mes);
-//		return false;
-//	}
-//	return true;
-//}
-//}
-
-//static class MyDataFineCheck extends Check {
-//static final String DATE_SOVRAPPOSTE_MESSAGE = "validation.costo.sovrapposto";
-//static final String DATAFINE_LESS_THAN_DATAINIZIO = "validation.costo.dataFine.lt.dataInizio";
-//
-//public boolean isSatisfied(Object costo, Object value) {
-//	if(value !=null){
-//		if(((Date)value).compareTo(((Costo)costo).dataInizio) <=0 ){
-//			setMessage(DATAFINE_LESS_THAN_DATAINIZIO);
+//	public boolean isSatisfied(Object costo, Object value) {
+//		if(!Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()){
+//			setMessage(mes);
 //			return false;
+//		}
+//		return true;
+//	}
+//}
+//
+//static class MyDataFineCheck extends Check {
+//	static final String DATE_SOVRAPPOSTE_MESSAGE = "validation.costo.sovrapposto";
+//	static final String DATAFINE_LESS_THAN_DATAINIZIO = "validation.costo.dataFine.lt.dataInizio";
+//
+//	public boolean isSatisfied(Object costo, Object value) {
+//		if(value !=null){
+//			if(((Date)value).compareTo(((Costo)costo).dataInizio) <=0 ){
+//				setMessage(DATAFINE_LESS_THAN_DATAINIZIO);
+//				return false;
+//			}
+//			
+//			if (!Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
+//				setMessage(DATE_SOVRAPPOSTE_MESSAGE);
+//				return false;
+//			}
 //		}
 //		
-//		if (!Costo.costiSovrapposti((Date)value, (Costo)costo).isEmpty()) {
-//			setMessage(DATE_SOVRAPPOSTE_MESSAGE);
-//			return false;
-//		}
+//		return true;
 //	}
-//	
-//	return true;
-//}
-//}
-
+//	}
+//
 //public static List<Costo> costiSovrapposti(Date valuableDate,Costo costo){
 //
-////StringBuffer query = new StringBuffer("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?)  or (c.dataInizio > ? and c.dataFine < ?) ) and c.risorsa = ? ");
-//StringBuffer query = new StringBuffer("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?)  or (c.dataInizio > ? and c.dataFine < ?) ) and c.risorsa = ? ");
+//	//StringBuffer query = new StringBuffer("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?)  or (c.dataInizio > ? and c.dataFine < ?) ) and c.risorsa = ? ");
+//	StringBuffer query = new StringBuffer("from Costo c where (? between c.dataInizio and c.dataFine or (c.dataFine is null and c.dataInizio < ?)  or (c.dataInizio > ? and c.dataFine < ?) ) and c.risorsa = ? ");
 //
-//if(costo.isPersistent()){
-//	query.append(" and c != ? ");
-//	return Costo
-//	.find(query.toString(),
-//			valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa,costo).fetch();
-//}else{
-//	return Costo
-//	.find(query.toString(),
-//			valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa).fetch();
+//	if(costo.isPersistent()){
+//		query.append(" and c != ? ");
+//		return Costo
+//		.find(query.toString(),
+//				valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa,costo).fetch();
+//	}else{
+//		return Costo
+//		.find(query.toString(),
+//				valuableDate,valuableDate,costo.dataInizio ,costo.dataFine , costo.risorsa).fetch();
+//	}
+//
+//	}
+//
+////verifica che la dataInizio inserita non sia sovrapposta (ovvero contenuta) agli altri costi della risorsa
+//public static List<Costo> dataInizioSovrapposta(Costo costo) {
+//	StringBuffer query = new StringBuffer("from Costo c where ? >= c.dataInizio and (c.dataFine is null or ? <= c.dataFine) and c.risorsa = ?");
+//	if(costo.isPersistent()) {
+//		query.append(" and c != ?");
+//		return Costo.find(query.toString(), costo.dataInizio, costo.dataInizio, costo.risorsa, costo).fetch();
+//	}
+//	return Costo.find(query.toString(), costo.dataInizio, costo.dataInizio, costo.risorsa).fetch();
 //}
 //
+//
+////verifica che la dataFine inserita non sia sovrapposta (ovvero contenuta) agli altri costi della risorsa
+////NB: viene invocato solo dopo aver verificato che dataInizio sia valida
+//public static List<Costo> costoSovrapposto(Costo costo) {
+//	StringBuffer query = new StringBuffer();
+//	//se dataFine è null, mi interessa verificare che non vi siano costi successivi già inseriti
+//	if (costo.dataFine == null) {
+//		query.append("from Costo c where c.dataInizio > ? and c.risorsa = ?");
+//		if(costo.isPersistent()) {
+//			query.append(" and c != ?");
+//			return Costo.find(query.toString(), costo.dataInizio, costo.risorsa, costo).fetch();
+//		}
+//		return Costo.find(query.toString(), costo.dataInizio, costo.risorsa).fetch();
+//	} else {
+//		query.append("from Costo c where ? >= c.dataInizio and (c.dataFine is null or ? <= c.dataFine) and c.risorsa = ?");
+//		if(costo.isPersistent()) {
+//			query.append(" and c != ?");
+//			return Costo.find(query.toString(), costo.dataFine, costo.dataFine, costo.risorsa, costo).fetch();
+//		}
+//		return Costo.find(query.toString(), costo.dataFine, costo.dataFine, costo.risorsa).fetch();
+//	}
+//	
 //}

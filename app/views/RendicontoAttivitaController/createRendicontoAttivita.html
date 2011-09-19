@@ -40,29 +40,19 @@
 		#{ifErrors}
 	       	<p class="error">
 				${errors[0]}
-				#{if errors[0]="modifica"}
-					<br><a href="@{RendicontoAttivitaController.aggiungiAttivita(idRisorsa,mese,anno)}">modifica</a>
-				#{/if}
 			</p>
 	    #{/ifErrors}
 	    <h2>Lista Commesse ${mese + 1}-${anno}</h2>
-		#{if listaCommesse != null && listaCommesse.size() > 0}
+		#{if listaRendicontoAttivita != null && listaRendicontoAttivita.size() > 0}
 		    <ul>
-			#{list items:listaCommesse, as:'commessa'}
-			    <li><label>${commessa.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${commessa.idCommessa}" 
-			    		#{list items:listaRendicontoAttivita, as:'randicontoAttivita'}
-			    			#{if randicontoAttivita.commessa.idCommessa == commessa.idCommessa}
-			    				value="${randicontoAttivita.oreLavorate }"
-			    			#{/if}
-			    		#{/list}
-			    	/></li>
+			#{list items:listaRendicontoAttivita, as:'ra'}
+			    <li><label>${ra.commessa.descrizione} ${ra.rapportoLavoro.tipoRapportoLavoro.codice}<label> - Totale Ore: <input type="text" class="txt_s" name="id_${ra.commessa.idCommessa}_${ra.rapportoLavoro.tipoRapportoLavoro.codice}" /></li>
 		    #{/list}
 		    </ul>
 		#{/if}
 	 	#{else}
 	   		<h3>Non vi sono commesse fatturabili</h3><br>
 		#{/else} 
-		    
 		#{if listaCommesseNonFatturabili != null && listaCommesseNonFatturabili.size() > 0}
 			<hr>
 			<li>
@@ -86,7 +76,7 @@
 			<input type="hidden" name="mese" value="${mese}"/>
 			<input type="hidden" name="idRisorsa" value="${idRisorsa}"/>
 			<input type="submit" class="submitbutton" value="Salva" />
-			<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+			#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 		</div>
 	#{/form}
 </div>

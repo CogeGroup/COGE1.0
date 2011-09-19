@@ -4,11 +4,14 @@
 <!-- CSS -->
 #{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
 #{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+#{stylesheet id:'teken-input',media:'screen',src:'token-input.css'  /}
 <!-- JavaScript-->
 #{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
 #{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
 #{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
 #{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+#{script id:'tokeninput' , src:'jquery.tokeninput.js', charset:'utf-8' /}
+
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
@@ -27,6 +30,25 @@
 		var e = document.getElementById(id);
 		e.style.display = 'none';
     }
+
+    $(document).ready(function () {
+        $("#gruppo").tokenInput('autocompleteGruppo', {
+            hintText: "Digitare la descrizione del gruppo (almeno 3 caratteri)",
+            noResultsText: "Nessun risultato",
+            searchingText: "Ricerca...",
+            minChars: "3",
+            preventDuplicates: true,
+            method: "POST"
+        });
+    });
+
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if(e.style.display == 'block')
+           e.style.display = 'none';
+        else
+           e.style.display = 'block';
+     }
 </script>
 
 <h2>Nuova commessa</h2>
@@ -50,7 +72,7 @@
 	    <input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
 	    <br />
 	    <label for="calcoloRicavi">Calcola ricavi: </label>
-	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
+	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if}/>
 	    <br />
 	   	<label for="tipoCommessa">Tipo commessa: </label>
 		#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa /}
@@ -61,6 +83,11 @@
 	   	<label for="cliente">Cliente: </label>
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 	    <br />
+		<span id="gruppi" style="display: block">
+		<label for="gruppo">Gruppo:</label>
+		<input type="text" class="txt_m" id="gruppo" name="gruppo" />
+	    <br /></span>
+	    
 	    <label for="aCorpo">A corpo: </label>
 	    <span class="checkbox">
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>

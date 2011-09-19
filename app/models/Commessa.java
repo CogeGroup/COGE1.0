@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -201,9 +202,12 @@ public class Commessa extends GenericModel{
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   //if(!(t.commessa instanceof CommessaACorpo)){
+			   // Prova
+			   List<RapportoLavoro> listaRapportiLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnno(risorsa, mese, anno);
+			   for (RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
+				   System.out.println(rapportoLavoro.tipoRapportoLavoro);
 				   listaCommesse.add(t.commessa);
-			   //}
+			   }
 		   }
 		}
 		return listaCommesse;

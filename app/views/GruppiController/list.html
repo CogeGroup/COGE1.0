@@ -1,0 +1,39 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Gruppi' /}
+
+<h2>Gruppi</h2>
+<p class="success">${flash.success}</p>
+<p class="error">${flash.error}</p>
+
+#{if paginator.size() > 0}
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Codice gruppo</th>
+				<th scope="col">descrizione</th>
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
+			</tr>
+		</thead>
+		#{paginate.list items:paginator, as:'gruppo'} 
+			<tr>
+				<td><a href="@{GruppiController.show(gruppo.idGruppo)}">${gruppo.codice }</a></td>
+				<td>${gruppo.descrizione }</td>
+				<td><a href="@{GruppiController.edit(gruppo.idGruppo)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+				<td>#{if gruppo.risorse.size() == 0 && gruppo.commesse.size() == 0 }
+						<a href="@{GruppiController.delete(gruppo.idGruppo)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a>
+					#{/if}</td>
+				
+			</tr>
+		#{/paginate.list} 
+	</table>
+	<div id="datatable">
+		#{paginate.controls items:paginator /}
+	</div>
+#{/if}
+#{else}
+	<center><h2>Nessun Gruppo esistente</h2></center>
+#{/else}
+<div id="buttonSubmit_center">
+	#{a @GruppiController.create()}<input type="button" class="button_submit" value="Aggiungi"/>#{/a}
+</div>
