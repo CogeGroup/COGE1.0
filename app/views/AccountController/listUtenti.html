@@ -42,9 +42,10 @@
 			<label for="ricerca">Ricerca: </label>
 			<input type="text" class="txt_m" name="utente" id="utente" />
 			<input type="hidden" name="idUtente" id="idUtente" />
-			<input type="submit" value="Cerca" class="button_submit"/>
+			<input type="submit" value="Cerca" class="button_search"/>
 		</form>
-		#{a @AccountController.listUtenti()}mostra tutti#{/a}
+		<br />
+		<span class="search">#{a @AccountController.listUtenti()}mostra tutti#{/a}</span>
 		<p class="error">${flash.error}</p>
 	</div>
 	<table class="table_center">
