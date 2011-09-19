@@ -24,10 +24,10 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Importo giornaliero</th>
-				<th scope="col">Importo mensile</th>
 				<th scope="col">Data Inizio</th>
 				<th scope="col">Data Fine</th>
+				<th scope="col">Importo giornaliero</th>
+				<th scope="col">Importo mensile</th>
 				#{if !risorsa.dataOut}
 					<th scope="col">Modifica</th>
 					<th scope="col">Elimina</th>
@@ -36,10 +36,10 @@
 		</thead>
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
-			<td>${costo.importoGiornaliero }</td>
-			<td>${costo.importoMensile }</td>
 			<td>${costo.dataInizio?.format('dd-MM-yyyy') }</td>
 			<td>${costo.dataFine?.format('dd-MM-yyyy') }</td>
+			<td>${costo.importoGiornaliero }</td>
+			<td>${costo.importoMensile }</td>
 			#{if !risorsa.dataOut}
 				#{if paginator.size() == costo_index}
 					<td><a href="@{CostiController.edit(costo.idCosto)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
