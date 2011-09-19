@@ -1,19 +1,13 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import models.Costo;
-import models.DettaglioRapportoAttivita;
 import models.RendicontoAttivita;
 import models.Risorsa;
-
-import play.data.validation.Validation;
-import play.db.jpa.GenericModel.JPAQuery;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.With;
 import secure.SecureCOGE;
 import utility.MyUtility;
 
@@ -32,11 +26,6 @@ public class AnomalieController extends Controller {
     }
 
     public static void listRapportiniMancanti(int mese, int anno) {
-    	if(!MyUtility.MeseEdAnnoToDataFine(mese, anno).before(new Date())){
-			Validation.addError("data", "Data selezionata non valida");
-			List<Integer> listaAnni = MyUtility.createListaAnni();
-			render("anomaliecontroller/rapportiniMancanti.html",listaAnni,mese,anno);
-		}
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniMancanti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
 		paginator.setPageSize(10);
