@@ -145,7 +145,8 @@ public class RisorseController extends Controller {
     public static void update(@Valid Risorsa risorsa) {
     	if(validation.hasErrors()) {
     		List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
-        	renderTemplate("RisorseController/edit.html", risorsa, listaTipoStatoRisorsa);
+    		List<Gruppo> listaGruppi = Gruppo.findAll();
+        	renderTemplate("RisorseController/edit.html", risorsa, listaTipoStatoRisorsa, listaGruppi);
         }
     	//nel caso in cui viene settata data out della risorsa
     	//procedo alla disabilitazione della risorsa e delle info relative
