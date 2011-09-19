@@ -34,6 +34,10 @@ validation.tipoStatoRisorsa.codice_esistente = codice esistente
 tipoRapportoLavoro.codice = codice
 tipoRapportoLavoro.descrizione = descrizione
 validation.tipoRapportoLavoro.codice_esistente = codice esistente
+# GRUPPO ----------------------
+gruppo.codice = codice
+gruppo.descrizione = descrizione
+validation.gruppo.codice_esistente = codice esistente
 # RAPPORTO LAVORO ----------------------------
 rapportoLavoro.dataInizio = data inizio
 rapportoLavoro.dataFine= data fine

@@ -39,28 +39,37 @@
 <br />
 <div id="costi">
 	<center><h2>Costi</h2></center>
+	#{if listaCosti == null || listaCosti.size() == 0}
+		<center><h4>Nessun Costo esistente</h4></center>
+	#{/if}
+	#{else}
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Importo giornaliero</th>
-				<th scope="col">Importo mensile</th>
 				<th scope="col">Data Inizio</th>
 				<th scope="col">Data Fine</th>
+				<th scope="col">Importo giornaliero</th>
+				<th scope="col">Importo mensile</th>
 			</tr>
 		</thead>
 		#{list items:listaCosti, as:'costo'} 
 		<tr>
+			<td>${costo.dataInizio?.format('dd-MM-yyyy') }</td>
+			<td>${costo.dataFine?.format('dd-MM-yyyy') }</td>
 			<td>${costo.importoGiornaliero }</td>
 			<td>${costo.importoMensile }</td>
-			<td>${costo.dataInizio?.format('dd-MM-yyy') }</td>
-			<td>${costo.dataFine?.format('dd-MM-yyy') }</td>
 		</tr>
 		#{/list} 
 	</table>
+	#{/else}
 </div>
 <br />
 <div id="tariffe">
 	<center><h2>Tariffe</h2></center>
+	#{if listaTariffe == null || listaTariffe.size() == 0}
+		<center><h4>Nessuna Tariffa esistente</h4></center>
+	#{/if}
+	#{else}
 	<table class="table_center">
 		<thead>
 			<tr>
@@ -79,6 +88,7 @@
 			</tr>
 		#{/list} 
 	</table>
+	#{/else}
 </div>
 <br />
 <div id="rapportiLavoro">

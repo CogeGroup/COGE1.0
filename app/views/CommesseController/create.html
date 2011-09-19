@@ -53,7 +53,7 @@
 
 <h2>Nuova commessa</h2>
 #{if listaClienti.size() > 0}
-	<div id="align_form">
+	<div id="edit">
 	#{form @CommesseController.save()}
 		
 		#{ifErrors}
@@ -61,46 +61,58 @@
 				${errors[0]}
 			</p>
 	    #{/ifErrors}
-		
+		 <ul>
+	    <li>
 	   	<label for="codice">Codice commessa:</label>
 	    <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
-	    <br />
+	    </li>
+	    <li>
 	    <label for="descrizione">Descrizione: </label>
 	    <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
-	    <br />
+	     </li>
+	    <li>
 	    <label for="calcoloCosti">Calcola costi: </label>
 	    <input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
-	    <br />
+	    </li>
+	    <li>
 	    <label for="calcoloRicavi">Calcola ricavi: </label>
 	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if}/>
-	    <br />
+	    </li>
+	    <li>
 	   	<label for="tipoCommessa">Tipo commessa: </label>
 		#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa /}
-	    <br />
+	     </li>
+	    <li>
 	    <label for=dataInizioCommessa>Data inizio: </label>
 	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
-	    <br />
+	     </li>
+	    <li>
 	   	<label for="cliente">Cliente: </label>
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
-	    <br />
+	      </li>
+	    <li>
 		<span id="gruppi" style="display: block">
 		<label for="gruppo">Gruppo:</label>
 		<input type="text" class="txt_m" id="gruppo" name="gruppo" />
-	    <br /></span>
-	    
+		</span>
+	      </li>
+	    <li>
 	    <label for="aCorpo">A corpo: </label>
 	    <span class="checkbox">
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if aCorpo.equals("no")}checked="checked"#{/if} onclick="toggle_visibility_false('divACorpo');"/>
-	    </span><br /><br />
+	    </span>
+	    </li>
+	    <li>
 	    <div id="divACorpo" style="display: none">
 	    	<span class="linea">
 		    	<hr>
 		    </span>
 			<label for=importo>Importo: </label>
 		    <input type="text" class="txt_s" name="importo" value="${importo }"/>
-		    <br />
 		</div>
+		</li>
+		</ul>
 </div>
 	<div id="button_center">
 			<input type="hidden" name="commessa.calcoloCosti" value="false" /> 
