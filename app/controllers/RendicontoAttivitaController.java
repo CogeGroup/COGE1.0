@@ -239,11 +239,6 @@ public class RendicontoAttivitaController extends Controller {
     }
     
     public static void listRapportiniIncompleti(int mese, int anno) {
-		if(!MyUtility.MeseEdAnnoToDataFine(mese, anno).before(new Date())){
-			validation.addError("data", "Data selezionata non valida");
-			List<Integer> listaAnni = MyUtility.createListaAnni();
-			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
-		}
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
 		paginator.setPageSize(10);
