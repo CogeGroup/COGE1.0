@@ -123,7 +123,8 @@ public class RisorseController extends Controller {
         	List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
         	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
         	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
-            renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, giorniAssenzeRetribuite);
+        	List<Gruppo> listaGruppi = Gruppo.findAll();
+            renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, giorniAssenzeRetribuite, listaGruppi);
         }
 	 	//crea e popola il primo rapporto lavoro con data inizio uguale alla data in della risorsa
 	 	//aggiunge il primo rapporto lavoro alla lista rapportiLavoro della risorsa e salva il tutto
@@ -145,7 +146,8 @@ public class RisorseController extends Controller {
     public static void update(@Valid Risorsa risorsa) {
     	if(validation.hasErrors()) {
     		List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
-        	renderTemplate("RisorseController/edit.html", risorsa, listaTipoStatoRisorsa);
+    		List<Gruppo> listaGruppi = Gruppo.findAll();
+        	renderTemplate("RisorseController/edit.html", risorsa, listaTipoStatoRisorsa, listaGruppi);
         }
     	//nel caso in cui viene settata data out della risorsa
     	//procedo alla disabilitazione della risorsa e delle info relative
