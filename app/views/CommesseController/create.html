@@ -91,7 +91,12 @@
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 	      </li>
 	    <li>
-		<span id="gruppi" style="display: block">
+		<span id="gruppi" #{if commessa.calcoloRicavi == true}
+				    	style="display: none"
+				      #{/if}
+				      #{else}
+				      	style="display: block"
+				      #{/else}>
 		<label for="gruppo">Gruppo:</label>
 		<input type="text" class="txt_m" id="gruppo" name="gruppo" />
 		</span>

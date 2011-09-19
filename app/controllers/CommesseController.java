@@ -92,7 +92,10 @@ public class CommesseController extends Controller {
         render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo, listaGruppi);
     }
     
-    public static void save(@Valid Commessa commessa, String aCorpo, float importo, @Required(message="Inserire un gruppo")String gruppo) {
+    public static void save(@Valid Commessa commessa, String aCorpo, float importo, String gruppo) {
+    	if(commessa.calcoloRicavi == false && (gruppo == null || gruppo.equals(""))){
+    		validation.addError("gruppo", "Inserire un gruppo");
+    	}
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
