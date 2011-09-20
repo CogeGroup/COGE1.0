@@ -7,45 +7,44 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice, tcom.idTipoCommessa as tipo,
-sum(if(ra.mese = 1, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_gennaio,
-sum(if(ra.mese = 2, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_febbraio,
-sum(if(ra.mese = 3, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_marzo,
-sum(if(ra.mese = 4, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_aprile,
-sum(if(ra.mese = 5, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_maggio,
-sum(if(ra.mese = 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_giugno,
-sum(if(ra.mese = 7, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_luglio,
-sum(if(ra.mese = 8, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_agosto,
-sum(if(ra.mese = 9, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_settembre,
-sum(if(ra.mese = 10, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_ottobre,
-sum(if(ra.mese = 11, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_novembre,
-sum(if(ra.mese = 12, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_dicembre,
-sum(if(ra.mese = 1, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_gennaio,
-sum(if(ra.mese = 2, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_febbraio,
-sum(if(ra.mese = 3, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_marzo,
-sum(if(ra.mese = 4, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_aprile,
-sum(if(ra.mese = 5, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_maggio,
-sum(if(ra.mese = 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_giugno,
-sum(if(ra.mese = 7, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_luglio,
-sum(if(ra.mese = 8, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_agosto,
-sum(if(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_settembre,
-sum(if(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_ottobre,
-sum(if(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_novembre,
-sum(if(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_dicembre
-              FROM RendicontoAttivita ra
-              inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
-              inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
-              inner join Cliente cl on com.cliente_idCliente=cl.idCliente
-              inner join Tariffa t on (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on costo.risorsa_idRisorsa = ris.idRisorsa
-	   inner join TipoCommessa tcom on com.tipoCommessa_idTipoCommessa = tcom.idTipoCommessa
-              where com.calcoloRicavi = true and ra.anno=$P{ANNO}
-and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
-              and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
-              group by com.codice
-order by cl.nominativo, com.descrizione]]>
+		<![CDATA[SELECT cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice, tcom.idTipoCommessa AS tipo,
+SUM(IF(ra.mese = 1, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_gennaio,
+SUM(IF(ra.mese = 2, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_febbraio,
+SUM(IF(ra.mese = 3, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_marzo,
+SUM(IF(ra.mese = 4, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_aprile,
+SUM(IF(ra.mese = 5, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_maggio,
+SUM(IF(ra.mese = 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_giugno,
+SUM(IF(ra.mese = 7, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_luglio,
+SUM(IF(ra.mese = 8, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_agosto,
+SUM(IF(ra.mese = 9, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_settembre,
+SUM(IF(ra.mese = 10, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_ottobre,
+SUM(IF(ra.mese = 11, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_novembre,
+SUM(IF(ra.mese = 12, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) AS ricavo_dicembre,
+SUM(IF(ra.mese = 1, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_gennaio,
+SUM(IF(ra.mese = 2, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_febbraio,
+SUM(IF(ra.mese = 3, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_marzo,
+SUM(IF(ra.mese = 4, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_aprile,
+SUM(IF(ra.mese = 5, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_maggio,
+SUM(IF(ra.mese = 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_giugno,
+SUM(IF(ra.mese = 7, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_luglio,
+SUM(IF(ra.mese = 8, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_agosto,
+SUM(IF(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_settembre,
+SUM(IF(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_ottobre,
+SUM(IF(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_novembre,
+SUM(IF(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre
+FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
+WHERE ra.anno = $P{ANNO}
+AND ra.risorsa_idRisorsa = ris.idRisorsa
+AND com.idCommessa = ra.commessa_idCommessa
+AND com.calcoloRicavi = TRUE
+AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
+AND cl.idCliente = com.cliente_idCliente
+AND costo.idCosto = ra.costo_idcosto
+AND (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine IS NULL)
+GROUP BY com.codice
+ORDER BY cl.nominativo, com.descrizione]]>
 	</queryString>
 	<field name="nominativo" class="java.lang.String"/>
 	<field name="descrizione" class="java.lang.String"/>

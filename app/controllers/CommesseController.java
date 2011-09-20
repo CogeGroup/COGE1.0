@@ -7,24 +7,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-
-import org.hibernate.Session;
-
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
 import models.Gruppo;
-import models.RendicontoAttivita;
 import models.Risorsa;
-import models.Ruolo;
 import models.Tariffa;
 import models.TipoCommessa;
 import play.data.validation.Required;
 import play.data.validation.Valid;
-import play.db.jpa.JPA;
-import play.db.jpa.JPABase;
-import play.db.jpa.GenericModel.JPAQuery;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -92,7 +83,10 @@ public class CommesseController extends Controller {
         render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo, listaGruppi);
     }
     
-    public static void save(@Valid Commessa commessa, String aCorpo, float importo, @Required(message="Inserire un gruppo")String gruppo) {
+    public static void save(@Valid Commessa commessa, String aCorpo, float importo, String gruppo) {
+    	if(commessa.calcoloRicavi == false && (gruppo == null || gruppo.equals(""))){
+    		validation.addError("gruppo", "Inserire un gruppo");
+    	}
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();

@@ -2,7 +2,6 @@ package controllers;
 
 import java.awt.Color;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,36 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javassist.tools.reflect.Sample;
-
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-
-import ar.com.fdvs.dj.core.DynamicJasperHelper;
-import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
-import ar.com.fdvs.dj.core.registration.ColumnsGroupVariablesRegistrationManager;
-import ar.com.fdvs.dj.domain.DJCalculation;
-import ar.com.fdvs.dj.domain.DynamicReport;
-import ar.com.fdvs.dj.domain.Style;
-import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
-import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
-import ar.com.fdvs.dj.domain.builders.DJBuilderException;
-import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
-import ar.com.fdvs.dj.domain.constants.Border;
-import ar.com.fdvs.dj.domain.constants.Font;
-import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
-import ar.com.fdvs.dj.domain.constants.Page;
-import ar.com.fdvs.dj.domain.constants.Rotation;
-import ar.com.fdvs.dj.domain.constants.Stretching;
-import ar.com.fdvs.dj.domain.constants.Transparency;
-import ar.com.fdvs.dj.domain.constants.VerticalAlign;
-import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
-
 import models.Cliente;
 import models.Commessa;
+import models.Gruppo;
 import models.RendicontoAttivita;
-import models.Risorsa;
-import models.TipoRapportoLavoro;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -52,12 +25,30 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
-import net.sf.jasperreports.engine.fonts.FontFamily;
+
+import org.joda.time.DateMidnight;
+
 import play.db.DB;
 import play.mvc.Controller;
 import play.mvc.With;
 import play.vfs.VirtualFile;
 import secure.SecureCOGE;
+import ar.com.fdvs.dj.core.DynamicJasperHelper;
+import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
+import ar.com.fdvs.dj.domain.DJCalculation;
+import ar.com.fdvs.dj.domain.DynamicReport;
+import ar.com.fdvs.dj.domain.Style;
+import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
+import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
+import ar.com.fdvs.dj.domain.builders.DJBuilderException;
+import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
+import ar.com.fdvs.dj.domain.constants.Border;
+import ar.com.fdvs.dj.domain.constants.Font;
+import ar.com.fdvs.dj.domain.constants.Page;
+import ar.com.fdvs.dj.domain.constants.Rotation;
+import ar.com.fdvs.dj.domain.constants.Transparency;
+import ar.com.fdvs.dj.domain.constants.VerticalAlign;
+import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
 
 @With(SecureCOGE.class)
 public class StatisticheController extends Controller {
@@ -630,7 +621,8 @@ public class StatisticheController extends Controller {
 	public static void statisticaHTMLCommesseCollaboratoriMese(String mese, String anno) {
         boolean result = true;
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+		Gruppo gruppo = Gruppo.find("byCodice","CoCoPro").first();
+		List<Commessa> listaCommessa = gruppo.commesse;
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -722,7 +714,8 @@ public class StatisticheController extends Controller {
 	public static void statisticaPDFCommesseCollaboratoriMese(String mese, String anno) {
 
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+		Gruppo gruppo = Gruppo.find("byCodice","CoCoPro").first();
+		List<Commessa> listaCommessa = gruppo.commesse;
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -811,7 +804,8 @@ public class StatisticheController extends Controller {
 	public static void statisticaHTMLCommesseCollaboratoriAnno(String anno) {
         boolean result = true;
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+		Gruppo gruppo = Gruppo.find("byCodice","CoCoPro").first();
+		List<Commessa> listaCommessa = gruppo.commesse;
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -903,7 +897,8 @@ public class StatisticheController extends Controller {
 	public static void statisticaPDFCommesseCollaboratoriAnno(String anno) {
 
 		JasperPrint jrprint;
-		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicaviAndFlagCoCoPro", false, true).fetch();
+		Gruppo gruppo = Gruppo.find("byCodice","CoCoPro").first();
+		List<Commessa> listaCommessa = gruppo.commesse;
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);

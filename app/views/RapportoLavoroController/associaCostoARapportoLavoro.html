@@ -1,0 +1,35 @@
+#{extends 'menu.html' /}
+#{set title:'associaCostoARapportoLavoro.html' /}
+
+<div id="detail">
+	<ul>
+		<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
+		<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
+		<li><label>Rapporto di lavoro: </label>${rapportoLavoro.tipoRapportoLavoro.descrizione}</li>
+		#{if rapportoLavoro.tipoRapportoLavoro.codice == 'CCP' }
+			<li><label>Giorni assenza retribuita: </label>${rapportoLavoro.giorniAssenzeRetribuite }</li>
+		#{/if}
+		<li><label>Inizio Rapporto Lavoro: </label>${rapportoLavoro.dataInizio.format('dd-MM-yyyy')}</li> 
+		#{if rapportoLavoro.dataFine != null }
+			<li><label>Fine Rapporto Lavoro: </label>${rapportoLavoro.dataFine.format('dd-MM-yyyy')}</li>
+		#{/if}
+	</ul>
+</div>
+
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+</br>
+<h2 align="center" >Vuoi aggiungere un nuovo costo per la risorsa?</h2>
+
+<div id="buttonSubmitDouble_center">
+	
+	#{form @RapportoLavoroController.list(rapportoLavoro.risorsa.idRisorsa)}
+	        <input type="submit" class="button_submit_double" value="Annulla" />
+	#{/form}
+	#{form @RapportoLavoroController.confirmAssociaCostoARapportoLavoro(rapportoLavoro.idRapportoLavoro)}
+	        <input type="submit" class="button_submit_double" value="Aggiungi Costo" />
+	#{/form}
+</div>

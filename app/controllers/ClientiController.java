@@ -5,7 +5,6 @@ import java.util.List;
 
 import models.Cliente;
 import models.Commessa;
-import models.Risorsa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;

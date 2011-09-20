@@ -8,7 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,7 +23,7 @@ import play.db.jpa.JPA;
 import utility.MyUtility;
 
 @javax.persistence.Entity
-public class Commessa extends GenericModel{
+public class Commessa extends GenericModel implements Comparable<Commessa> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -58,8 +57,6 @@ public class Commessa extends GenericModel{
 	
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
 	public List<Tariffa> tariffe;
-	
-	public boolean flagCoCoPro;
 	
 	// Costruttori
 	public Commessa(){
@@ -202,10 +199,8 @@ public class Commessa extends GenericModel{
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   // Prova
 			   List<RapportoLavoro> listaRapportiLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnno(risorsa, mese, anno);
-			   for (RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
-				   System.out.println(rapportoLavoro.tipoRapportoLavoro);
+			   for (@SuppressWarnings("unused") RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
 				   listaCommesse.add(t.commessa);
 			   }
 		   }
@@ -233,5 +228,12 @@ public class Commessa extends GenericModel{
 		   }
 		}
 		return listaCommesse;
+	}
+
+	@Override
+	public int compareTo(Commessa commessa) {
+		if(commessa!=null)
+			return descrizione.compareToIgnoreCase(commessa.descrizione);
+		return 0;
 	}
 }

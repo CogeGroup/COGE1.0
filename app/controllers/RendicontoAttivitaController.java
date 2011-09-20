@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 import models.Commessa;
@@ -83,11 +83,6 @@ public class RendicontoAttivitaController extends Controller {
 			List<Integer> listaAnni = MyUtility.createListaAnni();
 			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
 		}
-		if(new Date().before(MyUtility.MeseEdAnnoToDataFine(mese, anno))){
-			validation.addError("data", "Data selezionata non valida");
-			List<Integer> listaAnni = MyUtility.createListaAnni();
-			render("RendicontoAttivitaController/chooseRisorsa.html", listaAnni, mese, anno);
-		}
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		if(risorsa == null){
 			validation.addError("risorsa", "Risorsa non trovata");
@@ -108,6 +103,7 @@ public class RendicontoAttivitaController extends Controller {
 		
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 		List<Commessa> listaCommesseNonFatturabili = risorsa.gruppo.commesse;
+		Collections.sort(listaCommesseNonFatturabili);
 		render(idRisorsa,listaRendicontoAttivita,listaCommesseNonFatturabili,mese,anno,risorsa);
 	}
 	
@@ -123,6 +119,7 @@ public class RendicontoAttivitaController extends Controller {
 		// lista commesse non fatturabile meno quelle gia salvate
 		List<RendicontoAttivita> attivitaSalvate = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese, anno).fetch();
 		List<Commessa> listaCommesseNonFatturabili = commesseNonFatturabiliNonSalvate(attivitaSalvate, risorsa.gruppo.commesse);
+		Collections.sort(listaCommesseNonFatturabili);
 		mese--;
 		render(idRisorsa,listaRendicontoAttivita,listaCommesseNonFatturabili,mese,anno,risorsa);
 	}
@@ -207,6 +204,7 @@ public class RendicontoAttivitaController extends Controller {
 						validation.addError("oreLavorate", "inserire correttamente le ore totali");
 						List<RendicontoAttivita> listaCommesse = RendicontoAttivita.findCommesseFatturabiliPerRisorsa(mese, anno, risorsa);
 						List<Commessa> listaCommesseNonFatturabili = risorsa.gruppo.commesse;
+						Collections.sort(listaCommesseNonFatturabili);
 						render("rendicontoattivitacontroller/createRendicontoAttivita.html",
 								idRisorsa,listaCommesse,listaCommesseNonFatturabili,mese,anno,risorsa);
 					}
@@ -240,11 +238,6 @@ public class RendicontoAttivitaController extends Controller {
     }
     
     public static void listRapportiniIncompleti(int mese, int anno) {
-		if(!MyUtility.MeseEdAnnoToDataFine(mese, anno).before(new Date())){
-			validation.addError("data", "Data selezionata non valida");
-			List<Integer> listaAnni = MyUtility.createListaAnni();
-			render("rendicontoattivitacontroller/rapportiniIncompleti.html",listaAnni,mese,anno);
-		}
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
 		paginator.setPageSize(10);

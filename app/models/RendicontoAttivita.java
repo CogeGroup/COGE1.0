@@ -1,6 +1,5 @@
 package models;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,11 +13,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.Session;
 
 import play.data.validation.Required;
-import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
-import play.db.jpa.GenericModel.JPAQuery;
-import sun.text.normalizer.Utility;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -147,19 +143,18 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from RendicontoAttivita ra                                                                                 "+
-							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
-							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                             	 "+
-							" and ra.mese= "
-							+mese+
-							" and ra.anno= "
-							+anno+
-							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro != 5 														 "+
-							" group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
-							" order by r.cognome,r.nome";
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+							"from TipoRapportoLavoro trl, RendicontoAttivita ra "+
+							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
+							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
+							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
+							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false and c.calcoloCosti=false "+
+							"and ra.mese= " + mese + " " +
+							"and ra.anno= " + anno + " " +
+							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
+							"and trl.codice <> 'CCP' "+
+							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							"order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
@@ -184,17 +179,17 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliAnno(String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from RendicontoAttivita ra                                                                                 "+
-							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
-							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=false                                                                               	 "+
-							" and ra.anno= "
-							+anno+
-							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro != 5 														 "+
-							" group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
-							" order by r.cognome,r.nome";
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+							"from TipoRapportoLavoro trl, RendicontoAttivita ra "+
+							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
+							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
+							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
+							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false and c.calcoloCosti=false "+
+							"and ra.anno= " + anno + " " +
+							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
+							"and trl.codice <> 'CCP' "+
+							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							"order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
@@ -219,20 +214,21 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratori(String mese,String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from RendicontoAttivita ra                                                                                 "+
-							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
-							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false                                                                               	 "+
-							" and ra.mese= "
-							+mese+
-							" and ra.anno= "
-							+anno+
-							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
-							" and c.flagCoCoPro = true 														 "+
-							" group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
-							" order by r.cognome,r.nome";
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
+							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
+							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
+							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false "+
+							"and ra.anno = " + anno + " " +
+							"and ra.mese = " + mese + " " +
+							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
+							"and trl.codice = 'CCP' "+
+							"and c.idCommessa = gc.commesse_idcommessa "+
+							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and g.codice = 'CoCoPro' "+														 							
+							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							"order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
@@ -257,18 +253,20 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratoriAnno(String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)"+
-							" from RendicontoAttivita ra                                                                                 "+
-							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
-							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false                                                                                 	 "+
-							" and ra.anno= "
-							+anno+
-							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
-							" and c.flagCoCoPro = true 														 							 "+
-							" group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
-							" order by r.cognome,r.nome";
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
+							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
+							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
+							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false "+
+							"and ra.anno = " + anno + " " +
+							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
+							"and trl.codice = 'CCP' "+
+							"and c.idCommessa = gc.commesse_idcommessa "+
+							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and g.codice = 'CoCoPro' "+														 							
+							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							"order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
@@ -293,19 +291,21 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheDettaglioAssenzaRetribuitaCollaboratori(String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate)   "+
-							" from RendicontoAttivita ra                                                                                 "+
-							" inner join Commessa c on ra.commessa_idCommessa=c.idCommessa                                               "+
-							" inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa                                                   "+
-							" inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa											 "+	
-							" where c.calcoloRicavi=false and c.calcoloCosti=true                                                                                	 "+
-							" and ra.anno= "
-							+anno+
-							" and rl.tipoRapportoLavoro_idTipoRapportoLavoro = 5 														 "+
-							" and c.flagCoCoPro = true 														 							 "+
-							" and c.idCommessa = 91 														 							 "+
-							" group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
-							" order by r.cognome,r.nome";
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
+							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
+							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
+							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false "+
+							"and ra.anno = " + anno + " " +
+							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
+							"and trl.codice = 'CCP' "+
+							"and c.idCommessa = gc.commesse_idcommessa "+
+							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and g.codice = 'CoCoPro' "+	
+							"and c.codice = 'ST-ASSR' "+								
+							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
+							"order by r.cognome,r.nome";
 		 Session session = (Session)JPA.em().getDelegate();
 		 List<Object[]> resultList = session.createSQLQuery(queryString).list();
 		 ArrayList<HashMap> listaMapResult = new ArrayList<HashMap>();
