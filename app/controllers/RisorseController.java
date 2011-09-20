@@ -29,6 +29,7 @@ import models.TipoRapportoLavoro;
 import models.TipoStatoRisorsa;
 import models.Utente;
 import play.data.validation.Min;
+import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Before;
@@ -114,7 +115,7 @@ public class RisorseController extends Controller {
     	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
     	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
     	List<Gruppo> listaGruppi = Gruppo.findAll();
-        render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, listaGruppi);
+    	render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, listaGruppi);
     }
     
     public static void save(@Valid Risorsa risorsa, Integer idTipoRapportoLavoro, @Min(0) int giorniAssenzeRetribuite) {
@@ -122,17 +123,17 @@ public class RisorseController extends Controller {
     	if(validation.hasErrors()) {
         	List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
         	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.find("byCodiceNotEqual", "CHIUSO").fetch();
-        	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
         	List<Gruppo> listaGruppi = Gruppo.findAll();
-            renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, giorniAssenzeRetribuite, listaGruppi);
+        	Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+        	renderTemplate("RisorseController/create.html", risorsa, idTipoRapportoLavoro, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, giorniAssenzeRetribuite, listaGruppi);
         }
-	 	//crea e popola il primo rapporto lavoro con data inizio uguale alla data in della risorsa
+    	//crea e popola il primo rapporto lavoro con data inizio uguale alla data in della risorsa
 	 	//aggiunge il primo rapporto lavoro alla lista rapportiLavoro della risorsa e salva il tutto
         RapportoLavoro primoRapportoLavoro = new RapportoLavoro(risorsa.dataIn, (TipoRapportoLavoro) TipoRapportoLavoro.findById(idTipoRapportoLavoro), risorsa);
         primoRapportoLavoro.giorniAssenzeRetribuite = giorniAssenzeRetribuite;
         risorsa.addRapportoLavoro(primoRapportoLavoro);
         risorsa.save();
-		flash.success("risorsa inserita con successo");
+        flash.success("risorsa inserita con successo");
 		list();
 	}
     

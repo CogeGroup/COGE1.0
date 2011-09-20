@@ -51,6 +51,10 @@ public class Costo extends GenericModel {
 	@Required
 	@ManyToOne
 	public Risorsa risorsa;
+	
+	public Costo() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Costo(Float importoGiornaliero, Float importoMensile, Date dataInizio, Risorsa risorsa) {
 		super();
@@ -59,6 +63,16 @@ public class Costo extends GenericModel {
 		this.dataInizio = dataInizio;
 		this.risorsa = risorsa;
 	}
+	
+	public Costo(Date dataInizio, Date dataFine, Risorsa risorsa) {
+		super();
+		this.importoGiornaliero = 0.0f;
+		this.importoMensile = 0.0f;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.risorsa = risorsa;
+	}
+	
 	public Costo(Risorsa risorsa) {
 		this.risorsa = risorsa;
 	}

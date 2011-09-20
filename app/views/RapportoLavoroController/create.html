@@ -46,11 +46,9 @@
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
 			
-	    	<label for="dataInizio">Data Inizio:</label>
-	    	<input type="text" class="txt_date" name="rapportoLavoro.dataInizio" id="datepicker1" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	    <label for="dataInizio">Data Inizio:</label>
+	   	<input type="text" class="txt_date" name="rapportoLavoro.dataInizio" id="datepicker1" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    	
-		<br />
-	
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 
 			<option value="0" >-- Seleziona --</option>
@@ -68,7 +66,8 @@
 				    		#{/if}>
 			<label for="ggAssRetr">Giorni di assenza retribuiti:</label>
 			<input type="text" name="rapportoLavoro.giorniAssenzeRetribuite" value="${rapportoLavoro.giorniAssenzeRetribuite}" />
-		</span>
+		<br />
+    	</span>
 		<br />
 </div>
 <div id="button_center">

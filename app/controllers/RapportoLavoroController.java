@@ -4,9 +4,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import models.Costo;
 import models.RapportoLavoro;
 import models.Risorsa;
 import models.TipoRapportoLavoro;
+import play.data.validation.Min;
+import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
@@ -39,8 +42,8 @@ public class RapportoLavoroController extends Controller {
     	//se ci sono errori di validazione ritorna alla maschera di inserimento
     	if (validation.hasErrors()) {
     		List<RapportoLavoro> listaTipoRapportoLavoro = TipoRapportoLavoro.find("order by descrizione").fetch();
-	 		Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
-	 		renderTemplate("RapportoLavoroController/create.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, rapportoLavoro, idCoCoPro);
+    		Integer idCoCoPro = ((TipoRapportoLavoro)TipoRapportoLavoro.find("byCodice", "CCP").first()).idTipoRapportoLavoro;
+     		renderTemplate("RapportoLavoroController/create.html", listaTipoRapportoLavoro, idTipoRapportoLavoro, rapportoLavoro, idCoCoPro);
         }
     	rapportoLavoro.tipoRapportoLavoro = TipoRapportoLavoro.findById(idTipoRapportoLavoro);
     	if(!rapportoLavoro.tipoRapportoLavoro.codice.equals("CCP")){
@@ -55,7 +58,19 @@ public class RapportoLavoroController extends Controller {
     	rapportoLavoro.risorsa.rapportiLavoro.add(rapportoLavoro);
     	rapportoLavoro.risorsa.save();
 		flash.success("rapporto lavoro aggiunto con successo");
-		list(rapportoLavoro.risorsa.idRisorsa);
+		associaCostoARapportoLavoro(rapportoLavoro.idRapportoLavoro);
+		//list(rapportoLavoro.risorsa.idRisorsa);
+    }
+    
+	public static void associaCostoARapportoLavoro(Integer idRapportoLavoro) {
+		RapportoLavoro rapportoLavoro = RapportoLavoro.findById(idRapportoLavoro);
+		render(rapportoLavoro);
+    }
+    
+	public static void confirmAssociaCostoARapportoLavoro(Integer idRapportoLavoro) {
+		RapportoLavoro rapportoLavoro = RapportoLavoro.findById(idRapportoLavoro);
+		Costo costo = new Costo(rapportoLavoro.dataInizio, rapportoLavoro.dataFine, rapportoLavoro.risorsa);
+		renderTemplate("CostiController/create.html", costo);
     }
     
     public static void edit(Integer idRapportoLavoro) {
