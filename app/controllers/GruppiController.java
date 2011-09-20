@@ -1,13 +1,10 @@
 package controllers;
 
-import java.util.List;
-
-import models.Commessa;
 import models.Gruppo;
 import models.Risorsa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
+import play.mvc.Controller;
 
 public class GruppiController extends Controller {
 

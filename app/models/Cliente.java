@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import models.Commessa.CodiceCheck;
-
 import org.hibernate.Session;
 
 import play.data.validation.Check;
@@ -19,7 +17,6 @@ import play.data.validation.CheckWith;
 import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.GenericModel.JPAQuery;
 import play.db.jpa.JPA;
 
 @javax.persistence.Entity

@@ -8,7 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -58,8 +57,6 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 	
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
 	public List<Tariffa> tariffe;
-	
-	public boolean flagCoCoPro;
 	
 	// Costruttori
 	public Commessa(){
@@ -202,10 +199,8 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 		List<Tariffa> listaTariffe = query.fetch();
 		if (listaTariffe != null && !listaTariffe.isEmpty()){
 		   for(Tariffa t:listaTariffe){
-			   // Prova
 			   List<RapportoLavoro> listaRapportiLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnno(risorsa, mese, anno);
-			   for (RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
-				   System.out.println(rapportoLavoro.tipoRapportoLavoro);
+			   for (@SuppressWarnings("unused") RapportoLavoro rapportoLavoro : listaRapportiLavoro) {
 				   listaCommesse.add(t.commessa);
 			   }
 		   }

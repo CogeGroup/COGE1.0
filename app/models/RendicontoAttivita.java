@@ -1,6 +1,5 @@
 package models;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,11 +13,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.Session;
 
 import play.data.validation.Required;
-import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
-import play.db.jpa.GenericModel.JPAQuery;
-import sun.text.normalizer.Utility;
 import utility.MyUtility;
 
 @javax.persistence.Entity
