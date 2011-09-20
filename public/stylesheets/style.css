@@ -356,6 +356,12 @@ tbody a:visited:after {
 	font-size: 11px;
 	border:1px solid;
 }
+#edit .txt_l {
+	height: 16px;
+	font-size: 11px;
+	width:180px;
+	border:1px solid;
+}
 
 #edit .txt_date {
 	height: 16px;
@@ -670,14 +676,31 @@ margin:auto;
 }
 
 #search{
-margin:auto;
-
+ 	margin:auto;
 }
 
-.search{
-
-	
+#search .txt_m {
+	height: 16px;
+	font-size: 11px;
+	width:150px;
+	border:1px solid;
 }
+
+#search .txt_l {
+	height: 16px;
+	font-size: 11px;
+	width:180px;
+	border:1px solid;
+}
+
+#search .txt_xl {
+	height: 16px;
+	font-size: 11px;
+	width:250px;
+	border:1px solid;
+}
+
+
 .search a{
  background: #FFF url(../images/tr_bck.gif);
  color: #000000;
