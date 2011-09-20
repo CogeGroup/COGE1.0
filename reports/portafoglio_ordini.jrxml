@@ -41,10 +41,9 @@ sum(margine(costo(ra.oreLavorate,costo.importoGiornaliero), ricavo(ra.oreLavorat
               inner join TipoCommessa tcom on com.TipoCommessa_idTipoCommessa=tcom.idTipoCommessa
               inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
               inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on   costo.risorsa_idRisorsa = ris.idRisorsa
+              inner join Costo costo on costo.idCosto = ra.costo_idCosto
               where ra.anno=$P{ANNO}
-and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
+
               and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
               group by  tcom.idTipoCommessa]]>

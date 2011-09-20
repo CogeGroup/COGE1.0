@@ -15,7 +15,7 @@ FROM RendicontoAttivita ra
               inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
               inner join Cliente cl on  com.cliente_idCliente=cl.idCliente
               inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on   costo.risorsa_idRisorsa = ris.idRisorsa
+              inner join Costo costo on   costo.idCosto = ra.costo_idCosto
               where com.DTYPE = 'Commessa' and com.calcoloRicavi=true and ra.anno=$P{ANNO}
 and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
@@ -57,10 +57,9 @@ sum(if(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as cost
               inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
               inner join Cliente cl on  com.cliente_idCliente=cl.idCliente
               inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on   costo.risorsa_idRisorsa = ris.idRisorsa
+              inner join Costo costo on costo.idCosto = ra.costo_idCosto
               where com.DTYPE = 'Commessa' and com.calcoloRicavi=true and ra.anno=$P{ANNO}
-and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
+
               and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
               and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
               group by cl.codice) as tabella2]]>

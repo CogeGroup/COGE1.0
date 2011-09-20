@@ -24,7 +24,7 @@ import play.db.jpa.JPA;
 import utility.MyUtility;
 
 @javax.persistence.Entity
-public class Commessa extends GenericModel{
+public class Commessa extends GenericModel implements Comparable<Commessa> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -233,5 +233,12 @@ public class Commessa extends GenericModel{
 		   }
 		}
 		return listaCommesse;
+	}
+
+	@Override
+	public int compareTo(Commessa commessa) {
+		if(commessa!=null)
+			return descrizione.compareToIgnoreCase(commessa.descrizione);
+		return 0;
 	}
 }
