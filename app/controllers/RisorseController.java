@@ -51,7 +51,8 @@ public class RisorseController extends Controller {
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by cognome, nome").fetch());
     	listaRisorse.setPageSize(10);
-		render(listaRisorse); 
+    	String filtro = "";
+		render(listaRisorse,filtro); 
     }
     
     public static void listCoCoPro() {
