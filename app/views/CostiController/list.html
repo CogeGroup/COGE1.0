@@ -64,5 +64,5 @@
 	#{if !risorsa.dataOut}
 		<a id="create" href="@{CostiController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
-	<a href="@{RisorseController.list()}"><input type="button" class="submitbutton" value="Indietro"/></a>
+	<a href="@{RisorseController.search(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro"/></a>
 </div>
