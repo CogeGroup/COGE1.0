@@ -1,0 +1,22 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Titolo di Studio' /}
+
+<h2>Dettaglio Titolo di Studio</h2>
+
+<div id="edit">
+	<ul>
+		<li>
+	        <label for="codice">Codice Certificazione: </label>
+	        ${titoloStudio.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione: </label>
+	        ${titoloStudio.descrizione }
+	    </li>
+	</ul>
+</div>
+	
+<div id="button_center">
+	<a href="@{TitoloStudioController.list()}"><input type="button" class="submitbutton" value="Lista titoli di studio" /></a>
+</div>	
+

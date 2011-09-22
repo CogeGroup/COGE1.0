@@ -3,7 +3,6 @@ package models;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import play.data.validation.Check;
 import play.data.validation.CheckWith;

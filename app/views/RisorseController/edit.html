@@ -1,12 +1,16 @@
 #{extends 'menu.html' /}
 #{set title:'Modifica risorsa' /}
 
+<!-- CSS -->
 #{stylesheet id:'jquery-css',media:'screen',src:'jquery-ui-1.8.14.custom.css'  /}
 #{stylesheet id:'cupertino-css',media:'screen',src:'cupertino/jquery-ui-1.7.2.custom.css'  /}
+#{stylesheet id:'teken-input',media:'screen',src:'token-input.css'  /}
+<!-- JavaScript-->
 #{script id:'jquery' , src:'jquery-1.5.2.min.js', charset:'utf-8' /}
 #{script id:'jquery-ui' , src:'jquery-ui-1.8.14.custom.min.js', charset:'utf-8' /}
 #{script id:'datepicker' , src:'jquery.ui.datepicker.js', charset:'utf-8' /}
 #{script id:'datepicker-it' , src:'ui.datepicker-it.js', charset:'utf-8' /}
+#{script id:'tokeninput' , src:'jquery.tokeninput.js', charset:'utf-8' /}
 
 <script type="text/javascript">
 	$(function() {
@@ -25,6 +29,62 @@
 			yearRange:'-59:+50'
 		});
 	});
+  	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker3').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+  	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker4').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+  	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker5').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+  	$(function() {
+    	$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('#datepicker6').datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange:'-59:+50'
+		});
+	});
+
+  	$(document).ready(function () {
+        $("#titoloStudio").tokenInput('autocompleteTitoloStudio', {
+            hintText: "Digitare la descrizione del titolo di studio (almeno 3 caratteri)",
+            noResultsText: "Nessun risultato",
+            searchingText: "Ricerca...",
+            minChars: "3",
+            preventDuplicates: true,
+            method: "POST",
+            prePopulate:${listaTitoliStudio.length() > 1 ? listaTitoliStudio : '[]'}
+        });
+    });
+
+  	$(document).ready(function () {
+        $("#certificazione").tokenInput('autocompleteCertificazione', {
+            hintText: "Digitare la descrizione della certificazione (almeno 3 caratteri)",
+            noResultsText: "Nessun risultato",
+            searchingText: "Ricerca...",
+            minChars: "3",
+            preventDuplicates: true,
+            method: "POST",
+            prePopulate:${listaCertificazioni.length() > 1 ? listaCertificazioni : '[]'}
+        });
+    });
 </script>  		  
 
 #{form @RisorseController.update()}
@@ -32,27 +92,73 @@
 	#{ifErrors}
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
+		<label style="color: RED;">* Campi obligatori</label><br />
 	   
-	        <label for="codice">Codice:</label>
-	        <input type="text" class="txt_s" name="risorsa.codice" id="codice" value="${risorsa.codice}"/><br />
+	    <label for="codice">* Codice:</label>
+	    <input type="text" class="txt_s" name="risorsa.codice" id="codice" value="${risorsa.codice}"/><br />
 	    
-	        <label for="nome">Nome:</label>
-	        <input type="text" class="txt_m" name="risorsa.nome" id="nome" value="${risorsa.nome}"/><br />
+	    <label for="nome">* Nome:</label>
+	    <input type="text" class="txt_m" name="risorsa.nome" id="nome" value="${risorsa.nome}"/><br />
 	    
-	        <label for="cognome">Cognome:</label>
-	        <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa.cognome}"/><br />
+	    <label for="cognome">* Cognome:</label>
+	    <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa.cognome}"/><br />
 	   
-	        <label for="dataIn">Data In:</label>
-	        <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	    <label for="dataIn">* Data In:</label>
+	    <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    
-	        <label for="dataOut">Data Out:</label>
-	        <input type="text" class="txt_date" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
-	    	
-	    	<label for="tipoStatoRisorsa">Stato:</label>
-    		#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa /}<br />
+	    <label for="dataOut">Data Out:</label>
+	    <input type="text" class="txt_date" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	   
+	    <label for="tipoStatoRisorsa">* Stato:</label>
+    	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa /}<br />
     		
-    		<label for="gruppo">Gruppo:</label>
-    		#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}
+    	<label for="gruppo">* Gruppo:</label>
+    	#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}<br />
+    		
+    	<label for="codiceFiscale">Codice Fiscale:</label>
+        <input type="text" class="txt_xl"  name="risorsa.codiceFiscale" id="codiceFiscale" value="${risorsa?.codiceFiscale}"/><br />
+        
+        <label for="sesso">Sesso:</label>
+		<span class="radio">
+        	M <input type="radio" id="sesso" name="risorsa.sesso" value="M" #{if risorsa.sesso.equals("M")}checked="checked"#{/if} />
+        	F <input type="radio" id="sesso" name="risorsa.sesso" value="F" #{if risorsa.sesso.equals("F")}checked="checked"#{/if} />
+	    </span><br />	
+	    
+	    <label for="dataNascita">Data di nascita:</label>
+        <input type="text" class="txt_date" name="risorsa.dataNascita" id="datepicker3" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        
+        <br />
+        <label for="titoloStudio">Titolo di Studio:</label>
+		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" /><br />
+		
+		<br />
+        <label for="certificazione">Certificazione:</label>
+		<input type="text" class="txt_xl" id="certificazione" name="certificazione" /><br />
+        
+        <label for="dataLivelloCCNL">Livello CCNL:</label>
+			#{select 'risorsa.livelloCCNL', value:risorsa?.livelloCCNL}
+				#{option ''}-Selezionare-#{/option}
+				#{option '3'}3#{/option}
+				#{option '4'}4#{/option}
+				#{option '5'}5#{/option}
+				#{option '6'}6#{/option}
+				#{option '7'}7#{/option}
+				#{option 'Q'}Q#{/option}
+				#{option 'D'}D#{/option}
+			#{/select}
+		<br />
+		
+		<label for="dataVariazioneLivello">Data variazione livello CCNL:</label>
+        <input type="text" class="txt_date" name="risorsa.dataVariazioneLivello" id="datepicker4" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        
+        <label for="dataVariazioneRetribuzione">Data variazione retribuzione:</label>
+        <input type="text" class="txt_date" name="risorsa.dataVariazioneRetribuzione" id="datepicker5" value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        
+        #{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
+        	<label for="dataFineContratto">Data fine contratto:</label>
+        	<input type="text" class="txt_date" name="risorsa.dataFineContratto" id="datepicker6" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        #{/if}
+        <br />
 	</div>
 	<div id="button_center"> 
 	    <input type="submit" class="submitbutton" value="Modifica" />

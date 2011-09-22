@@ -1,28 +1,20 @@
 package models;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceProperty;
-import javax.persistence.Transient;
 
-import play.data.binding.*;
+import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.Min;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.GenericModel.JPAQuery;
 import utility.MyUtility;
 
 @javax.persistence.Entity
@@ -136,6 +128,16 @@ public class RapportoLavoro extends GenericModel{
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
+		return query.first();
+	}
+	
+	public static RapportoLavoro findByRisorsaAndData(Risorsa risorsa , Date data) {
+		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
+				"where ral.risorsa = :risorsa " +
+				"and ral.dataInizio <= :data " +
+				"and ( ral.dataFine is null or ral.dataFine >= :data)");
+		query.bind("risorsa", risorsa);
+		query.bind("data", data);
 		return query.first();
 	}
 	

@@ -5,7 +5,10 @@ import models.Risorsa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
+import play.mvc.With;
+import secure.SecureCOGE;
 
+@With(SecureCOGE.class)
 public class GruppiController extends Controller {
 
     public static void list() {
@@ -25,7 +28,7 @@ public class GruppiController extends Controller {
 	    }
     	gruppo.codice = gruppo.codice.toUpperCase();
     	gruppo.save();
-    	flash.success("%s aggiunto con successo", gruppo.descrizione);
+    	flash.success("Gruppo %s aggiunto con successo", gruppo.descrizione);
     	list();
     }
     
@@ -40,7 +43,7 @@ public class GruppiController extends Controller {
 	    }
     	gruppo.codice = gruppo.codice.toUpperCase();
     	gruppo.save();
-    	flash.success("%s modificato con successo", gruppo.descrizione);
+    	flash.success("Gruppo %s modificato con successo", gruppo.descrizione);
     	list();
     }
     
@@ -67,7 +70,7 @@ public class GruppiController extends Controller {
 			list();
 		}
     	gruppo.delete();
-    	flash.success("%s cancellato con successo", gruppo.descrizione);
+    	flash.success("Gruppo %s cancellato con successo", gruppo.descrizione);
     	list();
     }
 

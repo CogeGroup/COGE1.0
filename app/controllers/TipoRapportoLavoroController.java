@@ -1,21 +1,17 @@
 package controllers;
 
-import play.*;
-import play.data.validation.Valid;
-import play.modules.paginate.ValuePaginator;
-import play.mvc.*;
-import secure.SecureCOGE;
-import utility.DomainWrapper;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.exception.ConstraintViolationException;
-
-import models.*;
+import models.TipoRapportoLavoro;
+import play.data.validation.Valid;
+import play.modules.paginate.ValuePaginator;
+import play.mvc.Controller;
+import play.mvc.With;
+import secure.SecureCOGE;
+import utility.DomainWrapper;
 
 @With(SecureCOGE.class)
 public class TipoRapportoLavoroController extends Controller {

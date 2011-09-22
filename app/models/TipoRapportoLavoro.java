@@ -5,14 +5,12 @@ import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
-import play.db.jpa.GenericModel.JPAQuery;
 
 @javax.persistence.Entity
 public class TipoRapportoLavoro extends GenericModel {

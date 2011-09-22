@@ -103,7 +103,7 @@
 	      </li>
 	    <li>
 	    <label for="aCorpo">A corpo: </label>
-	    <span class="checkbox">
+	    <span class="radio">
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if aCorpo.equals("no")}checked="checked"#{/if} onclick="toggle_visibility_false('divACorpo');"/>
 	    </span>
@@ -112,7 +112,7 @@
 	    <div id="divACorpo" style="display: none">
 	    	<span class="linea">
 		    	<hr>
-		    </span>
+		    </span><br />
 			<label for=importo>Importo: </label>
 		    <input type="text" class="txt_s" name="importo" value="${importo }"/>
 		</div>

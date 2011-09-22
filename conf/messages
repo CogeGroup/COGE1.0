@@ -23,9 +23,15 @@ risorsa.nome = nome
 risorsa.cognome = cognome
 risorsa.dataIn = data inizio
 risorsa.dataOut = data fine
+risorsa.dataNascita = data di nascita
+risorsa.dataFineContratto = data di fine contratto
+risorsa.codiceFiscale = codiceFiscale
 validation.risorsa.dataIn_maggiore_primo_rapporto_lavoro = li campo %s deve essere <= di %s (inizio primo rapporto di lavoro)
 validation.risorsa.dataOut_minore_ultimo_rapporto_lavoro = %s deve essere > di %s (inizio ultimo rapporto di lavoro)
 validation.risorsa.tipoStatoRisorsa.stato_chiuso_non_valido = la stato non puo' essere chiuso se la risorsa non ha una data fine
+validation.risorsa.dataNascita_non_valida = La data di nascita inderita non è valida
+validation.risorsa.codiceFiscale_non_valido = Il codice fiscale inserito non è valido
+validation.risorsa.dataFineContratto_non_valida = La data fine contratto deve essere uguale a %s
 # TIPO STATO RISORSA ----------------------
 tipoStatoRisorsa.codice = codice
 tipoStatoRisorsa.descrizione = descrizione
@@ -78,6 +84,14 @@ validation.tariffa.importo = Importo obligatorio
 ruolo.descrizione = descrizione
 # RENDICONTO ATTIVITA ---------------------------
 rendicontoAttivita.oreLavorate = ore lavorate
+# CERTIFICAZIONE ------------------------
+certificazione.codice = codice
+certificazione.descrizione = descrizione
+validation.certificazione.codice_esistente = codice esistente
+# TITOLO DI STUDIO ------------------------
+titoloStudio.codice = codice
+titoloStudio.descrizione = descrizione
+validation.titoloStudio.codice_esistente = codice esistente
 
 #play-paginate.name=play-paginate
 play-paginate.first=&laquo;&nbsp;Prima Pagina

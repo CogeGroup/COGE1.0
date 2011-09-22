@@ -2,13 +2,13 @@ package models;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,26 +18,21 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.h2.constant.SysProperties;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateMidnight;
 
 import play.data.binding.As;
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
 import play.data.validation.MaxSize;
+import play.data.validation.MinSize;
 import play.data.validation.Required;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPA;
-import play.db.jpa.GenericModel.JPAQuery;
+import utility.CodiceFiscale;
 import utility.MyUtility;
 
-@javax.persistence.Entity
+@Entity
 public class Risorsa extends GenericModel {
 	
 	@Id
@@ -84,12 +79,40 @@ public class Risorsa extends GenericModel {
 	@ManyToOne
 	public Gruppo gruppo;
 	
+	@MaxSize(16)
+	@MinSize(16)
+//	@CheckWith(CodiceFiscaleCheck.class)
+	public String codiceFiscale;
+	
+	public String sesso;
+	
+	public String livelloCCNL;
+	
+	@As("dd-MM-yyyy")
+	@CheckWith(DataNascitaCheck.class)
+	public Date dataNascita;
+	
+	@As("dd-MM-yyyy")
+	public Date dataVariazioneLivello;
+	
+	@As("dd-MM-yyyy")
+	public Date dataVariazioneRetribuzione;
+	
+	@As("dd-MM-yyyy")
+	@CheckWith(DataFineContrattoCheck.class)
+	public Date dataFineContratto;
+	
+	@ManyToMany
+	public List<Certificazione> certificazioni;
+	
+	@ManyToMany
+	public List<TitoloStudio> titoliStudio;
+	
 	@Transient
 	public float guadagno;
 	
 	//constructors
-	public Risorsa() {
-	}
+	public Risorsa() {}
 
 	public Risorsa(String codice, String nome,
 			String cognome, Date dataIn) {
@@ -98,6 +121,8 @@ public class Risorsa extends GenericModel {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataIn = dataIn;
+		this.certificazioni = new ArrayList<Certificazione>();
+		this.titoliStudio = new ArrayList<TitoloStudio>();
 	}
 	
 	static class DataInCheck extends Check {
@@ -144,6 +169,60 @@ public class Risorsa extends GenericModel {
 		public boolean isSatisfied(Object risorsa, Object tipoStatoRisorsa) {
 			Risorsa risorsa2 = (Risorsa) risorsa;
 			if (risorsa2.dataOut == null && ((TipoStatoRisorsa) tipoStatoRisorsa).codice.equals("CHIUSO")) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class DataNascitaCheck extends Check {
+		static final String message = "validation.risorsa.dataNascita_non_valida";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object dataNascita) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataNascita è valorizzata
+			if(risorsa2.dataNascita == null) {
+				return true;
+			}
+			if(!risorsa2.dataNascita.before(new Date())) {
+				setMessage(message);
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class DataFineContrattoCheck extends Check {
+		static final String message = "validation.risorsa.dataFineContratto_non_valida";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object dataFineContratto) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se dataFineContratto è valorizzata
+			if(risorsa2.dataFineContratto == null) {
+				return true;
+			}
+			if(dataFineContratto != null && !((Date) dataFineContratto).equals(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine)) {
+				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine));
+				return false;
+			}
+			return true;
+		}
+	}
+	
+	static class CodiceFiscaleCheck extends Check {
+		static final String message = "validation.risorsa.codiceFiscale_non_valido";
+		
+		@Override
+		public boolean isSatisfied(Object risorsa, Object dataNascita) {
+			Risorsa risorsa2 = (Risorsa) risorsa;
+			//effettuo la validazione solo se codiceFiscale è valorizzato
+			if(risorsa2.codiceFiscale == null) {
+				return true;
+			}
+			if(!CodiceFiscale.validazioneCodiceFiscale(risorsa2.codiceFiscale)) {
 				setMessage(message);
 				return false;
 			}

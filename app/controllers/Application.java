@@ -1,19 +1,14 @@
 package controllers;
 
-import play.*;
-import play.data.validation.Email;
-import play.data.validation.Error;
-import play.data.validation.Required;
-import play.libs.Mail;
-import play.mvc.*;
-
-import java.util.*;
-import java.util.concurrent.Future;
+import models.Utente;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
-import models.*;
+import play.data.validation.Email;
+import play.data.validation.Required;
+import play.libs.Mail;
+import play.mvc.Controller;
 
 public class Application extends Controller {
 

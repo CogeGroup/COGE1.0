@@ -1,0 +1,27 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Certificazioni' /}
+
+<h2>Modifica Certificazione</h2>
+
+<div id="edit">
+#{form @CertificazioniController.update()}
+	#{ifErrors}
+		<p class="error">${errors[0]}</p>
+	#{/ifErrors}
+	<ul>
+		<li>
+	    	<label for="codice">Codice:</label>
+	        <input type="text" class="txt_m" name="certificazione.codice" id="codice" value="${certificazione.codice}"/>
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione:</label>
+	        <input type="text" class="txt_m" name="certificazione.descrizione" id="descrizione" value="${certificazione.descrizione}"/>
+	    </li>
+	</ul>
+</div>
+<div id="button_center">
+	<input type="hidden" name="certificazione.idCertificazione" value="${certificazione.idCertificazione }" />
+	<input type="submit" class="submitbutton" value="Salva" />
+    <a href="@{CertificazioniController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+</div>	
+#{/form}

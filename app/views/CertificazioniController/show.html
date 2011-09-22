@@ -1,0 +1,22 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Certificazioni' /}
+
+<h2>Dettaglio Certificazione</h2>
+
+<div id="edit">
+	<ul>
+		<li>
+	        <label for="codice">Codice Certificazione: </label>
+	        ${certificazione.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione: </label>
+	        ${certificazione.descrizione }
+	    </li>
+	</ul>
+</div>
+	
+<div id="button_center">
+	<a href="@{CertificazioniController.list()}"><input type="button" class="submitbutton" value="Lista certificazioni" /></a>
+</div>	
+
