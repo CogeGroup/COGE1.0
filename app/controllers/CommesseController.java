@@ -86,14 +86,16 @@ public class CommesseController extends Controller {
     
     public static void save(@Valid Commessa commessa, String aCorpo, float importo, String gruppo) {
     	List<Gruppo> lista = new ArrayList<Gruppo>();
-    	//Lista Gruppi
-		String [] listaG = gruppo.split(",");
-		//rimuovo gli eventuali valori doppi
-		Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
-		Object [] uniqueGruppo = uniquesetGruppo.toArray();
-		for(int i = 0;i<uniqueGruppo.length;i++){
-			lista.add((Gruppo) Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString())));
-		}
+    	if(!gruppo.equals("")) {
+	    	//Lista Gruppi
+			String [] listaG = gruppo.split(",");
+			//rimuovo gli eventuali valori doppi
+			Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
+			Object [] uniqueGruppo = uniquesetGruppo.toArray();
+			for(int i = 0;i<uniqueGruppo.length;i++){
+				lista.add((Gruppo) Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString())));
+			}
+    	}
     	if(commessa.calcoloRicavi == false && (gruppo == null || gruppo.equals(""))){
     		validation.addError("gruppo", "Inserire un gruppo");
     	}
@@ -151,17 +153,20 @@ public class CommesseController extends Controller {
     }
     
     public static void update(@Valid Commessa commessa, boolean calcoloRicavi, boolean calcoloCosti, 
-    		String aCorpo, float importo, @Required(message="Inserire un gruppo")String gruppo) {
-		//Lista Gruppi
-		String [] listaG = gruppo.split(",");
-		//rimuovo gli eventuali valori doppi
-		Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
-		Object [] uniqueGruppo = uniquesetGruppo.toArray();
-		List<Gruppo> lista = new ArrayList<Gruppo>();
-		for(int i = 0;i<uniqueGruppo.length;i++){
-			Gruppo g = Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString()));
-			lista.add(g);
-		}
+    		String aCorpo, float importo, String gruppo) {
+    	
+    	List<Gruppo> lista = new ArrayList<Gruppo>();
+    	if(!gruppo.equals("")) {
+			//Lista Gruppi
+			String [] listaG = gruppo.split(",");
+			//rimuovo gli eventuali valori doppi
+			Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
+			Object [] uniqueGruppo = uniquesetGruppo.toArray();
+			for(int i = 0;i<uniqueGruppo.length;i++){
+				Gruppo g = Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString()));
+				lista.add(g);
+			}
+    	}
 		// Validazione
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();

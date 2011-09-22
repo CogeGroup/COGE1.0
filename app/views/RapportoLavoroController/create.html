@@ -11,7 +11,7 @@
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker1').datepicker({
+		$('.datepicker').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -47,7 +47,7 @@
 	#{/ifErrors}
 			
 	    <label for="dataInizio">Data Inizio:</label>
-	   	<input type="text" class="txt_date" name="rapportoLavoro.dataInizio" id="datepicker1" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	   	<input type="text" class="datepicker" name="rapportoLavoro.dataInizio" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    	
 		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
 		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 

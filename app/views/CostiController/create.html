@@ -11,21 +11,12 @@
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker1').datepicker({
+		$('.datepicker').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
 		});
 	});
-
-$(function() {
-	$.datepicker.setDefaults($.datepicker.regional['it']);
-	$('#datepicker2').datepicker({
-		changeMonth: true,
-		changeYear: true,
-		yearRange:'-59:+50'
-	});
-});
 </script>  
 
 <div id="detail">
@@ -55,10 +46,10 @@ $(function() {
     <input type="text" class="txt_s" id="importoMensile" name="costo.importoMensile" value="${costo?.importoMensile}"/>
     <br />
     <label for="dataInizio">Data Inizio:</label>
-	<input type="text" class="txt_date" name="costo.dataInizio" id="datepicker1" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
+	<input type="text" class="datepicker" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
 	<br />
     <label for="dataFine">Data Fine:</label>
-    <input type="text" class="txt_date" name="costo.dataFine" id="datepicker2" value="${costo?.dataFine?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
+    <input type="text" class="datepicker" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
 	<br />
 </div>
 <div id="button_center">

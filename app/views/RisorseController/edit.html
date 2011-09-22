@@ -14,48 +14,8 @@
 
 <script type="text/javascript">
 	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker1').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-  	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-	  	$('#datepicker2').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-  	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker3').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-  	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker4').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-  	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker5').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-  	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker6').datepicker({
+		$.datepicker.setDefaults($.datepicker.regional['it']);
+		$('.datepicker').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -85,7 +45,7 @@
             prePopulate:${listaCertificazioni.length() > 1 ? listaCertificazioni : '[]'}
         });
     });
-</script>  		  
+</script>  	
 
 #{form @RisorseController.update()}
 <div id="align_form">
@@ -104,10 +64,10 @@
 	    <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa.cognome}"/><br />
 	   
 	    <label for="dataIn">* Data In:</label>
-	    <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	    <input type="text" class="datepicker" name="risorsa.dataIn" value="${risorsa.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    
 	    <label for="dataOut">Data Out:</label>
-	    <input type="text" class="txt_date" name="risorsa.dataOut" id="datepicker2" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	    <input type="text" class="datepicker" name="risorsa.dataOut" value="${risorsa.dataOut?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	   
 	    <label for="tipoStatoRisorsa">* Stato:</label>
     	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa /}<br />
@@ -125,7 +85,7 @@
 	    </span><br />	
 	    
 	    <label for="dataNascita">Data di nascita:</label>
-        <input type="text" class="txt_date" name="risorsa.dataNascita" id="datepicker3" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        <input type="text" class="datepicker" name="risorsa.dataNascita" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
         <br />
         <label for="titoloStudio">Titolo di Studio:</label>
@@ -149,14 +109,14 @@
 		<br />
 		
 		<label for="dataVariazioneLivello">Data variazione livello CCNL:</label>
-        <input type="text" class="txt_date" name="risorsa.dataVariazioneLivello" id="datepicker4" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        <input type="text" class="datepicker" name="risorsa.dataVariazioneLivello" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
         <label for="dataVariazioneRetribuzione">Data variazione retribuzione:</label>
-        <input type="text" class="txt_date" name="risorsa.dataVariazioneRetribuzione" id="datepicker5" value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        <input type="text" class="datepicker" name="risorsa.dataVariazioneRetribuzione"  value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
         #{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
         	<label for="dataFineContratto">Data fine contratto:</label>
-        	<input type="text" class="txt_date" name="risorsa.dataFineContratto" id="datepicker6" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        	<input type="text" class="datepicker" name="risorsa.dataFineContratto" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         #{/if}
         <br />
 	</div>

@@ -15,16 +15,7 @@
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker1').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-
-	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker2').datepicker({
+		$('.datepicker').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -64,7 +55,7 @@
         });
     });
 </script>  
-				  
+
 <h2>Aggiungi Risorsa</h2>
 <div id="align_form">
 #{ifErrors}
@@ -84,7 +75,7 @@
         <input type="text" class="txt_m" name="risorsa.cognome" id="cognome" value="${risorsa?.cognome}"/><br />
    
         <label for="dataIn">* Data In:</label>
-        <input type="text" class="txt_date" name="risorsa.dataIn" id="datepicker1" value="${risorsa?.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        <input type="text" class="datepicker" name="risorsa.dataIn" value="${risorsa?.dataIn?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 
     	<label for="tipoStatoRisorsa">* Stato:</label>
     	#{select 'risorsa.tipoStatoRisorsa.idTipoStatoRisorsa', items:listaTipoStatoRisorsa, labelProperty:'descrizione', valueProperty:'idTipoStatoRisorsa', value:risorsa.tipoStatoRisorsa?.idTipoStatoRisorsa/}<br />
@@ -120,7 +111,7 @@
 	    </span><br />	
 	    
 	    <label for="dataNascita">Data di nascita:</label>
-        <input type="text" class="txt_date" name="risorsa.dataNascita" id="datepicker2" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        <input type="text" class="datepicker" name="risorsa.dataNascita" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
         <br />
         <label for="titoloStudio">Titolo di Studio:</label>

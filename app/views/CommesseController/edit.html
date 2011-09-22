@@ -15,16 +15,7 @@
 <script type="text/javascript">
 	$(function() {
     	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker1').datepicker({
-			changeMonth: true,
-			changeYear: true,
-			yearRange:'-59:+50'
-		});
-	});
-
-	$(function() {
-    	$.datepicker.setDefaults($.datepicker.regional['it']);
-		$('#datepicker2').datepicker({
+		$('.datepicker').datepicker({
 			changeMonth: true,
 			changeYear: true,
 			yearRange:'-59:+50'
@@ -90,10 +81,10 @@
 	#{/select}
 	<br />
 	<label for=dataInizioCommessa>Data inizio: </label>
-    <input type="text" class="txt_date" id="datepicker1" name="commessa.dataInizioCommessa" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
+    <input type="text" class="datepicker" name="commessa.dataInizioCommessa" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
    	<br />
 	<label for=dataFineCommessa>Data fine: </label>
-    <input type="text" class="txt_date" id="datepicker2" name="commessa.dataFineCommessa" value="${commessa.dataFineCommessa?.format('dd-MM-yyyy') }"/>
+    <input type="text" class="datepicker" name="commessa.dataFineCommessa" value="${commessa.dataFineCommessa?.format('dd-MM-yyyy') }"/>
 	<br />
     <label for="cliente">Cliente: </label>
     #{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
