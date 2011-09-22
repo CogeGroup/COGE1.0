@@ -238,6 +238,8 @@ public class Risorsa extends GenericModel {
 	public static List<Risorsa> findCoCoPro(String parametro, String ordinamento) {
 		JPAQuery query  = Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
 				"where trl.codice = 'CCP' and trl = rl.tipoRapportoLavoro " +
+				"and rl.dataInizio <= '" + MyUtility.dateToString(new Date(), "yyyy-MM-dd") + "' " +
+				"and (rl.dataFine is null or rl.dataFine >= '" + MyUtility.dateToString(new Date(), "yyyy-MM-dd") + "') " +
 				"and rl.risorsa = r " +
 				"order by r." + parametro + " " + ordinamento);
 		return query.fetch();
@@ -246,6 +248,8 @@ public class Risorsa extends GenericModel {
 	public static List<Risorsa> findDipendenti(String parametro, String ordinamento) {
 		JPAQuery query  = Risorsa.find("SELECT r FROM Risorsa r, RapportoLavoro rl, TipoRapportoLavoro trl " +
 				"where trl.codice <> 'CCP' and trl = rl.tipoRapportoLavoro " +
+				"and rl.dataInizio <= '" + MyUtility.dateToString(new Date(), "yyyy-MM-dd") + "' " +
+				"and (rl.dataFine is null or rl.dataFine >= '" + MyUtility.dateToString(new Date(), "yyyy-MM-dd") + "') " +
 				"and rl.risorsa = r " +
 				"order by r." + parametro + " " + ordinamento);
 		return query.fetch();
