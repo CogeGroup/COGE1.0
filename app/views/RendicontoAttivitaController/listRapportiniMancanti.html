@@ -1,7 +1,7 @@
 #{extends 'menu.html' /}
-#{set title:'Anomalie'/}
+#{set title:'Rapportini mancanti'/}
 
-<h2>Lista Anomalie Rapportini del ${mese+1}/${anno}</h2>
+<h2>Lista Rapportini mancanti del ${mese+1}/${anno}</h2>
 
 #{if paginator.size() > 0}
 	<table class="table_center">
@@ -31,5 +31,5 @@
 #{/else}
 
 <div id="button_center">		
-	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+	#{a @RendicontoAttivitaController.rapportiniMancanti()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 </div>

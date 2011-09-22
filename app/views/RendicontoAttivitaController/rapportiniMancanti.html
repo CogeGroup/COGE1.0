@@ -1,9 +1,9 @@
 #{extends 'menu.html' /}
-#{set title:'Anomalie' /}
+#{set title:'Rapportini mancanti' /}
 
 	<h2>Ricerca Rapportini Mancanti</h2>
 	<div id="align_form_short">
-	#{form @AnomalieController.listRapportiniMancanti()}
+	#{form @RendicontoAttivitaController.listRapportiniMancanti()}
 		#{ifErrors}
 	   	    <p class="error">
 				${errors[0]}</p>
@@ -29,5 +29,5 @@
 	<div id="button_center">
     	<input type="submit" class="submitbutton" value="Cerca" />
 	#{/form}
-	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+	#{a @RendicontoAttivitaController.index()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 	</div>
