@@ -21,7 +21,8 @@
 	                    searchingText: "Ricerca...",
 	                    minChars: "3",
 	                    preventDuplicates: true,
-	                    method: "POST"
+	                    method: "POST",
+	                    prePopulate:${listaRuoli.length() > 1 ? listaRuoli : '[]'}
 	                });
                 });
 	 </script>

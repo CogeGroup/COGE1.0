@@ -77,20 +77,31 @@ public class CommesseController extends Controller {
     	Commessa commessa = new Commessa();
     	List<Cliente> listaClienti = Cliente.findAllAttivo();
     	List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
-    	List<Gruppo> listaGruppi = Gruppo.findAll();
     	String aCorpo = "no";
     	float importo = 0;
+    	List<Gruppo> lista = new ArrayList<Gruppo>();
+    	String listaGruppi = ConvertToJson.convert(lista, "idGruppo", "descrizione"); 
         render(commessa, listaClienti, listaTipiCommessa, aCorpo, importo, listaGruppi);
     }
     
     public static void save(@Valid Commessa commessa, String aCorpo, float importo, String gruppo) {
+    	List<Gruppo> lista = new ArrayList<Gruppo>();
+    	//Lista Gruppi
+		String [] listaG = gruppo.split(",");
+		//rimuovo gli eventuali valori doppi
+		Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
+		Object [] uniqueGruppo = uniquesetGruppo.toArray();
+		for(int i = 0;i<uniqueGruppo.length;i++){
+			lista.add((Gruppo) Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString())));
+		}
     	if(commessa.calcoloRicavi == false && (gruppo == null || gruppo.equals(""))){
     		validation.addError("gruppo", "Inserire un gruppo");
     	}
     	if(validation.hasErrors()) {
     		List<Cliente> listaClienti = Cliente.findAllAttivo();
     		List<TipoCommessa> listaTipiCommessa = TipoCommessa.findAll();
-	        render("CommesseController/create.html", commessa, listaClienti, listaTipiCommessa, aCorpo, importo);
+    		String listaGruppi = ConvertToJson.convert(lista, "idGruppo", "descrizione"); 
+	        render("CommesseController/create.html", commessa, listaClienti, listaTipiCommessa, aCorpo, importo, listaGruppi);
 	    }
     	if(aCorpo != null && aCorpo.equals("si")){
     		if(importo < 0.1) {
@@ -116,16 +127,10 @@ public class CommesseController extends Controller {
     			commessa.calcoloCosti == false && commessa.calcoloRicavi == false ? null : commessa.dataInizioCommessa;
     		commessa.save();
     		if (commessa.calcoloRicavi == false){
-    			//Lista Gruppi
-    			String [] listaG = gruppo.split(",");
-    			//rimuovo gli eventuali valori doppi
-    			Set<Object> uniquesetGruppo = new HashSet<Object>(Arrays.asList(listaG));
-    			Object [] uniqueGruppo = uniquesetGruppo.toArray();
-    			for(int i = 0;i<uniqueGruppo.length;i++){
-    				Gruppo g = Gruppo.findById(Integer.parseInt(uniqueGruppo[i].toString()));
+    			for (Gruppo g : lista) {
     				g.commesse.add(commessa);
-	    			g.save();
-    			}	
+    				g.save();
+				}
     		}
     	}
     	flash.success("%s aggiunta con successo", commessa.codice);

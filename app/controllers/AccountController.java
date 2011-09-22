@@ -64,18 +64,14 @@ public class AccountController extends Controller {
     }
 	  
 	public static void createUtente() {
-		List<Ruolo> listaRuoli = Ruolo.findAll();
 		List<Risorsa> listaRisorse = Risorsa.find("dataOut is null").fetch();
 		Utente utente = new Utente();
-		render(listaRuoli,listaRisorse, utente);
+		List<Ruolo> lista = new ArrayList<Ruolo>();
+		String listaRuoli = ConvertToJson.convert(lista, "idRuolo", "descrizione"); 
+		render(listaRuoli, listaRisorse, utente);
 	}
 	  
 	public static void saveUtente(@Valid Utente utente, @Required(message="Inserire un ruolo")String ruolo, @Required(message="Inserire una risorsa") Integer idRisorsa) {
-		if(validation.hasErrors()){
-			List<Ruolo> listaRuoli = Ruolo.findAll();
-			List<Risorsa> listaRisorse = Risorsa.all().fetch();
-			render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
-		}
 		//Gestione Ruoli
 		String [] listaR = ruolo.split(",");
 		//rimuovo gli eventuali valori doppi
@@ -85,7 +81,12 @@ public class AccountController extends Controller {
 		for(int i = 0;i<uniqueRuolo.length;i++){
 			Ruolo r = Ruolo.findById(Integer.parseInt(uniqueRuolo[i].toString()));
 			listaRuoliUtente.add(r);
-		}		  
+		}	
+		if(validation.hasErrors()){
+			List<Risorsa> listaRisorse = Risorsa.all().fetch();
+			String listaRuoli = ConvertToJson.convert(listaRuoliUtente, "idRuolo", "descrizione");
+			render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
+		}
 		if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){  
 			//find della risorsa by id e controllo se non esiste nessun utente associato alla risorsa
 			Risorsa r = Risorsa.findById(idRisorsa);

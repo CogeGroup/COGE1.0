@@ -38,7 +38,8 @@
             searchingText: "Ricerca...",
             minChars: "3",
             preventDuplicates: true,
-            method: "POST"
+            method: "POST",
+            prePopulate:${listaGruppi.length() > 1 ? listaGruppi : '[]'}
         });
     });
 
