@@ -35,7 +35,7 @@ SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nom
 trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
 SUM(ra.oreLavorate) AS ore_lavorate,
 if(c.importoMensile is null, SUM(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) AS costo_totale,
-SUM(ricavo(t.importoGiornaliero,ra.oreLavorate)) AS ricavo_totale,
+SUM(IF(com.DTYPE = 'CommessaACorpo', com.importo, ricavo(t.importoGiornaliero,ra.oreLavorate))) AS ricavo_totale,
 t.importoGiornaliero AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
 tsr.codice AS stato_risorsa
