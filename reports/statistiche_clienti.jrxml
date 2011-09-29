@@ -7,62 +7,61 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select *
-from (select sum(xxx.ricavo_Totale) as totale
-from (select sum(ricavo(ra.oreLavorate,t.importoGiornaliero)) as ricavo_Totale
+		<![CDATA[SELECT *
+FROM (SELECT SUM(xxx.ricavo_Totale) AS totale
+FROM (SELECT SUM(ricavo(ra.oreLavorate,t.importoGiornaliero)) AS ricavo_Totale
 FROM RendicontoAttivita ra
-              inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
-              inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
-              inner join Cliente cl on  com.cliente_idCliente=cl.idCliente
-              inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on   costo.idCosto = ra.costo_idCosto
-              where com.DTYPE = 'Commessa' and com.calcoloRicavi=true and ra.anno=$P{ANNO}
-and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') or costo.dataFine is null)
-              and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
-              group by cl.codice) as xxx) as tabella1, (select cl.codice, cl.nominativo,
-sum(ricavo(ra.oreLavorate,t.importoGiornaliero)) as ricavo_Totale,
-sum(costo(ra.oreLavorate,costo.importoGiornaliero)) as costo_Totale,
-sum(if(ra.mese <= 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_primo_semestre,
-sum(if(ra.mese > 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_secondo_semestre,
-sum(if(ra.mese <= 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_primo_semestre,
-sum(if(ra.mese > 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_secondo_semestre,
-sum(if(ra.mese = 1, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_gennaio,
-sum(if(ra.mese = 2, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_febbraio,
-sum(if(ra.mese = 3, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_marzo,
-sum(if(ra.mese = 4, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_aprile,
-sum(if(ra.mese = 5, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_maggio,
-sum(if(ra.mese = 6, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_giugno,
-sum(if(ra.mese = 7, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_luglio,
-sum(if(ra.mese = 8, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_agosto,
-sum(if(ra.mese = 9, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_settembre,
-sum(if(ra.mese = 10, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_ottobre,
-sum(if(ra.mese = 11, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_novembre,
-sum(if(ra.mese = 12, ricavo(ra.oreLavorate,t.importoGiornaliero), 0)) as ricavo_dicembre,
-sum(if(ra.mese = 1, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_gennaio,
-sum(if(ra.mese = 2, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_febbraio,
-sum(if(ra.mese = 3, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_marzo,
-sum(if(ra.mese = 4, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_aprile,
-sum(if(ra.mese = 5, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_maggio,
-sum(if(ra.mese = 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_giugno,
-sum(if(ra.mese = 7, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_luglio,
-sum(if(ra.mese = 8, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_agosto,
-sum(if(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_settembre,
-sum(if(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_ottobre,
-sum(if(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_novembre,
-sum(if(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) as costo_dicembre
-              FROM RendicontoAttivita ra
-              inner join Commessa com on ra.commessa_idCommessa=com.idCommessa
-              inner join Risorsa ris on ra.risorsa_idRisorsa=ris.idRisorsa
-              inner join Cliente cl on  com.cliente_idCliente=cl.idCliente
-              inner join Tariffa t on  (t.commessa_idCommessa = ra.commessa_idCommessa and t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              inner join Costo costo on costo.idCosto = ra.costo_idCosto
-              where com.DTYPE = 'Commessa' and com.calcoloRicavi=true and ra.anno=$P{ANNO}
-
-              and concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-              and (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') or t.dataFine is null)
-              group by cl.codice) as tabella2]]>
+              INNER JOIN Commessa com ON ra.commessa_idCommessa=com.idCommessa
+              INNER JOIN Risorsa ris ON ra.risorsa_idRisorsa=ris.idRisorsa
+              INNER JOIN Cliente cl ON  com.cliente_idCliente=cl.idCliente
+              INNER JOIN Tariffa t ON  (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+              INNER JOIN Costo costo ON   costo.idCosto = ra.costo_idCosto
+              WHERE com.DTYPE = 'Commessa' AND com.calcoloRicavi=true AND ra.anno = $P{ANNO}
+AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
+              AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') OR costo.dataFine is null)
+              AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+              AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine is null)
+              GROUP BY cl.codice) AS xxx) AS tabella1, (SELECT cl.codice, cl.nominativo,
+SUM(ricavo(ra.oreLavorate,t.importoGiornaliero)) AS ricavo_Totale,
+SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) AS costo_Totale,
+if(ra.mese <= 6, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_primo_semestre,
+if(ra.mese > 6, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_secondo_semestre,
+SUM(if(ra.mese <= 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_primo_semestre,
+SUM(if(ra.mese > 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_secondo_semestre,
+if(ra.mese = 1, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_gennaio,
+if(ra.mese = 2, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_febbraio,
+if(ra.mese = 3, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_marzo,
+if(ra.mese = 4, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_aprile,
+if(ra.mese = 5, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_maggio,
+if(ra.mese = 6, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_giugno,
+if(ra.mese = 7, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_luglio,
+if(ra.mese = 8, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_agosto,
+if(ra.mese = 9, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_settembre,
+if(ra.mese = 10, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_ottobre,
+if(ra.mese = 11, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_novembre,
+if(ra.mese = 12, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0)  AS ricavo_dicembre,
+SUM(if(ra.mese = 1, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_gennaio,
+SUM(if(ra.mese = 2, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_febbraio,
+SUM(if(ra.mese = 3, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_marzo,
+SUM(if(ra.mese = 4, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_aprile,
+SUM(if(ra.mese = 5, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_maggio,
+SUM(if(ra.mese = 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_giugno,
+SUM(if(ra.mese = 7, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_luglio,
+SUM(if(ra.mese = 8, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_agosto,
+SUM(if(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_settembre,
+SUM(if(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_ottobre,
+SUM(if(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_novembre,
+SUM(if(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre
+FROM RendicontoAttivita ra
+INNER JOIN Commessa com ON ra.commessa_idCommessa=com.idCommessa
+INNER JOIN Risorsa ris ON ra.risorsa_idRisorsa=ris.idRisorsa
+INNER JOIN Cliente cl ON  com.cliente_idCliente=cl.idCliente
+INNER JOIN Tariffa t ON  (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+INNER JOIN Costo costo ON costo.idCosto = ra.costo_idCosto
+WHERE com.DTYPE = 'Commessa' AND com.calcoloRicavi=true AND ra.anno = $P{ANNO}
+AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine is null)
+GROUP BY cl.codice) AS tabella2]]>
 	</queryString>
 	<field name="totale" class="java.lang.Double"/>
 	<field name="codice" class="java.lang.String"/>
