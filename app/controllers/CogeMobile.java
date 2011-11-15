@@ -13,6 +13,8 @@ public class CogeMobile extends Controller {
     public static void auth(String username, String psw) {
     	System.out.println("username: " + username);
     	System.out.println("psw: " + psw);
+    	String risposta = "si";
+    	render(risposta);
     }
 
 }
