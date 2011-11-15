@@ -14,7 +14,7 @@ public class CogeMobile extends Controller {
     	System.out.println("username: " + username);
     	System.out.println("psw: " + psw);
     	String risposta = "si";
-    	render(risposta);
+    	renderText(risposta);
     }
 
 }

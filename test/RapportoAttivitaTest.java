@@ -28,6 +28,7 @@ public class RapportoAttivitaTest  extends UnitTest {
 		 assertFalse(listaCommesse.isEmpty());
 		assertEquals(cm1, listaCommesse.get(0));
 		assertEquals(cm2, listaCommesse.get(1));
+		
 	}
 	
 	@Test
