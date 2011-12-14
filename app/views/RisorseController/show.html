@@ -47,6 +47,23 @@
 		    ${risorsa?.dataNascita?.format('dd-MM-yyyy')}
 		</li>
 		<li>
+			<label for="titoloStudio">Titolo di Studio:</label>
+			#{if risorsa.titoliStudio != null && risorsa.titoliStudio.size() > 0}
+				#{if risorsa.titoliStudio.size() == 1}
+					${risorsa.titoliStudio.get(0).descrizione}
+				#{/if}
+				#{else}
+				<ul>
+					#{list items:risorsa.titoliStudio, as:'titoloStudio'}
+						<li>${titoloStudio.descrizione}</li> 
+					#{/list} 				
+				</ul>
+				#{/else}
+			#{/if}
+		</li>
+		
+		#{if !tipoRapportoLavoro?.codice?.equals("CCP")}
+        <li>
 			<label for="livelloCCNL">Livello CCNL: </label>
 		    ${risorsa?.livelloCCNL}
 		</li>
@@ -54,6 +71,7 @@
 			<label for="dataVariazioneLivello">Data Variazione Livello CCNL: </label>
 		    ${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}
 		</li>
+		#{/if}
 		<li>
 			<label for="dataVariazioneRetribuzione">Data Variazione Retribuzione: </label>
 		    ${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}

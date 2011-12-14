@@ -1,9 +1,13 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
@@ -26,11 +30,15 @@ public class TitoloStudio extends GenericModel {
 	@Required
 	public String descrizione;
 	
+	@ManyToMany
+	public List<Risorsa> listaRisorse;
+	
 	public TitoloStudio() {}
 
 	public TitoloStudio(String codice, String descrizione) {
 		this.codice = codice;
 		this.descrizione = descrizione;
+		this.listaRisorse = new ArrayList<Risorsa>();
 	}
 	
 	static class CodiceCheck extends Check {

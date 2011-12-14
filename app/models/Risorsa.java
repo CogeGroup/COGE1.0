@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Query;
 import javax.persistence.Transient;
 
 import org.hibernate.Session;
@@ -105,7 +106,7 @@ public class Risorsa extends GenericModel {
 	@ManyToMany
 	public List<Certificazione> certificazioni;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="listaRisorse")
 	public List<TitoloStudio> titoliStudio;
 	
 	@Transient

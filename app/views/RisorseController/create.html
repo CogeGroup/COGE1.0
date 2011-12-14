@@ -31,6 +31,15 @@
 		}
     }
 
+	function toggle_visibilityCCNL(id) {
+		var e = document.getElementById(id);
+		if(document.getElementById("select").value != ${idCoCoPro}){
+		   	e.style.display = 'block';
+		}else {
+		   	e.style.display = 'none';
+		}
+    }
+	
 	$(document).ready(function () {
         $("#titoloStudio").tokenInput('autocompleteTitoloStudio', {
             hintText: "Digitare la descrizione del titolo di studio (almeno 3 caratteri)",
@@ -84,7 +93,7 @@
     	#{select 'risorsa.gruppo.idGruppo', items:listaGruppi, labelProperty:'descrizione', valueProperty:'idGruppo', value:risorsa.gruppo?.idGruppo /}<br />
 		
 		<label for="tipoRapportoLavoro">* Tipo Rapporto Lavoro:</label>
-		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 
+		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni'), toggle_visibilityCCNL('livelloCCNL');"> 
 			#{list items: listaTipoRapportoLavoro, as: 'tipoRapportoLavoro'}
 		    	<option value="${tipoRapportoLavoro.idTipoRapportoLavoro}" 
 		    		#{if tipoRapportoLavoro.idTipoRapportoLavoro == idTipoRapportoLavoro}
@@ -121,7 +130,10 @@
         <label for="certificazione">Certificazione:</label>
 		<input type="text" class="txt_xl" id="certificazione" name="certificazione" /><br />
 		
-        <label for="dataLivelloCCNL">Livello CCNL:</label>
+        <span id="livelloCCNL" #{if idTipoRapportoLavoro == idCoCoPro}
+				    			style="display: none"
+				    		#{/if}>
+		<label for="dataLivelloCCNL">Livello CCNL:</label>
 			#{select 'risorsa.livelloCCNL', value:risorsa?.livelloCCNL}
 				#{option ''}-Selezionare-#{/option}
 				#{option '3'}3#{/option}
@@ -132,6 +144,7 @@
 				#{option 'Q'}Q#{/option}
 				#{option 'D'}D#{/option}
 			#{/select}
+		</span>
 		<br />
 		
 <br />

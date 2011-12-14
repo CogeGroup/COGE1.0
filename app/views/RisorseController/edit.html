@@ -95,6 +95,7 @@
         <label for="certificazione">Certificazione:</label>
 		<input type="text" class="txt_xl" id="certificazione" name="certificazione" /><br />
         
+        #{if !tipoRapportoLavoro?.codice?.equals("CCP")}
         <label for="dataLivelloCCNL">Livello CCNL:</label>
 			#{select 'risorsa.livelloCCNL', value:risorsa?.livelloCCNL}
 				#{option ''}-Selezionare-#{/option}
@@ -110,6 +111,7 @@
 		
 		<label for="dataVariazioneLivello">Data variazione livello CCNL:</label>
         <input type="text" class="datepicker" name="risorsa.dataVariazioneLivello" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+        #{/if}
         
         <label for="dataVariazioneRetribuzione">Data variazione retribuzione:</label>
         <input type="text" class="datepicker" name="risorsa.dataVariazioneRetribuzione"  value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
