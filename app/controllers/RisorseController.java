@@ -14,12 +14,14 @@ import java.util.Set;
 
 import models.Certificazione;
 import models.Costo;
+import models.DescrizioneTitoloStudio;
 import models.Gruppo;
 import models.RapportoLavoro;
 import models.Risorsa;
 import models.Tariffa;
 import models.TipoRapportoLavoro;
 import models.TipoStatoRisorsa;
+import models.TipoTitoloStudio;
 import models.TitoloStudio;
 import models.Utente;
 
@@ -124,7 +126,9 @@ public class RisorseController extends Controller {
     	List<TitoloStudio> titoliStudio = new ArrayList<TitoloStudio>();
     	String listaCertificazioni = ConvertToJson.convert(certificazioni, "idCertificazione", "descrizione");
     	String listaTitoliStudio = ConvertToJson.convert(titoliStudio, "idTitoloStudio", "descrizione");
-    	render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, listaGruppi, listaCertificazioni, listaTitoliStudio);
+    	
+    	List<TipoTitoloStudio> listaTipoTitoloStudio = TipoTitoloStudio.findAll();
+    	render(risorsa, listaTipoRapportoLavoro, listaTipoStatoRisorsa, idCoCoPro, listaGruppi, listaCertificazioni, listaTitoliStudio, listaTipoTitoloStudio);
     }
     
     public static void save(@Valid Risorsa risorsa, Integer idTipoRapportoLavoro, @Min(0) int giorniAssenzeRetribuite
@@ -395,6 +399,25 @@ public class RisorseController extends Controller {
 		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
 		for(Certificazione c : listaCertificazioni){
 			listaResult.add(new DomainWrapper(c.idCertificazione, c.descrizione));
+		}
+		renderJSON(listaResult);
+	}
+	
+	public static void autocompleteTipoTitoloStudio(String term) {
+		List<TipoTitoloStudio> lista = TipoTitoloStudio.find("descrizione like ?", "%"+term+"%").fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(TipoTitoloStudio tts : lista){
+			listaResult.add(new DomainWrapper(tts.idTipoTitoloStudio, tts.descrizione));
+		}
+		renderJSON(listaResult);
+	}
+	
+	public static void caricaDescrizioniTitoloStudio(Integer idTipoTitoloStudio) {
+		System.out.println("CIAOOOOOOOOOz");
+		List<DescrizioneTitoloStudio> lista = DescrizioneTitoloStudio.find("byTipoTitoloStudio", TipoTitoloStudio.findById(idTipoTitoloStudio)).fetch();
+		List<DomainWrapper> listaResult = new ArrayList<DomainWrapper>();
+		for(DescrizioneTitoloStudio d : lista){
+			listaResult.add(new DomainWrapper(d.idDescrizioneTitoloStudio, d.descrizione));
 		}
 		renderJSON(listaResult);
 	}
