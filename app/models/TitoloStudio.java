@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import play.data.validation.Check;
 import play.data.validation.CheckWith;
@@ -32,6 +33,9 @@ public class TitoloStudio extends GenericModel {
 	
 	@ManyToMany
 	public List<Risorsa> listaRisorse;
+	
+	@OneToOne
+	public DescrizioneTitoloStudio descrizioneTitoloStudio;
 	
 	public TitoloStudio() {}
 
