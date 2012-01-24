@@ -31,18 +31,11 @@ public class TitoloStudio extends GenericModel {
 	@Required
 	public String descrizione;
 	
-	@ManyToMany
-	public List<Risorsa> listaRisorse;
-	
-	@OneToOne
-	public DescrizioneTitoloStudio descrizioneTitoloStudio;
-	
 	public TitoloStudio() {}
 
 	public TitoloStudio(String codice, String descrizione) {
 		this.codice = codice;
 		this.descrizione = descrizione;
-		this.listaRisorse = new ArrayList<Risorsa>();
 	}
 	
 	static class CodiceCheck extends Check {

@@ -65,37 +65,6 @@
         });
     });
 	
-	$(document).ready(function () {
-        $("#tipoTitoloStudio").tokenInput('autocompleteTipoTitoloStudio', {
-            hintText: "Digitare la descrizione del titolo di studio (almeno 3 caratteri)",
-            noResultsText: "Nessun risultato",
-            searchingText: "Ricerca...",
-            minChars: "3",
-            preventDuplicates: true,
-            method: "POST",
-        });
-    });
-	
-	function caricaDescrizioni(idTipoTitoloStudio,target){
-		$.ajax({url: '@{RisorseController.caricaDescrizioniTitoloStudio()}', data: {idTipoTitoloStudio: idTipoTitoloStudio}, async: false, success: function(data) {
-        	target.html('')
-          	$.each(data, function(index, value){
-            	target.append('<option value="' + value.value +'">' + value.label +'</option>')
-           	})
-       	}
-		});
-	}
-	
-	function toggle_visibilityDescrizioneTitoloStudio() {
-		var e = document.getElementById("descrizioni");
-		if(document.getElementById("selectTipoTitoloStudio").value == ''){
-		   	e.style.display = 'none';
-		} else {
-		   	e.style.display = 'block';
-		   	caricaDescrizioni($('#selectTipoTitoloStudio').val(), $('#selectDescrizioneTitoloStudio'))
-		}
-	}
-	
 </script>  
 
 <h2>Aggiungi Risorsa</h2>
@@ -155,26 +124,9 @@
 	    <label for="dataNascita">Data di nascita:</label>
         <input type="text" class="datepicker" name="risorsa.dataNascita" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
-        <!-- <br />
+        <br />
         <label for="titoloStudio">Titolo di Studio:</label>
-		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" /><br /> -->
-		
-		<br />
-        <label for="tipoTitoloStudio">Titolo di Studio:</label>
-		<input type="text" class="txt_xl" id="tipoTitoloStudio" name="tipoTitoloStudio" /><br />
-    
-		<br />
-		<label for="titoloStudio">Titolo di Studio:</label>
-		<select id="selectTipoTitoloStudio" name="idTipoTitoloStudio" onchange="toggle_visibilityDescrizioneTitoloStudio();"> 
-			<option value="">-Selezionare-</option>
-			#{list items: listaTipoTitoloStudio, as: 'tipoTitoloStudio'}
-		    	<option value="${tipoTitoloStudio.idTipoTitoloStudio}">${tipoTitoloStudio.descrizione}</option>
-		    #{/list}
-		</select><br />
-		
-		<span id="descrizioni" style="display: none">
-			<select id="selectDescrizioneTitoloStudio" name="idDescrizioneTitoloStudio" ></select>
-		</span>
+		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" /><br />
 		
 		<br />
         <label for="certificazione">Certificazione:</label>

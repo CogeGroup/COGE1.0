@@ -106,7 +106,7 @@ public class Risorsa extends GenericModel {
 	@ManyToMany
 	public List<Certificazione> certificazioni;
 	
-	@ManyToMany(mappedBy="listaRisorse")
+	@ManyToMany
 	public List<TitoloStudio> titoliStudio;
 	
 	@Transient
