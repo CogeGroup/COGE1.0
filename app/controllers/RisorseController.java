@@ -111,6 +111,7 @@ public class RisorseController extends Controller {
     	List<Costo> listaCosti = Costo.find("byRisorsa", risorsa).fetch();
     	RapportoLavoro ra = RapportoLavoro.findByRisorsaAndData(risorsa, new Date());
     	TipoRapportoLavoro tipoRapportoLavoro = ra != null ? ra.tipoRapportoLavoro : null;
+    	System.out.println(risorsa.titoliStudio);
         render(risorsa,listaTariffe,listaCosti,tipoRapportoLavoro);
     }
     
@@ -174,6 +175,7 @@ public class RisorseController extends Controller {
         
 		risorsa.certificazioni = certificazioni;
 		risorsa.titoliStudio = titoliStudio;
+		System.out.println(risorsa.titoliStudio);
         risorsa.save();
         flash.success("risorsa inserita con successo");
 		list();
@@ -398,5 +400,4 @@ public class RisorseController extends Controller {
 		}
 		renderJSON(listaResult);
 	}
-    
 }

@@ -1,7 +1,11 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.PersistenceException;
 
+import models.Risorsa;
 import models.TitoloStudio;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -12,7 +16,21 @@ import secure.SecureCOGE;
 @With(SecureCOGE.class)
 public class TitoloStudioController extends Controller {
 
-	public static void list() {
+	public static void order(String ordinamento) {
+		if(ordinamento == null){
+			ordinamento = "asc";
+		}
+		ValuePaginator paginator = new ValuePaginator(TitoloStudio.find("order by descrizione " + ordinamento).fetch());
+		if(ordinamento.equals("desc")){
+    		ordinamento = "asc";
+    	}else{
+    		ordinamento = "desc";
+    	}
+    	paginator.setPageSize(10);
+		render("TitoloStudioController/list.html", paginator, ordinamento); 
+    }
+    
+    public static void list() {
     	ValuePaginator paginator = new ValuePaginator(TitoloStudio.findAll());
     	paginator.setPageSize(10);
         render(paginator);
@@ -20,7 +38,7 @@ public class TitoloStudioController extends Controller {
     
     public static void show(Integer idTitoloStudio) {
     	TitoloStudio certificazione = TitoloStudio.findById(idTitoloStudio);
-        render(certificazione);
+    	render(certificazione);
     }
     
     public static void create() {
