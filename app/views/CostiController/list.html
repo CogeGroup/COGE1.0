@@ -36,6 +36,7 @@
 		</thead>
 		#{paginate.list items:paginator, as:'costo'} 
 		<tr>
+		<td>${costo.idCosto }</td>
 			<td>${costo.dataInizio?.format('dd-MM-yyyy') }</td>
 			<td>${costo.dataFine?.format('dd-MM-yyyy') }</td>
 			<td>${costo.importoGiornaliero }</td>

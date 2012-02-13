@@ -179,6 +179,8 @@ public class Costo extends GenericModel {
 	}
 	
 	public static Costo extractByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
+		System.out.println("dataInizio: "+dataInizio);
+		System.out.println("dataFine: "+dataFine);
 		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
