@@ -32,25 +32,25 @@ public class CommesseController extends Controller {
     
     public static void list() {
 		ValuePaginator paginator = new ValuePaginator(Commessa.find("ORDER BY calcoloRicavi desc").fetch());
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render(paginator);
     }
     
     public static void listFatturabili() {
     	ValuePaginator paginator = new ValuePaginator(Commessa.findCommesseFatturabili());
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render("CommesseController/list.html",paginator);
     }
     
     public static void listNonFatturabili() {
     	ValuePaginator paginator = new ValuePaginator(Commessa.findCommesseNonFatturabili());
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render("CommesseController/list.html",paginator);
     }
     
     public static void listACorpo() {
 		ValuePaginator paginator = new ValuePaginator(CommessaACorpo.findCommesseACorpo());
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render("CommesseController/list.html",paginator);
     }
     
@@ -62,7 +62,7 @@ public class CommesseController extends Controller {
     	List<Commessa> listaCommesse = new ArrayList<Commessa>();
     	listaCommesse.add(commessa);
 		ValuePaginator paginator = new ValuePaginator(listaCommesse);
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render("CommesseController/list.html",paginator);
     }
     

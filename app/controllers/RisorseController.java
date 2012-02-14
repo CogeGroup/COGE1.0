@@ -50,14 +50,14 @@ public class RisorseController extends Controller {
 	
     public static void list() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.find("order by cognome, nome").fetch());
-    	listaRisorse.setPageSize(10);
+    	listaRisorse.setPageSize(100);
     	String filtro = "";
 		render(listaRisorse,filtro); 
     }
     
     public static void listCoCoPro() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findCoCoPro("cognome","asc"));
-    	listaRisorse.setPageSize(10);
+    	listaRisorse.setPageSize(100);
     	String filtro = "CCP";
     	String lastParametro = "cognome";
     	String ordinamento = "desc";
@@ -66,7 +66,7 @@ public class RisorseController extends Controller {
     
     public static void listDipendenti() {
     	ValuePaginator listaRisorse = new ValuePaginator(Risorsa.findDipendenti("cognome","asc"));
-    	listaRisorse.setPageSize(10);
+    	listaRisorse.setPageSize(100);
     	String filtro = "DIP";
     	String lastParametro = "cognome";
     	String ordinamento = "desc";
@@ -89,7 +89,7 @@ public class RisorseController extends Controller {
     		ordinamento = "desc";
     	}
     	lastParametro = parametro;
-    	listaRisorse.setPageSize(10);
+    	listaRisorse.setPageSize(100);
 		render("RisorseController/list.html",listaRisorse,ordinamento,lastParametro,filtro); 
     }
     
@@ -101,7 +101,7 @@ public class RisorseController extends Controller {
     	List<Risorsa> lista = new ArrayList<Risorsa>();
     	lista.add(risorsa);
 		ValuePaginator listaRisorse = new ValuePaginator(lista);
-		listaRisorse.setPageSize(10);
+		listaRisorse.setPageSize(100);
 		render("RisorseController/list.html",listaRisorse);
     }
     
