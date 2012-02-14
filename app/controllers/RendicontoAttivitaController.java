@@ -156,8 +156,6 @@ public class RendicontoAttivitaController extends Controller {
 
 	// Salva il rapportino aggiungendo nuovi rendicontoAttivita
 	public static void saveRendicontoAttivita(int mese, int anno, Integer idRisorsa){
-		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRendicontoAttivita = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa, mese+1, anno).fetch();
 		for (String key : params.all().keySet()) {
@@ -178,7 +176,8 @@ public class RendicontoAttivitaController extends Controller {
 							RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(risorsa, MyUtility.MeseEdAnnoToDataFine(mese, anno), MyUtility.MeseEdAnnoToDataInizio(mese, anno));
 							rendicontoAttivita.rapportoLavoro = ral;
 						}
-						rendicontoAttivita.costo = Costo.extractByRisorsaAndPeriodo(risorsa, dataInizio, dataFine);
+						rendicontoAttivita.costo = Costo.extractByRisorsaAndPeriodo(risorsa, rendicontoAttivita.rapportoLavoro.dataInizio, rendicontoAttivita.rapportoLavoro.dataFine,
+								MyUtility.MeseEdAnnoToDataFine(mese, anno));
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
 								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa && ra.rapportoLavoro != null 
