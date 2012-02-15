@@ -1658,6 +1658,8 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFCommesseACorpo(Integer mese, Integer anno) {
+		List costo = calcoloCostoTotaleCommessaACorpo(mese, anno);
+		List ricavo = calcoloRicavoTotaleCommessaACorpo(mese, anno);
 		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1)
 				.withMonthOfYear(mese).withYear(anno);
 		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese)
@@ -1667,6 +1669,8 @@ public class StatisticheController extends Controller {
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
+		reportParams.put("COSTO", costo);
+		reportParams.put("RICAVO", ricavo);
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
