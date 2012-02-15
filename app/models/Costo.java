@@ -191,7 +191,6 @@ public class Costo extends GenericModel {
 		return result.get(result.size() - 1);
 	}
 	
-	// mio
 	public static List<Costo> findAllByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
 		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
 		query.bind("risorsa", risorsa);
@@ -219,11 +218,18 @@ public class Costo extends GenericModel {
 					if(c.importoMensile != null){
 						costoRisorsa = c.importoMensile;
 					} else {
-						int m = MyUtility.getMeseFromDate(c.dataInizio) + 1;
-						int a = MyUtility.getAnnoFromDate(c.dataInizio);
-						costoRisorsa = totaleCosto(c, r, m - 1, a);
+						int m = MyUtility.getMeseFromDate(dataInizioPeriodo);
+						int a = MyUtility.getAnnoFromDate(dataInizioPeriodo);
+						List<RendicontoAttivita> rendicontoAttivitas = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", r,(m+1),a).fetch();
+						Float tot = 0f;
+						for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
+							if(rendicontoAttivita.commessa.idCommessa == commessa.idCommessa)
+								tot += rendicontoAttivita.oreLavorate;
+						}
+						costoRisorsa = (c.importoGiornaliero/8) * tot;
 					}
 				}
+				
 				costoTotale += costoRisorsa;
 			}
 		}

@@ -33,8 +33,8 @@ AND ((t.dataInizio <= $P{DATA_INIZIO} AND (t.dataFine is null OR t.dataFine >= $
 GROUP BY idRisorsa]]>
 	</queryString>
 	<field name="risorsa" class="java.lang.String"/>
-	<field name="costo_totale" class="java.lang.String"/>
-	<field name="ricavo_totale" class="java.lang.String"/>
+	<field name="costo_totale" class="java.lang.Integer"/>
+	<field name="ricavo_totale" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -77,7 +77,7 @@ GROUP BY idRisorsa]]>
 				<reportElement x="370" y="2" width="1" height="20"/>
 			</line>
 			<line>
-				<reportElement x="0" y="22" width="555" height="1"/>
+				<reportElement x="0" y="22" width="556" height="1"/>
 			</line>
 		</band>
 	</columnHeader>
@@ -90,22 +90,22 @@ GROUP BY idRisorsa]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{risorsa}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="187" y="2" width="182" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{costo_totale}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{costo_totale}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="372" y="2" width="182" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="21" width="555" height="1"/>
+				<reportElement x="0" y="21" width="556" height="1"/>
 			</line>
 			<line>
 				<reportElement x="370" y="0" width="1" height="21"/>
