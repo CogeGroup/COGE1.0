@@ -188,7 +188,7 @@ public class Costo extends GenericModel {
 		}
 		query.bind("dataFine", dataFine);
 		List<Costo> result = query.fetch();
-		return result.get(result.size() - 1);
+		return result.size() > 0 ? result.get(result.size() - 1) : null;
 	}
 	
 	public static List<Costo> findAllByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
