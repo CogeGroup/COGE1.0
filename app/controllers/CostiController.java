@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.Costo;
+import models.RendicontoAttivita;
 import models.Risorsa;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -65,9 +66,13 @@ public class CostiController extends Controller {
     	list(costo.risorsa.idRisorsa);
     }
     public static void delete(Integer idCosto){
-    	Costo costo = Costo.findById(idCosto);
-    	costo.delete();
-    	flash.success("Costo eliminato con successo");
-    	list(costo.risorsa.idRisorsa);
-    }
+        Costo costo = Costo.findById(idCosto);
+        if(RendicontoAttivita.find("byCosto",costo).fetch().size() == 0) {
+        costo.delete();
+        flash.success("Costo rimosso con successo");
+        } else {
+        flash.error("Impossibile eliminare il costo");
+        }
+        list(costo.risorsa.idRisorsa);
+       }
 }

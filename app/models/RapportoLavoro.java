@@ -123,8 +123,8 @@ public class RapportoLavoro extends GenericModel{
    
 	public static RapportoLavoro findByRisorsaAndPeriodo(Risorsa risorsa , Date dataInizio, Date dataFine) {
 		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
-				"where ral.risorsa = :risorsa and (ral.dataInizio <= :dataInizio) " +
-		   		"and (ral.dataFine is null or (ral.dataFine >= :dataFine))");
+				"where ral.risorsa = :risorsa and (ral.dataInizio <= :dataFine) " +
+		   		"and (ral.dataFine is null or (ral.dataFine >= :dataInizio))");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
@@ -145,8 +145,8 @@ public class RapportoLavoro extends GenericModel{
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
-				"where ral.risorsa = :risorsa and (ral.dataInizio < :dataFine) " +
-		   		"and (ral.dataFine is null or (ral.dataFine > :dataInizio))");
+				"where ral.risorsa = :risorsa and (ral.dataInizio <= :dataFine " +
+		   		"and (ral.dataFine is null or ral.dataFine >= :dataInizio))");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine);
@@ -157,8 +157,8 @@ public class RapportoLavoro extends GenericModel{
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 		JPAQuery query = RapportoLavoro.find("select ral from RapportoLavoro ral " +
-				"where ral.risorsa = :risorsa and ral.tipoRapportoLavoro = :trl and (ral.dataInizio < :dataFine) " +
-		   		"and (ral.dataFine is null or (ral.dataFine > :dataInizio))");
+				"where ral.risorsa = :risorsa and ral.tipoRapportoLavoro = :trl and (ral.dataInizio <= :dataFine " +
+		   		"and (ral.dataFine is null or ral.dataFine >= :dataInizio))");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine);

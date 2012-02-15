@@ -178,17 +178,19 @@ public class Costo extends GenericModel {
 		return query.first();
 	}
 	
-	public static Costo extractByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
-		System.out.println("dataInizio: "+dataInizio);
-		System.out.println("dataFine: "+dataFine);
-		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
+	public static Costo extractByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine, Date data) {
+		if(dataFine == null){
+			dataFine = data;
+		}
+		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and (c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio))");
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		if(dataFine == null){
 			dataFine = MyUtility.MeseEdAnnoToDataFine(MyUtility.getMeseFromDate(dataInizio), MyUtility.getAnnoFromDate(dataInizio));
 		}
 		query.bind("dataFine", dataFine);
-		return query.first();
+		List<Costo> result = query.fetch();
+		return result.get(result.size() - 1);
 	}
 	
 	
