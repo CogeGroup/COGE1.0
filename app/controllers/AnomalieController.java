@@ -28,7 +28,7 @@ public class AnomalieController extends Controller {
     public static void listAnomalieRicavi(int mese, int anno) {
     	List<Risorsa> listaAnomalie = Risorsa.listAnomalieRicavi(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
-		paginator.setPageSize(10);
+		paginator.setPageSize(100);
 		render(paginator, mese, anno);
     }
 }

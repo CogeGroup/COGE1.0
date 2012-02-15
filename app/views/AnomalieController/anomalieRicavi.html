@@ -2,14 +2,17 @@
 #{set title:'Anomalie' /}
 
 	<h2>Ricerca Anomalie Ricavi</h2>
-	<div id="align_form_short">
+	#{ifErrors}
+	   	   <p class="error">${errors[0]}</p>
+	#{/ifErrors}
+	<div id="form_small">
 	#{form @AnomalieController.listAnomalieRicavi()}
-		#{ifErrors}
-	   	    <p class="error">
-				${errors[0]}</p>
-	   	#{/ifErrors}
-	  
-		<label for="data">Data:</label>
+		
+	  <p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		<table class="table_form">
+    	<tr>
+		<td><label for="data">&#42; Data:</label></td>
+		<td>
 		#{select 'mese', value:mese}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
@@ -25,9 +28,14 @@
 			#{option 11}DIC#{/option}
 		#{/select}
 		#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno /}
+		</td>
+		</tr>
+		</table>
 	</div>
 	<div id="button_center">
     	<input type="submit" class="submitbutton" value="Cerca" />
 	#{/form}
-	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>
+	</div>
+	<div class="navigation">
+	<a class="button_nav" href="@{RendicontoAttivitaController.index()}">Indietro</a>
 	</div>

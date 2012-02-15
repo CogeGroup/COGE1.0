@@ -28,8 +28,9 @@
     }
 </script>  
 
-<h2>Modifica Rapporto Lavoro</h2>
+
 <div id="detail">
+<h2>Modifica Rapporto Lavoro</h2>
 	<ul>
 		<li><label>Nome: </label>${rapportoLavoro.risorsa.nome}</li> 
 		<li><label>Cognome: </label>${rapportoLavoro.risorsa.cognome}</li>
@@ -39,14 +40,15 @@
 		#{/if}
 	</ul>
 </div>
-
-<div id="align_form_short">
-#{form @RapportoLavoroController.update()}
+<br />
 	#{ifErrors}
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-
-    	<label for="dataInizio">Data Inizio:</label>
+<div id="align_form_short">
+#{form @RapportoLavoroController.update()}
+	
+<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+    	<label for="dataInizio">&#42; Data Inizio:</label>
 		<input type="text" class="datepicker" name="rapportoLavoro.dataInizio" value="${rapportoLavoro?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
 	    	
 	<br />
@@ -55,7 +57,7 @@
 	    	
 	<br />
 	
-		<label for="tipoRapportoLavoro">Tipo Rapporto Lavoro:</label>
+		<label for="tipoRapportoLavoro">&#42; Rapporto Lavoro:</label>
 		<select id="select" name="idTipoRapportoLavoro" onchange="toggle_visibility('giorni');"> 
 			<option value="0" >-- Seleziona --</option>
 			#{list items: listaTipoRapportoLavoro, as: 'tipoRapportoLavoro'}
@@ -81,9 +83,8 @@
     	<input type="submit" class="submitbutton" value="Modifica" />
    
 #{/form}
-#{form @RapportoLavoroController.list(rapportoLavoro.risorsa.idRisorsa)} 
-	
-		<input type="submit" class="submitbutton" value="Indietro" />
-   
-#{/form}
+</div>
+
+<div class="navigation">
+ <a class="button_nav" href="@{RapportoLavoroController.list(rapportoLavoro?.risorsa?.idRisorsa)}">Indietro</a>
 </div>

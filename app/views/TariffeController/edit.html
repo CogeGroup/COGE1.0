@@ -30,8 +30,9 @@
 	});
 </script>
 
-<h2>Modifica Tariffa</h2>
+
 <div id="detail">
+<h2>Modifica Tariffa</h2>
 	<ul>
 		<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
 		<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
@@ -41,35 +42,41 @@
 		#{/if}
 	</ul>
 </div>
-
-<div id="align_form_short">
-
-#{form @TariffeController.update()}
-		
+<br />
 	#{ifErrors}
 	   	<p class="error">
 			${errors[0]}
 		</p>
 	#{/ifErrors}
-	    
-	<label for="dataInizio">Data Inizio:</label>
-	#{select 'tariffa.meseInizio', value:tariffa.meseInizio}
-		#{option 0}GEN#{/option}
-		#{option 1}FEB#{/option}
-		#{option 2}MAR#{/option}
-		#{option 3}APR#{/option}
-		#{option 4}MAG#{/option}
-		#{option 5}GIU#{/option}
-		#{option 6}LUG#{/option}
-		#{option 7}AGO#{/option}
-		#{option 8}SET#{/option}
-		#{option 9}OTT#{/option}
-		#{option 10}NOV#{/option}
-		#{option 11}DIC#{/option}
-	#{/select}
-	#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'tariffa.annoInizio', valueProperty:'tariffa.annoInizio', value:tariffa.annoInizio /}
-	<br>
-	<label for="dataFine">Data Fine:</label>
+<div id="form_small">
+
+#{form @TariffeController.update()}
+<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+	<table class="table_form">
+	<tr>    
+		<td><label for="dataInizio">&#42; Data Inizio:</label></td>
+		<td>
+		#{select 'tariffa.meseInizio', value:tariffa.meseInizio}
+			#{option 0}GEN#{/option}
+			#{option 1}FEB#{/option}
+			#{option 2}MAR#{/option}
+			#{option 3}APR#{/option}
+			#{option 4}MAG#{/option}
+			#{option 5}GIU#{/option}
+			#{option 6}LUG#{/option}
+			#{option 7}AGO#{/option}
+			#{option 8}SET#{/option}
+			#{option 9}OTT#{/option}
+			#{option 10}NOV#{/option}
+			#{option 11}DIC#{/option}
+		#{/select}
+		
+		#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'tariffa.annoInizio', valueProperty:'tariffa.annoInizio', value:tariffa.annoInizio /}
+		</td>
+	</tr>
+	<tr>
+	<td><label for="dataFine">Data Fine:</label></td>
+	<td>
 	#{select 'tariffa.meseFine', value:tariffa.meseFine}
 		#{option -1}-- Mese --#{/option}
 		#{option 0}GEN#{/option}
@@ -85,21 +92,29 @@
 		#{option 10}NOV#{/option}
 		#{option 11}DIC#{/option}
 	#{/select}
+	
 	#{select 'tariffa.annoFine', items:listaAnni, value:tariffa.annoFine}
 		#{option -1}-- Anno --#{/option}
 	#{/select}
-	<br>
-  	    <label for=importo>Importo giornaliero: </label>
-  	    <input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-		<br>
-	   
-	<label for="commessa">Commessa:</label>
-	#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}
+	</td>
+	</tr>
+	<tr>
+  	   <td><label for=importo>&#42; Importo giornaliero: </label></td>
+  	    <td><input type="text" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/></td>
+	</tr>
+	<tr>   
+	<td><label for="commessa">&#42; Commessa:</label></td>
+	<td>#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}</td>
+	</tr>
+	</table>
 </div>
 	<div id="button_center">
 		<input type="hidden" name="tariffa.risorsa.idRisorsa" value="${tariffa.risorsa.idRisorsa }" />
 		<input type="hidden" name="tariffa.idTariffa" value="${tariffa.idTariffa }" />
 	    <input type="submit" class="submitbutton" value="Salva" />
-	    #{a @TariffeController.index(tariffa.risorsa.idRisorsa)}<input type="button" class="submitbutton" value="Indietro" />#{/a}
+	   
 	</div>
 #{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{TariffeController.index(tariffa?.risorsa?.idRisorsa)}">Indietro</a>
+</div>

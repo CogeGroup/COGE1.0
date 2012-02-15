@@ -2,32 +2,43 @@
 #{set title:'Gestione clienti'/}
 
 <h2>Modifica cliente</h2>
-
-<div id="align_form_short">
-	#{form @ClientiController.update()}
-		
 		#{ifErrors}
 	        <p class="error">
 				${errors[0]}
 			</p>
 	    #{/ifErrors}
 	
-	        <label for="codice">Codice cliente: </label>
-	        <input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/>
-		 <br />
-	        <label for="nominativo">Nominativo: </label>
-	        <input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
-	    <br />
-	        <label for="attivo">Attivo: </label>
+<div id="form_small">
+	#{form @ClientiController.update()}
+		
+<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+	<table class="table_form">
+		<tr>    
+	        <td><label for="codice">&#42; Codice cliente: </label></td>
+	        <td><input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/></td>
+		 </tr>
+		 <tr>
+	        <td><label for="nominativo">&#42; Nominativo: </label></td>
+	        <td><input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" /></td>
+	    </tr>
+	    <tr>
+	        <td><label for="attivo">&#42; Attivo: </label></td>
+	        <td>
 	        <span class="checkbox">
 	        SI <input type="radio" id="attivo" name="cliente.attivo" value="true" #{if cliente.attivo == true}checked="checked"#{/if}/>
 	       
 	        NO <input type="radio" id="attivo" name="cliente.attivo" value="false" #{if cliente.attivo == false}checked="checked"#{/if} />
-	   </span>
+	   		</span>
+	   		</td>
+	   </tr>
+	   </table>
 </div>
 	<div id="button_center">
 			<input type="hidden" name="cliente.idCliente" value="${cliente.idCliente }" />
 	        <input type="submit" class="submitbutton" value="Salva" />
 	#{/form}
-		<a href="@{ClientiController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+		
 	</div>
+<div class="navigation">
+	<a class="button_nav" href="@{ClientiController.list()}">Indietro</a>
+</div>	

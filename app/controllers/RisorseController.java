@@ -194,6 +194,7 @@ public class RisorseController extends Controller {
     
     public static void update(@Valid Risorsa risorsa, String certificazione, String titoloStudio) {
     	
+    	
     	//Lista Certificazioni
         List<Certificazione> certificazioni = new ArrayList<Certificazione>();
 	    if(certificazione.length() > 0) {

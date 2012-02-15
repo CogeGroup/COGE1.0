@@ -2,15 +2,18 @@
 #{set title:'Gestione Rapportini' /}
 
 <h2>Ricerca Rapportini Incompleti</h2>
-#{form @RendicontoAttivitaController.listRapportiniIncompleti()}
-	<div id="align_form_short">
 		#{ifErrors}
 	   	    <p class="error">
 				${errors[0]}</p>
 	   	#{/ifErrors}
+#{form @RendicontoAttivitaController.listRapportiniIncompleti()}
+	<div id="form_small">
+		<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		<table class="table_form">
+    	<tr>
 	  
-		<label for="data">Data:</label>
-		#{select 'mese', value:mese}
+		<td><label for="data">&#42; Data:</label></td>
+		<td>#{select 'mese', value:mese}
 			#{option 0}GEN#{/option}
 			#{option 1}FEB#{/option}
 			#{option 2}MAR#{/option}
@@ -25,9 +28,14 @@
 			#{option 11}DIC#{/option}
 		#{/select}
 		#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno /}
+		</td>
+		</tr>
+    </table>
 	</div>
 	<div id="button_center">
     	<input type="submit" class="submitbutton" value="Cerca" />
-		#{a @RendicontoAttivitaController.index()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 	</div>
 #{/form}
+<div class="navigation">
+<a class="button_nav" href="@{RendicontoAttivitaController.index()}">Indietro</a>
+</div>

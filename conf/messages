@@ -7,7 +7,7 @@ validation.min = %s deve essere maggiore di %d
 validation.minSize = %s minimo %d caratteri
 validation.email= campo %s non valido
 validation.required=il campo %s è obbligatorio
-validation.invalid = formato non corretto
+validation.invalid = Formato non valido
 # COSTO ----------------------
 costo.importoGiornaliero = importo giornaliero
 costo.importoMensile = importo mensile

@@ -20,6 +20,7 @@
 </script>  
 
 <div id="detail">
+<h2>Modifica costo</h2>
 	<ul>
 		<li><label>Nome: </label>${costo.risorsa.nome}</li> 
 		<li><label>Cognome: </label>${costo.risorsa.cognome}</li>
@@ -29,32 +30,39 @@
 		#{/if}
 	</ul>
 </div>
-
-<h2>Modifica costo</h2>
-<div id="align_form_short">
-#{form @CostiController.update()}
-	
+<br />
 	#{ifErrors}
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-	
-    <label for="importoGiornaliero">Importo giornaliero: </label>
-    <input type="text" class="txt_s" id="importoGiornaliero" name="costo.importoGiornaliero" value="${costo?.importoGiornaliero}"/>
-    <br />
-    <label for="importoMensile">Importo mensile: </label>
-    <input type="text" class="txt_s" id="importoMensile" name="costo.importoMensile" value="${costo?.importoMensile}"/>
-    <br />
-    <label for="dataInizio">Data Inizio:</label>
-	<input type="text" class="datepicker" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
-	<br />
-    <label for="dataFine">Data Fine:</label>
-    <input type="text" class="datepicker" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)
-    <br /> 
+<div id="form_small">
+#{form @CostiController.update()}
+	<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+	<table class="table_form">
+		<tr>
+	    <td><label for="importoGiornaliero">&#42; Importo giornaliero: </label></td>
+	    <td><input type="text" class="txt_m" id="importoGiornaliero" name="costo.importoGiornaliero" value="${costo?.importoGiornaliero}"/></td>
+	    </tr>
+	    <tr>
+	    <td><label for="importoMensile">Importo mensile: </label></td>
+	    <td><input type="text" class="txt_m" id="importoMensile" name="costo.importoMensile" value="${costo?.importoMensile}"/></td>
+	    </tr>
+	    <tr>
+	    <td><label for="dataInizio">&#42; Data Inizio:</label></td>
+		<td><input type="text" class="datepicker" name="costo.dataInizio" value="${costo?.dataInizio?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)</td>
+		</tr>
+		<tr>
+	    <td><label for="dataFine">Data Fine:</label></td>
+	    <td><input type="text" class="datepicker" name="costo.dataFine" value="${costo?.dataFine?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)</td>
+	    </tr> 
+    </table>
 </div>
 	
 <div id="button_center">
 	<input type="hidden" name="costo.idCosto" value="${costo.idCosto}">
 	<input type="submit" class="submitbutton" value="Salva" />
 #{/form}
-	<a href="@{CostiController.index(costo?.risorsa?.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro" /></a>
+	
+</div>
+<div class="navigation">
+<a class="button_nav" href="@{CostiController.index(costo?.risorsa?.idRisorsa)}">Indietro</a>
 </div>

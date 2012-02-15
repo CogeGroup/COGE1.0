@@ -33,7 +33,7 @@
 
     $(document).ready(function () {
         $("#gruppo").tokenInput('autocompleteGruppo', {
-            hintText: "Digitare la descrizione del gruppo (almeno 3 caratteri)",
+            hintText: "Gruppo dipendenti es:collaboratori (min 3 char)",
             noResultsText: "Nessun risultato",
             searchingText: "Ricerca...",
             minChars: "3",
@@ -53,22 +53,23 @@
 </script>
 
 <h2>Nuova commessa</h2>
-#{if listaClienti.size() > 0}
-	<div id="edit">
-	#{form @CommesseController.save()}
-		
 		#{ifErrors}
 	        <p class="error">
 				${errors[0]}
 			</p>
-	    #{/ifErrors}
+	    #{/ifErrors}	
+#{if listaClienti.size() > 0}
+	<div id="form_small">
+	#{form @CommesseController.save()}
+		<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		
 		 <ul>
 	    <li>
-	   	<label for="codice">Codice commessa:</label>
+	   	<label for="codice">&#42; Codice commessa:</label>
 	    <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
 	    </li>
 	    <li>
-	    <label for="descrizione">Descrizione: </label>
+	    <label for="descrizione">&#42; Descrizione: </label>
 	    <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
 	     </li>
 	    <li>
@@ -80,7 +81,7 @@
 	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if}/>
 	    </li>
 	    <li>
-	   	<label for="tipoCommessa">Tipo commessa: </label>
+	   	<label for="tipoCommessa">&#42; Tipo commessa: </label>
 		#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa /}
 	     </li>
 	    <li>
@@ -88,7 +89,7 @@
 	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
 	     </li>
 	    <li>
-	   	<label for="cliente">Cliente: </label>
+	   	<label for="cliente">&#42; Cliente: </label>
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
 	      </li>
 	    <li>
@@ -98,13 +99,16 @@
 				      #{else}
 				      	style="display: block"
 				      #{/else}>
-		<label for="gruppo">Gruppo:</label>
+		 <div style="width:400px;">
+		 <br />		      
+		<label for="gruppo">&#42; Gruppo:</label>
 		<input type="text" class="txt_m" id="gruppo" name="gruppo" />
+		</div>
 		</span>
 	      </li>
 	    <li>
 	    <label for="aCorpo">A corpo: </label>
-	    <span class="radio">
+	    <span class="radio" style="padding:10px;">
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if aCorpo.equals("si")}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if aCorpo.equals("no")}checked="checked"#{/if} onclick="toggle_visibility_false('divACorpo');"/>
 	    </span>
@@ -114,7 +118,7 @@
 	    	<span class="linea">
 		    	<hr>
 		    </span><br />
-			<label for=importo>Importo: </label>
+			<label for=importo>&#42; Importo: </label>
 		    <input type="text" class="txt_s" name="importo" value="${importo }"/>
 		</div>
 		</li>
@@ -125,7 +129,10 @@
 			<input type="hidden" name="commessa.calcoloRicavi" value="false" /> 
 	        <input type="submit" class="submitbutton" value="Salva" />
 #{/form}
-		<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+		
+	</div>
+	<div class="navigation">
+		<a class="button_nav" href="@{CommesseController.list()}">Indietro</a>
 	</div>
 #{/if}
 #{else}

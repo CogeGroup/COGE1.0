@@ -18,7 +18,7 @@ ol,ul,li {
 }
 
 a {	color: #E60000;	background: inherit; text-decoration: none; }
-a:hover { color: #AA0001; background: inherit; text-decoration: underline; }
+/*a:hover { color: #AA0001; background: inherit; text-decoration: underline; }*/
 p { margin: 0 0 15px 0; }
 h1 {  margin: 20px 0 0; }
 h1 a { background: inherit; }
@@ -102,6 +102,8 @@ table
 	border                :none;
 	border                :1px solid #CCC;
 }
+
+
 .table_rapporti {
 	margin:10px 0 0 168px;
 }
@@ -136,6 +138,37 @@ table
 	margin:10px 0 0 157px;
 
 }
+.table_form {
+	border:none;
+}
+.table_form tr ,td{
+	border:none;
+	
+	
+}
+.table_form  td{
+	padding:0;
+	text-align: left;
+	border:none;
+	
+}
+.table_form tbody td{
+	color:#000000;
+}
+
+.table_form tbody tr:hover {
+  
+  color:none;
+   background:none;
+}
+
+.table_form tbody tr:hover td{
+  
+  color:#000000;
+}
+
+
+
 
 
 thead th,
@@ -210,6 +243,7 @@ tbody a:visited:after {
 	content: "\00A0\221A"
 }
 
+
 #datatable{
  padding:10px 0 0 270px;
 }
@@ -247,10 +281,10 @@ tbody a:visited:after {
 
 #button_center	{
 	display:block;
- 	margin: 10px 0 0 372px;
+ 	margin: 12px 0 0 411px;
  	height:32px;
  	padding: 2px;
- 	width:200px;
+ 	width:115px;
 }
 #button_center_single	{
 	display:block;
@@ -414,13 +448,14 @@ tbody a:visited:after {
 
 .error{
   color:#E60000;
+  text-align: center;
 
 }
 
 
 .success{
   color:#E60000;
-
+text-align: center;
 }
 
 .table_center	{
@@ -428,6 +463,12 @@ tbody a:visited:after {
    margin:auto;
 
 }
+.table_center tr,td	{
+	border:1px solid #CCCCCC;
+   margin:auto;
+
+}
+
 
 #buttonSubmit_center	{
  	text-align:center;
@@ -465,6 +506,14 @@ input.button_submit_double {
 	float:left;
 }
 
+input.button_aggiungi_risorsa { 
+	background: #E60000; 
+	border: 1px solid #0000; 
+	color: #FFFAFB; 
+	font-weight: bold; 
+}
+
+
 
 
 #detail { 
@@ -472,7 +521,7 @@ input.button_submit_double {
 	width: 320px; 
 	padding: 8px 10px 0 8px; 
 	border:1px solid;
-	margin:7px;
+	margin:auto;
 }
 #detail label {
     
@@ -507,6 +556,7 @@ input.button_submit_double {
 	padding: 0; 
 	margin: 15px 0 0; 
 	text-align: right; 
+	font-weight: bold;
 }
  
                                   
@@ -578,6 +628,7 @@ textarea { overflow: auto; }
 	padding: 0; 
 	margin: 15px 0 0; 
 	text-align: right; 
+	font-weight: bold;
 }
  
                                   
@@ -707,3 +758,113 @@ margin:auto;
  border:1px dotted black;
  padding:1px;
 }
+
+.navigation {
+    display: block;
+    margin: 1em auto;
+    text-align: center;
+    width: 99.9%;
+}
+
+.button_nav {
+    background: url("../images/previous.png") no-repeat scroll 0 0 transparent;
+    color: #000000;
+    display: block;
+    font-size: 12px;
+    margin: 10px auto;
+    padding: 3px 5px 5px 9px;
+    text-align: center;
+    text-decoration: none;
+    width: 87px;
+}
+
+.export {
+    display: block;
+    margin: 1em auto;
+    text-align: center;
+    width: 99.9%;
+}
+
+.button_export {
+    background: url("../images/excel.png") no-repeat 10% 50% transparent;
+    display: block;
+   	float:right;
+    font-size: 12px;
+    padding: 3px 5px 5px 9px;
+    text-align: center;
+    text-decoration: none;
+    width: 87px;
+    border:1px solid;
+}
+
+.campi_obbligatori{
+	margin:1px auto;
+	text-align: center;
+}
+
+
+/*NUOVO STILE FORM*/
+
+#form_small {  
+  font:100% verdana,arial,sans-serif;
+  background: #eee;
+  border:1px solid;  	
+  margin: auto;
+  padding: 0px 0px 10px 0px;
+  width: 560px;
+}
+
+#form_small label { 
+	float: left; 
+	width: 150px; 
+	padding: 0; 
+	margin: 15px 0 0; 
+	text-align: right; 
+	font-weight: bold;
+}
+ 
+                                  
+
+#form_small input, select {
+	border:1px solid;
+	width:auto;     
+	margin:15px 0 0 10px; 
+}
+
+#form_small input#reset {
+	margin-left:0px; 
+}
+
+#form_small .txt_s {
+	height: 16px;
+	font-size: 11px;
+	width:40px;
+	border:1px solid;
+}
+  
+#form_small .txt_m {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+}
+
+#form_small .txt_xxl {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:245px;
+}
+
+#form_small .txt_date {
+	height: 16px;
+	font-size: 11px;
+	border:1px solid;
+	width:58px;
+}
+
+#button_dx_inlinea{
+	float:right;	
+	margin: 0px 0px 10px;
+}
+
+

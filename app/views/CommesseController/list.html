@@ -50,6 +50,12 @@
 		</span>
 		<p class="error">${flash.error}</p>
 	</div>
+	<div style="float:right; border:1px solid; margin:0px 16px 10px 0px;">
+			#{form @CommesseController.create()}
+       	 		<input type="submit" class="button_aggiungi_risorsa" value="Aggiungi" />
+			#{/form}
+			
+		</div>
 	<table class="table_center">
 	   <thead>
 			<tr>
@@ -104,6 +110,3 @@
 #{else}
 	<center><h2>Non sono presenti commesse nel sistema.</h2></center>
 #{/else}
-<div id="buttonSubmit_center">
-	#{a @CommesseController.create()}<input type="button" class="button_submit" value="Aggiungi"/>#{/a}
-</div>

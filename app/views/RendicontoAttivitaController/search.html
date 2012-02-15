@@ -30,18 +30,19 @@
 </script>
  					
 <h2>Ricerca Rapportino</h2>
-#{form @RendicontoAttivitaController.result()}
-	<div id="edit">
 		#{ifErrors}
 		    <p class="error">
 		        ${errors[0]} 
 		    </p>
 		#{/ifErrors}
-	
 		<p class="error">${flash.error}</p>
-	    <ul>
-			<li>
-		   		<label for="dataInizio">Data:</label>
+#{form @RendicontoAttivitaController.result()}
+	<div id="form_small">
+		<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		<table class="table_form">
+    	<tr>
+		   		<td><label for="dataInizio">&#42; Data:</label></td>
+				<td>
 				#{select 'mese', value:mese}
 					#{option 0}GEN#{/option}
 					#{option 1}FEB#{/option}
@@ -57,16 +58,21 @@
 					#{option 11}DIC#{/option}
 				#{/select}
 				#{select 'anno', items:listaAnni, labelProperty:'anno', valueProperty:'anno', value:anno /}
-			</li>
-			<li>
-				<label for="risorsa">Risorsa</label>
-			    <input type="text" class="txt_m" name="risorsa" id="risorsa" />
-			    <input type="hidden" name="idRisorsa" id="idRisorsa" />
-			</li>
-	    </ul>    
+			   </td>
+			</tr>
+			<tr>
+				<td><label for="risorsa">&#42; Risorsa</label></td>
+			    <td><input type="text" class="txt_m" name="risorsa" id="risorsa" /></td>
+			    
+			</tr>
+	    </table>
+	    <input type="hidden" name="idRisorsa" id="idRisorsa" />    
 	</div>
 	<div id="button_center">
 		<input type="submit" class="submitbutton" value="Ricerca" />
-	    #{a @RendicontoAttivitaController.index()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
+	   
 	</div>
 #{/form}
+<div class="navigation">
+<a class="button_nav" href="@{RendicontoAttivitaController.index()}">Indietro</a>
+</div>
