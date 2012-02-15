@@ -208,6 +208,19 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 		return listaCommesse;
 	}
 	
+	public static List<CommessaACorpo> findCommesseACorpo() {
+		List<CommessaACorpo> listaCommesseACorpo = new ArrayList<CommessaACorpo>();
+		List<Commessa> listaCommesse = Commessa.findAll();
+		if (listaCommesse != null && !listaCommesse.isEmpty()){
+		   for(Commessa c: listaCommesse){
+			   if(c instanceof CommessaACorpo){
+				   listaCommesseACorpo.add((CommessaACorpo) c);
+			   }
+		   }
+		}
+		 return listaCommesseACorpo;
+	}
+	
 	public static List<CommessaACorpo> findCommesseACorpoPerRisorsa(int mese,
 			int anno, Risorsa risorsa) {
 		List<CommessaACorpo> listaCommesse = new ArrayList<CommessaACorpo>();

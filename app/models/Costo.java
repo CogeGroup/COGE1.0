@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,9 +45,7 @@ public class Costo extends GenericModel {
 	@ManyToOne
 	public Risorsa risorsa;
 	
-	public Costo() {
-		// TODO Auto-generated constructor stub
-	}
+	public Costo() {}
 
 	public Costo(Float importoGiornaliero, Float importoMensile, Date dataInizio, Risorsa risorsa) {
 		super();
@@ -164,7 +163,6 @@ public class Costo extends GenericModel {
 		for (RendicontoAttivita rendicontoAttivita : rendicontoAttivitas) {
 			tot += rendicontoAttivita.oreLavorate;
 		}
-		// TODO importoGiornaliero?
 		return (costo.importoGiornaliero/8) * tot;
 	}
 	
@@ -193,6 +191,44 @@ public class Costo extends GenericModel {
 		return result.get(result.size() - 1);
 	}
 	
+	// mio
+	public static List<Costo> findAllByRisorsaAndPeriodo(Risorsa risorsa, Date dataInizio, Date dataFine) {
+		JPAQuery query = Costo.find("from Costo c where c.risorsa = :risorsa and c.dataInizio <= :dataFine and (c.dataFine is null or c.dataFine >= :dataInizio)");
+		query.bind("risorsa", risorsa);
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine);
+		return query.fetch();
+	}
+	
+	public static Float calcolaCostoTotale(Commessa commessa, Date dataFine){
+		Float costoTotale = 0F;
+		Date dataInizioPeriodo = commessa.dataInizioCommessa;
+		Date dataFinePeriodo = new Date();
+		if(commessa.dataFineCommessa != null && commessa.dataFineCommessa.before(dataFine)) {
+			dataFinePeriodo = commessa.dataFineCommessa;
+		} else {
+			dataFinePeriodo = dataFine;
+		}
+		List<Risorsa> listaRisorse = Risorsa.findByCommessa(commessa);
+		for(Risorsa r: listaRisorse){
+			Float costoRisorsa = 0F;
+			List<Map> periodo = MyUtility.calcolaMesi(dataInizioPeriodo, dataFinePeriodo);
+			for(Map<String,Integer> mappa: periodo){
+				Costo c = Costo.extractCostoByMeseAndAnno(r, mappa.get("mese") - 1, mappa.get("anno"));
+				if(c != null){
+					if(c.importoMensile != null){
+						costoRisorsa = c.importoMensile;
+					} else {
+						int m = MyUtility.getMeseFromDate(c.dataInizio) + 1;
+						int a = MyUtility.getAnnoFromDate(c.dataInizio);
+						costoRisorsa = totaleCosto(c, r, m - 1, a);
+					}
+				}
+				costoTotale += costoRisorsa;
+			}
+		}
+		return costoTotale;
+	}
 	
 }
 

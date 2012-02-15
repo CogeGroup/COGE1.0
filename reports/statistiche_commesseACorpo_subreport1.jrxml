@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_commesseACorpo_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="MESE" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ANNO" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_FINE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DATA_INIZIO" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT concat(r.cognome,' ',r.nome) AS risorsa,
+IF(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.importoMensile) AS costo_totale,
+SUM(ricavo(t.importoGiornaliero,ra.oreLavorate)) AS ricavo_totale
+FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra
+WHERE com.idCommessa = $P{ID}
+AND ra.mese= $P{MESE}
+AND ra.anno= $P{ANNO}
+AND ra.commessa_idCommessa = com.idCommessa
+AND ra.risorsa_idRisorsa = r.idRisorsa
+AND ra.costo_idCosto = c.idCosto
+AND t.risorsa_idRisorsa = r.idRisorsa
+AND t.commessa_idCommessa = ra.commessa_idCommessa
+AND ((t.dataInizio <= $P{DATA_INIZIO} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio <= $P{DATA_INIZIO} AND t.dataFine >= $P{DATA_INIZIO} AND t.dataFine <= $P{DATA_FINE}) OR (t.dataInizio >= $P{DATA_INIZIO} AND t.dataInizio <= $P{DATA_FINE} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio > $P{DATA_INIZIO} AND t.dataFine < $P{DATA_FINE}))
+GROUP BY idRisorsa]]>
+	</queryString>
+	<field name="risorsa" class="java.lang.String"/>
+	<field name="costo_totale" class="java.lang.String"/>
+	<field name="ricavo_totale" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="23">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="2" width="184" height="20" forecolor="#000000" backcolor="#99CDFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Risorsa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="186" y="2" width="184" height="20" backcolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Costo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="371" y="2" width="184" height="20" backcolor="#33CC00"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ricavo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="1" width="556" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="555" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="185" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="370" y="2" width="1" height="20"/>
+			</line>
+			<line>
+				<reportElement x="0" y="22" width="555" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="2" width="182" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{risorsa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="2" width="182" height="18" forecolor="#FF0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{costo_totale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="2" width="182" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ricavo_totale}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="21" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement x="370" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="21"/>
+			</line>
+			<line>
+				<reportElement x="185" y="0" width="1" height="21"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

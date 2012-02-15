@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.map.HashedMap;
 
 public class MyUtility {
 
@@ -62,6 +66,13 @@ public class MyUtility {
 		 return calendar.getTime();
 	 }
     
+    public static Date addOneMonth(Date original) {
+		 Calendar calendar = Calendar.getInstance();
+		 calendar.setTime(original);
+		 calendar.add(Calendar.MONTH, +1);
+		 return calendar.getTime();
+	}
+    
     public static String dateToString(Date date) {
     	return new SimpleDateFormat("dd-MM-yyyy").format(date);
     }
@@ -86,6 +97,19 @@ public class MyUtility {
 			e.printStackTrace();
 		}
     	return number.doubleValue();
+    }
+    
+    public static List calcolaMesi(Date dataInizio, Date dataFine) {
+    	List lista = new ArrayList();
+    	Map<String,Integer> mappa = new HashMap<String,Integer>();
+    	while(dataInizio.before(dataFine)){
+    		mappa = new HashMap<String,Integer>();
+    		mappa.put("mese", getMeseFromDate(dataInizio) + 1);
+	    	mappa.put("anno", getAnnoFromDate(dataInizio));
+	    	lista.add(mappa);
+    		dataInizio = addOneMonth(dataInizio);
+    	}
+    	return lista;
     }
 
 }

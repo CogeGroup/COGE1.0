@@ -3,6 +3,7 @@ package models;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -183,13 +184,13 @@ public class Tariffa extends GenericModel{
 	public static Tariffa findByRisorsaAndCommessaAndData(int mese,int anno,Risorsa risorsa,Commessa commessa){
 		Tariffa tariffa = null;
 		try {
-			Date dataInizioRapporto = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
-			Date dataFineRapporto = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+			Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+			Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
 			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataFineRapporto and (t.dataFine is null or t.dataFine >= :dataInizioRapporto)");
 			query.bind("commessa", commessa);
 			query.bind("risorsa",risorsa);
-			query.bind("dataInizioRapporto", dataInizioRapporto);
-			query.bind("dataFineRapporto", dataFineRapporto);
+			query.bind("dataInizioRapporto", dataInizio);
+			query.bind("dataFineRapporto", dataFine);
 			Object t = query.first();
 			if (t != null){
 				tariffa = (Tariffa)t;
@@ -247,4 +248,27 @@ public class Tariffa extends GenericModel{
     		tariffa.save();
 		}
     }
+    
+    public static Float calcolaRicavoTotale(Commessa commessa, Date dataFine){
+		Float ricavoTotale = 0F;
+		Date dataInizioPeriodo = commessa.dataInizioCommessa;
+		Date dataFinePeriodo = new Date();
+		if(commessa.dataFineCommessa != null && commessa.dataFineCommessa.before(dataFine)) {
+			dataFinePeriodo = commessa.dataFineCommessa;
+		} else {
+			dataFinePeriodo = dataFine;
+		}
+		List<Risorsa> listaRisorse = Risorsa.findByCommessa(commessa);
+		for(Risorsa r: listaRisorse){
+			List<Map> periodo = MyUtility.calcolaMesi(dataInizioPeriodo, dataFinePeriodo);
+			for(Map<String,Integer> mappa: periodo){
+				int mese = mappa.get("mese");
+				int anno = mappa.get("anno");
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese - 1, anno, r, commessa);
+				Float oreLavorate = RendicontoAttivita.getOreByDateAndRisorsaAndCommessa(mese,anno,r,commessa);
+				ricavoTotale += t.calcolaRicavoTariffa(oreLavorate);
+			}
+		}
+		return ricavoTotale;
+	}
 }

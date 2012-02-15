@@ -177,7 +177,7 @@ public class RendicontoAttivitaController extends Controller {
 							rendicontoAttivita.rapportoLavoro = ral;
 						}
 						rendicontoAttivita.costo = Costo.extractByRisorsaAndPeriodo(risorsa, rendicontoAttivita.rapportoLavoro.dataInizio, rendicontoAttivita.rapportoLavoro.dataFine,
-								MyUtility.MeseEdAnnoToDataFine(mese, anno));
+								MyUtility.MeseEdAnnoToDataFine(mese + 1, anno));
 						if(oreLavorate > 0){
 							for (RendicontoAttivita ra : listaRendicontoAttivita) {
 								if(ra.commessa.idCommessa == rendicontoAttivita.commessa.idCommessa && ra.rapportoLavoro != null 
