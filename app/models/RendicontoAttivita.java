@@ -142,6 +142,18 @@ public class RendicontoAttivita extends GenericModel {
 		return listaRendicontoAttivita;
 	}
 	
+	public static Float getOreByDateAndRisorsaAndCommessa(int mese,int anno,Risorsa risorsa,Commessa commessa){
+		String queryString = "SELECT ra.oreLavorate" +
+				" FROM RendicontoAttivita ra" +
+				" WHERE ra.mese = " + mese + 
+				" AND ra.anno = " + anno +
+				" AND ra.risorsa_idRisorsa = " + risorsa.idRisorsa +
+				" AND ra.commessa_idCommessa = " + commessa.idCommessa;
+		Session session = (Session)JPA.em().getDelegate();
+		Float ore = (Float) session.createSQLQuery(queryString).uniqueResult();
+		return ore == null ? 0F : ore;
+	}
+	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
 							"from TipoRapportoLavoro trl, RendicontoAttivita ra "+
@@ -215,7 +227,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratori(String mese,String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
-							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"from TipoRapportoLavoro trl, Gruppo_Commessa gc, Gruppo g, RendicontoAttivita ra "+
 							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
 							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
 							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
@@ -224,8 +236,8 @@ public class RendicontoAttivita extends GenericModel {
 							"and ra.mese = " + mese + " " +
 							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
 							"and trl.codice = 'CCP' "+
-							"and c.idCommessa = gc.commesse_idcommessa "+
-							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and c.idCommessa = gc.commesse_idCommessa "+
+							"and gc.Gruppo_idGruppo = g.idGruppo "+
 							"and g.codice = 'CoCoPro' "+														 							
 							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
 							"order by r.cognome,r.nome";
@@ -254,7 +266,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliCollaboratoriAnno(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
-							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"from TipoRapportoLavoro trl, Gruppo_Commessa gc, Gruppo g, RendicontoAttivita ra "+
 							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
 							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
 							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
@@ -262,8 +274,8 @@ public class RendicontoAttivita extends GenericModel {
 							"and ra.anno = " + anno + " " +
 							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
 							"and trl.codice = 'CCP' "+
-							"and c.idCommessa = gc.commesse_idcommessa "+
-							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and c.idCommessa = gc.commesse_idCommessa "+
+							"and gc.Gruppo_idGruppo = g.idGruppo "+
 							"and g.codice = 'CoCoPro' "+														 							
 							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
 							"order by r.cognome,r.nome";
@@ -292,7 +304,7 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheDettaglioAssenzaRetribuitaCollaboratori(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
-							"from TipoRapportoLavoro trl, gruppo_commessa gc, Gruppo g, RendicontoAttivita ra "+
+							"from TipoRapportoLavoro trl, Gruppo_Commessa gc, Gruppo g, RendicontoAttivita ra "+
 							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
 							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
 							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
@@ -300,8 +312,8 @@ public class RendicontoAttivita extends GenericModel {
 							"and ra.anno = " + anno + " " +
 							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
 							"and trl.codice = 'CCP' "+
-							"and c.idCommessa = gc.commesse_idcommessa "+
-							"and gc.Gruppo_idgruppo = g.idGruppo "+
+							"and c.idCommessa = gc.commesse_idCommessa "+
+							"and gc.Gruppo_idGruppo = g.idGruppo "+
 							"and g.codice = 'CoCoPro' "+	
 							"and c.codice = 'ST-ASSR' "+								
 							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
