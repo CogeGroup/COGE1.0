@@ -2,6 +2,7 @@
 #{set title:'Lista Costi' /}
 
 <div id="detail">
+<h2>Costo</h2>
 	<ul>
 		<li><label>Nome: </label>${risorsa.nome}</li> 
 		<li><label>Cognome: </label>${risorsa.cognome}</li>
@@ -11,8 +12,8 @@
 		#{/if}
 	</ul>
 </div>
+<br />
 
-<h2>Costi</h2>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -44,7 +45,7 @@
 			#{if !risorsa.dataOut}
 				#{if paginator.size() == costo_index}
 					<td><a href="@{CostiController.edit(costo.idCosto)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-					<td><a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Continuare con la cancellazione?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+					<td><a href="@{CostiController.delete(costo.idCosto)}" onclick="return confirm('Sei sicuro?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 				#{/if}
 				#{else}
 					<td></td>
@@ -65,5 +66,8 @@
 	#{if !risorsa.dataOut}
 		<a id="create" href="@{CostiController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
-	<a href="@{RisorseController.search(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Indietro"/></a>
+	
+</div>
+<div class="navigation">
+<a class="button_nav" href="@{RisorseController.search(risorsa.idRisorsa)}">Indietro</a>
 </div>

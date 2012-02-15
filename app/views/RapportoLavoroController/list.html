@@ -2,6 +2,7 @@
 #{set title:'Rapporti lavoro' /}
 
 <div id="detail">
+<h2>Rapporto Lavoro</h2>
 	<ul>
 		<li><label>Nome: </label>${risorsa.nome}</li> 
 		<li><label>Cognome: </label>${risorsa.cognome}</li>
@@ -12,7 +13,7 @@
 	</ul>
 </div>
 
-<h2>Rapporto Lavoro</h2>
+<br />
 #{if flash.success}
     <p class="success">${flash.success}</p>
 #{/if}
@@ -65,17 +66,13 @@
  #{/else}
 
 
-<div id="buttonSubmitDouble_center">
-	
+<div id="button_center">
 	#{if !risorsa.dataOut}
 		#{form @RapportoLavoroController.create(risorsa.idRisorsa)}
-	    
 	        <input type="submit" class="button_submit_double" value="Aggiungi" />
-	    
 		#{/form}
 	#{/if}
-	
-	#{form @RisorseController.search(risorsa.idRisorsa)} 
-	        <input type="submit" class="button_submit_double" value="Indietro" />
-	#{/form}
+</div>
+<div class="navigation">
+	<a class="button_nav" href="@{RisorseController.search(risorsa?.idRisorsa)}">Indietro</a>
 </div>

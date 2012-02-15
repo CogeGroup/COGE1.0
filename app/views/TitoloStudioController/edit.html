@@ -2,26 +2,29 @@
 #{set title:'Gestione Titolo di Studio' /}
 
 <h2>Modifica Titolo di Studio</h2>
-
-<div id="edit">
-#{form @TitoloStudioController.update()}
 	#{ifErrors}
 		<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-	<ul>
-		<li>
-	    	<label for="codice">Codice:</label>
-	        <input type="text" class="txt_m" name="titoloStudio.codice" id="codice" value="${titoloStudio.codice}"/>
-	    </li>
-	    <li>
-	        <label for="descrizione">Descrizione:</label>
-	        <input type="text" class="txt_m" name="titoloStudio.descrizione" id="descrizione" value="${titoloStudio.descrizione}"/>
-	    </li>
-	</ul>
+<div id="form_small">
+#{form @TitoloStudioController.update()}
+
+	 <p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		<table class="table_form">
+    	<tr>
+	    	<td><label for="codice">&#42; Codice:</label></td>
+	        <td><input type="text" class="txt_s" name="titoloStudio.codice" id="codice" value="${titoloStudio.codice}"/></td>
+	    </tr>
+	    <tr>
+	        <td><label for="descrizione">&#42; Descrizione:</label></td>
+	        <td><input type="text" class="txt_xxl" name="titoloStudio.descrizione" id="descrizione" value="${titoloStudio.descrizione}"/></td>
+	    </tr>
+	</table>
 </div>
 <div id="button_center">
 	<input type="hidden" name="titoloStudio.idTitoloStudio" value="${titoloStudio.idTitoloStudio}" />
 	<input type="submit" class="submitbutton" value="Salva" />
-    <a href="@{TitoloStudioController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
 </div>	
 #{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{TitoloStudioController.list()}">Indietro</a>
+</div>

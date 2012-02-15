@@ -21,8 +21,9 @@
 	});
 </script>
 
-<h2>Nuova tariffa</h2>
+
 <div id="detail">
+<h2>Nuova tariffa</h2>
 	<ul>
 		<li><label>Nome: </label>${tariffa.risorsa.nome}</li> 
 		<li><label>Cognome: </label>${tariffa.risorsa.cognome}</li>
@@ -32,21 +33,20 @@
 		#{/if}
 	</ul>
 </div>
-
-
-#{if listaCommesse.size() > 0}
-<div id="align_form_short">
-#{form @tariffeController.save()}
-	
+<br />
 	#{ifErrors}
         <p class="error">
 			${errors[0]}
 		</p>
     #{/ifErrors}
-	
-	  
-	    	<label for="dataInizio">Data Inizio:</label>
-			#{select 'tariffa.meseInizio', value:tariffa.meseInizio}
+#{if listaCommesse.size() > 0}
+<div id="form_small">
+#{form @tariffeController.save()}
+	<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+	<table class="table_form">
+	<tr>    
+	    	<td><label for="dataInizio">&#42; Data Inizio:</label></td>
+			<td>#{select 'tariffa.meseInizio', value:tariffa.meseInizio}
 				#{option 0}GEN#{/option}
 				#{option 1}FEB#{/option}
 				#{option 2}MAR#{/option}
@@ -62,13 +62,18 @@
 			#{/select}
 			
 			#{select 'tariffa.annoInizio', items:listaAnni, labelProperty:'tariffa.annoInizio', valueProperty:'tariffa.annoInizio', value:tariffa.annoInizio /}
-			<br />
-		
-	        <label for=importo>Importo giornaliero:</label>
-	        <input type="text" class="txt_s" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/>
-	        <br />
-	    	<label for="commessa">Commessa:</label>
-			#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}
+			
+		</td>
+		</tr>
+		<tr>
+	        <td><label for=importo>&#42; Importo giornaliero:</label></td>
+	        <td><input type="text" class="txt_m" name="tariffa.importoGiornaliero" value="${tariffa?.importoGiornaliero }"/></td>
+	    </tr>
+	    <tr>
+	    	<td><label for="commessa">&#42; Commessa:</label></td>
+			<td>#{select 'tariffa.commessa.idCommessa', items:listaCommesse, labelProperty:'codice', valueProperty:'idCommessa', value:tariffa.commessa.idCommessa /}</td>
+		</tr>
+		</table>
 	    	
 </div>
 <div id="button_center">
@@ -82,6 +87,9 @@
 	<a href="@{CommesseController.create()}">
 	<input type="button" class="submitbutton" value="Aggiungi nuovo Commessa" /></a>
 #{/else}
-<a href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">
-<input type="button" class="submitbutton" value="Indietro" /></a>
+
+</div>
+
+<div class="navigation">
+	<a class="button_nav" href="@{TariffeController.index(tariffa.risorsa.idRisorsa)}">Indietro</a>
 </div>

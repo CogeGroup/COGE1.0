@@ -1,6 +1,6 @@
 #{extends 'menu.html' /}
 #{set title:'Gestione Rapportini' /}
-
+<h2>Rapportino del: ${mese}-${anno}</h2>
 <div id="detail">
 	<ul>
 		<li><label>Nome: </label>${risorsa.nome}</li> 
@@ -11,13 +11,14 @@
 		#{/if}
 	</ul>
 </div>
+<br />
 
-<h2>Rapportino del: ${mese}-${anno}</h2>
-<div id="">
-	#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="button_submit" value="Inserisci nuovo rapportino"/>#{/a}
-	<br />
+<div id="button_dx_inlinea">
+	#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="button_submit" value="Nuovo rapportino"/>#{/a}
+	
 	#{a @RendicontoAttivitaController.search()}<input type="button" class="button_submit" value="Nuova ricerca"/>#{/a}
 </div>
+<div class="clear"></div>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -48,10 +49,14 @@
 	</div>
 #{/if}
 #{else}
-	<center><h2>Nessuna Attivita' presente</h2></center>
+	<center><h2>Nessuna Attivit&agrave; presente</h2></center>
 #{/else}
-<div id="buttonSubmit_center">
+<div id="button_center">
 	#{a @RendicontoAttivitaController.aggiungiAttivita(risorsa.idRisorsa,mese,anno)}<input type="button" class="button_submit" value="Aggiungi attivita'"/>#{/a}
 	
-	<input type="button" class="button_submit" value="Indietro" onClick="history.back()"/>
+	
+</div>
+
+<div class="navigation">
+<a class="button_nav" href="@{RendicontoAttivitaController.chooseRisorsa()}">Indietro</a>
 </div>

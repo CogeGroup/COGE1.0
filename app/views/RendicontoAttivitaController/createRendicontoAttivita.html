@@ -24,6 +24,7 @@
        $('#'+a).remove();
    	}
 </script>
+<h2>Inserimento Rapportino (2/2)</h2>
  <div id="detail">
 			<ul>
 				<li><label>Nome: </label>${risorsa.nome}</li> 
@@ -34,7 +35,7 @@
 				#{/if}
 			</ul>
 		</div>
-<h2>Inserimento Rapportino (2/2)</h2>
+<br />
 <div id="editRapportino">
 	#{form @rendicontoattivitacontroller.saveRendicontoAttivita()} 
 		#{ifErrors}
@@ -68,15 +69,18 @@
 		#{/if}
 	 	#{else}
 	   		<h3>Non vi sono commesse non fatturabili</h3>
-		#{/else}    
-	    
-	  	<div id="result"></div>
+		#{/else}   
+		<div id="result"></div> 
+	</div>    
+	  	
 		<div id="button_center">
 			<input type="hidden" name="anno" value="${anno}"/>
 			<input type="hidden" name="mese" value="${mese}"/>
 			<input type="hidden" name="idRisorsa" value="${idRisorsa}"/>
 			<input type="submit" class="submitbutton" value="Salva" />
-			#{a @RendicontoAttivitaController.chooseRisorsa()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
+			
 		</div>
 	#{/form}
-</div>
+	<div class="navigation">
+		<a class="button_nav" href="@{RendicontoAttivitaController.chooseRisorsa()}">Indietro</a>
+	</div>

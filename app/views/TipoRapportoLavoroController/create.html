@@ -3,31 +3,29 @@
 
 <h2>Nuovo Tipo Rapporto Lavoro</h2>
 
-
-<div id="edit">
 #{form @TipoRapportoLavoroController.save()}
  	#{ifErrors}
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-  <ul>
-    <li>
-        <label for="codice">Codice:</label>
-        <input type="text" class="txt_m" name="tipoRapportoLavoro.codice" id="codice" value="${tipoRapportoLavoro?.codice}"/>
-    </li>
-    <li>
-        <label for="descrizione">Descrizione:</label>
-        <input type="text" class="txt_m" name="tipoRapportoLavoro.descrizione" id="descrizione" value="${tipoRapportoLavoro?.descrizione}"/>
-    </li>
-  </ul>
+<div id="form_small">
+<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+  <table class="table_form">
+    <tr>
+        <td><label for="codice">&#42; Codice:</label></td>
+        <td><input type="text" class="txt_m" name="tipoRapportoLavoro.codice" id="codice" value="${tipoRapportoLavoro?.codice}"/><td>
+    </tr>
+    <tr>
+        <td><label for="descrizione">&#42; Descrizione:</label></td>
+        <td><input type="text" class="txt_m" name="tipoRapportoLavoro.descrizione" id="descrizione" value="${tipoRapportoLavoro?.descrizione}"/></td>
+    </tr>
+  </table>
 </div>
     
     <div id="button_center">
         <input type="submit" class="submitbutton" value="Salva" />
-    
-#{/form}
-#{form @TipoRapportoLavoroController.index()} 
-	
-        <input type="submit" class="submitbutton" value="Indietro" />
     </div>
-    
-#{/form}
+#{/form}    
+
+ <div class="navigation">
+ 	<a class="button_nav" href="@{TipoRapportoLavoroController.index()}">Indietro</a>
+</div>

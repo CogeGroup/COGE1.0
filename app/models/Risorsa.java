@@ -205,10 +205,10 @@ public class Risorsa extends GenericModel {
 			if(risorsa2.dataFineContratto == null) {
 				return true;
 			}
-			if(dataFineContratto != null && !((Date) dataFineContratto).equals(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine)) {
-				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine));
-				return false;
-			}
+//			if(dataFineContratto != null && !((Date) dataFineContratto).equals(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine)) {
+//				setMessage(message, MyUtility.dateToString(risorsa2.rapportiLavoro.get(risorsa2.rapportiLavoro.size() - 1).dataFine));
+//				return false;
+//			}
 			return true;
 		}
 	}

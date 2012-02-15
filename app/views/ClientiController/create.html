@@ -2,27 +2,30 @@
 #{set title:'Aggiungi nuovo cliente' /}
 
 <h2>Nuovo cliente</h2>
-<div id="align_form_short">
-#{form @ClientiController.save()}
-	
 	#{ifErrors}
         <p class="error">
 			${errors[0]}
 		</p>
     #{/ifErrors}
-  <ul>
-		<li>
-	        <label for="codice">Codice cliente:</label>
-	        <input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/>
-	    </li>
-	    <li>
-	        <label for="nominativo">Nominativo:</label>
-	        <input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" />
-	    </li>
-   </ul>
+<div id="form_small">
+#{form @ClientiController.save()}
+	<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+	<table class="table_form">
+		<tr>    
+	        <td><label for="codice">Codice cliente:</label></td>
+	        <td><input type="text" class="txt_m" id="codice" name="cliente.codice" value="${cliente.codice }"/><td>
+	    </tr>
+	    <tr>
+	        <td><label for="nominativo">Nominativo:</label></td>
+	        <td><input type="text" class="txt_m" id="nominativo" name="cliente.nominativo" value="${cliente.nominativo }" /><td>
+	    </tr>
+  </table>
 </div>
 <div id="button_center">
         <input type="submit" class="submitbutton" value="Salva" />
 	#{/form}
-		<a href="@{ClientiController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+		
+</div>
+<div class="navigation">
+	<a class="button_nav" href="@{ClientiController.list()}">Indietro</a>
 </div>

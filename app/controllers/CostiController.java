@@ -67,7 +67,7 @@ public class CostiController extends Controller {
     public static void delete(Integer idCosto){
     	Costo costo = Costo.findById(idCosto);
     	costo.delete();
-    	flash.success("Costo rimosso con successo");
+    	flash.success("Costo eliminato con successo");
     	list(costo.risorsa.idRisorsa);
     }
 }

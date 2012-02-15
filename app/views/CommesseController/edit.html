@@ -54,19 +54,19 @@
 </script>
 
 <h2>Modifica commessa</h2>
-<div id="align_form">
-#{form @CommesseController.update()}
-	
 	#{ifErrors}
         <p class="error">
 			${errors[0]}
 		</p>
     #{/ifErrors}
+<div id="form_small">
+#{form @CommesseController.update()}
+	<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
  
-   	<label for="codice">Codice commessa:</label>
+   	<label for="codice">&#42; Codice commessa:</label>
    	<input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }"/>
    	<br />
-   	<label for="descrizione">Descrizione: </label>
+   	<label for="descrizione">&#42; Descrizione: </label>
    	<input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
    	<br />
   	<label for="calcoloCosti">Calcola costi: </label>
@@ -75,7 +75,7 @@
 	<label for="calcoloRicavi">Calcola ricavi: </label>
 	<input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true"  onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
 	<br />
-  	<label for="tipoCommessa">Tipo commessa: </label>
+  	<label for="tipoCommessa">&#42; Tipo commessa: </label>
 	#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa }
 		#{option ''}- selezionare -#{/option}
 	#{/select}
@@ -86,7 +86,7 @@
 	<label for=dataFineCommessa>Data fine: </label>
     <input type="text" class="datepicker" name="commessa.dataFineCommessa" value="${commessa.dataFineCommessa?.format('dd-MM-yyyy') }"/>
 	<br />
-    <label for="cliente">Cliente: </label>
+    <label for="cliente">&#42; Cliente: </label>
     #{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
     <br />
     <span id="gruppi" #{if commessa.calcoloRicavi == true}
@@ -96,11 +96,14 @@
 				      	style="display: block"
 				      #{/else}
 				      >
-	<label for="gruppo">Gruppo:</label>
+	<div style="width:400px;">
+     <br />		      
+	<label for="gruppo">&#42; Gruppo:</label>
 	<input type="text" class="txt_m" id="gruppo" name="gruppo" />
-	<br /></span>
+	 </div>
+	</span>
 	
-    <label for="aCorpo">A corpo: </label>
+    <label for="aCorpo">&#42; A corpo: </label>
 	    <span class="checkbox">
         SI <input type="radio" id="aCorpo" name="aCorpo" value="si" #{if commessa instanceof models.CommessaACorpo}checked="checked"#{/if} onclick="toggle_visibility_true('divACorpo');"/>
         NO <input type="radio" id="aCorpo" name="aCorpo" value="no" #{if !(commessa instanceof models.CommessaACorpo)}checked="checked"#{/if} onclick="toggle_visibility_false('divACorpo');"/>
@@ -109,7 +112,7 @@
 	    	<span class="linea">
 		    	<hr>
 		    </span>
-			<label for=importo>Importo: </label>
+			<label for=importo>&#42; Importo: </label>
 		    <input type="text" class="txt_s" name="importo" value="${importo }"/>
 		    <br /><br />
 		</div>
@@ -120,5 +123,10 @@
 		<input type="hidden" name="commessa.idCommessa" value="${commessa.idCommessa }" />
 	    <input type="submit" class="submitbutton" value="Salva" />
 #{/form}
-		<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+		
 	</div>
+	
+	<div class="navigation">
+		<a class="button_nav" href="@{CommesseController.list()}">Indietro</a>
+	</div>
+	

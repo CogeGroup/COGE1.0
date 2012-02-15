@@ -14,6 +14,7 @@
 </script> 
 
 <div id="detail">
+<h2>Tariffa</h2>
 	<ul>
 		<li><label>Nome: </label>${risorsa.nome}</li> 
 		<li><label>Cognome: </label>${risorsa.cognome}</li>
@@ -23,8 +24,8 @@
 		#{/if}
 	</ul>
 </div>
+<br />
 
-<h2>Gestione Tariffe</h2>
 #{if flash.success}
    	<p class="success">${flash.success}</p>
 #{/if}
@@ -80,5 +81,9 @@
 	#{if !risorsa.dataOut}
 		<a id="create" href="@{TariffeController.create(risorsa.idRisorsa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
 	#{/if}
-	<a id="create" href="@{RisorseController.search(risorsa.idRisorsa)}"><input type="button" class="button_submit_double" value="Indietro"/></a>
+	
+</div>
+<div class="navigation">
+	<a class="button_nav" id="create" href="@{RisorseController.search(risorsa.idRisorsa)}">Indietro</a>
+
 </div>

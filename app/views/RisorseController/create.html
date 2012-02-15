@@ -66,16 +66,13 @@
     });
 	
 </script>  
-
-<h2>Aggiungi Risorsa</h2>
-<div id="align_form">
 #{ifErrors}
     <p class="error">${errors[0]}</p>
 #{/ifErrors}
-
+<h2>Aggiungi Risorsa</h2>
+<div id="align_form">
 #{form @RisorseController.save()}
-   		<label style="color: RED;">* Campi obligatori</label><br />
-   		
+   		<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
         <label for="codice">* Codice:</label>
         <input type="text" class="txt_s"  name="risorsa.codice" id="codice" value="${risorsa?.codice}"/><br />
    
@@ -116,7 +113,7 @@
         <input type="text" class="txt_xl"  name="risorsa.codiceFiscale" id="codiceFiscale" value="${risorsa?.codiceFiscale}"/><br />
         
         <label for="sesso">Sesso:</label>
-		<span class="radio">
+		<span class="radio" style="padding:10px;">
         	M <input type="radio" id="sesso" name="risorsa.sesso" value="M" #{if risorsa.sesso.equals("M")}checked="checked"#{/if} />
         	F <input type="radio" id="sesso" name="risorsa.sesso" value="F" #{if risorsa.sesso.equals("F")}checked="checked"#{/if} />
 	    </span><br />	
@@ -125,13 +122,14 @@
         <input type="text" class="datepicker" name="risorsa.dataNascita" value="${risorsa?.dataNascita?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         
         <br />
+        <div style="width:400px;">
         <label for="titoloStudio">Titolo di Studio:</label>
-		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" /><br />
+		<input type="text" class="txt_s" style="width: 175px;" id="titoloStudio" name="titoloStudio" /><br />
 		
 		<br />
         <label for="certificazione">Certificazione:</label>
 		<input type="text" class="txt_xl" id="certificazione" name="certificazione" /><br />
-		
+		</div>
         <span id="livelloCCNL" #{if idTipoRapportoLavoro == idCoCoPro}
 				    			style="display: none"
 				    		#{/if}>
@@ -155,8 +153,8 @@
         <input type="submit" class="button_submit_double"  value="Aggiungi" />
 #{/form}
 
-#{form @RisorseController.list()} 
-        <input type="submit" class="button_submit_double" value="Indietro" />
-#{/form}
-
+</div>
+<div class="navigation">
+	<a class="button_nav" href="@{RisorseController.list()}">Indietro</a>
+	
 </div>

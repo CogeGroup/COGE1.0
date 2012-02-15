@@ -49,6 +49,12 @@
 			</span>
 			<p class="error">${flash.error}</p>
 		</div>
+		<div style="float:right; border:1px solid; margin:0px 16px 10px 0px;">
+			#{form @RisorseController.create()}
+       	 		<input type="submit" class="button_aggiungi_risorsa" value="Aggiungi Risorsa" />
+			#{/form}
+		</div>
+		<div class="clear"></div>
 		<table class="table_center">
 		   <thead>
 			<tr>
@@ -91,16 +97,7 @@
     <div>Nessuna Risorsa presente</div>
 #{/else}
 
-<div id="buttonSubmit_center">
-#{form @RisorseController.create()}
-   
-        <input type="submit" class="button_submit_double" value="Aggiungi Risorsa" />
-  
-#{/form}
 
-#{form @RisorseController.export()}
-   
-        <input type="submit" class="button_submit_double" value="Esporta Risorse" />
-  
-#{/form}
-<div>
+<div class="export">
+<a class="button_export" href="@{RisorseController.export()}">Esporta</a>
+</div>

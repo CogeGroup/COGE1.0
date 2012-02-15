@@ -2,25 +2,29 @@
 #{set title:'Gestione Gruppi' /}
 
 <h2>Nuovo Gruppo</h2>
-
-<div id="edit">
-#{form @GruppiController.save()}
-	#{ifErrors}
+#{ifErrors}
 		<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-	<ul>
-		<li>
-	    	<label for="codice">Codice:</label>
-	        <input type="text" class="txt_m" name="gruppo.codice" id="codice" value="${gruppo?.codice}"/>
-	    </li>
-	    <li>
-	        <label for="descrizione">Descrizione:</label>
-	        <input type="text" class="txt_m" name="gruppo.descrizione" id="descrizione" value="${gruppo?.descrizione}"/>
-	    </li>
-	</ul>
+<div id="form_small">
+#{form @GruppiController.save()}
+	
+	 <p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
+		<table class="table_form">
+    	<tr>
+	    	<td><label for="codice">&#42; Codice:</label></td>
+	        <td><input type="text" class="txt_m" name="gruppo.codice" id="codice" value="${gruppo?.codice}"/></td>
+	    </tr>
+	    <tr>
+	       <td> <label for="descrizione">&#42; Descrizione:</label></td>
+	        <td><input type="text" class="txt_m" name="gruppo.descrizione" id="descrizione" value="${gruppo?.descrizione}"/></td>
+	    </tr>
+	</table>
 </div>
 <div id="button_center">
 	<input type="submit" class="submitbutton" value="Salva" />
-    <a href="@{GruppiController.list()}"><input type="button" class="submitbutton" value="Indietro" /></a>
+   
 </div>	
 #{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{GruppiController.list()}">Indietro</a>
+</div>
