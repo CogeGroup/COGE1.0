@@ -22,8 +22,8 @@
 	<parameter name="RICAVO" class="java.util.List"/>
 	<queryString>
 		<![CDATA[SELECT cmm.idCommessa AS id, cmm.codice AS nome, cl.nominativo AS cliente, cmm.importo AS valore
-FROM `commessa` cmm, `cliente` cl
-WHERE cmm.DTYPE = 'CommessaACorpo' AND cmm.cliente_idCliente = cl.idcliente]]>
+FROM `Commessa` cmm, `Cliente` cl
+WHERE cmm.DTYPE = 'CommessaACorpo' AND cmm.cliente_idCliente = cl.idCliente]]>
 	</queryString>
 	<field name="nome" class="java.lang.String"/>
 	<field name="cliente" class="java.lang.String"/>
