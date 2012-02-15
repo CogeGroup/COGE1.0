@@ -18,15 +18,12 @@
 		});
   });
 </script>  		  
-
-<div id="edit">
-
-
 #{form @StatisticheController.showCommesse()}
-<ul>
-   
-    <li>
-    <label for="data">Mese:</label>
+<div id="form_small">
+<table class="table_form">
+    <tr>
+    <td><label for="data">Mese:</label></td>
+    	<td>
     	<select name="mese">
     	<option value="1">GENNAIO</option>
     	<option value="2">FEBBRAIO</option>
@@ -40,30 +37,20 @@
     	<option value="10">OTTOBRE</option>
     	<option value="11">NOVEMBRE</option>
     	<option value="12">DICEMBRE</option>
-    	
     	</select>
-    </li>
-     <li>
-    	<label for="anno">Anno:</label>
-		#{select  'anno', items:listaAnni}
-		#{/select}
-	</li>
+    	</td>
     
-    
-    
-  
-	</ul>
+     <tr>
+    	<td><label for="anno">Anno:</label></td>
+		<td>#{select  'anno', items:listaAnni}#{/select}</td>
+	</tr>
+</table>
 </div>
 <div id="button_center">	
         <input type="submit" class="submitbutton" value="Invia" />
-    
-    
+</div>
 #{/form}
-
-#{form @StatisticheController.index()} 
-	
-        <input type="submit" class="submitbutton" value="Indietro" />
-    
-#{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{StatisticheController.index()}">Indietro</a>
 </div>
 	

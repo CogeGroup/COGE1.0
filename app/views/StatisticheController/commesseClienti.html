@@ -2,34 +2,20 @@
 #{set title:'Statistiche Commesse Clienti' /}
 
  		  
-
-<div id="edit">
-
-
 #{form @StatisticheController.showCommesseClienti()}
-<ul>
-   
-  
-     <li>
-    	<label for="anno">Anno:</label>
-		#{select  'anno', items:listaAnni}
-		#{/select}
-	</li>
-    
-    
-    
-  
-	</ul>
+<div id="form_small">
+<table class="table_form">
+    <tr>
+    	<td><label for="anno">Anno:</label></td>
+		<td>#{select  'anno', items:listaAnni}
+		#{/select}</td>
+	</tr>
+	</table>
 </div>
 <div id="button_center">	
         <input type="submit" class="submitbutton" value="Invia" />
-    
-    
-#{/form}
-
-#{form @StatisticheController.index()} 
-	
-        <input type="submit" class="submitbutton" value="Indietro" />
-    
-#{/form}
 </div>
+#{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{StatisticheController.index()}">Indietro</a>
+</div>	
