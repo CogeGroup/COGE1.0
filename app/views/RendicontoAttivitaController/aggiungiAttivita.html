@@ -71,15 +71,16 @@
 		#{/if}
  		#{else}
    			<center><h3> Non vi sono commesse non fatturabili.</h3></center>
-		#{/else}    
-    
-  		<div id="result"></div>
+		#{/else}   
+		<div id="result"></div> 
+</div>
   		<div id="button_center">   
   			<input type="hidden" name="anno" value="${anno}"/>
        		<input type="hidden" name="mese" value="${mese}"/>
         	<input type="hidden" name="idRisorsa" value="${idRisorsa}"/>    
  			<input type="submit" class="submitbutton" value="Aggiorna" />
- 			#{a @RendicontoAttivitaController.dettaglio(idRisorsa,(mese+1),anno)}<input type="button" class="submitbutton" value="Indietro" />#{/a}
  		</div>
 	#{/form}
-</div>
+	<div class="navigation">
+			<a class="button_nav" href="@{RendicontoAttivitaController.dettaglio(idRisorsa,(mese+1),anno)}">Indietro</a>
+			</div>
