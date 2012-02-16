@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import javax.persistence.PersistenceException;
 
 import models.Certificazione;
@@ -13,9 +15,8 @@ import secure.SecureCOGE;
 public class CertificazioniController extends Controller {
 
     public static void list() {
-    	ValuePaginator paginator = new ValuePaginator(Certificazione.findAll());
-    	paginator.setPageSize(10);
-        render(paginator);
+    	List<Certificazione> lista = Certificazione.findAll();
+        render(lista);
     }
     
     public static void show(Integer idCertificazione) {

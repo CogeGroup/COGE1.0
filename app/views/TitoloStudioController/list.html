@@ -5,7 +5,7 @@
 <p class="success">${flash.success}</p>
 <p class="error">${flash.error}</p>
 
-#{if paginator.size() > 0}
+#{if lista.size() > 0}
 	<table class="table_center">
 		<thead>
 			<tr>
@@ -15,18 +15,15 @@
 				<th scope="col">Elimina</th>
 			</tr>
 		</thead>
-		#{paginate.list items:paginator, as:'titoloStudio'} 
+		#{list items:lista, as:'titoloStudio'} 
 			<tr>
 				<td><a href="@{TitoloStudioController.show(titoloStudio.idTitoloStudio)}">${titoloStudio.codice }</a></td>
 				<td>${titoloStudio.descrizione }</td>
 				<td><a href="@{TitoloStudioController.edit(titoloStudio.idTitoloStudio)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
 				<td><a href="@{TitoloStudioController.delete(titoloStudio.idTitoloStudio)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			</tr>
-		#{/paginate.list} 
+		#{/list} 
 	</table>
-	<div id="datatable">
-		#{paginate.controls items:paginator /}
-	</div>
 #{/if}
 #{else}
 	<center><h2>Nessuna Certificazione esistente</h2></center>

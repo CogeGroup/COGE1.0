@@ -31,14 +31,13 @@ public class TitoloStudioController extends Controller {
     }
     
     public static void list() {
-    	ValuePaginator paginator = new ValuePaginator(TitoloStudio.findAll());
-    	paginator.setPageSize(10);
-        render(paginator);
+    	List<TitoloStudio> lista = TitoloStudio.findAll();
+        render(lista);
     }
     
     public static void show(Integer idTitoloStudio) {
-    	TitoloStudio certificazione = TitoloStudio.findById(idTitoloStudio);
-    	render(certificazione);
+    	TitoloStudio titoloStudio = TitoloStudio.findById(idTitoloStudio);
+    	render(titoloStudio);
     }
     
     public static void create() {

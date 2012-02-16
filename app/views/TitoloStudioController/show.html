@@ -6,48 +6,15 @@
 <div id="edit">
 	<ul>
 		<li>
-	        <label for="codice">Codice Certificazione: </label>
-	        ${certificazione.codice }
+	        <label for="codice">Codice titolo Studio: </label>
+	        ${titoloStudio.codice }
 	    </li>
 	    <li>
 	        <label for="descrizione">Descrizione: </label>
-	        ${certificazione.descrizione }
+	        ${titoloStudio.descrizione }
 	    </li>
 	</ul>
 </div>
-<br />
-<div id="risorse">
-	<center><h2>Risorse</h2></center>
-	#{if certificazione.listaRisorse == null || certificazione.listaRisorse.size() == 0}
-		<center><h4>Nessuna Risorsa possiede questo titolo di studio</h4></center>
-	#{/if}
-	#{else}
-	<table class="table_center">
-		<thead>
-			<tr>
-				<th scope="col">Codice</th>
-				<th scope="col">Nome</th>
-				<th scope="col">Cognome</th>
-				<th scope="col">Data In</th>
-				<th scope="col">Data Out</th>
-				<th scope="col">Stato</th>
-			</tr>
-		</thead>
-		#{list items:certificazione.listaRisorse, as:'risorsa'} 
-			<tr>
-				<td>${risorsa.codice}</td>
-				<td>${risorsa.nome}</td>
-				<td>${risorsa.cognome}</td>
-				<td>${risorsa.dataIn.format('dd-MM-yyyy') }</td>
-				<td>${risorsa.dataOut?.format('dd-MM-yyyy') }</td>
-				<td>${risorsa.tipoStatoRisorsa?.descrizione }</td>
-			</tr>
-		#{/list} 
-	</table>
-	#{/else}
-</div>
-
-	
 <div id="button_center">
 	<a href="@{TitoloStudioController.list()}"><input type="button" class="submitbutton" value="Lista titoli di studio" /></a>
 </div>	
