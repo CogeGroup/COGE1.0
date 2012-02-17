@@ -52,7 +52,7 @@
         <label for="risorse">Risorse: </label>
        	<ul>
 			#{list items:listaRisorse, as:'risorsa'}
-				<li><a href="@{ClientiController.show(risorsa.idRisorsa)}">${risorsa.codice } - ${risorsa.cognome } ${risorsa.nome }</a></li>
+				<li><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.codice } - ${risorsa.cognome } ${risorsa.nome }</a></li>
 			#{/list}
 		</ul>
     </li>
