@@ -267,7 +267,7 @@ public class RisorseController extends Controller {
         if(risorsa.save() != null) {
         	if(cv != null)
         		cv.delete();
-			flash.success("curriculum rimosso con successo");
+			flash.success("curriculum vitae rimosso con successo");
 		} else {
 			flash.error("si sono verificati dei problemi nel rimuovere il curriculum vitae");
 		}		 
