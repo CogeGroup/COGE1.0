@@ -49,7 +49,11 @@
 	#{ifErrors}
     	<p class="error">${errors[0]}</p>
 	#{/ifErrors}
-#{form @RisorseController.update()}
+	#{if flash.success}
+	    <p class="success">${flash.success}</p>
+	#{/if}
+
+#{form @RisorseController.update(), enctype:'multipart/form-data'}
 <div id="align_form">
 	
 		<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
@@ -90,11 +94,11 @@
         <br />
         <div style="width:400px;">
         <label for="titoloStudio">Titolo di Studio:</label>
-		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" /><br />
+		<input type="text" class="txt_xl" id="titoloStudio" name="titoloStudio" />
 		
 		<br />
         <label for="certificazione">Certificazione:</label>
-		<input type="text" class="txt_xl" id="certificazione" name="certificazione" /><br />
+		<input type="text" class="txt_xl" id="certificazione" name="certificazione" />
         </div>
         #{if !tipoRapportoLavoro?.codice?.equals("CCP")}
         <label for="dataLivelloCCNL">Livello CCNL:</label>
@@ -121,11 +125,17 @@
         	<label for="dataFineContratto">Data fine contratto:</label>
         	<input type="text" class="datepicker" name="risorsa.dataFineContratto" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
         #{/if}
+        
+        <label for="curriculumVitae">Curriculum Vitae:</label>
+        <input type="file" name="curriculumVitae" /><br /><br />
+        #{if risorsa?.curriculumVitae != null}
+        	<span style="margin-left:160px;" >${risorsa.curriculumVitae.fileName} <a href="@{RisorseController.eliminaCurriculumVitae(risorsa.idRisorsa)}">Cancella</a></span><br />
+        #{/if}
         <br />
 	</div>
 	<div id="button_center"> 
-	    <input type="submit" class="submitbutton" value="Modifica" />
 	    <input type="hidden" name="risorsa.idRisorsa" value="${risorsa.idRisorsa}" />
+	    <input type="submit" class="submitbutton" value="Modifica" />
 	#{/form}
 		
 	</div>

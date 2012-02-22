@@ -77,6 +77,9 @@ public class Risorsa extends GenericModel {
 	@CheckWith(TipoStatoRisorsaCheck.class)
 	public TipoStatoRisorsa tipoStatoRisorsa;
 	
+	@OneToOne
+	public CurriculumVitae curriculumVitae;
+	
 	@ManyToOne
 	public Gruppo gruppo;
 	

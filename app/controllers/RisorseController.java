@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 import models.Certificazione;
 import models.Costo;
+import models.CurriculumVitae;
 import models.Gruppo;
 import models.RapportoLavoro;
 import models.Risorsa;
@@ -31,6 +33,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
+import play.data.Upload;
 import play.data.validation.Min;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -129,7 +132,7 @@ public class RisorseController extends Controller {
     }
     
     public static void save(@Valid Risorsa risorsa, Integer idTipoRapportoLavoro, @Min(0) int giorniAssenzeRetribuite
-    		, String certificazione, String titoloStudio) {
+    		, String certificazione, String titoloStudio, Upload curriculumVitae) {
     	
     	//Lista Certificazioni
         List<Certificazione> certificazioni = new ArrayList<Certificazione>();
@@ -175,7 +178,15 @@ public class RisorseController extends Controller {
         
 		risorsa.certificazioni = certificazioni;
 		risorsa.titoliStudio = titoliStudio;
-		System.out.println(risorsa.titoliStudio);
+		
+		if(curriculumVitae != null){
+	        CurriculumVitae cv = new CurriculumVitae();
+			cv.fileName = curriculumVitae.getFileName();
+			cv.fileBytes = curriculumVitae.asBytes();
+			cv.createBlob();
+			risorsa.curriculumVitae = cv.save();
+        }
+		
         risorsa.save();
         flash.success("risorsa inserita con successo");
 		list();
@@ -192,9 +203,7 @@ public class RisorseController extends Controller {
     	render(risorsa, listaTipoStatoRisorsa, listaGruppi,tipoRapportoLavoro, listaCertificazioni, listaTitoliStudio);
     }
     
-    public static void update(@Valid Risorsa risorsa, String certificazione, String titoloStudio) {
-    	
-    	
+    public static void update(@Valid Risorsa risorsa, String certificazione, String titoloStudio, Upload curriculumVitae) {
     	//Lista Certificazioni
         List<Certificazione> certificazioni = new ArrayList<Certificazione>();
 	    if(certificazione.length() > 0) {
@@ -206,6 +215,7 @@ public class RisorseController extends Controller {
 				Certificazione c = Certificazione.findById(Integer.parseInt(uniqueCertificazione[i].toString()));
 				certificazioni.add(c);
 			}	
+			risorsa.certificazioni = certificazioni;
 	    }
 		//Lista Titoli di studio
 		List<TitoloStudio> titoliStudio = new ArrayList<TitoloStudio>();
@@ -218,6 +228,7 @@ public class RisorseController extends Controller {
 				TitoloStudio ts = TitoloStudio.findById(Integer.parseInt(uniqueTitoloStudio[i].toString()));
 				titoliStudio.add(ts);
 			}
+			risorsa.titoliStudio = titoliStudio;
 		}
 		
     	if(validation.hasErrors()) {
@@ -232,13 +243,46 @@ public class RisorseController extends Controller {
         if(risorsa.dataOut != null) {
         	disabilitaRisorsa(risorsa, risorsa.dataOut);
         }
-        risorsa.certificazioni = certificazioni;
-		risorsa.titoliStudio = titoliStudio;
+        if(curriculumVitae != null){
+	        CurriculumVitae cv = new CurriculumVitae();
+			if(risorsa.curriculumVitae != null) {
+				cv = risorsa.curriculumVitae;
+			}
+			cv.fileName = curriculumVitae.getFileName();
+			cv.fileBytes = curriculumVitae.asBytes();
+			cv.createBlob();
+			risorsa.curriculumVitae = cv.save();
+        }
+		
     	//procede alla modifica
         risorsa.save();
 		flash.success("risorsa modificata con successo");
 		list();
 	}
+    
+    public static void eliminaCurriculumVitae(Integer idRisorsa) {
+    	Risorsa risorsa = Risorsa.findById(idRisorsa);
+    	CurriculumVitae cv = risorsa.curriculumVitae;
+    	risorsa.curriculumVitae = null;
+        if(risorsa.save() != null) {
+        	if(cv != null)
+        		cv.delete();
+			flash.success("curriculum rimosso con successo");
+		} else {
+			flash.error("si sono verificati dei problemi nel rimuovere il curriculum vitae");
+		}		 
+		edit(idRisorsa);
+    }
+    
+    public static void showCurriculumVitae(Integer idRisorsa) {
+    	Risorsa risorsa = Risorsa.findById(idRisorsa);
+    	CurriculumVitae cv = risorsa.curriculumVitae;
+    	if(cv == null) {
+    		flash.error("la risorsa non ha un curriculum vitae");
+    		show(idRisorsa);
+    	}
+		renderBinary(cv.getBinaryStream(), cv.fileName);
+    }
     
     public static void delete(Integer idRisorsa) {
     	Date dataChiusura = new Date();

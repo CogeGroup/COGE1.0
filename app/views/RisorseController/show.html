@@ -83,6 +83,14 @@
         	${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}
         </li>
         #{/if}
+        
+        #{if risorsa?.curriculumVitae != null}
+		<li>
+        	<label for="curriculumVitae">Curriculum Vitae:</label>
+        	<a href="@{RisorseController.showCurriculumVitae(risorsa.idRisorsa)}">${risorsa.curriculumVitae.fileName}</a>
+        </li>
+        #{/if}
+        
 	</ul>
 </div>
 <br />
