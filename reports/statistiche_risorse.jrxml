@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="90"/>
 	<parameter name="DATA_INIZIO" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -77,7 +77,7 @@ AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
 AND com.cliente_idCliente = cl.idCliente
 AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
 AND ra.costo_idCosto = c.idCosto
-AND com.codice = 'ST-ASSR'
+AND com.calcoloRicavi = false
 AND ra.mese= $P{MESE}
 AND ra.anno= $P{ANNO}
 )
