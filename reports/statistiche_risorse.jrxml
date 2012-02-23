@@ -63,7 +63,7 @@ UNION
 SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nome)  AS cognome,
 trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
 ra.oreLavorate AS ore_lavorate,
-if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) AS costo_totale,
+if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.importoMensile) AS costo_totale,
 0 AS ricavo_totale,
 0 AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
