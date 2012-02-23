@@ -77,7 +77,7 @@ AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
 AND com.cliente_idCliente = cl.idCliente
 AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
 AND ra.costo_idCosto = c.idCosto
-AND com.calcoloRicavi = false
+AND com.codice = 'ST-ASSR'
 AND ra.mese= $P{MESE}
 AND ra.anno= $P{ANNO}
 )
