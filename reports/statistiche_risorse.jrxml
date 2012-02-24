@@ -22,7 +22,7 @@
 		<![CDATA[SELECT idRisorsa, codice, cognome,
 rappLavoro, idTipoRapportoLavoro,
 SUM(ore_lavorate) AS ore_lavorate,
-IF(mensile is null, SUM(costo_totale), mensile) AS costo_totale,
+IF(stato_risorsa = 'SOSP', 0, IF(mensile is null, SUM(costo_totale), mensile)) AS costo_totale,
 SUM(ricavo_totale) AS ricavo_totale,
 margine(costo_totale, SUM(ricavo_totale)) AS margine_totale,
 tariffa_importo,
@@ -65,17 +65,19 @@ UNION
 SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nome)  AS cognome,
 trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
 ra.oreLavorate AS ore_lavorate,
-if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.importoMensile) AS costo_totale,
+IF(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.importoMensile) AS costo_totale,
 0 AS ricavo_totale,
 0 AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
-'' AS stato_risorsa, c.importoMensile AS mensile
-FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl
+tsr.codice AS stato_risorsa, c.importoMensile AS mensile
+FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl, `TipoStatoRisorsa` tsr
 WHERE r.idRisorsa = c.risorsa_idRisorsa
 AND r.idRisorsa = rl.risorsa_idRisorsa
 AND r.idRisorsa = ra.risorsa_idRisorsa
+AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 AND ra.commessa_idCommessa = com.idCommessa
 AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
+AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 AND com.cliente_idCliente = cl.idCliente
 AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
 AND ra.costo_idCosto = c.idCosto
