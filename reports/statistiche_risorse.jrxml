@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="90"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="DATA_INIZIO" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -70,14 +70,13 @@ IF(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.impor
 0 AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
 tsr.codice AS stato_risorsa, c.importoMensile AS mensile
-FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl, `TipoStatoRisorsa` tsr
+FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl
 WHERE r.idRisorsa = c.risorsa_idRisorsa
 AND r.idRisorsa = rl.risorsa_idRisorsa
 AND r.idRisorsa = ra.risorsa_idRisorsa
 AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 AND ra.commessa_idCommessa = com.idCommessa
 AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
-AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
 AND com.cliente_idCliente = cl.idCliente
 AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
 AND ra.costo_idCosto = c.idCosto
