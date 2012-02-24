@@ -22,9 +22,9 @@
 		<![CDATA[SELECT idRisorsa, codice, cognome,
 rappLavoro, idTipoRapportoLavoro,
 SUM(ore_lavorate) AS ore_lavorate,
-SUM(costo_totale) AS costo_totale,
+IF(mensile is null, SUM(costo_totale), mensile) AS costo_totale,
 SUM(ricavo_totale) AS ricavo_totale,
-margine(SUM(costo_totale), SUM(ricavo_totale)) AS margine_totale,
+margine(costo_totale, SUM(ricavo_totale)) AS margine_totale,
 tariffa_importo,
 cliente_commessa,
 stato_risorsa
@@ -34,16 +34,18 @@ FROM
 SELECT r.idRisorsa AS idRisorsa, r.codice AS codice,  concat(r.cognome,' ',r.nome)  AS cognome,
 trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro,
 SUM(ra.oreLavorate) AS ore_lavorate,
-if(c.importoMensile is null, SUM(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) AS costo_totale,
+IF(c.importoMensile is null, SUM(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) AS costo_totale,
 SUM(ricavo(t.importoGiornaliero,ra.oreLavorate)) AS ricavo_totale,
 t.importoGiornaliero AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
-tsr.codice AS stato_risorsa
+tsr.codice AS stato_risorsa, c.importoMensile AS mensile
 FROM `Risorsa` r, `TipoStatoRisorsa` tsr, `Costo` c, `Tariffa` t, `Commessa` com, `Cliente` cl, `RendicontoAttivita` ra,`RapportoLavoro` rl,`TipoRapportoLavoro` trl
 WHERE r.idRisorsa = c.risorsa_idRisorsa
 AND r.idRisorsa = t.risorsa_idRisorsa
 AND t.commessa_idCommessa = com.idCommessa
 AND com.cliente_idCliente = cl.idCliente
+AND com.calcoloRicavi = true
+AND com.calcoloCosti = true
 AND r.idRisorsa = ra.risorsa_idRisorsa
 AND ra.commessa_idCommessa = com.idCommessa
 AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
@@ -67,7 +69,7 @@ if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), c.impor
 0 AS ricavo_totale,
 0 AS tariffa_importo,
 concat(cl.codice, '-', com.codice) AS cliente_commessa,
-'' AS stato_risorsa
+'' AS stato_risorsa, c.importoMensile AS mensile
 FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `Cliente` cl
 WHERE r.idRisorsa = c.risorsa_idRisorsa
 AND r.idRisorsa = rl.risorsa_idRisorsa
