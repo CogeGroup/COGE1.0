@@ -83,8 +83,10 @@ public class RisorseController extends Controller {
 		ValuePaginator listaRisorse = null;
 		if(filtro.equals("DIP")){
 			listaRisorse = new ValuePaginator(Risorsa.findDipendenti(parametro,ordinamento));
-		}else{
+		}else if(filtro.equals("CCP")){
 			listaRisorse = new ValuePaginator(Risorsa.findCoCoPro(parametro,ordinamento));
+		}else{
+			listaRisorse = new ValuePaginator(Risorsa.find("order by "+parametro+" "+ordinamento).fetch());
 		}
     	if(ordinamento.equals("desc")){
     		ordinamento = "asc";
