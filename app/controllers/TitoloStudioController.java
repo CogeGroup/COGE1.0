@@ -20,14 +20,13 @@ public class TitoloStudioController extends Controller {
 		if(ordinamento == null){
 			ordinamento = "asc";
 		}
-		ValuePaginator paginator = new ValuePaginator(TitoloStudio.find("order by descrizione " + ordinamento).fetch());
+		List<TitoloStudio> lista = TitoloStudio.find("order by codice " + ordinamento).fetch();
 		if(ordinamento.equals("desc")){
     		ordinamento = "asc";
     	}else{
     		ordinamento = "desc";
     	}
-    	paginator.setPageSize(10);
-		render("TitoloStudioController/list.html", paginator, ordinamento); 
+		render("TitoloStudioController/list.html", lista, ordinamento); 
     }
     
     public static void list() {
