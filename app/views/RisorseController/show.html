@@ -61,6 +61,21 @@
 				#{/else}
 			#{/if}
 		</li>
+		<li>
+			<label for="certificazione">Certificazioni:</label>
+			#{if risorsa.certificazioni != null && risorsa.certificazioni.size() > 0}
+				#{if risorsa.certificazioni.size() == 1}
+					${risorsa.certificazioni.get(0).descrizione}
+				#{/if}
+				#{else}
+				<ul>
+					#{list items:risorsa.certificazioni, as:'certificazione'}
+						<li>${certificazione.descrizione}</li> 
+					#{/list} 				
+				</ul>
+				#{/else}
+			#{/if}
+		</li>
 		
 		#{if !tipoRapportoLavoro?.codice?.equals("CCP")}
         <li>
