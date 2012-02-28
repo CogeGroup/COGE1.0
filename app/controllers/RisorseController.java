@@ -375,9 +375,9 @@ public class RisorseController extends Controller {
 			style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 			style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 			HSSFRow row = sheet.createRow((short)0);
-	        Cell cod = row.createCell(0);
-	        cod.setCellStyle(style);
-	        cod.setCellValue("CODICE");
+	        Cell s = row.createCell(0);
+	        s.setCellStyle(style);
+	        s.setCellValue("SESSO");
 	        Cell nome = row.createCell(1);
 	        nome.setCellStyle(style);
 	        nome.setCellValue("NOME");
@@ -405,11 +405,17 @@ public class RisorseController extends Controller {
 	        Cell st = row.createCell(9);
 	        st.setCellStyle(style);
 	        st.setCellValue("STATO");
+	        Cell lt = row.createCell(10);
+	        lt.setCellStyle(style);
+	        lt.setCellValue("TITOLI STUDIO");
+	        Cell lc = row.createCell(11);
+	        lc.setCellStyle(style);
+	        lc.setCellValue("CERTIFICAZIONI");
 	        short i = 1;
 	        List<Risorsa> listaRisorse = Risorsa.find("order by cognome").fetch();
 	        for(Risorsa risorsa : listaRisorse){
 		        row = sheet.createRow(i);
-		        row.createCell(0).setCellValue(risorsa.codice);
+		        row.createCell(0).setCellValue(risorsa.sesso);
 		        row.createCell(1).setCellValue(risorsa.nome);
 		        row.createCell(2).setCellValue(risorsa.cognome);
 		        row.createCell(3).setCellValue(risorsa.dataNascita == null ? null : MyUtility.dateToString(risorsa.dataNascita));
@@ -420,6 +426,16 @@ public class RisorseController extends Controller {
 		        row.createCell(7).setCellValue(rapLav == null ? null : rapLav.tipoRapportoLavoro.codice);
 		        row.createCell(8).setCellValue(risorsa.livelloCCNL);
 		        row.createCell(9).setCellValue(risorsa.tipoStatoRisorsa.descrizione);
+		        String titoli = "- ";
+		        for(TitoloStudio titolo : risorsa.titoliStudio){
+		        	titoli = titoli +  titolo.codice + " - "; 
+		        }
+		        row.createCell(10).setCellValue(titoli);
+		        String certificazioni = "- ";
+		        for(Certificazione certificazione : risorsa.certificazioni){
+		        	certificazioni = certificazioni + certificazione.codice + " - "; 
+		        }
+		        row.createCell(11).setCellValue(certificazioni);
 		        i++;
 		    }
 	        sheet.autoSizeColumn(0);
@@ -432,6 +448,8 @@ public class RisorseController extends Controller {
 	        sheet.autoSizeColumn(7);
 	        sheet.autoSizeColumn(8);
 	        sheet.autoSizeColumn(9);
+	        sheet.autoSizeColumn(10);
+	        sheet.autoSizeColumn(11);
 	        out.flush();
 	        wb.write(out);  
 		} catch (IOException e) {
