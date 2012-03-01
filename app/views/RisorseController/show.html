@@ -77,34 +77,34 @@
 			#{/if}
 		</li>
 		
-		#{if !tipoRapportoLavoro?.codice?.equals("CCP")}
-        <li>
-			<label for="livelloCCNL">Livello CCNL: </label>
-		    ${risorsa?.livelloCCNL}
-		</li>
-		<li>
-			<label for="dataVariazioneLivello">Data Variazione Livello CCNL: </label>
-		    ${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}
-		</li>
-		#{/if}
-		<li>
-			<label for="dataVariazioneRetribuzione">Data Variazione Retribuzione: </label>
-		    ${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}
-		</li>
-		
-		#{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
-		<li>
-        	<label for="dataFineContratto">Data fine contratto:</label>
-        	${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}
-        </li>
+		#{if tipoRapportoLavoro != null}
+			#{if !tipoRapportoLavoro?.codice?.equals("CCP")}
+	        <li>
+				<label for="livelloCCNL">Livello CCNL: </label>
+			    ${risorsa?.livelloCCNL}
+			</li>
+			<li>
+				<label for="dataVariazioneLivello">Data Variazione Livello CCNL: </label>
+			    ${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}
+			</li>
+			#{/if}
+			<li>
+				<label for="dataVariazioneRetribuzione">Data Variazione Retribuzione: </label>
+			    ${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}
+			</li>
+			
+			#{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
+			<li>
+	        	<label for="dataFineContratto">Data fine contratto:</label>
+	        	${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}
+	        </li>
+	        #{/if}
         #{/if}
         
-        #{if risorsa?.curriculumVitae != null}
 		<li>
         	<label for="curriculumVitae">Curriculum Vitae:</label>
-        	<a href="@{RisorseController.showCurriculumVitae(risorsa.idRisorsa)}">${risorsa.curriculumVitae.fileName}</a>
+        	<a href="@{RisorseController.showCurriculumVitae(risorsa.idRisorsa)}">${risorsa.curriculumVitae?.fileName}</a>
         </li>
-        #{/if}
         
 	</ul>
 </div>

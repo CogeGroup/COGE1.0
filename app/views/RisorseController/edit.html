@@ -100,8 +100,9 @@
         <label for="certificazione">Certificazione:</label>
 		<input type="text" class="txt_xl" id="certificazione" name="certificazione" />
         </div>
-        #{if !tipoRapportoLavoro?.codice?.equals("CCP")}
-        <label for="dataLivelloCCNL">Livello CCNL:</label>
+        #{if tipoRapportoLavoro != null}
+	       #{if !tipoRapportoLavoro?.codice?.equals("CCP")}
+	       <label for="dataLivelloCCNL">Livello CCNL:</label>
 			#{select 'risorsa.livelloCCNL', value:risorsa?.livelloCCNL}
 				#{option ''}-Selezionare-#{/option}
 				#{option '3'}3#{/option}
@@ -115,17 +116,17 @@
 		<br />
 		
 		<label for="dataVariazioneLivello">Data variazione livello CCNL:</label>
-        <input type="text" class="datepicker" name="risorsa.dataVariazioneLivello" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	       <input type="text" class="datepicker" name="risorsa.dataVariazioneLivello" value="${risorsa?.dataVariazioneLivello?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	       #{/if}
+	       
+	       <label for="dataVariazioneRetribuzione">Data variazione retribuzione:</label>
+	       <input type="text" class="datepicker" name="risorsa.dataVariazioneRetribuzione"  value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	       
+	       #{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
+	       	<label for="dataFineContratto">Data fine contratto:</label>
+	       	<input type="text" class="datepicker" name="risorsa.dataFineContratto" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
+	       #{/if}
         #{/if}
-        
-        <label for="dataVariazioneRetribuzione">Data variazione retribuzione:</label>
-        <input type="text" class="datepicker" name="risorsa.dataVariazioneRetribuzione"  value="${risorsa?.dataVariazioneRetribuzione?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
-        
-        #{if tipoRapportoLavoro?.codice?.equals("CCP") || tipoRapportoLavoro?.codice?.equals("IVA")}
-        	<label for="dataFineContratto">Data fine contratto:</label>
-        	<input type="text" class="datepicker" name="risorsa.dataFineContratto" value="${risorsa?.dataFineContratto?.format('dd-MM-yyyy')}"/> (gg-mm-aaaa)<br />
-        #{/if}
-        
         <label for="curriculumVitae">Curriculum Vitae:</label>
         <input type="file" name="curriculumVitae" /><br /><br />
         #{if risorsa?.curriculumVitae != null}

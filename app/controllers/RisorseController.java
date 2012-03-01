@@ -114,9 +114,10 @@ public class RisorseController extends Controller {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<Tariffa> listaTariffe = Tariffa.find("byRisorsa", risorsa).fetch();
     	List<Costo> listaCosti = Costo.find("byRisorsa", risorsa).fetch();
-    	RapportoLavoro ra = RapportoLavoro.findByRisorsaAndData(risorsa, new Date());
-    	TipoRapportoLavoro tipoRapportoLavoro = ra != null ? ra.tipoRapportoLavoro : null;
-    	System.out.println(risorsa.titoliStudio);
+//    	RapportoLavoro ra = RapportoLavoro.findByRisorsaAndData(risorsa, new Date());
+//    	TipoRapportoLavoro tipoRapportoLavoro = ra != null ? ra.tipoRapportoLavoro : null;
+    	List<RapportoLavoro> ra = RapportoLavoro.find("byRisorsa",risorsa).fetch();
+    	TipoRapportoLavoro tipoRapportoLavoro = ra != null && ra.size() > 0 ? ra.get(ra.size() -1).tipoRapportoLavoro : null;
         render(risorsa,listaTariffe,listaCosti,tipoRapportoLavoro);
     }
     
@@ -198,8 +199,10 @@ public class RisorseController extends Controller {
     	Risorsa risorsa = Risorsa.findById(idRisorsa);
     	List<TipoStatoRisorsa> listaTipoStatoRisorsa = TipoStatoRisorsa.findAll();
     	List<Gruppo> listaGruppi = Gruppo.findAll();
-    	RapportoLavoro ra = RapportoLavoro.findByRisorsaAndData(risorsa, new Date());
-    	TipoRapportoLavoro tipoRapportoLavoro = ra != null ? ra.tipoRapportoLavoro : null;
+//    	RapportoLavoro ra = RapportoLavoro.findByRisorsaAndData(risorsa, new Date());
+//    	TipoRapportoLavoro tipoRapportoLavoro = ra != null ? ra.tipoRapportoLavoro : null;
+    	List<RapportoLavoro> ra = RapportoLavoro.find("byRisorsa",risorsa).fetch();
+    	TipoRapportoLavoro tipoRapportoLavoro = ra != null && ra.size() > 0 ? ra.get(ra.size() -1).tipoRapportoLavoro : null;
     	String listaCertificazioni = ConvertToJson.convert(risorsa.certificazioni, "idCertificazione", "descrizione");
     	String listaTitoliStudio = ConvertToJson.convert(risorsa.titoliStudio, "idTitoloStudio", "descrizione");
     	render(risorsa, listaTipoStatoRisorsa, listaGruppi,tipoRapportoLavoro, listaCertificazioni, listaTitoliStudio);
