@@ -36,7 +36,8 @@ public class TitoloStudioController extends Controller {
     
     public static void show(Integer idTitoloStudio) {
     	TitoloStudio titoloStudio = TitoloStudio.findById(idTitoloStudio);
-    	render(titoloStudio);
+    	List<Risorsa> listaRisorse = Risorsa.findByTitoloStudio(titoloStudio);
+    	render(titoloStudio,listaRisorse);
     }
     
     public static void create() {

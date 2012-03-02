@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import models.Certificazione;
+import models.Risorsa;
 import play.data.validation.Valid;
-import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
 import play.mvc.With;
 import secure.SecureCOGE;
@@ -21,7 +21,8 @@ public class CertificazioniController extends Controller {
     
     public static void show(Integer idCertificazione) {
     	Certificazione certificazione = Certificazione.findById(idCertificazione);
-        render(certificazione);
+    	List<Risorsa> listaRisorse = Risorsa.findByCertificazione(certificazione);
+    	render(certificazione,listaRisorse);
     }
     
     public static void create() {

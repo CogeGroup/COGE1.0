@@ -269,6 +269,27 @@ public class Risorsa extends GenericModel {
 		return query.fetch();
 	}
 	
+	public static List<Risorsa> findByTitoloStudio(TitoloStudio titoloStudio) {
+		List<Risorsa> lista = new ArrayList<Risorsa>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for(Risorsa r : listaRisorse) {
+			if(r.titoliStudio.contains(titoloStudio)) {
+				lista.add(r);
+			}
+		}
+		return lista;
+	}
+	public static List<Risorsa> findByCertificazione(Certificazione certificazione) {
+		List<Risorsa> lista = new ArrayList<Risorsa>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for(Risorsa r : listaRisorse) {
+			if(r.certificazioni.contains(certificazione)) {
+				lista.add(r);
+			}
+		}
+		return lista;
+	}
+	
 	public Float calcolaRicavo(int mese,int anno){
 		Float importoTotale = 0f;
 		List<Tariffa> listaTariffa = Tariffa.findByRisorsaAndMeseAndAnno(mese,anno,this);

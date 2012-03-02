@@ -13,6 +13,16 @@
 	        <label for="descrizione">Descrizione: </label>
 	        ${titoloStudio.descrizione }
 	    </li>
+	    #{if listaRisorse != null && listaRisorse.size() > 0 }
+	    <li>
+	        <label for="risorse">Risorse: </label>
+	       	<ul>
+				#{list items:listaRisorse, as:'risorsa'}
+					<li><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.codice } - ${risorsa.cognome } ${risorsa.nome }</a></li>
+				#{/list}
+			</ul>
+	    </li>
+	    #{/if}
 	</ul>
 </div>
 <div id="button_center">
