@@ -59,6 +59,31 @@
     #{/if}
   </ul>
 </div>	
+#{if commessa instanceof models.CommessaACorpo }
+<br />
+	#{if listaCosti != null && listaCosti.size() > 0 }
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Data</th>
+				<th scope="col">Importo</th>
+				<th scope="col">Elimina</th>
+			</tr>
+		</thead>
+		#{list items:listaCosti, as:'costo'} 
+		<tr>
+			<td>${costo.data?.format('MM-yyyy') }</td>
+			<td>${costo.importo }</td>
+			<td><a href="@{CostoCommessaController.delete(costo.idCostoCommessa)}" onclick="return confirm('Sei sicuro?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+		</tr>
+		#{/list} 
+	</table>
+	#{/if}
+	#{else}
+		<center><h3>Nessun Costo esistente</h3></center>
+	#{/else}
+	<a id="create" href="@{CostoCommessaController.create(commessa.idCommessa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+#{/if}
 <div id="button_center">
 	<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Commesse" /></a>
  	<input type="button" class="submitbutton" value="Indietro" onClick="history.back()"/>

@@ -235,6 +235,7 @@ public class Bootstrap extends play.jobs.Job {
       Job j7 = new Job("TariffeController/*");
       Job j8 = new Job("RapportoLavoroController/*");
       Job j9 = new Job("TipoRapportoLavoroController/*");
+      Job j26 = new Job("CostoCommessaController/*");
       
       j0.addRuolo(ruolo1);
       j0.addRuolo(ruolo2);
@@ -257,6 +258,8 @@ public class Bootstrap extends play.jobs.Job {
       j8.save();
       j9.addRuolo(ruolo1);
       j9.save();
+      j26.addRuolo(ruolo1);
+      j26.save();
       
       Utente u1 = new Utente("a","a",true);
       
@@ -291,6 +294,7 @@ public class Bootstrap extends play.jobs.Job {
       Job j24 = new Job("CostiController/list");
       Job j25 = new Job("TipoRapportoLavoroController/index");
       
+      
      
       j10.addRuolo(ruolo2);
       j10.save();
@@ -324,6 +328,7 @@ public class Bootstrap extends play.jobs.Job {
       j24.save();
       j25.addRuolo(ruolo2);
       j25.save();
+      
       
       
       

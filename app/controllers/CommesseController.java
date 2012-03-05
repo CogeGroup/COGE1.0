@@ -10,11 +10,11 @@ import java.util.Set;
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
+import models.CostoCommessa;
 import models.Gruppo;
 import models.Risorsa;
 import models.Tariffa;
 import models.TipoCommessa;
-import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
 import play.mvc.Controller;
@@ -70,7 +70,11 @@ public class CommesseController extends Controller {
     	Commessa commessa = Commessa.findById(id);
     	List<Gruppo> listaGruppi = Gruppo.findByCommessa(commessa);
     	List<Risorsa> listaRisorse = commessa.calcoloRicavi == true ? Risorsa.findByCommessa(commessa) : null;
-    	render(commessa, listaRisorse, listaGruppi);
+    	List<CostoCommessa> listaCosti = new ArrayList<CostoCommessa>();
+    	if(commessa instanceof CommessaACorpo){
+    		listaCosti = CostoCommessa.find("byCommessa", commessa).fetch();
+    	}
+    	render(commessa, listaRisorse, listaGruppi, listaCosti);
     }
     
     public static void create() {

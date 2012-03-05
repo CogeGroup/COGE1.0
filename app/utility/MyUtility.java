@@ -27,6 +27,10 @@ public class MyUtility {
     	return listaAnni;
     }
     
+    public static Date getPrimoDelMese(Date data) {
+    	return MeseEdAnnoToDataInizio(getMeseFromDate(data),getAnnoFromDate(data));
+    }
+    
     //crea una data con giorno 1 relativa a mese ed anno
     public static Date MeseEdAnnoToDataInizio(int mese, int anno) {
     	return new GregorianCalendar(anno, mese, 1).getTime();
