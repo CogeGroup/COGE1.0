@@ -34,15 +34,16 @@ SUM(IF(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS cost
 SUM(IF(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre
 FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
 WHERE ra.anno = $P{ANNO}
+AND ra.costo_idcosto = costo.idCosto
 AND ra.risorsa_idRisorsa = ris.idRisorsa
-AND com.idCommessa = ra.commessa_idCommessa
+AND ra.commessa_idCommessa = com.idCommessa
 AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
 AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
-AND cl.idCliente = com.cliente_idCliente
-AND costo.idCosto = ra.costo_idcosto
-AND (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+AND com.cliente_idCliente = cl.idCliente
+AND com.idCommessa = t.commessa_idCommessa
+AND  ris.idRisorsa = t.risorsa_idRisorsa
 AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine IS NULL)
+AND ((concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m')) OR t.dataFine IS NULL)
 GROUP BY com.codice
 ORDER BY cl.nominativo, com.descrizione]]>
 	</queryString>

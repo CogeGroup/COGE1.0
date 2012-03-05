@@ -7,7 +7,16 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT tcom.descrizione, tcom.idTipoCommessa AS tipo,
+		<![CDATA[SELECT descrizione, tipo,
+SUM(ricavo_totale) as ricavo_totale,SUM(costo_Totale) as costo_Totale,SUM(ricavo_gennaio) as ricavo_gennaio,SUM(ricavo_febbraio) as ricavo_febbraio,
+SUM(ricavo_marzo) as ricavo_marzo,SUM(ricavo_aprile) as ricavo_aprile,SUM(ricavo_maggio) as ricavo_maggio,SUM(ricavo_giugno) as ricavo_giugno,SUM(ricavo_luglio) as ricavo_luglio,
+SUM(ricavo_agosto) as ricavo_agosto,SUM(ricavo_settembre) as ricavo_settembre,SUM(ricavo_ottobre) as ricavo_ottobre,SUM(ricavo_novembre) as ricavo_novembre,SUM(ricavo_dicembre) as ricavo_dicembre,
+SUM(costo_gennaio) as costo_gennaio,SUM(costo_febbraio) as costo_febbraio,SUM(costo_marzo) as costo_marzo,SUM(costo_aprile) as costo_aprile,SUM(costo_maggio) as costo_maggio,
+SUM(costo_giugno) as costo_giugno,SUM(costo_luglio) as costo_luglio,SUM(costo_agosto) as costo_agosto,SUM(costo_settembre) as costo_settembre,SUM(costo_ottobre) as costo_ottobre,
+SUM(costo_novembre) as costo_novembre,SUM(costo_dicembre) as costo_dicembre,
+(SUM(ricavo_totale)-SUM(costo_Totale)) as margine_val,
+SUM(margine_perc) as margine_perc
+FROM (SELECT tcom.descrizione, tcom.idTipoCommessa AS tipo,
 IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))) AS ricavo_Totale,
 SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) AS costo_Totale,
 IF(ra.mese = 1, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_gennaio,
@@ -34,8 +43,7 @@ SUM(IF(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo
 SUM(IF(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_ottobre,
 SUM(IF(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_novembre,
 SUM(IF(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre,
-(IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))) - SUM(costo(ra.oreLavorate,costo.importoGiornaliero))) AS margine_val,
-SUM(margine(costo(ra.oreLavorate,costo.importoGiornaliero), IF(com.DTYPE = 'CommessaACorpo', com.importo, ricavo(ra.oreLavorate,t.importoGiornaliero)))) AS margine_perc
+margine(SUM(costo(ra.oreLavorate,costo.importoGiornaliero)), IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero)))) AS margine_perc
 FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
 WHERE ra.anno = $P{ANNO}
 AND ra.risorsa_idRisorsa = ris.idRisorsa
@@ -46,8 +54,9 @@ AND cl.idCliente = com.cliente_idCliente
 AND costo.idCosto = ra.costo_idcosto
 AND (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
 AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine IS NULL)
-GROUP BY  tcom.idTipoCommessa]]>
+AND ((concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m')) OR t.dataFine IS NULL)
+GROUP BY com.idCommessa) as xxx
+GROUP BY tipo]]>
 	</queryString>
 	<field name="descrizione" class="java.lang.String"/>
 	<field name="tipo" class="java.lang.Integer"/>
@@ -640,19 +649,19 @@ GROUP BY  tcom.idTipoCommessa]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{descrizione}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="170" y="1" width="58" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ricavo_Totale}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_Totale}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="170" y="20" width="58" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{costo_Totale}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_Totale}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="139" y="1" width="28" height="37"/>
@@ -661,12 +670,12 @@ GROUP BY  tcom.idTipoCommessa]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="231" y="20" width="58" height="18" forecolor="#000000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{margine_val}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{margine_val}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.0 %">
 				<reportElement mode="Opaque" x="231" y="2" width="58" height="18" backcolor="#FFFF33"/>
@@ -747,203 +756,203 @@ GROUP BY  tcom.idTipoCommessa]]>
 				</textElement>
 				<text><![CDATA[TOTALE PORTAFOGLIO (PROGRESSIVO)]]></text>
 			</staticText>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="170" y="2" width="58" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_Totale_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="170" y="21" width="58" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_Totale_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="231" y="21" width="58" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{margine_val_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0 %">
+			<textField pattern="#,##0.00">
 				<reportElement mode="Opaque" x="231" y="2" width="58" height="18" backcolor="#FFFF33"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[($V{ricavo_Totale_1}-$V{costo_Totale_1})/$V{ricavo_Totale_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="292" y="1" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="332" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="372" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="292" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="332" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="372" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="292" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="292" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="332" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="332" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="412" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="452" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="492" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="532" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="572" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="612" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="412" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="452" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="492" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="532" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="572" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="612" y="21" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="372" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="372" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="412" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -951,14 +960,14 @@ GROUP BY  tcom.idTipoCommessa]]>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
 $V{ricavo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="412" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="452" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -966,7 +975,7 @@ $V{ricavo_aprile_1}]]></textFieldExpression>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
 $V{ricavo_aprile_1}+$V{ricavo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="452" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -974,7 +983,7 @@ $V{ricavo_aprile_1}+$V{ricavo_maggio_1}]]></textFieldExpression>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
 $V{costo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="492" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -982,7 +991,7 @@ $V{costo_maggio_1}]]></textFieldExpression>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
 $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="492" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -990,7 +999,7 @@ $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}]]></textFieldExpress
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
 $V{costo_maggio_1}+$V{costo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="532" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -998,7 +1007,7 @@ $V{costo_maggio_1}+$V{costo_giugno_1}]]></textFieldExpression>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}+$V{ricavo_febbraio_1}+$V{ricavo_marzo_1}+
 $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+$V{ricavo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="532" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1006,7 +1015,7 @@ $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+$V{ricavo_luglio_1}]
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
 $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="572" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1015,7 +1024,7 @@ $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}]]></textFieldExpression
 $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
 $V{ricavo_luglio_1}+$V{ricavo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="572" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1023,28 +1032,28 @@ $V{ricavo_luglio_1}+$V{ricavo_agosto_1}]]></textFieldExpression>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}+$V{costo_febbraio_1}+$V{costo_marzo_1}+$V{costo_aprile_1}+
 $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="652" y="22" width="37" height="17" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="692" y="22" width="37" height="17" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="732" y="22" width="37" height="17" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_dicembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="612" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1053,7 +1062,7 @@ $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}]]></
 $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
 $V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="612" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1062,7 +1071,7 @@ $V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}]]></textFieldExpr
 $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
 $V{costo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="652" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1071,7 +1080,7 @@ $V{costo_settembre_1}]]></textFieldExpression>
 $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
 $V{costo_settembre_1}+$V{costo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="652" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1081,28 +1090,28 @@ $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
 $V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}+
 $V{costo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="652" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="692" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="732" y="2" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_dicembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="692" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1111,7 +1120,7 @@ $V{costo_ottobre_1}]]></textFieldExpression>
 $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
 $V{costo_settembre_1}+$V{costo_ottobre_1}+$V{ricavo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="692" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1121,7 +1130,7 @@ $V{ricavo_aprile_1}+$V{ricavo_maggio_1}+$V{ricavo_giugno_1}+
 $V{ricavo_luglio_1}+$V{ricavo_agosto_1}+$V{ricavo_settembre_1}+
 $V{costo_ottobre_1}+$V{costo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="732" y="61" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
@@ -1131,7 +1140,7 @@ $V{costo_maggio_1}+$V{costo_giugno_1}+$V{costo_luglio_1}+$V{costo_agosto_1}+
 $V{costo_settembre_1}+$V{costo_ottobre_1}+$V{costo_novembre_1}+
 $V{costo_dicembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.0">
+			<textField pattern="#,##0.00">
 				<reportElement x="732" y="41" width="37" height="19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
