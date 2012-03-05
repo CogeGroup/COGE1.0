@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="57"/>
+	<property name="ireport.x" value="241"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT *
 FROM (SELECT SUM(xxx.ricavo_Totale) AS totale
-FROM (SELECT SUM(ricavo(ra.oreLavorate,t.importoGiornaliero)) AS ricavo_Totale
-FROM RendicontoAttivita ra
-              INNER JOIN Commessa com ON ra.commessa_idCommessa=com.idCommessa
-              INNER JOIN Risorsa ris ON ra.risorsa_idRisorsa=ris.idRisorsa
-              INNER JOIN Cliente cl ON  com.cliente_idCliente=cl.idCliente
-              INNER JOIN Tariffa t ON  (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-              INNER JOIN Costo costo ON   costo.idCosto = ra.costo_idCosto
-              WHERE com.DTYPE = 'Commessa' AND com.calcoloRicavi=true AND ra.anno = $P{ANNO}
-AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(costo.dataInizio, '%Y%m')
-              AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(costo.dataFine, '%Y%m') OR costo.dataFine is null)
-              AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-              AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine is null)
+FROM (SELECT IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))) AS ricavo_Totale
+FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
+WHERE ra.anno = $P{ANNO}
+AND ra.risorsa_idRisorsa = ris.idRisorsa
+AND com.idCommessa = ra.commessa_idCommessa
+AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
+AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
+AND cl.idCliente = com.cliente_idCliente
+AND costo.idCosto = ra.costo_idcosto
+AND (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
+AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
+AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine IS NULL)
               GROUP BY cl.codice) AS xxx) AS tabella1, (SELECT cl.codice, cl.nominativo,
-SUM(ricavo(ra.oreLavorate,t.importoGiornaliero)) AS ricavo_Totale,
+IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))) AS ricavo_Totale,
 SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) AS costo_Totale,
 if(ra.mese <= 6, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_primo_semestre,
 if(ra.mese > 6, if(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_secondo_semestre,
@@ -52,15 +52,17 @@ SUM(if(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo
 SUM(if(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_ottobre,
 SUM(if(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_novembre,
 SUM(if(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre
-FROM RendicontoAttivita ra
-INNER JOIN Commessa com ON ra.commessa_idCommessa=com.idCommessa
-INNER JOIN Risorsa ris ON ra.risorsa_idRisorsa=ris.idRisorsa
-INNER JOIN Cliente cl ON  com.cliente_idCliente=cl.idCliente
-INNER JOIN Tariffa t ON  (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
-INNER JOIN Costo costo ON costo.idCosto = ra.costo_idCosto
-WHERE com.DTYPE = 'Commessa' AND com.calcoloRicavi=true AND ra.anno = $P{ANNO}
+FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
+WHERE ra.anno = $P{ANNO}
+AND ra.risorsa_idRisorsa = ris.idRisorsa
+AND com.idCommessa = ra.commessa_idCommessa
+AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
+AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
+AND cl.idCliente = com.cliente_idCliente
+AND costo.idCosto = ra.costo_idcosto
+AND (t.commessa_idCommessa = ra.commessa_idCommessa AND t.risorsa_idRisorsa = ra.risorsa_idRisorsa)
 AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine is null)
+AND (concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m') OR t.dataFine IS NULL)
 GROUP BY cl.codice) AS tabella2]]>
 	</queryString>
 	<field name="totale" class="java.lang.Double"/>

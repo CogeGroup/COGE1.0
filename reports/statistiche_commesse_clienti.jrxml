@@ -36,7 +36,7 @@ FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, 
 WHERE ra.anno = $P{ANNO}
 AND ra.risorsa_idRisorsa = ris.idRisorsa
 AND com.idCommessa = ra.commessa_idCommessa
-AND com.calcoloRicavi = TRUE
+AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
 AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
 AND cl.idCliente = com.cliente_idCliente
 AND costo.idCosto = ra.costo_idcosto

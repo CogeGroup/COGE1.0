@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="risorse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["reports/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT r.codice AS CODICE, concat(r.cognome,' ',r.nome) AS RISORSA, trl.codice AS RAPPLAVORO, trl.idTipoRapportoLavoro AS IDRAPPLAV, r.dataIn AS DATAIN, r.dataOut AS DATAOUT, tsr.codice AS STATO
+FROM `Risorsa` r, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `TipoStatoRisorsa` tsr
+WHERE r.idRisorsa = rl.risorsa_idRisorsa
+AND rl.tipoRapportoLavoro_idTipoRapportoLavoro
+AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
+ORDER BY IDRAPPLAV, RISORSA]]>
+	</queryString>
+	<field name="CODICE" class="java.lang.String"/>
+	<field name="RISORSA" class="java.lang.String"/>
+	<field name="RAPPLAVORO" class="java.lang.String"/>
+	<field name="DATAIN" class="java.lang.String"/>
+	<field name="DATAOUT" class="java.lang.String"/>
+	<field name="STATO" class="java.lang.String"/>
+	<field name="IDRAPPLAV" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="5" width="51" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Risorse]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="30" width="555" height="55"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "/subreport_risorse.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="0" width="30" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="2" width="27" height="17" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="30" y="0" width="195" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="32" y="2" width="192" height="17" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RISORSA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="225" y="0" width="50" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="227" y="2" width="47" height="17" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RAPP]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="275" y="0" width="100" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="277" y="2" width="97" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA INGRESSO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="375" y="0" width="100" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="377" y="2" width="97" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA USCITA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="475" y="0" width="80" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="477" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[STATO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="30" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="2" width="27" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CODICE}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="30" y="0" width="195" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="32" y="2" width="192" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{RISORSA}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="225" y="0" width="50" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="227" y="2" width="47" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{RAPPLAVORO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="275" y="0" width="100" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="277" y="2" width="97" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DATAIN}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="375" y="0" width="100" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="377" y="2" width="97" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DATAOUT}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="475" y="0" width="80" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="477" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{STATO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

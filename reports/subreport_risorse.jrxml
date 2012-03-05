@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreport_risorse" language="groovy" pageWidth="300" pageHeight="842" columnWidth="260" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT count(r.idRisorsa) AS N_RISORSE, trl.codice AS CODICE, trl.descrizione AS DESCRIZIONE, trl.idTipoRapportoLavoro AS IDRAPPLAV
+FROM `Risorsa` r, `RapportoLavoro` rl, `TipoRapportoLavoro` trl
+WHERE trl.idTipoRapportoLavoro = rl.tipoRapportoLavoro_idTipoRapportoLavoro
+AND rl.risorsa_idRisorsa = r.idRisorsa
+GROUP BY CODICE
+ORDER BY IDRAPPLAV]]>
+	</queryString>
+	<field name="CODICE" class="java.lang.String"/>
+	<field name="IDRAPPLAV" class="java.lang.String"/>
+	<field name="DESCRIZIONE" class="java.lang.String"/>
+	<field name="N_RISORSE" class="java.lang.Integer"/>
+	<variable name="TOTALE" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{N_RISORSE}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="2" y="2" width="47" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="50" y="0" width="60" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="52" y="2" width="57" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODICE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="110" y="0" width="150" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="112" y="2" width="147" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIZIONE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="2" width="47" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{N_RISORSE}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="50" y="0" width="60" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement x="52" y="2" width="57" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CODICE}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="110" y="0" width="150" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement x="112" y="2" width="147" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DESCRIZIONE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="35">
+			<staticText>
+				<reportElement x="0" y="5" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totale:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="53" y="5" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{TOTALE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
