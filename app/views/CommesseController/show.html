@@ -82,7 +82,9 @@
 	#{else}
 		<center><h3>Nessun Costo esistente</h3></center>
 	#{/else}
-	<a id="create" href="@{CostoCommessaController.create(commessa.idCommessa)}"><input type="button" class="submitbutton" value="Aggiungi"/></a>
+	<div id="button_center">
+	<a id="create" href="@{CostoCommessaController.create(commessa.idCommessa)}"><input type="button" class="submitbutton" value="Aggiungi Costo"/></a>
+	</div>
 #{/if}
 <div id="button_center">
 	<a href="@{CommesseController.list()}"><input type="button" class="submitbutton" value="Commesse" /></a>

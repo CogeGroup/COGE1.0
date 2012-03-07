@@ -20,20 +20,20 @@ IF(ra.mese = 9, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreL
 IF(ra.mese = 10, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_ottobre,
 IF(ra.mese = 11, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_novembre,
 IF(ra.mese = 12, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_dicembre,
-SUM(IF(ra.mese = 1, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_gennaio,
-SUM(IF(ra.mese = 2, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_febbraio,
-SUM(IF(ra.mese = 3, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_marzo,
-SUM(IF(ra.mese = 4, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_aprile,
-SUM(IF(ra.mese = 5, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_maggio,
-SUM(IF(ra.mese = 6, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_giugno,
-SUM(IF(ra.mese = 7, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_luglio,
-SUM(IF(ra.mese = 8, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_agosto,
-SUM(IF(ra.mese = 9, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_settembre,
-SUM(IF(ra.mese = 10, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_ottobre,
-SUM(IF(ra.mese = 11, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_novembre,
-SUM(IF(ra.mese = 12, costo(ra.oreLavorate,costo.importoGiornaliero), 0)) AS costo_dicembre
+IF(ra.mese = 1, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_gennaio,
+IF(ra.mese = 2, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_febbraio,
+IF(ra.mese = 3, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_marzo,
+IF(ra.mese = 4, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_aprile,
+IF(ra.mese = 5, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_maggio,
+IF(ra.mese = 6, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_giugno,
+IF(ra.mese = 7, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_luglio,
+IF(ra.mese = 8, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_agosto,
+IF(ra.mese = 9, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_settembre,
+IF(ra.mese = 10, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_ottobre,
+IF(ra.mese = 11, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_novembre,
+IF(ra.mese = 12, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_dicembre
 FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
-WHERE ra.anno = $P{ANNO}
+WHERE ra.anno = 2012
 AND ra.costo_idcosto = costo.idCosto
 AND ra.risorsa_idRisorsa = ris.idRisorsa
 AND ra.commessa_idCommessa = com.idCommessa
@@ -41,7 +41,7 @@ AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
 AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
 AND com.cliente_idCliente = cl.idCliente
 AND com.idCommessa = t.commessa_idCommessa
-AND  ris.idRisorsa = t.risorsa_idRisorsa
+AND ris.idRisorsa = t.risorsa_idRisorsa
 AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
 AND ((concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m')) OR t.dataFine IS NULL)
 GROUP BY com.codice

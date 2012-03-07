@@ -186,10 +186,6 @@ public class Tariffa extends GenericModel{
 		try {
 			Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
 			Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
-			System.out.println(commessa);
-			System.out.println(risorsa);
-			System.out.println(dataInizio);
-			System.out.println(dataFine);
 			JPAQuery query = Tariffa.find("from Tariffa t where t.risorsa = :risorsa and t.commessa = :commessa and t.dataInizio <= :dataFine and (t.dataFine is null or t.dataFine >= :dataInizio)");
 			query.bind("commessa", commessa);
 			query.bind("risorsa",risorsa);

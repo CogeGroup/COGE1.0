@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
 import models.Costo;
+import models.CostoCommessa;
 import models.Gruppo;
 import models.RendicontoAttivita;
 import models.Tariffa;
@@ -1659,8 +1659,10 @@ public class StatisticheController extends Controller {
 	private static List calcoloCostoTotaleCommessaACorpo(Integer mese, Integer anno){
 		List<Float> listaCosti = new ArrayList<Float>();
 		List<CommessaACorpo> listaCommesse = Commessa.findCommesseACorpo();
+		Date data = MyUtility.MeseEdAnnoToDataFine(mese - 1, anno);
 		for(CommessaACorpo c: listaCommesse){
-			listaCosti.add(Costo.calcolaCostoTotale(c, MyUtility.MeseEdAnnoToDataFine(mese - 1, anno)));
+//			listaCosti.add(Costo.calcolaCostoTotale(c, MyUtility.MeseEdAnnoToDataFine(mese - 1, anno)));
+			listaCosti.add(( Costo.calcolaCostoTotale(c, data) + CostoCommessa.caloloCostiAggiuntivi(c,data) ));
 		}
 		return listaCosti;
 	}

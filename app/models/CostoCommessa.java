@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,6 +42,18 @@ public class CostoCommessa extends GenericModel  {
 	
 	public CostoCommessa(CommessaACorpo commessa) {
 		this.commessa = commessa;
+	}
+	
+	public static Float caloloCostiAggiuntivi(CommessaACorpo commessa, Date data){
+		JPAQuery query = CostoCommessa.find("from CostoCommessa c where c.commessa = :commessa and c.data <= :data");
+		query.bind("commessa", commessa);
+		query.bind("data", data);
+		Float costoTotale = 0F;
+		List<CostoCommessa> costi = query.fetch();
+		for(CostoCommessa costo : costi) {
+			costoTotale += costo.importo;
+		}
+		return costoTotale;
 	}
 	
 }
