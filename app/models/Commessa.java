@@ -252,7 +252,7 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 		return 0;
 	}
 	
-	public static List<Map> prepareReportCommessaCliente(Integer anno) {
+	public static List<Map> prepareReportCommesseClienti(Integer anno) {
 		List<Map> resultSet = new ArrayList<Map>();
 		List<Commessa> listaComesse = Commessa.findCommesseFatturabili();
 		for(Commessa c : listaComesse) {
@@ -353,7 +353,7 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 				resultSet.add(result);
 			}
 		}
-		return  MyUtility.order(resultSet, "nominativo");
+		return MyUtility.orderResultSet(resultSet, "nominativo");
 	}
 	
 	

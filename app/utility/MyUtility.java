@@ -163,7 +163,7 @@ public class MyUtility {
 		return newStaff;
 	}
 	
-	public static List<Map> order(List<Map> lista, final String campo) {
+	public static List<Map> orderResultSet(List<Map> lista, final String campo) {
 		Collections.sort(lista, new Comparator() {
 			public int compare(Object o1, Object o2) {
 				Map m1 = (Map) o1;
