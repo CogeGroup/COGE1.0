@@ -4,14 +4,15 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections.map.HashedMap;
+import java.util.Set;
 
 public class MyUtility {
 
@@ -115,5 +116,52 @@ public class MyUtility {
     	}
     	return lista;
     }
+    
+    public static String getStringMese(int n) {
+		switch (n) {
+			case 1:
+				return "gennaio";
+			case 2:
+				return "febbraio";
+			case 3:
+				return "marzo";
+			case 4:
+				return "aprile";
+			case 5:
+				return "maggio";
+			case 6:
+				return "giugno";
+			case 7:
+				return "luglio";
+			case 8:
+				return "agosto";
+			case 9:
+				return "settembre";
+			case 10:
+				return "ottobre";
+			case 11:
+				return "novembre";
+			case 12:
+				return "dicembre";
+		}
+		return "";
+	} 
 
+
+	public static String cleanStaff(String staff) {
+		String[] staffArray = staff.split(",");
+		String newStaff = "- ";
+		List<String> list = Arrays.asList(staffArray);
+		Set<String> set = new HashSet<String>(list);
+		String[] result = new String[set.size()];
+		set.toArray(result);
+		for (String s : result) {
+			newStaff += s + " - ";
+		}
+		return newStaff;
+	}
+	
+	public static List<Map> order(List<Map> lista, String campo) {
+		return lista;
+	}
 }

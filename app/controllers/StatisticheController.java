@@ -1036,14 +1036,6 @@ public class StatisticheController extends Controller {
 
 	}	
 	
-	
-	
-
-	
-	
-	
-	
-	
 /*COMMESSE FATTURABILI*/
 	
 	public static void commesseClienti() {
@@ -1058,32 +1050,23 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaHTMLCommesseClienti(Integer anno) {
+		List<Map> resultSet = Commessa.prepareReportCommessaCliente(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
-						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-						Boolean.FALSE);
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-						response.out);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
 				exporter.exportReport();
 			} else {
 				result = false;
@@ -1093,35 +1076,26 @@ public class StatisticheController extends Controller {
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	public static void statisticaPDFCommesseClienti(Integer anno) {
+		List<Map> resultSet = Commessa.prepareReportCommessaCliente(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
-		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
-				.format(new Date());
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
-			response.setHeader("Content-disposition",
-					"attachment;filename=report_" + dateStr + ".pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
+			response.setHeader("Content-disposition", "attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-
 	}
-	
-
 
 /*COMMESSE NON FATTURABILI*/
-
 	
 	public static void commesseNonFatturabili() {
 
@@ -1269,10 +1243,8 @@ public class StatisticheController extends Controller {
 
 	}
 	
-	
-	
-	
 	/*TEST JASPER REPORT*/
+	
 	public static void showTest() {
 
 		Map reportParams = new HashMap();
@@ -1572,6 +1544,7 @@ public class StatisticheController extends Controller {
 		}
 
 	}
+	
 /*PORTAFOGLIO ORDINI*/
 	
 	public static void portafoglioOrdini() {

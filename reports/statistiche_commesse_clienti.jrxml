@@ -1,51 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="428"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT cl.nominativo, com.descrizione, GROUP_CONCAT(DISTINCT(ris.cognome)) AS staff, com.codice, tcom.idTipoCommessa AS tipo,
-IF(ra.mese = 1, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_gennaio,
-IF(ra.mese = 2, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_febbraio,
-IF(ra.mese = 3, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_marzo,
-IF(ra.mese = 4, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_aprile,
-IF(ra.mese = 5, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_maggio,
-IF(ra.mese = 6, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_giugno,
-IF(ra.mese = 7, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_luglio,
-IF(ra.mese = 8, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_agosto,
-IF(ra.mese = 9, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_settembre,
-IF(ra.mese = 10, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_ottobre,
-IF(ra.mese = 11, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_novembre,
-IF(ra.mese = 12, IF(com.DTYPE = 'CommessaACorpo', com.importo, SUM(ricavo(ra.oreLavorate,t.importoGiornaliero))), 0) AS ricavo_dicembre,
-IF(ra.mese = 1, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_gennaio,
-IF(ra.mese = 2, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_febbraio,
-IF(ra.mese = 3, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_marzo,
-IF(ra.mese = 4, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_aprile,
-IF(ra.mese = 5, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_maggio,
-IF(ra.mese = 6, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_giugno,
-IF(ra.mese = 7, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_luglio,
-IF(ra.mese = 8, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_agosto,
-IF(ra.mese = 9, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_settembre,
-IF(ra.mese = 10, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_ottobre,
-IF(ra.mese = 11, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_novembre,
-IF(ra.mese = 12, IF(com.DTYPE = 'CommessaACorpo', SUM(costo(ra.oreLavorate,costo.importoGiornaliero)) + costoAggiuntivo(ra.anno,ra.mese,com.idCommessa), SUM(costo(ra.oreLavorate,costo.importoGiornaliero))), 0) AS costo_dicembre
-FROM RendicontoAttivita ra, Risorsa ris, Costo costo, Commessa com, Cliente cl, TipoCommessa tcom, Tariffa t
-WHERE ra.anno = 2012
-AND ra.costo_idcosto = costo.idCosto
-AND ra.risorsa_idRisorsa = ris.idRisorsa
-AND ra.commessa_idCommessa = com.idCommessa
-AND com.calcoloRicavi = TRUE AND com.calcoloCosti = TRUE
-AND tcom.idTipoCommessa = com.tipoCommessa_idTipoCommessa
-AND com.cliente_idCliente = cl.idCliente
-AND com.idCommessa = t.commessa_idCommessa
-AND ris.idRisorsa = t.risorsa_idRisorsa
-AND concat(ra.anno, lpad(ra.mese, 2, 0)) >= date_format(t.dataInizio, '%Y%m')
-AND ((concat(ra.anno, lpad(ra.mese, 2, 0)) <= date_format(t.dataFine, '%Y%m')) OR t.dataFine IS NULL)
-GROUP BY com.codice
-ORDER BY cl.nominativo, com.descrizione]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="nominativo" class="java.lang.String"/>
 	<field name="descrizione" class="java.lang.String"/>
@@ -773,168 +735,168 @@ ORDER BY cl.nominativo, com.descrizione]]>
 			<line>
 				<reportElement x="319" y="39" width="479" height="1"/>
 			</line>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="321" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="361" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="401" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="441" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="481" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="521" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="561" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="601" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="641" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="681" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="721" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="761" y="1" width="37" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{ricavo_dicembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="321" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_gennaio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="361" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_febbraio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="401" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_marzo_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="441" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_aprile_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="481" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_maggio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="521" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_giugno_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="561" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_luglio_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="601" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_agosto_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="641" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_settembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="681" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_ottobre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="721" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$V{costo_novembre_1}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="761" y="20" width="37" height="18" forecolor="#FF0000"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
