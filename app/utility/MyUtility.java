@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -161,7 +163,16 @@ public class MyUtility {
 		return newStaff;
 	}
 	
-	public static List<Map> order(List<Map> lista, String campo) {
+	public static List<Map> order(List<Map> lista, final String campo) {
+		Collections.sort(lista, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				Map m1 = (Map) o1;
+				String s1 = (String) m1.get(campo);
+				Map m2 = (Map) o2;
+				String s2 = (String) m2.get(campo);
+                return (s1).compareTo(s2);
+            }
+        });
 		return lista;
 	}
 }
