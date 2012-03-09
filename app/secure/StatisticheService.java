@@ -135,9 +135,7 @@ public class StatisticheService {
 						Tariffa t = new Tariffa();
 						switch (ra.mese) {
 							case 1:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, com);
 									tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 								}
@@ -145,99 +143,77 @@ public class StatisticheService {
 								costoTot[0] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 2:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(1, anno, ra.risorsa, com);
 									tariffaTot[1] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[1] = costoTot[1] + ra.costo.importoGiornaliero;				
 								break;
 							case 3:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(2, anno, ra.risorsa, com);
 									tariffaTot[2] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[2] = costoTot[2] + ra.costo.importoGiornaliero;
 								break;
 							case 4:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(3, anno, ra.risorsa, com);
 									tariffaTot[3] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[3] = costoTot[3] + ra.costo.importoGiornaliero;
 								break;
 							case 5:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(4, anno, ra.risorsa, com);
 									tariffaTot[4] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[4] = costoTot[4] + ra.costo.importoGiornaliero;
 								break;
 							case 6:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(5, anno, ra.risorsa, com);
 									tariffaTot[5] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[5] = costoTot[5] + ra.costo.importoGiornaliero;
 								break;
 							case 7:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(6, anno, ra.risorsa, com);
 									tariffaTot[6] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[6] = costoTot[6] + ra.costo.importoGiornaliero;
 								break;
 							case 8:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(7, anno, ra.risorsa, com);
 									tariffaTot[7] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[7] = costoTot[7] + ra.costo.importoGiornaliero;
 								break;
 							case 9:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(8, anno, ra.risorsa, com);
 									tariffaTot[8] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[8] = costoTot[8] + ra.costo.importoGiornaliero;
 								break;
 							case 10:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(9, anno, ra.risorsa, com);
 									tariffaTot[9] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[9] = costoTot[9] + ra.costo.importoGiornaliero;
 								break;
 							case 11:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(10, anno, ra.risorsa, com);
 									tariffaTot[10] += t != null ? t.importoGiornaliero: 0;
 								}
 								costoTot[10] = costoTot[10] + ra.costo.importoGiornaliero;
 								break;
 							case 12:
-								if(com instanceof CommessaACorpo) {
-									tariffaTot[0] += 0;
-								} else {
+								if(!(com instanceof CommessaACorpo)) {
 									t = Tariffa.findByRisorsaAndCommessaAndData(11, anno, ra.risorsa, com);
 									tariffaTot[11] += t != null ? t.importoGiornaliero: 0;
 								}
@@ -246,16 +222,19 @@ public class StatisticheService {
 						}
 					}
 				}
-				for(int i=0;i<12;i++){
-					if(tariffaTot[i] != 0 || costoTot[i] != 0) {
-						if(com instanceof CommessaACorpo) {
-							tariffaTot[i] += ((CommessaACorpo) com).importo;
-							CostoCommessa cc = CostoCommessa.find("byCommessaAndData", com, MyUtility.MeseEdAnnoToDataInizio(i, anno)).first();
-							float costoTotale = costoTot[i];
-							if(cc!=null){
-								costoTotale += cc.importo;
+				
+				if(com instanceof CommessaACorpo) {
+					if(RendicontoAttivita.find("byAnnoAndCommessa", anno, com).fetch().size() > 0){
+						for(int i=0;i<12;i++){
+							if(tariffaTot[i] != 0 || costoTot[i] != 0) {
+								tariffaTot[i] += ((CommessaACorpo) com).importo;
+								CostoCommessa cc = CostoCommessa.find("byCommessaAndData", com, MyUtility.MeseEdAnnoToDataInizio(i, anno)).first();
+								float costoTotale = costoTot[i];
+								if(cc!=null){
+									costoTotale += cc.importo;
+								}
+								costoTot[i] = costoTotale;
 							}
-							costoTot[i] = costoTotale;
 						}
 					}
 				}
