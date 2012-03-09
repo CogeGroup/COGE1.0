@@ -37,6 +37,7 @@ import play.mvc.Controller;
 import play.mvc.With;
 import play.vfs.VirtualFile;
 import secure.SecureCOGE;
+import secure.StatisticheService;
 import utility.MyUtility;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -228,7 +229,7 @@ public class StatisticheController extends Controller {
 	}
 
 	public static void statisticaPDFClienti(Integer anno) {
-		List<Map> resultSet = Cliente.prepareReportClienti(anno);
+		List<Map> resultSet = StatisticheService.prepareReportClienti(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
@@ -246,7 +247,7 @@ public class StatisticheController extends Controller {
 	}
 
 	public static void statisticaHTMLClienti(Integer anno) {
-		List<Map> resultSet = Cliente.prepareReportClienti(anno);
+		List<Map> resultSet = StatisticheService.prepareReportClienti(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
@@ -1037,7 +1038,7 @@ public class StatisticheController extends Controller {
 	}
 
 	public static void statisticaHTMLCommesseClienti(Integer anno) {
-		List<Map> resultSet = Commessa.prepareReportCommesseClienti(anno);
+		List<Map> resultSet = StatisticheService.prepareReportCommesseClienti(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
@@ -1066,7 +1067,7 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFCommesseClienti(Integer anno) {
-		List<Map> resultSet = Commessa.prepareReportCommesseClienti(anno);
+		List<Map> resultSet = StatisticheService.prepareReportCommesseClienti(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
@@ -1546,8 +1547,7 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaHTMLPortafoglioOrdini(Integer anno) {
-		// TODO
-		List<Map> resultSet = Commessa.prepareReportPortafoglioOrdini(anno);
+		List<Map> resultSet = StatisticheService.prepareReportPortafoglioOrdini(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
@@ -1577,8 +1577,7 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFPortafoglioOrdini(Integer anno) {
-		// TODO
-		List<Map> resultSet = Commessa.prepareReportPortafoglioOrdini(anno);
+		List<Map> resultSet = StatisticheService.prepareReportPortafoglioOrdini(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
