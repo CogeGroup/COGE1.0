@@ -381,7 +381,7 @@
 	</columnHeader>
 	<detail>
 		<band height="40" splitType="Stretch">
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="361" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_febbraio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -390,7 +390,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_febbraio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="401" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_marzo} != 0]]></printWhenExpression>
 				</reportElement>
@@ -399,7 +399,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_marzo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="441" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_aprile} != 0]]></printWhenExpression>
 				</reportElement>
@@ -408,7 +408,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_aprile}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="481" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_maggio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -417,7 +417,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_maggio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="521" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_giugno} != 0]]></printWhenExpression>
 				</reportElement>
@@ -426,7 +426,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_giugno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="561" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_luglio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -435,7 +435,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_luglio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="601" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_agosto} != 0]]></printWhenExpression>
 				</reportElement>
@@ -444,7 +444,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_agosto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="641" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_settembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -453,7 +453,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_settembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="681" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_ottobre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -462,7 +462,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_ottobre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="721" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_novembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -471,7 +471,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_novembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="761" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_dicembre} != 0]]></printWhenExpression>
 				</reportElement>
@@ -480,7 +480,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_dicembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="321" y="1" width="37" height="18">
 					<printWhenExpression><![CDATA[$F{ricavo_gennaio} != 0]]></printWhenExpression>
 				</reportElement>
@@ -489,7 +489,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{ricavo_gennaio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="321" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_gennaio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -498,7 +498,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_gennaio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="361" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_febbraio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -507,7 +507,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_febbraio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="401" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_marzo}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -516,7 +516,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_marzo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="441" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_aprile}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -525,7 +525,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_aprile}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="481" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_maggio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -534,7 +534,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_maggio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="521" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_giugno}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -543,7 +543,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_giugno}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="561" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_luglio}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -552,7 +552,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_luglio}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="601" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_agosto}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -561,7 +561,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_agosto}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="641" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_settembre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -570,7 +570,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_settembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="681" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_ottobre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -579,7 +579,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_ottobre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="721" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_novembre}!= 0]]></printWhenExpression>
 				</reportElement>
@@ -588,7 +588,7 @@
 				</textElement>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_novembre}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00;-#,##0.00">
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
 				<reportElement x="761" y="20" width="37" height="18" forecolor="#FF0000">
 					<printWhenExpression><![CDATA[$F{costo_dicembre}!= 0]]></printWhenExpression>
 				</reportElement>
