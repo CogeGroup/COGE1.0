@@ -1095,34 +1095,25 @@ public class StatisticheController extends Controller {
 	public static void showCommesseNonFatturabili(Integer anno) {
 		render(anno);
 	}
-	
+
 	public static void statisticaHTMLCommesseNonFatturabili(Integer anno) {
+		List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabili(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
-						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-						Boolean.FALSE);
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-						response.out);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
 				exporter.exportReport();
 			} else {
 				result = false;
@@ -1136,20 +1127,16 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFCommesseNonFatturabili(Integer anno) {
+		List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabili(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
-		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
-				.format(new Date());
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
-			response.setHeader("Content-disposition",
-					"attachment;filename=report_" + dateStr + ".pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
+			response.setHeader("Content-disposition", "attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 		} catch (JRException e) {
 			e.printStackTrace();
@@ -1160,9 +1147,7 @@ public class StatisticheController extends Controller {
 /*COMMESSE NON FATTURABILI COLLABORATORI ANNO*/
 	
 	public static void commesseNonFatturabiliCollaboratoriAnno() {
-
-		List<String> listaAnni = RendicontoAttivita.find(
-				"select distinct anno from RendicontoAttivita").fetch();
+		List<String> listaAnni = RendicontoAttivita.find("select distinct anno from RendicontoAttivita").fetch();
 		render(listaAnni);
 	}
 	
@@ -1171,32 +1156,23 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaHTMLCommesseNonFatturabiliCollaboratoriAnno(Integer anno) {
+		List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabiliCollaboratori(anno);
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
-						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-						Boolean.FALSE);
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-						response.out);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
 				exporter.exportReport();
 			} else {
 				result = false;
@@ -1210,20 +1186,16 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFCommesseNonFatturabiliCollaboratoriAnno(Integer anno) {
+		List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabiliCollaboratori(anno);
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
 		JasperPrint jrprint;
-		String dateStr = new SimpleDateFormat("yyyyMMddHHmm")
-				.format(new Date());
+		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
-			JasperReport jasperReport = JasperCompileManager.compileReport(vf
-					.getRealFile().getAbsolutePath());
-			jrprint = JasperFillManager.fillReport(jasperReport, reportParams,
-					DB.getConnection());
-			response.setHeader("Content-disposition",
-					"attachment;filename=report_" + dateStr + ".pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
+			jrprint = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
+			response.setHeader("Content-disposition", "attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 		} catch (JRException e) {
 			e.printStackTrace();

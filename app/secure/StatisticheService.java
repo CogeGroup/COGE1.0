@@ -9,9 +9,11 @@ import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
 import models.CostoCommessa;
+import models.RapportoLavoro;
 import models.RendicontoAttivita;
 import models.Tariffa;
 import models.TipoCommessa;
+import models.TipoRapportoLavoro;
 import utility.MyUtility;
 
 public class StatisticheService {
@@ -381,11 +383,7 @@ public class StatisticheService {
 						}
 					}
 				}
-				if(c.codice.equals("MININT"))
-					System.out.println("MININT " + com.codice+ ": " + tariffaTot[0]);
 			}
-			if(c.codice.equals("MININT"))
-				System.out.println("MININT " + tariffaTot[0]);
 			result.put("codice", c.codice);
 			result.put("nominativo", c.nominativo);
 			for(int i=0;i<12;i++){
@@ -411,8 +409,151 @@ public class StatisticheService {
 		return MyUtility.orderResultSet(resultSet, "codice");
 	}
 	
-	// conviene fare un metodo di smistamento? si provare per dipendente poi cambiare in ccp se funziona metodo di smistamento obbligatorio :-)
-	// TODO giorni statistiche commesse non fatturabili DIP
-	// TODO giorni statistiche commesse non fatturabili CCP
-
+	public static List<Map> prepareReportCommesseNonFatturabili(Integer anno) {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<Commessa> listaComesse = Commessa.findCommesseNonFatturabili();
+		for(Commessa c : listaComesse) {
+			Map result = new HashMap();
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndCommessa", anno, c).fetch();
+			float[] oreTot = new float[12];
+			result.put("descrizione", c.descrizione);
+			result.put("codice", c.codice);
+			for(RendicontoAttivita ra : listaRapportini) {
+				if(!(ra.rapportoLavoro.tipoRapportoLavoro.codice.equals("CCP"))){
+					switch (ra.mese) {
+						case 1:
+								oreTot[0] += ra.oreLavorate;
+							break;
+						case 2:
+								oreTot[1] += ra.oreLavorate;
+							break;
+						case 3:
+								oreTot[2] += ra.oreLavorate;
+							break;
+						case 4:
+								oreTot[3] += ra.oreLavorate;
+							break;
+						case 5:
+								oreTot[4] += ra.oreLavorate;
+							break;
+						case 6:
+								oreTot[5] += ra.oreLavorate;
+							break;
+						case 7:
+								oreTot[6] += ra.oreLavorate;
+							break;
+						case 8:
+								oreTot[7] += ra.oreLavorate;
+							break;
+						case 9:
+								oreTot[8] += ra.oreLavorate;
+							break;
+						case 10:
+								oreTot[9] += ra.oreLavorate;
+							break;
+						case 11:
+								oreTot[10] += ra.oreLavorate;
+							break;
+						case 12:
+								oreTot[11] += ra.oreLavorate;
+							break;
+					}
+				}
+			}
+			float totPrimoSempestre = 0f;
+			float totsecondoSempestre = 0f;
+			for(int i=0;i<12;i++){
+				if(oreTot[i] > 0) {
+					result.put("totale_" + MyUtility.getStringMese(i+1), oreTot[i] / 8);
+				}
+				if(i<6){
+					totPrimoSempestre += oreTot[i] / 8;
+				} else {
+					totsecondoSempestre += oreTot[i] / 8;
+				}
+			}
+			float tot = totPrimoSempestre + totsecondoSempestre;
+			result.put("ore_totali_primo_semestre", totPrimoSempestre);
+			result.put("ore_totali_secondo_semestre", totsecondoSempestre);
+			result.put("ore_totali", tot);
+			if(tot > 0)
+				resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "codice");
+	}
+	
+	public static List<Map> prepareReportCommesseNonFatturabiliCollaboratori(Integer anno) {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<Commessa> listaComesse = Commessa.findCommesseNonFatturabili();
+		for(Commessa c : listaComesse) {
+			Map result = new HashMap();
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndCommessa", anno, c).fetch();
+			float[] oreTot = new float[12];
+			result.put("descrizione", c.descrizione);
+			result.put("codice", c.codice);
+			for(RendicontoAttivita ra : listaRapportini) {
+				if(ra.rapportoLavoro.tipoRapportoLavoro.codice.equals("CCP")){
+					switch (ra.mese) {
+						case 1:
+								oreTot[0] += ra.oreLavorate;
+							break;
+						case 2:
+								oreTot[1] += ra.oreLavorate;
+							break;
+						case 3:
+								oreTot[2] += ra.oreLavorate;
+							break;
+						case 4:
+								oreTot[3] += ra.oreLavorate;
+							break;
+						case 5:
+								oreTot[4] += ra.oreLavorate;
+							break;
+						case 6:
+								oreTot[5] += ra.oreLavorate;
+							break;
+						case 7:
+								oreTot[6] += ra.oreLavorate;
+							break;
+						case 8:
+								oreTot[7] += ra.oreLavorate;
+							break;
+						case 9:
+								oreTot[8] += ra.oreLavorate;
+							break;
+						case 10:
+								oreTot[9] += ra.oreLavorate;
+							break;
+						case 11:
+								oreTot[10] += ra.oreLavorate;
+							break;
+						case 12:
+								oreTot[11] += ra.oreLavorate;
+							break;
+					}
+				}
+			}
+			float totPrimoSempestre = 0f;
+			float totsecondoSempestre = 0f;
+			for(int i=0;i<12;i++){
+				if(oreTot[i] > 0) {
+					result.put("totale_" + MyUtility.getStringMese(i+1), oreTot[i] / 8);
+				}
+				if(i<6){
+					totPrimoSempestre += oreTot[i] / 8;
+				} else {
+					totsecondoSempestre += oreTot[i] / 8;
+				}
+			}
+			float tot = totPrimoSempestre + totsecondoSempestre;
+			result.put("ore_totali_primo_semestre", totPrimoSempestre);
+			result.put("ore_totali_secondo_semestre", totsecondoSempestre);
+			result.put("ore_totali", tot);
+			System.out.println(c.codice);
+			System.out.println(tot);
+			if(tot > 0)
+				resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "codice");
+	}
 }
