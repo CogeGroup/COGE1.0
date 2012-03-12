@@ -1575,63 +1575,28 @@ public class StatisticheController extends Controller {
 		render(mese, anno);
 	}
 	
-	private static List calcoloCostoTotaleCommessaACorpo(Integer mese, Integer anno){
-		List<Float> listaCosti = new ArrayList<Float>();
-		List<CommessaACorpo> listaCommesse = Commessa.findCommesseACorpo();
-		Date data = MyUtility.MeseEdAnnoToDataFine(mese - 1, anno);
-		for(CommessaACorpo c: listaCommesse){
-//			listaCosti.add(Costo.calcolaCostoTotale(c, MyUtility.MeseEdAnnoToDataFine(mese - 1, anno)));
-			listaCosti.add(( Costo.calcolaCostoTotale(c, data) + CostoCommessa.caloloCostiAggiuntivi(c,data) ));
-		}
-		return listaCosti;
-	}
-	private static List calcoloRicavoTotaleCommessaACorpo(Integer mese, Integer anno){
-		List<Float> listaRicavi = new ArrayList<Float>();
-		List<CommessaACorpo> listaCommesse = Commessa.findCommesseACorpo();
-		for(CommessaACorpo c: listaCommesse){
-			listaRicavi.add(Tariffa.calcolaRicavoTotale(c, MyUtility.MeseEdAnnoToDataFine(mese - 1, anno)));
-		}
-		return listaRicavi;
-	}
-	
 	public static void statisticaHTMLCommesseACorpo(Integer mese, Integer anno) {
-		List costo = calcoloCostoTotaleCommessaACorpo(mese, anno);
-		List ricavo = calcoloRicavoTotaleCommessaACorpo(mese, anno);
+		// TODO service!!!
+		List<Map> resultSet = StatisticheService.prepareReportCommesseACorpo(anno,mese);
 		boolean result = true;
-		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1)
-				.withMonthOfYear(mese).withYear(anno);
-		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese)
-				.withYear(anno).dayOfMonth().withMaximumValue();
 		Map reportParams = new HashMap();
 		reportParams.put("MESE", mese);
 		reportParams.put("ANNO", anno);
-		reportParams.put("DATA_INIZIO", dataInizio.toDate());
-		reportParams.put("DATA_FINE", dataFine.toDate());
-		reportParams.put("COSTO", costo);
-		reportParams.put("RICAVO", ricavo);
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesseACorpo.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, DB.getConnection());
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
-						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-						Boolean.FALSE);
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-						response.out);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR, Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
 				exporter.exportReport();
-
 			} else {
 				result = false;
 				response.status = 404;
@@ -1643,36 +1608,30 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFCommesseACorpo(Integer mese, Integer anno) {
-		List costo = calcoloCostoTotaleCommessaACorpo(mese, anno);
-		List ricavo = calcoloRicavoTotaleCommessaACorpo(mese, anno);
-		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1)
-				.withMonthOfYear(mese).withYear(anno);
-		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese)
-				.withYear(anno).dayOfMonth().withMaximumValue();
+		List<Map> resultSet = StatisticheService.prepareReportCommesseACorpo(anno,mese);
+//		List costo = calcoloCostoTotaleCommessaACorpo(mese, anno);
+//		List ricavo = calcoloRicavoTotaleCommessaACorpo(mese, anno);
+		DateMidnight dataInizio = new DateMidnight().withDayOfMonth(1).withMonthOfYear(mese).withYear(anno);
+		DateMidnight dataFine = new DateMidnight().withMonthOfYear(mese).withYear(anno).dayOfMonth().withMaximumValue();
 		Map reportParams = new HashMap();
 		reportParams.put("MESE", mese);
 		reportParams.put("ANNO", anno);
 		reportParams.put("DATA_INIZIO", dataInizio.toDate());
 		reportParams.put("DATA_FINE", dataFine.toDate());
-		reportParams.put("COSTO", costo);
-		reportParams.put("RICAVO", ricavo);
+//		reportParams.put("COSTO", costo);
+//		reportParams.put("RICAVO", ricavo);
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
-
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/statistiche_commesseACorpo.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile()
-					.getAbsolutePath(), reportParams, DB.getConnection());
-			response.setHeader("Content-disposition",
-					"attachment;filename=report_" + dateStr + ".pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesseACorpo.jasper");
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
+			response.setHeader("Content-disposition", "attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
