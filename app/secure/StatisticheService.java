@@ -1,6 +1,8 @@
 package secure;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import models.CommessaACorpo;
 import models.CostoCommessa;
 import models.RapportoLavoro;
 import models.RendicontoAttivita;
+import models.Risorsa;
 import models.Tariffa;
 import models.TipoCommessa;
 import models.TipoRapportoLavoro;
@@ -590,7 +593,6 @@ public class StatisticheService {
 			if(costoAggiuntivo > 0){
 				costoTot += costoAggiuntivo;
 			}
-			System.out.println(costoAggiuntivo);
 			result.put("risorse", listarisorse);
 			result.put("COSTO", costoTot);
 			result.put("RICAVO", tariffaTot);
@@ -598,5 +600,102 @@ public class StatisticheService {
 				resultSet.add(result);
 		}
 		return MyUtility.orderResultSet(resultSet, "nome");
+	}
+	
+	public static List<Map> prepareReportRisorse(Integer anno, Integer mese) {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for(Risorsa r : listaRisorse) {
+			Map result = new HashMap();
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndAnnoAndMese", r, anno, mese).fetch();
+			float oreLavorate = 0f;
+			float costo = 0f;
+			String cliComm = "";
+			float ricavoTot = 0f;
+			float costoTot = 0f;
+			result.put("codice", r.codice);
+			result.put("cognome", r.cognome + " " + r.nome);
+			result.put("stato_risorsa", r.tipoStatoRisorsa.codice);
+			List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(r, mese-1, anno);
+			for(RendicontoAttivita ra : listaRapportini) {
+				oreLavorate += ra.oreLavorate;
+				cliComm += ra.commessa.cliente.codice + "-" + ra.commessa.codice + " ";
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, ra.commessa);
+				ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+				// TODO importoMensile ?
+				costo = ra.costo.importoGiornaliero;
+				if(ra.costo.importoMensile != null) {
+					costoTot = ra.costo.importoMensile;
+				} else {
+					costoTot += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
+				}
+			}
+			result.put("ore_lavorate", oreLavorate);
+			result.put("cliente_commessa", cliComm);
+			if(!r.gruppo.codice.equals("STAFF")){
+				result.put("costo_giornaliero", costo);
+				result.put("ricavo_totale", ricavoTot);
+				if(r.tipoStatoRisorsa.codice.equals("SOSP")){
+					costoTot = 0;
+				}
+				if(ricavoTot != 0){
+					result.put("margine_totale", (ricavoTot - costoTot) / ricavoTot);
+				} else if(ricavoTot == 0 && costoTot != 0){
+					result.put("margine_totale", new Integer(-1));
+				} else if(ricavoTot == 0 && costoTot == 0){
+					result.put("margine_totale", 0);
+				}
+				result.put("costo_totale", costoTot);
+			}
+			if(listaRapportini.size() > 0) {
+				result.put("rappLavoro",rl.get(0).tipoRapportoLavoro.codice);
+				resultSet.add(result);
+			}
+		}
+		return MyUtility.orderResultSet(resultSet, "cognome");
+	}
+	
+	public static List<Map> prepareReportTipoLavoro(Integer anno, Integer mese) {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<TipoRapportoLavoro> listaTipoRapportolavoro = TipoRapportoLavoro.findAll();
+		for(TipoRapportoLavoro trl : listaTipoRapportolavoro) {
+			Map result = new HashMap();
+			float oreLavorate = 0f;
+			float ricavoTot = 0f;
+			float costoTot = 0f;
+			Integer numeroRisorse = RapportoLavoro.countRisorse(trl);
+			result.put("numRisorse", numeroRisorse);
+			result.put("codice", trl.codice);
+			result.put("descrizione", trl.descrizione);
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndMese", anno, mese).fetch();
+			for(RendicontoAttivita ra : listaRapportini) {
+				List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(ra.risorsa, mese-1, anno);
+				if(rl.get(0).tipoRapportoLavoro == trl){
+					if(!ra.risorsa.gruppo.codice.equals("STAFF")){
+						oreLavorate += ra.oreLavorate;
+						if(!ra.risorsa.tipoStatoRisorsa.codice.equals("SOSP")){
+							if(ra.costo.importoMensile != null) {
+								costoTot = ra.costo.importoMensile;
+							} else {
+								costoTot += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
+							}
+						}
+						Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, ra.commessa);
+						ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+					}
+				}
+			}
+			result.put("costoTotale", costoTot);
+			result.put("ricavoTotale", ricavoTot);
+			if(ricavoTot != 0){
+				result.put("margineTotale", (ricavoTot - costoTot) / ricavoTot);
+			} else {
+				result.put("margineTotale", new Integer(-1));
+			}
+			result.put("oreLavorate", oreLavorate);
+			if(oreLavorate > 0)
+				resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "descrizione");
 	}
 }

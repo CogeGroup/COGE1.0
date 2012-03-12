@@ -16,73 +16,14 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT COUNT(*) AS numRisorse,
-t.idTipoRapportoLavoro AS idTipoRapportoLavoro, t.rappLavoro_cod AS codice, t.rappLavoro_desc AS descrizione,
-SUM(t.ore_lavorate) AS oreLavorate,
-SUM(t.costo_totale) AS costoTot,
-SUM(t.ricavo_totale) AS ricavoTotale,
-margine(SUM(t.costo_totale), SUM(t.ricavo_totale)) AS margineTotale
-FROM(
-SELECT idRisorsa,
-rappLavoro AS rappLavoro_cod, descrizione AS rappLavoro_desc, idTipoRapportoLavoro,
-SUM(ore_lavorate) AS ore_lavorate,
-SUM(costo_totale) AS costo_totale,
-SUM(ricavo_totale) AS ricavo_totale
-FROM
-(
-(
-SELECT r.idRisorsa AS idRisorsa,
-trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro, trl.descrizione AS descrizione,
-SUM(ra.oreLavorate) AS ore_lavorate,
-if(c.importoMensile is null, SUM(costo(c.importoGiornaliero,ra.oreLavorate)), c.importoMensile) AS costo_totale,
-SUM(IF(com.DTYPE = 'CommessaACorpo', com.importo, ricavo(t.importoGiornaliero,ra.oreLavorate))) AS ricavo_totale
-FROM `Risorsa` r, `Costo` c, `Tariffa` t, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl,`TipoRapportoLavoro` trl
-WHERE r.idRisorsa = c.risorsa_idRisorsa
-AND r.idRisorsa = t.risorsa_idRisorsa
-AND t.commessa_idCommessa = com.idCommessa
-AND r.idRisorsa = ra.risorsa_idRisorsa
-AND ra.commessa_idCommessa = com.idCommessa
-AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
-AND r.idRisorsa = rl.risorsa_idRisorsa
-AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
-AND ra.costo_idCosto = c.idCosto
-AND ((c.dataInizio <= $P{DATA_INIZIO} AND (c.dataFine is null OR c.dataFine >= $P{DATA_FINE})) OR (c.dataInizio <= $P{DATA_INIZIO} AND c.dataFine >= $P{DATA_INIZIO} AND c.dataFine <= $P{DATA_FINE}) OR (c.dataInizio >= $P{DATA_INIZIO} AND c.dataInizio <= $P{DATA_FINE} AND (c.dataFine is null OR c.dataFine >= $P{DATA_FINE})) OR (c.dataInizio > $P{DATA_INIZIO} AND c.dataFine < $P{DATA_FINE}))
-AND ((t.dataInizio <= $P{DATA_INIZIO} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio <= $P{DATA_INIZIO} AND t.dataFine >= $P{DATA_INIZIO} AND t.dataFine <= $P{DATA_FINE}) OR (t.dataInizio >= $P{DATA_INIZIO} AND t.dataInizio <= $P{DATA_FINE} AND (t.dataFine is null OR t.dataFine >= $P{DATA_FINE})) OR (t.dataInizio > $P{DATA_INIZIO} AND t.dataFine < $P{DATA_FINE}))
-AND ((rl.dataInizio <= $P{DATA_INIZIO} AND (rl.dataFine is null OR rl.dataFine >= $P{DATA_FINE})) OR (rl.dataInizio <= $P{DATA_INIZIO} AND rl.dataFine >= $P{DATA_INIZIO} AND rl.dataFine <= $P{DATA_FINE}) OR (rl.dataInizio >= $P{DATA_INIZIO} AND rl.dataInizio <= $P{DATA_FINE} AND (rl.dataFine is null OR rl.dataFine >= $P{DATA_FINE})) OR (rl.dataInizio > $P{DATA_INIZIO} AND rl.dataFine < $P{DATA_FINE}))
-AND ra.mese= $P{MESE}
-AND ra.anno= $P{ANNO}
-GROUP BY idRisorsa, idTipoRapportoLavoro
-)
-UNION
-(
-SELECT r.idRisorsa AS idRisorsa,
-trl.codice AS rappLavoro, trl.idTipoRapportoLavoro AS idTipoRapportoLavoro, trl.descrizione AS descrizione,
-ra.oreLavorate AS ore_lavorate,
-if(c.importoMensile is null, costo(c.importoGiornaliero,ra.oreLavorate), 0) AS costo_totale,
-0 AS ricavo_totale
-FROM `Risorsa` r, `Costo` c, `Commessa` com, `RendicontoAttivita` ra, `RapportoLavoro` rl, `TipoRapportoLavoro` trl
-WHERE r.idRisorsa = c.risorsa_idRisorsa
-AND r.idRisorsa = rl.risorsa_idRisorsa
-AND r.idRisorsa = ra.risorsa_idRisorsa
-AND ra.commessa_idCommessa = com.idCommessa
-AND rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro
-AND ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro
-AND ra.costo_idCosto = c.idCosto
-AND com.codice = 'ST-ASSR'
-AND ra.mese= $P{MESE}
-AND ra.anno= $P{ANNO}
-)
-) AS tab
-GROUP BY idRisorsa, idTipoRapportoLavoro
-) AS t
-GROUP BY t.idTipoRapportoLavoro]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="numRisorse" class="java.lang.Long"/>
 	<field name="idTipoRapportoLavoro" class="java.lang.Integer"/>
 	<field name="codice" class="java.lang.String"/>
 	<field name="descrizione" class="java.lang.String"/>
 	<field name="oreLavorate" class="java.lang.Double"/>
-	<field name="costoTot" class="java.lang.Double"/>
+	<field name="costoTotale" class="java.lang.Double"/>
 	<field name="ricavoTotale" class="java.lang.Double"/>
 	<field name="margineTotale" class="java.lang.Float"/>
 	<variable name="RICAVO_TOTALE" class="java.lang.Number" calculation="Sum">
@@ -92,7 +33,7 @@ GROUP BY t.idTipoRapportoLavoro]]>
 		<variableExpression><![CDATA[$F{oreLavorate}]]></variableExpression>
 	</variable>
 	<variable name="COSTO_TOTALE" class="java.lang.Number" calculation="Sum">
-		<variableExpression><![CDATA[$F{costoTot}]]></variableExpression>
+		<variableExpression><![CDATA[$F{costoTotale}]]></variableExpression>
 	</variable>
 	<variable name="MARGINE_MEDIO" class="java.lang.Number">
 		<variableExpression><![CDATA[($V{RICAVO_TOTALE} - $V{COSTO_TOTALE}) / $V{RICAVO_TOTALE}]]></variableExpression>
@@ -116,7 +57,7 @@ GROUP BY t.idTipoRapportoLavoro]]>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$V{RICAVO_TOTALE}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="#,##0.00">
-				<reportElement mode="Opaque" x="301" y="0" width="60" height="20" backcolor="#FF0000"/>
+				<reportElement mode="Opaque" x="301" y="0" width="60" height="20" isRemoveLineWhenBlank="true" backcolor="#FF0000"/>
 				<box rightPadding="2">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -247,7 +188,7 @@ GROUP BY t.idTipoRapportoLavoro]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isPdfEmbedded="true"/>
 				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTot}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costoTotale}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

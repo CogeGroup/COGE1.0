@@ -1,6 +1,7 @@
 package models;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -164,6 +165,21 @@ public class RapportoLavoro extends GenericModel{
 		query.bind("dataFine", dataFine);
 		query.bind("trl", trl);
 		return query.first();
+	}
+	
+	public static Integer countRisorse(TipoRapportoLavoro trl){
+		List<RapportoLavoro> listaRapportoLavoro = RapportoLavoro.find("byTipoRapportoLavoro", trl).fetch();
+		List<Risorsa> listaRisorse = new ArrayList<Risorsa>();
+		for(RapportoLavoro ra : listaRapportoLavoro){
+			boolean flag = true;
+			for(Risorsa r : listaRisorse){
+				if(ra.risorsa.idRisorsa == r.idRisorsa)
+					flag = false;
+			}
+			if(flag)
+				listaRisorse.add(ra.risorsa);
+		}
+		return listaRisorse.size();
 	}
    
 }
