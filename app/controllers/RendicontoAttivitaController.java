@@ -168,12 +168,12 @@ public class RendicontoAttivitaController extends Controller {
 					float oreLavorate = 0;
 					try {
 						oreLavorate = Float.parseFloat(oreLavorateString);
-						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, mese+1, anno, risorsa, commessa);
+						RendicontoAttivita rendicontoAttivita = new RendicontoAttivita(oreLavorate, (mese + 1), anno, risorsa, commessa);
 						if(s.length != 2){
 							TipoRapportoLavoro trl = TipoRapportoLavoro.find("byCodice",s[2]).first();
-							rendicontoAttivita.rapportoLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnnoAndTipoRapportoLavoro(risorsa, trl, mese, anno);
+							rendicontoAttivita.rapportoLavoro = RapportoLavoro.findByRisorsaAndMeseAndAnnoAndTipoRapportoLavoro(risorsa, trl, mese - 1, anno);
 						}else{
-							RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(risorsa, MyUtility.MeseEdAnnoToDataFine(mese, anno), MyUtility.MeseEdAnnoToDataInizio(mese, anno));
+							RapportoLavoro ral = RapportoLavoro.findByRisorsaAndPeriodo(risorsa, MyUtility.MeseEdAnnoToDataFine(mese-1, anno), MyUtility.MeseEdAnnoToDataInizio(mese-1, anno));
 							rendicontoAttivita.rapportoLavoro = ral;
 						}
 						rendicontoAttivita.costo = Costo.extractByRisorsaAndPeriodo(risorsa, rendicontoAttivita.rapportoLavoro.dataInizio, rendicontoAttivita.rapportoLavoro.dataFine,

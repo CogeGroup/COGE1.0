@@ -4,12 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT count(r.idRisorsa) AS N_RISORSE, trl.codice AS CODICE, trl.descrizione AS DESCRIZIONE, trl.idTipoRapportoLavoro AS IDRAPPLAV
-FROM `Risorsa` r, `RapportoLavoro` rl, `TipoRapportoLavoro` trl
-WHERE trl.idTipoRapportoLavoro = rl.tipoRapportoLavoro_idTipoRapportoLavoro
-AND rl.risorsa_idRisorsa = r.idRisorsa
-GROUP BY CODICE
-ORDER BY IDRAPPLAV]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="CODICE" class="java.lang.String"/>
 	<field name="IDRAPPLAV" class="java.lang.String"/>

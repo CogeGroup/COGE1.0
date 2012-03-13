@@ -129,6 +129,7 @@ public class RapportoLavoro extends GenericModel{
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
+		System.out.println(query.first());
 		return query.first();
 	}
 	

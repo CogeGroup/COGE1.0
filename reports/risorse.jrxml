@@ -8,12 +8,7 @@
 	</parameter>
 	<parameter name="subreport" class="java.util.Collection"/>
 	<queryString>
-		<![CDATA[SELECT r.codice AS CODICE, concat(r.cognome,' ',r.nome) AS RISORSA, trl.codice AS RAPPLAVORO, trl.idTipoRapportoLavoro AS IDRAPPLAV, r.dataIn AS DATAIN, r.dataOut AS DATAOUT, tsr.codice AS STATO
-FROM `Risorsa` r, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `TipoStatoRisorsa` tsr
-WHERE r.idRisorsa = rl.risorsa_idRisorsa
-AND rl.tipoRapportoLavoro_idTipoRapportoLavoro
-AND r.tipoStatoRisorsa_idTipoStatoRisorsa = tsr.idTipoStatoRisorsa
-ORDER BY IDRAPPLAV, RISORSA]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="CODICE" class="java.lang.String"/>
 	<field name="RISORSA" class="java.lang.String"/>
