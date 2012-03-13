@@ -70,52 +70,43 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFRisorseTotali() {
+		List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		Map reportParams = new HashMap();
+		reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		String dateStr = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		JasperPrint jrprint;
-
 		try {
-			VirtualFile vf = VirtualFile
-					.fromRelativePath("reports/risorse.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile()
-					.getAbsolutePath(), reportParams, DB.getConnection());
-			response.setHeader("Content-disposition",
-					"attachment;filename=report_" + dateStr + ".pdf");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
+			response.setHeader("Content-disposition", "attachment;filename=report_" + dateStr + ".pdf");
 			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void statisticaHTMLRisorseTotali() {
+		List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
 		boolean result = true;
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		Map reportParams = new HashMap();
+		reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
-			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, DB.getConnection());
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,
-						Boolean.TRUE);
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME,
-						"./images/");
-				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI,
-						"/images/");
-				exporter.setParameter(
-						JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-						Boolean.FALSE);
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
-						response.out);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
 				exporter.exportReport();
-
 			} else {
 				result = false;
 				response.status = 404;
@@ -124,13 +115,11 @@ public class StatisticheController extends Controller {
 		} catch (JRException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	/*RISORSE*/
 
 	public static void risorse() {
-
 		List<String> listaAnni = RendicontoAttivita.find(
 				"select distinct anno from RendicontoAttivita").fetch();
 		render(listaAnni);

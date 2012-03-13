@@ -6,6 +6,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["reports/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="subreport" class="java.util.Collection"/>
 	<queryString>
 		<![CDATA[SELECT r.codice AS CODICE, concat(r.cognome,' ',r.nome) AS RISORSA, trl.codice AS RAPPLAVORO, trl.idTipoRapportoLavoro AS IDRAPPLAV, r.dataIn AS DATAIN, r.dataOut AS DATAOUT, tsr.codice AS STATO
 FROM `Risorsa` r, `RapportoLavoro` rl, `TipoRapportoLavoro` trl, `TipoStatoRisorsa` tsr
@@ -35,7 +36,7 @@ ORDER BY IDRAPPLAV, RISORSA]]>
 			</staticText>
 			<subreport>
 				<reportElement x="0" y="30" width="555" height="55"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{subreport})]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "/subreport_risorse.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

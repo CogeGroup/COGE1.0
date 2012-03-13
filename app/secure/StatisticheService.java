@@ -697,4 +697,36 @@ public class StatisticheService {
 		}
 		return MyUtility.orderResultSet(resultSet, "descrizione");
 	}
+	
+	public static List<Map> prepareReportRisorseTotali() {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for(Risorsa r : listaRisorse) {
+			Map result = new HashMap();
+			result.put("CODICE", r.codice);
+			result.put("RISORSA", r.cognome + " " + r.nome);
+			result.put("DATAIN", r.dataIn);
+			result.put("DATAOUT", r.dataOut);
+			result.put("STATO", r.tipoStatoRisorsa.codice);
+			List<RapportoLavoro> rl = RapportoLavoro.find("byRisorsa", r).fetch();
+			if(rl.size() > 0)
+				result.put("RAPPLAVORO", rl.get(rl.size() - 1));
+				resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "RISORSA");
+	}
+	
+	public static List<Map> prepareReportSubreportRisorseTotali() {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<TipoRapportoLavoro> listaTipoRapportolavoro = TipoRapportoLavoro.findAll();
+		for(TipoRapportoLavoro trl : listaTipoRapportolavoro) {
+			Map result = new HashMap();
+			Integer numeroRisorse = RapportoLavoro.countRisorse(trl);
+			result.put("N_RISORSE", numeroRisorse);
+			result.put("CODICE", trl.codice);
+			result.put("DESCRIZIONE", trl.descrizione);
+			resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "CODICE");
+	}
 }
