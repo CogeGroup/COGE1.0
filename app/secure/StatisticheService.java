@@ -622,7 +622,6 @@ public class StatisticheService {
 				cliComm += ra.commessa.cliente.codice + "-" + ra.commessa.codice + " ";
 				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, ra.commessa);
 				ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-				// TODO importoMensile ?
 				costo = ra.costo.importoGiornaliero;
 				if(ra.costo.importoMensile != null) {
 					costoTot = ra.costo.importoMensile;
