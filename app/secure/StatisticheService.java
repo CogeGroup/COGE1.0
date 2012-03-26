@@ -1,10 +1,11 @@
 package secure;
 
-import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import models.Cliente;
@@ -41,7 +42,6 @@ public class StatisticheService {
 									t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, com);
 									tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 								}
-								// TODO importoMensile ?
 								costoTot[0] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 2:
@@ -187,7 +187,6 @@ public class StatisticheService {
 									t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, com);
 									tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 								}
-								// TODO importoMensile ?
 								costoTot[0] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 2:
@@ -329,7 +328,6 @@ public class StatisticheService {
 					case 1:
 						t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, c);
 						tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-						// TODO importoMensile ?
 						costoTot[0] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 2:
@@ -578,7 +576,6 @@ public class StatisticheService {
 			for(RendicontoAttivita ra : listaRapportini) {
 				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, c);
 				float ricavo = t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-				// TODO importoMensile ?
 				float costo = (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 				costoTot += costo; 
 				tariffaTot += ricavo;
@@ -639,7 +636,9 @@ public class StatisticheService {
 					costoTot = 0;
 				}
 				if(ricavoTot != 0){
-					result.put("margine_totale", (ricavoTot - costoTot) / ricavoTot);
+					Double mt = (double) (((ricavoTot - costoTot) / ricavoTot)*100);
+					DecimalFormat df = new DecimalFormat("#,##", new DecimalFormatSymbols(Locale.ITALIAN));
+					result.put("margine_totale",Float.parseFloat(df.format(mt)));
 				} else if(ricavoTot == 0 && costoTot != 0){
 					result.put("margine_totale", new Integer(-1));
 				} else if(ricavoTot == 0 && costoTot == 0){
