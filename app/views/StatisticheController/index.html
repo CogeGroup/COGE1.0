@@ -1,18 +1,19 @@
 #{extends 'menu.html' /}
 #{set title:'Statistiche' /}
-
-		<div id="top">
-			<p>#{a @StatisticheController.risorse()}Risorse#{/a}</p>
-			<p>#{a @StatisticheController.showrisorseTotali()}Risorse totali#{/a}</p>
-			<p>#{a @StatisticheController.clienti()}Clienti#{/a}</p>
-			<p>#{a @StatisticheController.commesse()}Commesse Non Fatturabili Dip(mese)#{/a}</p>
-			<p>#{a @StatisticheController.commesseAnno()}Commesse Non Fatturabili Dip(anno)#{/a}</p>
-			<p>#{a @StatisticheController.commesseCollaboratoriMese()}Commesse Non Fatturabili Co.Co.Pro.(mese)#{/a}</p>
-			<p>#{a @StatisticheController.commesseCollaboratoriAnno()}Commesse Non Fatturabili Co.Co.Pro.(anno)#{/a}</p>
-			<p>#{a @StatisticheController.commesseNonFatturabili()}Giorni Statistiche Dip(anno)#{/a}</p>
-			<p>#{a @StatisticheController.commesseNonFatturabiliCollaboratoriAnno()}Giorni Statistiche Co.Co.Pro.(anno)#{/a}</p>
-			<p>#{a @StatisticheController.commesseDettaglioAssenzaRetribuita()}Dettaglio Assenza Retribuita (Co.Co.Pro.)#{/a}</p>
-			<p>#{a @StatisticheController.commesseClienti()}Commesse Clienti Anno#{/a}</p>
-			<p>#{a @StatisticheController.portafoglioOrdini()}Categoria Attivit&agrave#{/a}</p>
-			<p>#{a @StatisticheController.commesseACorpo()}Commesse a Corpo#{/a}</p>
-		</div>
+	<div id="top">
+		<p>#{a @StatisticheController.stampaMassivaReport()}<span style="color: #f00;">Stampa massiva</span>#{/a}</p>
+		<p>#{a @StatisticheController.risorse()}Risorse#{/a}</p>
+		<p>#{a @StatisticheController.showrisorseTotali()}Risorse totali#{/a}</p>
+		<p>#{a @StatisticheController.clienti()}Clienti#{/a}</p>
+		<p>#{a @StatisticheController.commesse()}Commesse Non Fatturabili Dip(mese)#{/a}</p>
+		<p>#{a @StatisticheController.commesseAnno()}Commesse Non Fatturabili Dip(anno)#{/a}</p>
+		<p>#{a @StatisticheController.commesseCollaboratoriMese()}Commesse Non Fatturabili Co.Co.Pro.(mese)#{/a}</p>
+		<p>#{a @StatisticheController.commesseCollaboratoriAnno()}Commesse Non Fatturabili Co.Co.Pro.(anno)#{/a}</p>
+		<p>#{a @StatisticheController.commesseNonFatturabili()}Giorni Statistiche Dip(anno)#{/a}</p>
+		<p>#{a @StatisticheController.commesseNonFatturabiliCollaboratoriAnno()}Giorni Statistiche Co.Co.Pro.(anno)#{/a}</p>
+		<p>#{a @StatisticheController.commesseDettaglioAssenzaRetribuita()}Dettaglio Assenza Retribuita (Co.Co.Pro.)#{/a}</p>
+		<p>#{a @StatisticheController.commesseClienti()}Commesse Clienti Anno#{/a}</p>
+		<p>#{a @StatisticheController.portafoglioOrdini()}Categoria Attivit&agrave#{/a}</p>
+		<p>#{a @StatisticheController.commesseACorpo()}Commesse a Corpo#{/a}</p>
+	</div>
+		

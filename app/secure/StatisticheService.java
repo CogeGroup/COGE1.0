@@ -616,11 +616,12 @@ public class StatisticheService {
 			result.put("codice", r.codice);
 			result.put("cognome", r.cognome + " " + r.nome);
 			result.put("stato_risorsa", r.tipoStatoRisorsa.codice);
-			List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(r, mese-1, anno);
+			int m = mese - 1;
+			List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(r, m, anno);
 			for(RendicontoAttivita ra : listaRapportini) {
 				oreLavorate += ra.oreLavorate;
 				cliComm += ra.commessa.cliente.codice + "-" + ra.commessa.codice + " ";
-				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, ra.commessa);
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(m, anno, ra.risorsa, ra.commessa);
 				ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 				costo = ra.costo.importoGiornaliero;
 				if(ra.costo.importoMensile != null) {
