@@ -11,6 +11,7 @@ import java.util.Map;
 import models.Cliente;
 import models.Commessa;
 import models.CommessaACorpo;
+import models.Costo;
 import models.CostoCommessa;
 import models.RapportoLavoro;
 import models.RendicontoAttivita;
@@ -657,6 +658,7 @@ public class StatisticheService {
 	public static List<Map> prepareReportTipoLavoro(Integer anno, Integer mese) {
 		List<Map> resultSet = new ArrayList<Map>();
 		List<TipoRapportoLavoro> listaTipoRapportolavoro = TipoRapportoLavoro.findAll();
+		Integer meseCorretto = mese - 1;
 		for(TipoRapportoLavoro trl : listaTipoRapportolavoro) {
 			Map result = new HashMap();
 			float oreLavorate = 0f;
@@ -666,24 +668,59 @@ public class StatisticheService {
 			result.put("numRisorse", numeroRisorse);
 			result.put("codice", trl.codice);
 			result.put("descrizione", trl.descrizione);
-			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndMese", anno, mese).fetch();
-			for(RendicontoAttivita ra : listaRapportini) {
-				List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(ra.risorsa, mese-1, anno);
-				if(rl.get(0).tipoRapportoLavoro == trl){
-					if(!ra.risorsa.gruppo.codice.equals("STAFF")){
-						oreLavorate += ra.oreLavorate;
-						if(!ra.risorsa.tipoStatoRisorsa.codice.equals("SOSP")){
-							if(ra.costo.importoMensile != null) {
-								costoTot = ra.costo.importoMensile;
-							} else {
-								costoTot += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
-							}
+			// new
+			List<Risorsa> listaRisorse = RapportoLavoro.findRisorseByTipoRapportoLavoroAndMeseAndAnno(trl, meseCorretto, anno);
+			float oreLavorateAppo = 0;
+			for(Risorsa r : listaRisorse) {
+				oreLavorateAppo = 0;
+				List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndAnnoAndMese", r, anno, mese).fetch();
+				for(RendicontoAttivita ra : listaRapportini) {
+					if(ra.rapportoLavoro.tipoRapportoLavoro.idTipoRapportoLavoro == trl.idTipoRapportoLavoro) {
+						if(!ra.risorsa.gruppo.codice.equals("STAFF")){
+							oreLavorateAppo += ra.oreLavorate;
+							Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(meseCorretto, anno, ra.risorsa, ra.commessa);
+							ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 						}
-						Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, ra.commessa);
-						ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 					}
 				}
+				if(!r.gruppo.codice.equals("STAFF")){
+					if(!r.tipoStatoRisorsa.codice.equals("SOSP")){
+						Costo c = Costo.extractCostoByMeseAndAnno(r, meseCorretto, anno);
+						if(c.importoMensile != null) {
+							costoTot += c.importoMensile;
+						} else {
+							costoTot += (c.importoGiornaliero * oreLavorateAppo) / 8;
+						}
+					}
+				}
+				oreLavorate += oreLavorateAppo;
 			}
+			
+//			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndMese", anno, mese).fetch();
+//			for(RendicontoAttivita ra : listaRapportini) {
+//				List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(ra.risorsa, mese-1, anno);
+//				if(rl.get(0).tipoRapportoLavoro == trl){
+//					if(!ra.risorsa.gruppo.codice.equals("STAFF")){
+//						oreLavorate += ra.oreLavorate;
+//						if(!ra.risorsa.tipoStatoRisorsa.codice.equals("SOSP")){
+//							if(ra.costo.importoMensile != null) {
+//								costoTot += ra.costo.importoMensile;
+//							} else {
+//								costoTot += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
+//							}
+//						}
+//						if(ra.rapportoLavoro.tipoRapportoLavoro.codice.equals("ADG")){
+//							if(ra.costo.importoMensile != null) {
+//								System.out.println(ra.costo.importoMensile);
+//							} else {
+//								System.out.println((ra.costo.importoGiornaliero * ra.oreLavorate) / 8);
+//							}
+//						}
+//						Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese-1, anno, ra.risorsa, ra.commessa);
+//						ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+//					}
+//				}
+//			}
 			result.put("costoTotale", costoTot);
 			result.put("ricavoTotale", ricavoTot);
 			if(ricavoTot != 0){

@@ -183,4 +183,16 @@ public class RapportoLavoro extends GenericModel{
 		return listaRisorse.size();
 	}
    
+	public static List<Risorsa> findRisorseByTipoRapportoLavoroAndMeseAndAnno(TipoRapportoLavoro trl, int mese, int anno) {
+		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);
+		Date dataFine = MyUtility.MeseEdAnnoToDataFine(mese, anno);
+		JPAQuery query = Risorsa.find("select r from Risorsa r, RapportoLavoro ral " +
+				"where ral.risorsa = r and ral.tipoRapportoLavoro = :trl and (ral.dataInizio <= :dataFine " +
+		   		"and (ral.dataFine is null or ral.dataFine >= :dataInizio))");
+		query.bind("trl", trl);
+		
+		query.bind("dataInizio", dataInizio);
+		query.bind("dataFine", dataFine);
+		return query.fetch();
+	}
 }
