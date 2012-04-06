@@ -682,7 +682,7 @@
 			<line>
 				<reportElement x="298" y="0" width="1" height="39"/>
 			</line>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="300" y="1" width="18" height="37"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
