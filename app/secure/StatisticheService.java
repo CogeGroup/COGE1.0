@@ -320,7 +320,7 @@ public class StatisticheService {
 			result.put("nominativo", c.cliente.nominativo);
 			result.put("descrizione", c.descrizione);
 			result.put("codice", c.codice);
-			result.put("tipo", c.tipoCommessa.idTipoCommessa);
+			result.put("tipo", c.tipoCommessa != null ? c.tipoCommessa.idTipoCommessa : "");
 			for(RendicontoAttivita ra : listaRapportini) {
 				staff += ra.risorsa.cognome + ",";
 				Tariffa t = new Tariffa();
