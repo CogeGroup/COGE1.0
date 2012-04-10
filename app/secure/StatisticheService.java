@@ -184,88 +184,64 @@ public class StatisticheService {
 						Tariffa t = new Tariffa();
 						switch (ra.mese) {
 							case 1:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, com);
-									tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-								}
+								t = Tariffa.findByRisorsaAndCommessaAndData(0, anno, ra.risorsa, com);
+								tariffaTot[0] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 								costoTot[0] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 2:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(1, anno, ra.risorsa, com);
-									tariffaTot[1] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[1] = costoTot[1] + ra.costo.importoGiornaliero;				
+								t = Tariffa.findByRisorsaAndCommessaAndData(1, anno, ra.risorsa, com);
+								tariffaTot[1] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[1] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;				
 								break;
 							case 3:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(2, anno, ra.risorsa, com);
-									tariffaTot[2] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[2] = costoTot[2] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(2, anno, ra.risorsa, com);
+								tariffaTot[2] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[2] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 4:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(3, anno, ra.risorsa, com);
-									tariffaTot[3] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[3] = costoTot[3] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(3, anno, ra.risorsa, com);
+								tariffaTot[3] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[3] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 5:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(4, anno, ra.risorsa, com);
-									tariffaTot[4] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[4] = costoTot[4] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(4, anno, ra.risorsa, com);
+								tariffaTot[4] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[4] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 6:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(5, anno, ra.risorsa, com);
-									tariffaTot[5] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[5] = costoTot[5] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(5, anno, ra.risorsa, com);
+								tariffaTot[5] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[5] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 7:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(6, anno, ra.risorsa, com);
-									tariffaTot[6] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[6] = costoTot[6] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(6, anno, ra.risorsa, com);
+								tariffaTot[6] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[6] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 8:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(7, anno, ra.risorsa, com);
-									tariffaTot[7] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[7] = costoTot[7] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(7, anno, ra.risorsa, com);
+								tariffaTot[7] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[7] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 9:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(8, anno, ra.risorsa, com);
-									tariffaTot[8] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[8] = costoTot[8] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(8, anno, ra.risorsa, com);
+								tariffaTot[8] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[8] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 10:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(9, anno, ra.risorsa, com);
-									tariffaTot[9] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[9] = costoTot[9] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(9, anno, ra.risorsa, com);
+								tariffaTot[9] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[9] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 11:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(10, anno, ra.risorsa, com);
-									tariffaTot[10] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[10] = costoTot[10] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(10, anno, ra.risorsa, com);
+								tariffaTot[10] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[10] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 							case 12:
-								if(!(com instanceof CommessaACorpo)) {
-									t = Tariffa.findByRisorsaAndCommessaAndData(11, anno, ra.risorsa, com);
-									tariffaTot[11] += t != null ? t.importoGiornaliero: 0;
-								}
-								costoTot[11] = costoTot[11] + ra.costo.importoGiornaliero;
+								t = Tariffa.findByRisorsaAndCommessaAndData(11, anno, ra.risorsa, com);
+								tariffaTot[11] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+								costoTot[11] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 								break;
 						}
 					}
@@ -274,7 +250,6 @@ public class StatisticheService {
 					if(RendicontoAttivita.find("byAnnoAndCommessa", anno, com).fetch().size() > 0){
 						for(int i=0;i<12;i++){
 							if(tariffaTot[i] != 0 || costoTot[i] != 0) {
-								tariffaTot[i] += ((CommessaACorpo) com).importo;
 								CostoCommessa cc = CostoCommessa.find("byCommessaAndData", com, MyUtility.MeseEdAnnoToDataInizio(i, anno)).first();
 								if(cc!=null){
 									costoTot[i] += cc.importo;
@@ -333,70 +308,71 @@ public class StatisticheService {
 						break;
 					case 2:
 						t = Tariffa.findByRisorsaAndCommessaAndData(1, anno, ra.risorsa, c);
-						tariffaTot[1] += t != null ? t.importoGiornaliero: 0;
-						costoTot[1] = costoTot[1] + ra.costo.importoGiornaliero;				
+						tariffaTot[1] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[1] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;				
 						break;
 					case 3:
 						t = Tariffa.findByRisorsaAndCommessaAndData(2, anno, ra.risorsa, c);
-						tariffaTot[2] += t != null ? t.importoGiornaliero: 0;
-						costoTot[2] = costoTot[2] + ra.costo.importoGiornaliero;
+						tariffaTot[2] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[2] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 4:
 						t = Tariffa.findByRisorsaAndCommessaAndData(3, anno, ra.risorsa, c);
-						tariffaTot[3] += t != null ? t.importoGiornaliero: 0;
-						costoTot[3] = costoTot[3] + ra.costo.importoGiornaliero;
+						tariffaTot[3] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[3] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 5:
 						t = Tariffa.findByRisorsaAndCommessaAndData(4, anno, ra.risorsa, c);
-						tariffaTot[4] += t != null ? t.importoGiornaliero: 0;
-						costoTot[4] = costoTot[4] + ra.costo.importoGiornaliero;
+						tariffaTot[4] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[4] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 6:
 						t = Tariffa.findByRisorsaAndCommessaAndData(5, anno, ra.risorsa, c);
-						tariffaTot[5] += t != null ? t.importoGiornaliero: 0;
-						costoTot[5] = costoTot[5] + ra.costo.importoGiornaliero;
+						tariffaTot[5] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[5] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 7:
 						t = Tariffa.findByRisorsaAndCommessaAndData(6, anno, ra.risorsa, c);
-						tariffaTot[6] += t != null ? t.importoGiornaliero: 0;
-						costoTot[6] = costoTot[6] + ra.costo.importoGiornaliero;
+						tariffaTot[6] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[6] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 8:
 						t = Tariffa.findByRisorsaAndCommessaAndData(7, anno, ra.risorsa, c);
-						tariffaTot[7] += t != null ? t.importoGiornaliero: 0;
-						costoTot[7] = costoTot[7] + ra.costo.importoGiornaliero;
+						tariffaTot[7] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[7] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 9:
 						t = Tariffa.findByRisorsaAndCommessaAndData(8, anno, ra.risorsa, c);
-						tariffaTot[8] += t != null ? t.importoGiornaliero: 0;
-						costoTot[8] = costoTot[8] + ra.costo.importoGiornaliero;
+						tariffaTot[8] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[8] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 10:
 						t = Tariffa.findByRisorsaAndCommessaAndData(9, anno, ra.risorsa, c);
-						tariffaTot[9] += t != null ? t.importoGiornaliero: 0;
-						costoTot[9] = costoTot[9] + ra.costo.importoGiornaliero;
+						tariffaTot[9] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[9] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 11:
 						t = Tariffa.findByRisorsaAndCommessaAndData(10, anno, ra.risorsa, c);
-						tariffaTot[10] += t != null ? t.importoGiornaliero: 0;
-						costoTot[10] = costoTot[10] + ra.costo.importoGiornaliero;
+						tariffaTot[10] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[10] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 					case 12:
 						t = Tariffa.findByRisorsaAndCommessaAndData(11, anno, ra.risorsa, c);
-						tariffaTot[11] += t != null ? t.importoGiornaliero: 0;
-						costoTot[11] = costoTot[11] + ra.costo.importoGiornaliero;
+						tariffaTot[11] += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+						costoTot[11] += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
 						break;
 				}
 			}
 			for(int i=0;i<12;i++){
 				if(tariffaTot[i] != 0 && costoTot[i] != 0) {
 					if(c instanceof CommessaACorpo) {
-						result.put("ricavo_" + MyUtility.getStringMese(i+1), ((CommessaACorpo) c).importo);
+//						result.put("ricavo_" + MyUtility.getStringMese(i+1), ((CommessaACorpo) c).importo);
 						CostoCommessa cc = CostoCommessa.find("byCommessaAndData", c, MyUtility.MeseEdAnnoToDataInizio(i, anno)).first();
 						float costoTotale = costoTot[i];
 						if(cc!=null){
 							costoTotale = costoTotale + cc.importo;
 						}
+						result.put("ricavo_" + MyUtility.getStringMese(i+1), tariffaTot[i]);
 						result.put("costo_" + MyUtility.getStringMese(i+1), costoTotale);
 					} else {
 						result.put("ricavo_" + MyUtility.getStringMese(i+1), tariffaTot[i]);
@@ -552,8 +528,6 @@ public class StatisticheService {
 			result.put("ore_totali_primo_semestre", totPrimoSempestre);
 			result.put("ore_totali_secondo_semestre", totsecondoSempestre);
 			result.put("ore_totali", tot);
-			System.out.println(c.codice);
-			System.out.println(tot);
 			if(tot > 0)
 				resultSet.add(result);
 		}
@@ -567,20 +541,19 @@ public class StatisticheService {
 		for(CommessaACorpo c : listaComesse) {
 			Map result = new HashMap();
 			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byCommessaAndAnnoAndMese", c, anno, mese).fetch();
-			float tariffaTot = 0f;
-			float costoTot = 0f;
+			float ricavoMese = 0f;
+			float costoMese = 0f;
 			result.put("id", c.idCommessa);
 			result.put("cliente", c.cliente.nominativo);
 			result.put("nome", c.descrizione);
 			result.put("valore", c.importo);
 			listarisorse = new ArrayList<Map>();
 			for(RendicontoAttivita ra : listaRapportini) {
-				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese, anno, ra.risorsa, c);
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese-1, anno, ra.risorsa, c);
 				float ricavo = t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
 				float costo = (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
-				costoTot += costo; 
-				tariffaTot += ricavo;
-				
+				costoMese += costo; 
+				ricavoMese += ricavo;
 				Map risorsa = new HashMap();
 				risorsa.put("nome", ra.risorsa.cognome + " " + ra.risorsa.nome);
 				risorsa.put("ricavo", ricavo);
@@ -589,15 +562,50 @@ public class StatisticheService {
 			}
 			float costoAggiuntivo = CostoCommessa.caloloCostiAggiuntivi(c,MyUtility.MeseEdAnnoToDataFine(mese - 1, anno));
 			if(costoAggiuntivo > 0){
-				costoTot += costoAggiuntivo;
+				costoMese += costoAggiuntivo;
 			}
 			result.put("risorse", listarisorse);
-			result.put("COSTO", costoTot);
-			result.put("RICAVO", tariffaTot);
-			if(costoTot > 0 && tariffaTot > 0)
-				resultSet.add(result);
+			result.put("COSTO", costoMese);
+			result.put("RICAVO", ricavoMese);
+			float costoTot = calcoloCostiPrecedenti(mese,anno,c);
+			float ricavoTot = calcoloRicaviPrecedenti(mese,anno,c);
+			result.put("COSTO_TOT", costoMese + costoTot);
+			result.put("RICAVO_TOT", ricavoMese + ricavoTot);
+			resultSet.add(result);
 		}
 		return MyUtility.orderResultSet(resultSet, "nome");
+	}
+	
+	private static float calcoloCostiPrecedenti(Integer mese, Integer anno, CommessaACorpo commessa) {
+		float costoTot = 0f;
+		for(int i = mese-1; i > 0; i--){
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byCommessaAndAnnoAndMese", commessa, anno, i).fetch();
+			float costoMese = 0f;
+			for(RendicontoAttivita ra : listaRapportini) {
+				float costo = (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
+				costoMese += costo; 
+			}
+			float costoAggiuntivo = CostoCommessa.caloloCostiAggiuntivi(commessa,MyUtility.MeseEdAnnoToDataFine(i - 1, anno));
+			if(costoAggiuntivo > 0){
+				costoMese += costoAggiuntivo;
+			}
+			costoTot += costoMese;
+		}
+		return costoTot;
+	}
+	private static float calcoloRicaviPrecedenti(Integer mese, Integer anno, CommessaACorpo commessa) {
+		float ricavoTot = 0f;
+		for(int i = mese-1; i > 0; i--){
+			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byCommessaAndAnnoAndMese", commessa, anno, i).fetch();
+			float ricavoMese = 0f;
+			for(RendicontoAttivita ra : listaRapportini) {
+				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(i, anno, ra.risorsa, commessa);
+				float ricavo = t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
+				ricavoMese += ricavo;
+			}
+			ricavoTot += ricavoMese;
+		}
+		return ricavoTot;
 	}
 	
 	public static List<Map> prepareReportRisorse(Integer anno, Integer mese) {
@@ -607,7 +615,6 @@ public class StatisticheService {
 			Map result = new HashMap();
 			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndAnnoAndMese", r, anno, mese).fetch();
 			float oreLavorate = 0f;
-			float costo = 0f;
 			String cliComm = "";
 			float ricavoTot = 0f;
 			float costoTot = 0f;
@@ -617,11 +624,12 @@ public class StatisticheService {
 			int m = mese - 1;
 			List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(r, m, anno);
 			for(RendicontoAttivita ra : listaRapportini) {
-				oreLavorate += ra.oreLavorate;
+				if(ra.commessa.calcoloCosti == true) {
+					oreLavorate += ra.oreLavorate;
+				}
 				cliComm += ra.commessa.cliente.codice + "-" + ra.commessa.codice + " ";
 				Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(m, anno, ra.risorsa, ra.commessa);
 				ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-				costo = ra.costo.importoGiornaliero;
 				if(ra.costo.importoMensile != null) {
 					costoTot = ra.costo.importoMensile;
 				} else {
@@ -631,7 +639,6 @@ public class StatisticheService {
 			result.put("ore_lavorate", oreLavorate);
 			result.put("cliente_commessa", cliComm);
 			if(!r.gruppo.codice.equals("STAFF")){
-				result.put("costo_giornaliero", costo);
 				result.put("ricavo_totale", ricavoTot);
 				if(r.tipoStatoRisorsa.codice.equals("SOSP")){
 					costoTot = 0;
@@ -695,32 +702,6 @@ public class StatisticheService {
 				}
 				oreLavorate += oreLavorateAppo;
 			}
-			
-//			List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byAnnoAndMese", anno, mese).fetch();
-//			for(RendicontoAttivita ra : listaRapportini) {
-//				List<RapportoLavoro> rl = RapportoLavoro.findByRisorsaAndMeseAndAnno(ra.risorsa, mese-1, anno);
-//				if(rl.get(0).tipoRapportoLavoro == trl){
-//					if(!ra.risorsa.gruppo.codice.equals("STAFF")){
-//						oreLavorate += ra.oreLavorate;
-//						if(!ra.risorsa.tipoStatoRisorsa.codice.equals("SOSP")){
-//							if(ra.costo.importoMensile != null) {
-//								costoTot += ra.costo.importoMensile;
-//							} else {
-//								costoTot += (ra.costo.importoGiornaliero * ra.oreLavorate) / 8;
-//							}
-//						}
-//						if(ra.rapportoLavoro.tipoRapportoLavoro.codice.equals("ADG")){
-//							if(ra.costo.importoMensile != null) {
-//								System.out.println(ra.costo.importoMensile);
-//							} else {
-//								System.out.println((ra.costo.importoGiornaliero * ra.oreLavorate) / 8);
-//							}
-//						}
-//						Tariffa t = Tariffa.findByRisorsaAndCommessaAndData(mese-1, anno, ra.risorsa, ra.commessa);
-//						ricavoTot += t != null ? ((t.importoGiornaliero * ra.oreLavorate) / 8): 0;
-//					}
-//				}
-//			}
 			result.put("costoTotale", costoTot);
 			result.put("ricavoTotale", ricavoTot);
 			if(ricavoTot != 0){
@@ -742,13 +723,16 @@ public class StatisticheService {
 			Map result = new HashMap();
 			result.put("CODICE", r.codice);
 			result.put("RISORSA", r.cognome + " " + r.nome);
-			result.put("DATAIN", r.dataIn);
-			result.put("DATAOUT", r.dataOut);
+			result.put("DATAIN", r.dataIn == null ? "" : MyUtility.dateToString(r.dataIn, "dd/MM/yyyy") );
+			result.put("DATAOUT", r.dataOut == null ? "" : MyUtility.dateToString(r.dataOut, "dd/MM/yyyy"));
 			result.put("STATO", r.tipoStatoRisorsa.codice);
-			List<RapportoLavoro> rl = RapportoLavoro.find("byRisorsa", r).fetch();
-			if(rl.size() > 0)
-				result.put("RAPPLAVORO", rl.get(rl.size() - 1));
-				resultSet.add(result);
+			List<RapportoLavoro> listaRl = RapportoLavoro.find("byRisorsa", r).fetch();
+			
+			if(listaRl.size() > 0){
+				RapportoLavoro rl = listaRl.get(listaRl.size() - 1);
+				result.put("RAPPLAVORO", rl.tipoRapportoLavoro.codice);
+			}
+			resultSet.add(result);
 		}
 		return MyUtility.orderResultSet(resultSet, "RISORSA");
 	}

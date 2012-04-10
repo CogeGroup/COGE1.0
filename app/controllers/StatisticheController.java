@@ -2,6 +2,7 @@ package controllers;
 
 import java.awt.Color;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import utility.MyUtility;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DJCalculation;
+import ar.com.fdvs.dj.domain.DJValueFormatter;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.Style;
 import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
@@ -165,7 +167,7 @@ public class StatisticheController extends Controller {
 	}
 
 	public static void statisticaPDFRisorse(Integer mese, Integer anno) {
-		String nome = "reportRisorseTotali_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+		String nome = "reportRisorse_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
 		exportPDF(preparePDFRisorse(mese,anno), nome);
 	}
 	private static JasperPrint preparePDFRisorse(Integer mese, Integer anno) {
@@ -258,6 +260,7 @@ public class StatisticheController extends Controller {
         boolean result = true;
 		JasperPrint jrprint;
 		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
+		listaCommessa = moveToLastStraordinari(listaCommessa);
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -331,6 +334,7 @@ public class StatisticheController extends Controller {
 		JasperPrint jp = new JasperPrint();
 		try {
 			List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
+			listaCommessa = moveToLastStraordinari(listaCommessa);
 			FastReportBuilder drb = new FastReportBuilder();
 			Style headerStyle = new Style();
 			headerStyle.setBorder(Border.PEN_1_POINT);
@@ -396,6 +400,7 @@ public class StatisticheController extends Controller {
         boolean result = true;
 		JasperPrint jrprint;
 		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
+		listaCommessa = moveToLastStraordinari(listaCommessa);
 		FastReportBuilder drb = new FastReportBuilder();
 		Style headerStyle = new Style();
 		headerStyle.setBorder(Border.PEN_1_POINT);
@@ -468,6 +473,7 @@ public class StatisticheController extends Controller {
 		JasperPrint jp = new JasperPrint();
 		try {
 			List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
+			listaCommessa = moveToLastStraordinari(listaCommessa);
 			FastReportBuilder drb = new FastReportBuilder();
 			Style headerStyle = new Style();
 			headerStyle.setBorder(Border.PEN_1_POINT);
@@ -520,6 +526,23 @@ public class StatisticheController extends Controller {
 		return jp;
 	}
 	
+	private static List<Commessa> moveToLastStraordinari(List<Commessa> lista){
+		List<Commessa> commesse = new ArrayList<Commessa>();
+		List<Commessa> straordinari = new ArrayList<Commessa>();
+		for (Commessa c : lista){
+			if(c.codice.equals("ST")){
+				straordinari.add(c);
+			} else if(c.codice.equals("SF")){
+				straordinari.add(c);
+			} else if(c.codice.equals("SN")){
+				straordinari.add(c);
+			} else {
+				commesse.add(c);
+			}
+		}
+		commesse.addAll(straordinari);
+		return commesse;
+	}
 	/*COMMESSE COCOPRO MESE*/
 	public static void commesseCollaboratoriMese() {
 		List<String> listaAnni = RendicontoAttivita.find("select distinct anno from RendicontoAttivita").fetch();
@@ -556,7 +579,18 @@ public class StatisticheController extends Controller {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 			AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Double.class.getName())
 					.setTitle("Totale Giorni").setWidth(new Integer(10)).setHeaderStyle(styleNome).setStyle(styleNome).build();
-			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+//			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM,null,new DJValueFormatter() {
+	            public String getClassName() {
+	                return String.class.getName();
+	             }
+	             
+	             public Object evaluate(Object value, Map fields, Map variables, Map parameters) {
+	            	Double x = (Double) value;
+	            	DecimalFormat df = new DecimalFormat(".##");
+	                return df.format(x);
+	             }
+	          });
 			drb.addColumn(columnState2);
 			for (Commessa c : listaCommessa) {
 				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName())
@@ -630,7 +664,18 @@ public class StatisticheController extends Controller {
 				drb.addColumn("nominativo", "risorsa", String.class.getName(), 10,styleNome, styleNome);
 				AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Double.class.getName())
 						.setTitle("Totale Giorni").setWidth(new Integer(10)).setHeaderStyle(styleNome).setStyle(styleNome).build();
-				drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+//				drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+				drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM,null,new DJValueFormatter() {
+		            public String getClassName() {
+		                return String.class.getName();
+		             }
+		             
+		             public Object evaluate(Object value, Map fields, Map variables, Map parameters) {
+		            	Double x = (Double) value;
+		            	DecimalFormat df = new DecimalFormat(".##");
+		                return df.format(x);
+		             }
+		          });
 				drb.addColumn(columnState2);
 				for (Commessa c : listaCommessa) {
 					AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName())
@@ -1227,37 +1272,6 @@ public class StatisticheController extends Controller {
 			e.printStackTrace();
 		}
 		return jp;
-	}
-	
-	public static void stampaMassivaReport() {
-		Integer mese = MyUtility.getMeseFromDate(new Date());
-		Integer anno = MyUtility.getAnnoFromDate(new Date());
-		String nome = "stampaMassiva_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
-		try {
-			JasperPrint jpTotal = preparePDFClienti(anno);
-			jpTotal = addPage(jpTotal, preparePDFRisorse(mese,anno).getPages());
-			jpTotal = addPage(jpTotal, preparePDFRisorseTotali().getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesse(mese.toString(), anno.toString()).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseAnno(anno.toString()).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseCollaboratoriMese(mese.toString(), anno.toString()).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseCollaboratoriAnno(anno.toString()).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseNonFatturabili(anno).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseNonFatturabiliCollaboratoriAnno(anno).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseDettaglioAssenzaRetribuita(anno.toString()).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseClienti(anno).getPages());
-			jpTotal = addPage(jpTotal, preparePDFPortafoglioOrdini(anno).getPages());
-			jpTotal = addPage(jpTotal, preparePDFCommesseACorpo(mese, anno).getPages());
-			exportPDF(jpTotal,nome);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	private static JasperPrint addPage(JasperPrint jpTotal, List pages) {
-		for(int j = 0; j < pages.size(); j++){
-			JRPrintPage jrpp = (JRPrintPage) pages.get(j);
-			jpTotal.addPage(jrpp);
-		}
-		return jpTotal;
 	}
 	
 	// TODO Utili?

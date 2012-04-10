@@ -134,7 +134,7 @@
 		<variableExpression><![CDATA[$F{costo_dicembre}]]></variableExpression>
 	</variable>
 	<variable name="percentuale" class="java.lang.Double">
-		<variableExpression><![CDATA[($F{ricavo_Totale}) /$F{costo_Totale}]]></variableExpression>
+		<variableExpression><![CDATA[($F{ricavo_Totale} - $F{costo_Totale}) / $F{ricavo_Totale}]]></variableExpression>
 	</variable>
 	<title>
 		<band height="49" splitType="Stretch">

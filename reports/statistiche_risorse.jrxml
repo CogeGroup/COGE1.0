@@ -28,7 +28,6 @@
 	<field name="tariffa_importo" class="java.lang.Float"/>
 	<field name="cliente_commessa" class="java.lang.String"/>
 	<field name="stato_risorsa" class="java.lang.String"/>
-	<field name="costo_giornaliero" class="java.lang.String"/>
 	<variable name="TOTALE_RICAVI" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{ricavo_totale}]]></variableExpression>
 	</variable>
@@ -184,21 +183,7 @@
 				<text><![CDATA[COSTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="371" y="0" width="35" height="20" backcolor="#FFFF33"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="true" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[COSTO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="406" y="0" width="111" height="20" backcolor="#99CCFF"/>
+				<reportElement mode="Opaque" x="371" y="0" width="146" height="20" backcolor="#99CCFF"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -276,7 +261,7 @@
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{costo_totale}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="407" y="1" width="110" height="18"/>
+				<reportElement x="372" y="1" width="145" height="18"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -299,7 +284,7 @@
 				<reportElement x="191" y="0" width="1" height="20"/>
 			</line>
 			<line>
-				<reportElement x="406" y="0" width="1" height="20"/>
+				<reportElement x="371" y="0" width="1" height="20"/>
 			</line>
 			<line>
 				<reportElement x="517" y="0" width="1" height="20"/>
@@ -327,13 +312,6 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{ricavo_totale} > 0 && $F{costo_totale} > 0 ?
     $F{margine_totale} + "%" :
     "∞")]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.0" isBlankWhenNull="true">
-				<reportElement x="371" y="0" width="34" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{costo_giornaliero}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
