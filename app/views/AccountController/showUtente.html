@@ -61,13 +61,9 @@
 	        <label for="username">Username:</label>
 	        <input type="text" class="txt_m" name="utente.username" id="username" value="${utente?.username}"/>
 	    </li>
-	    <li>
-	        <label for="password">Password</label>
-	        <input type="text" class="txt_m" name="utente.password" id="password" value="${utente?.password}"/>
-	    </li>
 	   	<li>
 	        <label for="email">E-Mail</label>
-	        <input type="text" class="txt_m" name="utente.email" id="email" value="${utente?.email}"/>
+	        <input type="text" class="txt_l" name="utente.email" id="email" value="${utente?.email}"/>
 	    </li>
 	   
 	    <li>
@@ -85,5 +81,7 @@
   	<div id="button_center">
         <input type="submit" class="submitbutton" value="Salva" />
 	  #{/form}
-	  <a href="@{AccountController.listUtenti()}" ><input type="button" class="submitbutton" value="Indietro"/></a>
 	</div>
+<div class="navigation">
+		<a class="button_nav" href="@{AccountController.listUtenti()}">Indietro</a>
+</div>

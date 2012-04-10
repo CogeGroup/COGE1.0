@@ -31,6 +31,7 @@ import play.mvc.With;
 import secure.SecureCOGE;
 import utility.ConvertToJson;
 import utility.DomainWrapper;
+import utility.EncryptionUtility;
 
 @With(SecureCOGE.class)
 public class AccountController extends Controller {
@@ -95,6 +96,7 @@ public class AccountController extends Controller {
 				Utente u = Utente.find("byRisorsa", r).first();
 				if(u == null){
 					//save dell'utente
+					utente.password = EncryptionUtility.encrypt(utente.password);
 					utente.risorsa=r;
 					utente.ruoli = listaRuoliUtente;
 					utente.abilitato = true;
@@ -242,12 +244,12 @@ public class AccountController extends Controller {
 		    Cell c4 = row.createCell(2);
 		    c4.setCellStyle(style);
 		    c4.setCellValue("E-MAIL");
-		    Cell c5 = row.createCell(3);
-		    c5.setCellStyle(style);
-		    c5.setCellValue("PASSWORD");
-		    Cell c6 = row.createCell(4);
-		    c6.setCellStyle(style);
-		    c6.setCellValue("ATTIVO");
+//		    Cell c5 = row.createCell(3);
+//		    c5.setCellStyle(style);
+//		    c5.setCellValue("PASSWORD");
+//		    Cell c6 = row.createCell(4);
+//		    c6.setCellStyle(style);
+//		    c6.setCellValue("ATTIVO");
 		    short i = 1;
 		    List<Utente> listaUtenti = Utente.find("order by username").fetch();
 		    for(Utente utente : listaUtenti){
@@ -255,8 +257,8 @@ public class AccountController extends Controller {
 			    row.createCell(0).setCellValue(utente.username);
 			    row.createCell(1).setCellValue(utente.risorsa.nome + " " + utente.risorsa.cognome);
 			    row.createCell(2).setCellValue(utente.email);
-			    row.createCell(3).setCellValue(utente.password);
-			    row.createCell(4).setCellValue(utente.abilitato == true ? "SI" : "NO");
+			   // row.createCell(3).setCellValue(utente.password);
+			   // row.createCell(4).setCellValue(utente.abilitato == true ? "SI" : "NO");
 			    i++;
 		    }
 			sheet.autoSizeColumn(0);
