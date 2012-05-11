@@ -129,7 +129,6 @@ public class RapportoLavoro extends GenericModel{
 		query.bind("risorsa", risorsa);
 		query.bind("dataInizio", dataInizio);
 		query.bind("dataFine", dataFine != null ? dataFine : dataInizio);
-		System.out.println(query.first());
 		return query.first();
 	}
 	
@@ -162,9 +161,11 @@ public class RapportoLavoro extends GenericModel{
 				"where ral.risorsa = :risorsa and ral.tipoRapportoLavoro = :trl and (ral.dataInizio <= :dataFine " +
 		   		"and (ral.dataFine is null or ral.dataFine >= :dataInizio))");
 		query.bind("risorsa", risorsa);
-		query.bind("dataInizio", dataInizio);
-		query.bind("dataFine", dataFine);
 		query.bind("trl", trl);
+		query.bind("dataFine", dataFine);
+		query.bind("dataInizio", dataInizio);
+		
+		
 		return query.first();
 	}
 	
