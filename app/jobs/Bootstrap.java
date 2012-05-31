@@ -19,7 +19,6 @@ public class Bootstrap extends play.jobs.Job {
      Cliente cl1 = null;
 	    
     public void doJob() {
-    	
     	//Fixtures.deleteDatabase();
     	
     	//leggo file YAML

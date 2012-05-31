@@ -1,0 +1,42 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Giorni Lavorativi' /}
+
+<h2>Nuovi Giorni Lavorativi</h2>
+#{ifErrors}
+		<p class="error">${errors[0]}</p>
+	#{/ifErrors}
+<div id="form_small">
+#{form @GiornateLavorativeController.save()}
+	<table class="table_form">
+    	<tr>
+	    	<td><label for="codice">Mese e Anno:</label></td>
+	        <td>#{select 'giornateLavorative.mese', value:giornateLavorative.mese}
+				#{option 1}GEN#{/option}
+				#{option 2}FEB#{/option}
+				#{option 3}MAR#{/option}
+				#{option 4}APR#{/option}
+				#{option 5}MAG#{/option}
+				#{option 6}GIU#{/option}
+				#{option 7}LUG#{/option}
+				#{option 8}AGO#{/option}
+				#{option 9}SET#{/option}
+				#{option 10}OTT#{/option}
+				#{option 11}NOV#{/option}
+				#{option 12}DIC#{/option}
+			#{/select}
+			
+			#{select 'giornateLavorative.anno', items:listaAnni, labelProperty:'giornateLavorative.anno', valueProperty:'giornateLavorative.anno', value:giornateLavorative.anno /}
+	    </tr>
+	    <tr>
+	        <td><label for="descrizione">Giorni:</label></td>
+	        <td><input type="text" class="txt_m" name="giornateLavorative.giorni" id="giorni" value="${giornateLavorative?.giorni}"/></td>
+	    </tr>
+	</table>
+</div>
+<div id="button_center">
+	<input type="submit" class="submitbutton" value="Salva" />
+</div>	
+#{/form}
+<div class="navigation">
+	<a class="button_nav" href="@{GiornateLavorativeController.list()}">Indietro</a>
+</div>

@@ -1,0 +1,33 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Giorni Lavorativi' /}
+
+<h2>Giorni Lavorativi</h2>
+<p class="success">${flash.success}</p>
+<p class="error">${flash.error}</p>
+
+#{if lista.size() > 0}
+	<table class="table_center">
+		<thead>
+			<tr>
+				<th scope="col">Mese</th>
+				<th scope="col">Giorni</th>
+				<th scope="col">Modifica</th>
+				<th scope="col">Elimina</th>
+			</tr>
+		</thead>
+		#{list items:lista, as:'giornateLavorative'} 
+			<tr>
+				<td>${giornateLavorative.mese }/${giornateLavorative.anno }</td>
+				<td>${giornateLavorative.giorni }</td>
+				<td><a href="@{GiornateLavorativeController.edit(giornateLavorative.idGiornateLavorative)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
+				<td><a href="@{GiornateLavorativeController.delete(giornateLavorative.idGiornateLavorative)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+			</tr>
+		#{/list} 
+	</table>
+#{/if}
+#{else}
+	<center><h2>Giorni Lavorativi non esistenti</h2></center>
+#{/else}
+<div id="buttonSubmit_center">
+	#{a @GiornateLavorativeController.create()}<input type="button" class="button_submit" value="Aggiungi"/>#{/a}
+</div>

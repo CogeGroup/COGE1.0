@@ -1,0 +1,32 @@
+#{extends 'menu.html' /}
+#{set title:'Gestione Certificazioni' /}
+
+<h2>Dettaglio Certificazione</h2>
+
+<div id="edit">
+	<ul>
+		<li>
+	        <label for="codice">Codice Certificazione: </label>
+	        ${certificazione.codice }
+	    </li>
+	    <li>
+	        <label for="descrizione">Descrizione: </label>
+	        ${certificazione.descrizione }
+	    </li>
+	     #{if listaRisorse != null && listaRisorse.size() > 0 }
+	    <li>
+	        <label for="risorse">Risorse: </label>
+	       	<ul>
+				#{list items:listaRisorse, as:'risorsa'}
+					<li><a href="@{RisorseController.show(risorsa.idRisorsa)}">${risorsa.codice } - ${risorsa.cognome } ${risorsa.nome }</a></li>
+				#{/list}
+			</ul>
+	    </li>
+	    #{/if}
+	</ul>
+</div>
+	
+<div id="button_center">
+	<a href="@{CertificazioniController.list()}"><input type="button" class="submitbutton" value="Lista certificazioni" /></a>
+</div>	
+
