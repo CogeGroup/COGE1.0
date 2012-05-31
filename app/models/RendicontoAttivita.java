@@ -155,7 +155,7 @@ public class RendicontoAttivita extends GenericModel {
 	}
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabili(String mese,String anno){
-		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
+		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,ra.oreLavorate "+
 							"from TipoRapportoLavoro trl, RendicontoAttivita ra "+
 							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
 							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
@@ -184,7 +184,7 @@ public class RendicontoAttivita extends GenericModel {
 				 listaMapResult.add(map); 
 			 }
 			 map.put(""+objects[1], objects[6]);
-			 count  += ((Double)objects[6]);
+			 count  += Double.parseDouble(objects[6].toString());
 			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
 		 }
 		 return listaMapResult;
@@ -192,12 +192,12 @@ public class RendicontoAttivita extends GenericModel {
 	
 	public static ArrayList<HashMap> statisticheCommesseNonFatturabiliAnno(String anno){
 		String queryString ="SELECT r.idRisorsa,c.idCommessa,r.codice,r.cognome,c.codice,c.descrizione,sum(ra.oreLavorate) "+
-							"from TipoRapportoLavoro trl, RendicontoAttivita ra "+
-							"inner join Commessa c on ra.commessa_idCommessa=c.idCommessa "+
-							"inner join Risorsa r on ra.risorsa_idRisorsa=r.idRisorsa "+
-							"inner join RapportoLavoro rl on rl.risorsa_idRisorsa=r.idRisorsa "+	
-							"where c.DTYPE = 'Commessa' and c.calcoloRicavi=false and c.calcoloCosti=false "+
-							"and ra.anno= " + anno + " " +
+							"from RapportoLavoro rl, TipoRapportoLavoro trl, RendicontoAttivita ra, Commessa c, Risorsa r "+
+							"where ra.anno=" + anno + " "+
+							"and ra.commessa_idCommessa=c.idCommessa " +
+							"and c.calcoloRicavi=false and c.calcoloCosti=false "+
+							"and ra.risorsa_idRisorsa=r.idRisorsa "+
+							"and ra.rapportoLavoro_idRapportoLavoro = rl.idRapportoLavoro "+
 							"and rl.tipoRapportoLavoro_idTipoRapportoLavoro = trl.idTipoRapportoLavoro "+
 							"and trl.codice <> 'CCP' "+
 							"group by r.idRisorsa,c.idCommessa,r.codice,concat(r.cognome,' ',r.nome),c.codice,c.descrizione "+
@@ -218,9 +218,9 @@ public class RendicontoAttivita extends GenericModel {
 				 map.put("risorsa", (String) objects[3]);
 				 listaMapResult.add(map); 
 			 }
-			 map.put(""+objects[1], objects[6]);
-			 count  += ((Double)objects[6]);
-			 map.put("totaleGiorni", MyUtility.calcolaGiorni(count));
+			 map.put(""+objects[1],Float.parseFloat(objects[6].toString()));
+			 count += (Double)objects[6];
+			 map.put("totaleGiorni", Float.parseFloat(MyUtility.calcolaGiorni(count).toString()));
 		 }
 		 return listaMapResult;
 	}

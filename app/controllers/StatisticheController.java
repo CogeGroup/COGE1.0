@@ -282,12 +282,12 @@ public class StatisticheController extends Controller {
 		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
 			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
-			AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Double.class.getName())
+			AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Float.class.getName())
 						.setTitle("Totale Giorni").setWidth(new Integer(30)).setHeaderStyle(styleNome).setStyle(styleNome).build();
 			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
 			drb.addColumn(columnState2);
 			for (Commessa c : listaCommessa) {
-				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Float.class.getName())
 						.setTitle(c.descrizione).setWidth(new Integer(10)).setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 				drb.addColumn(columnState);
@@ -425,7 +425,7 @@ public class StatisticheController extends Controller {
 			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
 			drb.addColumn(columnState2);
 			for (Commessa c : listaCommessa) {
-				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName())
+				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Float.class.getName())
 						.setTitle(c.descrizione).setWidth(new Integer(10)).setStyle(style).build();
 				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 				drb.addColumn(columnState);
@@ -500,7 +500,7 @@ public class StatisticheController extends Controller {
 				drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
 				drb.addColumn(columnState2);
 				for (Commessa c : listaCommessa) {
-					AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName()).setWidth(200)
+					AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Float.class.getName()).setWidth(200)
 							.setTitle(c.descrizione).setWidth(new Integer(16)).setStyle(style).build();
 					drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
 					drb.addColumn(columnState);

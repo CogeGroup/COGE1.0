@@ -168,23 +168,6 @@ public class RapportoLavoro extends GenericModel{
 		
 		return query.first();
 	}
-	
-	public static Integer countRisorse(TipoRapportoLavoro trl){
-		List<RapportoLavoro> listaRapportoLavoro = RapportoLavoro.find("byTipoRapportoLavoro", trl).fetch();
-		List<Risorsa> listaRisorse = new ArrayList<Risorsa>();
-		for(RapportoLavoro ra : listaRapportoLavoro){
-			if(!ra.risorsa.tipoStatoRisorsa.codice.equals("CHIUSO")){
-				boolean flag = true;
-				for(Risorsa r : listaRisorse){
-					if(ra.risorsa.idRisorsa == r.idRisorsa)
-						flag = false;
-				}
-				if(flag)
-					listaRisorse.add(ra.risorsa);
-			}
-		}
-		return listaRisorse.size();
-	}
    
 	public static List<Risorsa> findRisorseByTipoRapportoLavoroAndMeseAndAnno(TipoRapportoLavoro trl, int mese, int anno) {
 		Date dataInizio = MyUtility.MeseEdAnnoToDataInizio(mese, anno);

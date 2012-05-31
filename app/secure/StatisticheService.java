@@ -1,11 +1,12 @@
 package secure;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import models.Cliente;
@@ -644,9 +645,14 @@ public class StatisticheService {
 					costoTot = 0;
 				}
 				if(ricavoTot != 0){
-					Double mt = (double) (((ricavoTot - costoTot) / ricavoTot)*100);
-					DecimalFormat df = new DecimalFormat("#,##", new DecimalFormatSymbols(Locale.ITALIAN));
-					result.put("margine_totale",Float.parseFloat(df.format(mt)));
+					try {
+						float mt = (((ricavoTot - costoTot) / ricavoTot)*100);
+						NumberFormat fmt = NumberFormat.getInstance();
+						Number number = fmt.parse(new DecimalFormat(".##").format(mt));
+						result.put("margine_totale",number.doubleValue());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 				} else if(ricavoTot == 0 && costoTot != 0){
 					result.put("margine_totale", new Integer(-1));
 				} else if(ricavoTot == 0 && costoTot == 0){
@@ -671,7 +677,7 @@ public class StatisticheService {
 			float oreLavorate = 0f;
 			float ricavoTot = 0f;
 			float costoTot = 0f;
-			Integer numeroRisorse = RapportoLavoro.countRisorse(trl);
+			Integer numeroRisorse = RapportoLavoro.findRisorseByTipoRapportoLavoroAndMeseAndAnno(trl, MyUtility.getMeseFromDate(new Date()), MyUtility.getAnnoFromDate(new Date())).size();
 			result.put("numRisorse", numeroRisorse);
 			result.put("codice", trl.codice);
 			result.put("descrizione", trl.descrizione);
@@ -742,7 +748,7 @@ public class StatisticheService {
 		List<TipoRapportoLavoro> listaTipoRapportolavoro = TipoRapportoLavoro.findAll();
 		for(TipoRapportoLavoro trl : listaTipoRapportolavoro) {
 			Map result = new HashMap();
-			Integer numeroRisorse = RapportoLavoro.countRisorse(trl);
+			Integer numeroRisorse = RapportoLavoro.findRisorseByTipoRapportoLavoroAndMeseAndAnno(trl, MyUtility.getMeseFromDate(new Date()), MyUtility.getAnnoFromDate(new Date())).size();
 			result.put("N_RISORSE", numeroRisorse);
 			result.put("CODICE", trl.codice);
 			result.put("DESCRIZIONE", trl.descrizione);
