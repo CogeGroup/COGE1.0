@@ -55,7 +55,7 @@ input.returnbutton {
 
 
 #logo { float: left; color: #808080; line-height: 25px; }
-#menu { height: 35px; padding: 7px 0 0 90px; clear: both;  margin: 0 0 18px; background: #fff url(../images/menubg.gif) repeat-x; }
+#menu { height: 35px; padding: 7px 0 0 10px; clear: both;  margin: 0 0 18px; background: #fff url(../images/menubg.gif) repeat-x; }
 	#menu li { font-size: 1.1em; display: inline; text-transform: uppercase; }
 	#menu li a { margin: 0 25px 0 10px; color: #808080;  }
 	#menu li a:hover { color: #444; }

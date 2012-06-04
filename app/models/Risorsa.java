@@ -40,7 +40,6 @@ public class Risorsa extends GenericModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Integer idRisorsa;
 	
-	@Required
 	@MaxSize(255)
 	public String codice;
 	
