@@ -13,6 +13,7 @@ import java.util.Map;
 
 import models.Cliente;
 import models.Commessa;
+import models.GiornateLavorative;
 import models.Gruppo;
 import models.RendicontoAttivita;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -203,6 +204,32 @@ public class StatisticheController extends Controller {
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
+		
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+		reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+		reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+		reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+		reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+		reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+		reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+		reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+		reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+		reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+		reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+		reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+		reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+		
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_clienti.jrxml");
@@ -237,6 +264,32 @@ public class StatisticheController extends Controller {
 			List<Map> resultSet = StatisticheService.prepareReportClienti(anno);
 			Map reportParams = new HashMap();
 			reportParams.put("ANNO", anno);
+
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+			reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+			reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+			reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+			reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+			reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+			reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+			reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+			reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+			reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+			reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+			reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+			reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+			
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_clienti.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
 			jp = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
@@ -435,7 +488,12 @@ public class StatisticheController extends Controller {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle("MESE: " + mese + " ANNO: " + anno)
+		String subTitle = "MESE: " + mese + " ANNO: " + anno;
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",Integer.parseInt(mese),Integer.parseInt(anno)).first();
+		if(gl != null) {
+			subTitle += " (" + gl.giorni + ")";
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle(subTitle)
 				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle).setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
@@ -510,7 +568,12 @@ public class StatisticheController extends Controller {
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
-			drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle("MESE: " + mese + " ANNO: " + anno)
+			String subTitle = "MESE: " + mese + " ANNO: " + anno;
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",Integer.parseInt(mese),Integer.parseInt(anno)).first();
+			if(gl != null) {
+				subTitle += " (" + gl.giorni + ")";
+			}
+			drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle(subTitle)
 					.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle).setDetailHeight(5).setMargins(10, 10, 10, 28)
 					.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
 			DynamicReport dr = drb.build();
@@ -603,7 +666,12 @@ public class StatisticheController extends Controller {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI").setSubtitle("MESE: " + mese + " ANNO: " + anno)
+		String subTitle = "MESE: " + mese + " ANNO: " + anno;
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",Integer.parseInt(mese),Integer.parseInt(anno)).first();
+		if(gl != null) {
+			subTitle += " (" + gl.giorni + ")";
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI").setSubtitle(subTitle)
 				.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle).setDetailHeight(15).setMargins(30, 20, 30, 15)
 				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
 		DynamicReport dr = drb.build();
@@ -688,7 +756,12 @@ public class StatisticheController extends Controller {
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
 			}
-			drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI").setSubtitle("MESE: " + mese + " ANNO: " + anno)
+			String subTitle = "MESE: " + mese + " ANNO: " + anno;
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",Integer.parseInt(mese),Integer.parseInt(anno)).first();
+			if(gl != null) {
+				subTitle += " (" + gl.giorni + ")";
+			}
+			drb.setTitle("REPORT COMMESSE NON FATTURABILI COLLABORATORI").setSubtitle(subTitle)
 					.setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle).setDetailHeight(15).setMargins(30, 20, 30, 15)
 					.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
 			DynamicReport dr = drb.build();
@@ -857,6 +930,32 @@ public class StatisticheController extends Controller {
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
+
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+		reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+		reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+		reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+		reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+		reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+		reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+		reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+		reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+		reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+		reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+		reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+		reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+		
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
@@ -891,6 +990,32 @@ public class StatisticheController extends Controller {
 			List<Map> resultSet = StatisticheService.prepareReportCommesseClienti(anno);
 			Map reportParams = new HashMap();
 			reportParams.put("ANNO", anno);
+
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+			reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+			reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+			reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+			reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+			reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+			reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+			reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+			reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+			reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+			reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+			reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+			reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+			
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_clienti.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
 			jp = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
@@ -915,6 +1040,32 @@ public class StatisticheController extends Controller {
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
+
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+		reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+		reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+		reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+		reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+		reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+		reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+		reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+		reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+		reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+		reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+		reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+		reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+		
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
@@ -950,6 +1101,32 @@ public class StatisticheController extends Controller {
 			List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabili(anno);
 			Map reportParams = new HashMap();
 			reportParams.put("ANNO", anno);
+
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+			reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+			reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+			reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+			reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+			reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+			reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+			reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+			reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+			reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+			reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+			reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+			reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+			
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
 			jp = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
@@ -974,6 +1151,32 @@ public class StatisticheController extends Controller {
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
+
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+		reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+		reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+		reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+		reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+		reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+		reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+		reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+		reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+		reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+		reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+		reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+		reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+		
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
@@ -1009,6 +1212,32 @@ public class StatisticheController extends Controller {
 			List<Map> resultSet = StatisticheService.prepareReportCommesseNonFatturabiliCollaboratori(anno);
 			Map reportParams = new HashMap();
 			reportParams.put("ANNO", anno);
+
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+			reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+			reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+			reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+			reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+			reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+			reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+			reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+			reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+			reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+			reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+			reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+			reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+			
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesse_non_fatturabili_collaboratori.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
 			jp = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
@@ -1169,6 +1398,32 @@ public class StatisticheController extends Controller {
 		boolean result = true;
 		Map reportParams = new HashMap();
 		reportParams.put("ANNO", anno);
+
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+		reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+		reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+		reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+		reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+		reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+		reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+		reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+		reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+		reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+		reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+		reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+		gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+		reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+		
 		JasperPrint jrprint;
 		try {
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/portafoglio_ordini.jrxml");
@@ -1204,6 +1459,32 @@ public class StatisticheController extends Controller {
 			List<Map> resultSet = StatisticheService.prepareReportPortafoglioOrdini(anno);
 			Map reportParams = new HashMap();
 			reportParams.put("ANNO", anno);
+
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",1,anno).first();
+			reportParams.put("ggGennaio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",2,anno).first();
+			reportParams.put("ggFebbraio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",3,anno).first();
+			reportParams.put("ggMarzo", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",4,anno).first();
+			reportParams.put("ggAprile", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",5,anno).first();
+			reportParams.put("ggMaggio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",6,anno).first();
+			reportParams.put("ggGiugno", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",7,anno).first();
+			reportParams.put("ggLuglio", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",8,anno).first();
+			reportParams.put("ggAgosto", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",9,anno).first();
+			reportParams.put("ggSettembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",10,anno).first();
+			reportParams.put("ggOttobre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",11,anno).first();
+			reportParams.put("ggNovembre", gl != null ? ""+gl.giorni+"" : " ");
+			gl = GiornateLavorative.find("byMeseAndAnno",12,anno).first();
+			reportParams.put("ggDicembre", gl != null ? ""+gl.giorni+"" : " ");
+			
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/portafoglio_ordini.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(vf.getRealFile().getAbsolutePath());
 			jp = JasperFillManager.fillReport(jasperReport, reportParams, new JRBeanCollectionDataSource(resultSet));
@@ -1228,6 +1509,11 @@ public class StatisticheController extends Controller {
 		Map reportParams = new HashMap();
 		reportParams.put("MESE", mese);
 		reportParams.put("ANNO", anno);
+		GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",mese,anno).first();
+		if(gl != null) {
+			reportParams.put("GIORNI", gl.giorni);
+			System.out.println(gl.giorni);
+		}
 		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		JasperPrint jrprint;
@@ -1264,6 +1550,11 @@ public class StatisticheController extends Controller {
 			Map reportParams = new HashMap();
 			reportParams.put("MESE", mese);
 			reportParams.put("ANNO", anno);
+			GiornateLavorative gl = GiornateLavorative.find("byMeseAndAnno",mese,anno).first();
+			if(gl != null) {
+				reportParams.put("GIORNI", gl.giorni);
+				System.out.println(gl.giorni);
+			}
 			VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
 			reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 			VirtualFile vf = VirtualFile.fromRelativePath("reports/statistiche_commesseACorpo.jasper");
@@ -1273,124 +1564,5 @@ public class StatisticheController extends Controller {
 		}
 		return jp;
 	}
-	
-	// TODO Utili?
-	/*TEST JASPER REPORT*/
-//	public static void showTest() {
-//
-//		Map reportParams = new HashMap();
-//		reportParams.put("xx", "aa");
-//		JasperPrint jrprint;
-//
-//		ArrayList<HashMap> list = new ArrayList<HashMap>();
-//		list = Cliente.statisticheClienti(2010);
-//		// HashMap m1 = new HashMap();
-//		// m1.put("nome", "nome1");
-//		// m1.put("cognome", "cognome1");
-//		//
-//		// HashMap m2 = new HashMap();
-//		// m2.put("nome", "nome2");
-//		// m2.put("cognome", "cognome2");
-//		//
-//		// list.add(m1);
-//		// list.add(m2);
-//		//
-//
-//		try {
-//			VirtualFile vf = VirtualFile
-//					.fromRelativePath("reports/reportTestClienti.jasper");
-//			jrprint = JasperFillManager.fillReport(vf.getRealFile()
-//					.getAbsolutePath(), reportParams,
-//					new JRBeanCollectionDataSource(list));
-//			response.setHeader("Content-disposition",
-//					"attachment;filename=report.pdf");
-//			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
-//		} catch (JRException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
-//	
-//	/*TEST DYNAMIC JASPER REPORT*/
-//	public static void test() throws ColumnBuilderException,
-//	ClassNotFoundException, DJBuilderException {
-//		String mese = "6";
-//		String anno = "2011";
-//		JasperPrint jrprint;
-//		
-//		List<Commessa> listaCommessa = Commessa.find("byFatturabile", false)
-//				.fetch();
-//		FastReportBuilder drb = new FastReportBuilder();
-//		Style headerStyle = new Style();
-//		
-//		headerStyle.setBorder(Border.PEN_1_POINT);
-//		headerStyle.setBorderColor(Color.black);
-//		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-//		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
-//		drb.setHeaderHeight(100);
-//		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
-//		// headerStyle.setPadding(1000);
-//		headerStyle.setRotation(Rotation.LEFT);
-//		headerStyle.setTransparency(Transparency.OPAQUE);
-//		
-//		// Style titleStyle = new Style();
-//		// titleStyle.setBorder(Border.DOTTED);
-//		// Style subtitleStyleParent = new Style("subtitleParent");
-//		// subtitleStyleParent.setBackgroundColor(Color.CYAN);
-//		// subtitleStyleParent.setTransparency(Transparency.OPAQUE);
-//		// subtitleStyleParent.setBorder(Border.PEN_4_POINT);
-//		// Style subtitleStyle =
-//		// Style.createBlankStyle("subtitleStyle","subtitleParent");
-//		// subtitleStyle.setFont(Font.GEORGIA_SMALL_BOLD);
-//		//
-//		Style styleNome = new Style();
-//		styleNome.setRotation(Rotation.NONE);
-//		styleNome.setBorder(Border.PEN_1_POINT);
-//		
-//		Style style = new Style();
-//		style.setBorder(Border.PEN_1_POINT);
-//		drb.addColumn("nominativo", "risorsa", String.class.getName(), 30,
-//				styleNome, styleNome);
-//		drb.addColumn("Totale Ore", "totaleOre", Integer.class.getName(), 30,
-//				styleNome, styleNome);
-//		for (Commessa c : listaCommessa) {
-//		
-//			// drb.addColumn(c.descrizione, c.idCommessa.toString(),
-//			// BigDecimal.class.getName(),10,style);
-//			AbstractColumn columnState = ColumnBuilder
-//					.getNew()
-//					.setColumnProperty(c.idCommessa.toString(),
-//							BigDecimal.class.getName()).setTitle(c.descrizione)
-//					.setWidth(new Integer(10)).setStyle(style).build();
-//			drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
-//			drb.addColumn(columnState);
-//		
-//		}
-//		drb.setTitle("REPORT COMMESSE NON FATTURABILI")
-//				.setSubtitle("MESE: " + mese + " ANNO: " + anno)
-//				.setDefaultStyles(null, null, headerStyle, null)
-//				.setDetailHeight(15).setMargins(30, 20, 30, 15)
-//				.setPrintBackgroundOnOddRows(true).setGrandTotalLegend("")
-//				.setUseFullPageWidth(true);
-//		
-//		DynamicReport dr = drb.build();
-//		
-//		Collection dummyCollection = new ArrayList();
-//		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabili(
-//				mese, anno);
-//		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
-//		Map param = new HashMap();
-//		
-//		try {
-//			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,
-//					new ClassicLayoutManager(), param);
-//			jrprint = JasperFillManager.fillReport(jr, param, ds);
-//			response.setHeader("Content-disposition", "attachment;filename=report.pdf");
-//			JasperExportManager.exportReportToPdfStream(jrprint, response.out);
-//		
-//		} catch (JRException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 }

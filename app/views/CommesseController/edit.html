@@ -64,10 +64,10 @@
 	<p class="campi_obbligatori">I campi contrassegnati dall&#39;asterisco (&#42;) sono obbligatori</p>
  
    	<label for="codice">&#42; Codice commessa:</label>
-   	<input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }"/>
+   	<input type="text" class="txt_xxl" id="codice" name="commessa.codice" value="${commessa.codice }"/>
    	<br />
    	<label for="descrizione">&#42; Descrizione: </label>
-   	<input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
+   	<input type="text" class="txt_xxl" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
    	<br />
   	<label for="calcoloCosti">Calcola costi: </label>
 	<input type="checkBox" id="calcoloCosti" name="commessa.calcoloCosti" value="true" #{if commessa.calcoloCosti == true} checked="checked" #{/if} />
@@ -75,6 +75,9 @@
 	<label for="calcoloRicavi">Calcola ricavi: </label>
 	<input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true"  onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if} />
 	<br />
+    <label for=ricavoPrevisionale>Ricavo Previsionale: </label>
+    <input type="text" class="txt_m" name="commessa.ricavoPrevisionale" value="${commessa.ricavoPrevisionale }" /> &euro;
+    <br />
   	<label for="tipoCommessa">&#42; Tipo commessa: </label>
 	#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa }
 		#{option ''}- selezionare -#{/option}

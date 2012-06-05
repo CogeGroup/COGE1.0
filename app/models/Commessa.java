@@ -60,6 +60,10 @@ public class Commessa extends GenericModel implements Comparable<Commessa> {
 	@OneToMany(mappedBy="commessa",cascade=CascadeType.ALL)
 	public List<Tariffa> tariffe;
 	
+	/** NUOVO */
+	public float ricavoPrevisionale;
+	
+	
 	// Costruttori
 	public Commessa(){
 		this.cliente = new Cliente();

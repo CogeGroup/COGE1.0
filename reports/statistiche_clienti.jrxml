@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statistiche_clienti" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="90"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.x" value="925"/>
+	<property name="ireport.y" value="59"/>
 	<parameter name="ANNO" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="ggGennaio" class="java.lang.String"/>
+	<parameter name="ggFebbraio" class="java.lang.String"/>
+	<parameter name="ggMarzo" class="java.lang.String"/>
+	<parameter name="ggAprile" class="java.lang.String"/>
+	<parameter name="ggMaggio" class="java.lang.String"/>
+	<parameter name="ggGiugno" class="java.lang.String"/>
+	<parameter name="ggLuglio" class="java.lang.String"/>
+	<parameter name="ggAgosto" class="java.lang.String"/>
+	<parameter name="ggSettembre" class="java.lang.String"/>
+	<parameter name="ggOttobre" class="java.lang.String"/>
+	<parameter name="ggNovembre" class="java.lang.String"/>
+	<parameter name="ggDicembre" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -161,174 +173,90 @@
 	</title>
 	<columnHeader>
 		<band height="33" splitType="Stretch">
-			<staticText>
-				<reportElement mode="Opaque" x="321" y="0" width="40" height="32" backcolor="#FFFF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+			<textField pattern="">
+				<reportElement mode="Opaque" x="322" y="1" width="39" height="31" backcolor="#FFFF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["GEN(" + $P{ggGennaio} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="362" y="1" width="39" height="31" backcolor="#FFFF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[GEN]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="361" y="0" width="40" height="32" backcolor="#FFFF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["FEB(" + $P{ggFebbraio} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="402" y="1" width="39" height="31" backcolor="#FFFF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[FEB]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="401" y="0" width="40" height="32" backcolor="#FFFF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["MAR(" + $P{ggMarzo} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="442" y="1" width="39" height="31" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[MAR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="441" y="0" width="40" height="32" backcolor="#99CCFF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["APR(" + $P{ggAprile} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="482" y="1" width="39" height="31" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[APR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="481" y="0" width="40" height="32" backcolor="#99CCFF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["MAG(" + $P{ggMaggio} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="522" y="1" width="39" height="31" backcolor="#99CCFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[MAG]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="521" y="0" width="40" height="32" backcolor="#99CCFF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["GIU(" + $P{ggGiugno} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="562" y="1" width="39" height="31" backcolor="#99FF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[GIU]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="561" y="0" width="40" height="32" backcolor="#99FF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["LUG(" + $P{ggLuglio} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="602" y="1" width="39" height="31" backcolor="#99FF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[LUG]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="601" y="0" width="40" height="32" backcolor="#99FF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["AGO(" + $P{ggAgosto} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="642" y="1" width="39" height="31" backcolor="#99FF99"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[AGO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="641" y="0" width="40" height="32" backcolor="#99FF99"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["SET(" + $P{ggSettembre} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="682" y="1" width="39" height="31" backcolor="#CC99FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[SET]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="681" y="0" width="40" height="32" backcolor="#CC99FF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["OTT(" + $P{ggOttobre} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="722" y="1" width="39" height="31" backcolor="#CC99FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[OTT]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="721" y="0" width="40" height="32" backcolor="#CC99FF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textFieldExpression class="java.lang.String"><![CDATA["NOV(" + $P{ggNovembre} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="762" y="1" width="39" height="31" backcolor="#CC99FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[NOV]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="761" y="0" width="40" height="32" backcolor="#CC99FF"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
-				</textElement>
-				<text><![CDATA[DIC]]></text>
-			</staticText>
+				<textFieldExpression class="java.lang.String"><![CDATA["DIC(" + $P{ggDicembre} + ")"]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="40" y="0" width="72" height="32" backcolor="#FFFF99"/>
 				<box>
@@ -415,6 +343,48 @@
 				</textElement>
 				<text><![CDATA[CODICE]]></text>
 			</staticText>
+			<line>
+				<reportElement x="321" y="0" width="481" height="1"/>
+			</line>
+			<line>
+				<reportElement x="321" y="32" width="481" height="1"/>
+			</line>
+			<line>
+				<reportElement x="361" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="401" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="441" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="481" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="521" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="561" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="601" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="641" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="681" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="721" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="761" y="1" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="801" y="1" width="1" height="31"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>

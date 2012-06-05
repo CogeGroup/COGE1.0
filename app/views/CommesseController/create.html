@@ -66,11 +66,11 @@
 		 <ul>
 	    <li>
 	   	<label for="codice">&#42; Codice commessa:</label>
-	    <input type="text" class="txt_m" id="codice" name="commessa.codice" value="${commessa.codice }" />
+	    <input type="text" class="txt_xxl" id="codice" name="commessa.codice" value="${commessa.codice }" />
 	    </li>
 	    <li>
 	    <label for="descrizione">&#42; Descrizione: </label>
-	    <input type="text" class="txt_m" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
+	    <input type="text" class="txt_xxl" id="descrizione" name="commessa.descrizione" value="${commessa.descrizione }" />
 	     </li>
 	    <li>
 	    <label for="calcoloCosti">Calcola costi: </label>
@@ -81,13 +81,17 @@
 	    <input type="checkBox" id="calcoloRicavi" name="commessa.calcoloRicavi" value="true" onclick="toggle_visibility('gruppi');" #{if commessa.calcoloRicavi == true} checked="checked" #{/if}/>
 	    </li>
 	    <li>
+	    <label for=ricavoPrevisionale>Ricavo Previsionale: </label>
+	    <input type="text" class="txt_m" name="commessa.ricavoPrevisionale" value="${commessa.ricavoPrevisionale }" /> &euro;
+	    </li>
+	    <li>
 	   	<label for="tipoCommessa">&#42; Tipo commessa: </label>
 		#{select 'commessa.tipoCommessa.idTipoCommessa', items:listaTipiCommessa, labelProperty:'descrizione', valueProperty:'idTipoCommessa', value:commessa?.tipoCommessa?.idTipoCommessa /}
 	     </li>
 	    <li>
 	    <label for=dataInizioCommessa>Data inizio: </label>
 	    <input type="text" class="txt_date" name="commessa.dataInizioCommessa" id="datepicker1" value="${commessa.dataInizioCommessa?.format('dd-MM-yyyy') }"/>
-	     </li>
+	    </li>
 	    <li>
 	   	<label for="cliente">&#42; Cliente: </label>
 		#{select 'commessa.cliente.idCliente', items:listaClienti, labelProperty:'nominativo', valueProperty:'idCliente', value:commessa.cliente.idCliente/}
