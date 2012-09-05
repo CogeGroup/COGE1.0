@@ -8,7 +8,7 @@
         #{stylesheet id:'style-css',media:'screen',src:'style.css'  /}
         #{stylesheet id:'pagination-css',media:'screen',src:'play-pagination.css'  /}
         
-        #{if play.Play.configuration.get("http.port") == play.Play.configuration.get("porta.solvingTeam")}
+        #{if play.Play.id == play.Play.configuration.get("id.solvingTeam")}
 			<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">   
 		#{/if}
 		#{else}
@@ -24,7 +24,7 @@
     <body>
          <div id="content">
  		
-		#{if play.Play.configuration.get("http.port") == play.Play.configuration.get("porta.solvingTeam")}
+		#{if play.Play.id == play.Play.configuration.get("id.solvingTeam")}
 			<div id="logo">
 				<h1><a href="@{LogInController.index()}"><img src="@{'/public/images/logo.jpg'}" width="167" height="91" alt="Logo" /></a></h1>
 				<p>Solving team - Software gestionale</p>
@@ -64,7 +64,7 @@
 			nostro intelletto si profonda tanto,
 			che dietro la memoria non pu&ograve; ire.
 		 </p>
-        #{if play.Play.configuration.get("http.port") == play.Play.configuration.get("porta.solvingTeam")}
+        #{if play.Play.id == play.Play.configuration.get("id.solvingTeam")}
 			<p>&copy; Copyright <strong>Solving Team</strong></p>
 		#{/if}
 		#{else}
