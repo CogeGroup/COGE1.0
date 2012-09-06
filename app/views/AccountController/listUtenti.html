@@ -60,7 +60,7 @@
 		</thead>
 		#{paginate.list items:paginator, as:'index'} 
 		    <tr>
-		    	<td>${index.risorsa.nome} ${index.risorsa.cognome}</td>
+		    	<td>${index?.risorsa?.nome} ${index?.risorsa?.cognome}</td>
 		    	<td>${index.username}</td>
 		    	<td>${index.email}</td>
 		    	<td class="edit"><a href="showUtente?idU=${index.idUtente}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>

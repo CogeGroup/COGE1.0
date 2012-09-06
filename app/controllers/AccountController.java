@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
+import play.Play;
 import play.data.validation.Required;
 import play.data.validation.Valid;
 import play.modules.paginate.ValuePaginator;
@@ -72,7 +73,7 @@ public class AccountController extends Controller {
 		render(listaRuoli, listaRisorse, utente);
 	}
 	  
-	public static void saveUtente(@Valid Utente utente, @Required(message="Inserire un ruolo")String ruolo, @Required(message="Inserire una risorsa") Integer idRisorsa) {
+	public static void saveUtente(@Valid Utente utente, @Required(message="Inserire un ruolo")String ruolo, Integer idRisorsa) {
 		//Gestione Ruoli
 		String [] listaR = ruolo.split(",");
 		//rimuovo gli eventuali valori doppi
@@ -90,34 +91,28 @@ public class AccountController extends Controller {
 		}
 		if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){  
 			//find della risorsa by id e controllo se non esiste nessun utente associato alla risorsa
-			Risorsa r = Risorsa.findById(idRisorsa);
-			if(r!=null){
-				//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
-				Utente u = Utente.find("byRisorsa", r).first();
-				if(u == null){
-					//save dell'utente
-					utente.password = EncryptionUtility.encrypt(utente.password);
-					utente.risorsa=r;
-					utente.ruoli = listaRuoliUtente;
-					utente.abilitato = true;
-					utente.save();
-					flash.success("Utente %s salvato con successo",utente.username);
-					//lista degli utenti in render
-					listUtenti();
-				}else{
-					validation.addError("idRisorsa", "risorsa assegnata ad altro utente");
-					// flash.error("risorsa assegnata ad altro utente");
-					List<Ruolo> listaRuoli = Ruolo.findAll();
-					List<Risorsa> listaRisorse = Risorsa.all().fetch();
-					render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
-				}
+			Risorsa r = null;
+			if(idRisorsa != null)
+				r = Risorsa.findById(idRisorsa);
+			//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
+			Utente u = Utente.find("byRisorsa", r).first();
+			if(u == null){
+				//save dell'utente
+				utente.password = EncryptionUtility.encrypt(utente.password);
+				utente.risorsa=r;
+				utente.ruoli = listaRuoliUtente;
+				utente.abilitato = true;
+				utente.save();
+				flash.success("Utente %s salvato con successo",utente.username);
+				//lista degli utenti in render
+				listUtenti();
 			}else{
-				validation.addError("idRisorsa", "risorsa non trovata");
-				// flash.error("risorsa non trovata");
+				validation.addError("idRisorsa", "risorsa assegnata ad altro utente");
+				// flash.error("risorsa assegnata ad altro utente");
 				List<Ruolo> listaRuoli = Ruolo.findAll();
 				List<Risorsa> listaRisorse = Risorsa.all().fetch();
 				render("AccountController/createUtente.html",listaRuoli,listaRisorse,utente);
-			}					  
+			}
 		}
 	}
 	  
@@ -127,7 +122,7 @@ public class AccountController extends Controller {
 		render(mylist,utente);
 	}
 	  
-	public static void updateUtente(@Valid Utente utente, @Required(message="Inserire un ruolo")String ruolo, @Required(message="Inserire una risorsa") Integer idRisorsa) {
+	public static void updateUtente(@Valid Utente utente, @Required(message="Inserire un ruolo")String ruolo, Integer idRisorsa, String risorsa) {
 		if(validation.hasErrors()){
 			utente = Utente.findById(utente.idUtente);
 			String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
@@ -145,32 +140,28 @@ public class AccountController extends Controller {
 		}
 		if(listaRuoliUtente !=null && listaRuoliUtente.size()>0){
 			//find della risorsa by id e controllo se non esiste nessun utente oltre al associato alla risorsa
-			Risorsa r = Risorsa.findById(idRisorsa);
-			if(r!=null){
-				//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
-				Utente u = Utente.find("byRisorsa", r).first();
-				if(u==null || u.idUtente == utente.idUtente ){
-					//update dell'utente
-					utente.risorsa=r;
-					utente.ruoli = listaRuoliUtente;
-					utente.save();
-					flash.success("Utente %s modificato con successo",utente.username);
-					//lista degli utenti in render
-					listUtenti();	  
-				}else{
-					validation.addError("idRisorsa", "risorsa assegnata ad altro utente");
-					// flash.error("risorsa assegnata ad altro utente");
-					utente = Utente.findById(utente.idUtente);
-					String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
-					render("AccountController/showUtente.html",mylist,utente);
-				}
+			Risorsa r = null;
+			if(idRisorsa != null)
+				r = Risorsa.findById(idRisorsa);
+			//ho trovato la risorsa da associare al nuovo utente controllo che nessun utente è associato
+			Utente u = Utente.find("byRisorsa", r).first();
+			if(u==null || u.idUtente == utente.idUtente ){
+				//update dell'utente
+				utente.risorsa=r;
+				if(risorsa == null || risorsa.equals(""))
+					utente.risorsa=null;
+				utente.ruoli = listaRuoliUtente;
+				utente.save();
+				flash.success("Utente %s modificato con successo",utente.username);
+				//lista degli utenti in render
+				listUtenti();	  
 			}else{
-				validation.addError("idRisorsa", "risorsa non trovata");
-				// flash.error("risorsa non trovata");
+				validation.addError("idRisorsa", "risorsa assegnata ad altro utente");
+				// flash.error("risorsa assegnata ad altro utente");
 				utente = Utente.findById(utente.idUtente);
 				String mylist = ConvertToJson.convert(utente.ruoli, "idRuolo", "descrizione"); 
 				render("AccountController/showUtente.html",mylist,utente);
-			}		
+			}
 		}
 	}
 	  
