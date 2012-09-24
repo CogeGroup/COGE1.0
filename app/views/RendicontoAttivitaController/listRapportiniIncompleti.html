@@ -17,7 +17,7 @@
 				<td>${risorsa.codice }</td>
 				<td>${risorsa.cognome }</td>
 				<td>${risorsa.nome }</td>
-				<td>#{a @RendicontoAttivitaController.dettaglio(risorsa.idRisorsa,mese+1,anno)}Dettaglio#{/a}</td>
+				<td>#{a @RendicontoAttivitaController.dettaglio(risorsa.idRisorsa,mese+1,anno,backPage)}Dettaglio#{/a}</td>
 			</tr>
 		#{/paginate.list} 
 	</table>
@@ -29,5 +29,5 @@
 	<center><h2>Nessuna Anomalia Presente</h2></center>
 #{/else}
 <div id="button_center">
-	#{a @RendicontoAttivitaController.rapportiniIncompleti()}<input type="button" class="submitbutton" value="Nuova ricerca" />#{/a}
+	#{a @RendicontoAttivitaController.rapportiniIncompleti()}<input type="button" class="submitbutton" value="Indietro" />#{/a}
 </div>

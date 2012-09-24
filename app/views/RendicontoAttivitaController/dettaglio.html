@@ -58,5 +58,14 @@
 </div>
 
 <div class="navigation">
-<a class="button_nav" href="@{RendicontoAttivitaController.chooseRisorsa()}">Indietro</a>
+#{if backPage == 'choose'}
+   	<a class="button_nav" href="@{RendicontoAttivitaController.chooseRisorsa()}">Indietro</a>
+#{/if}
+#{if backPage == 'search'}
+   	<a class="button_nav" href="@{RendicontoAttivitaController.search()}">Indietro</a>
+#{/if}
+#{if backPage == 'incompleti'}
+   	<a class="button_nav" href="@{RendicontoAttivitaController.listRapportiniIncompleti(mese-1,anno)}">Indietro</a>
+#{/if}
+
 </div>

@@ -43,7 +43,8 @@ public class RendicontoAttivitaController extends Controller {
 			listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno", risorsa,mese,anno).fetch();
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
 			paginator.setPageSize(100);
-			render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno);
+			String backPage = "search";
+			render("RendicontoAttivitaController/dettaglio.html", paginator, risorsa, mese, anno, backPage);
 		}else{
 			listaRapportini = RendicontoAttivita.findByExample(idRisorsa,mese,anno);
 			ValuePaginator paginator = new ValuePaginator(listaRapportini);
@@ -53,12 +54,12 @@ public class RendicontoAttivitaController extends Controller {
 		search();
 	}
 	
-	public static void dettaglio(Integer idRisorsa, int mese, int anno){
+	public static void dettaglio(Integer idRisorsa, int mese, int anno, String backPage){
 		Risorsa risorsa = Risorsa.findById(idRisorsa);
 		List<RendicontoAttivita> listaRapportini = RendicontoAttivita.find("byRisorsaAndMeseAndAnno",risorsa,mese,anno).fetch();
 		ValuePaginator paginator = new ValuePaginator(listaRapportini);
 		paginator.setPageSize(100);
-		render(paginator, risorsa, mese, anno);
+		render(paginator, risorsa, mese, anno, backPage);
 	}
 	
 	public static void backList(int mese, int anno){
@@ -226,7 +227,8 @@ public class RendicontoAttivitaController extends Controller {
 			}
 		}
 		flash.success("Attivita aggiunta con successo");
-		dettaglio(idRisorsa, mese+1,anno);
+		String backPage = "choose";
+		dettaglio(idRisorsa, mese+1,anno,backPage);
 	}
 	
 // Cancella rendicontoAttivita
@@ -234,7 +236,8 @@ public class RendicontoAttivitaController extends Controller {
 		RendicontoAttivita rendicontoAttivita = RendicontoAttivita.findById(id);
 		rendicontoAttivita.delete();
 		flash.success("Rapportino cancellato con successo");
-		dettaglio(rendicontoAttivita.risorsa.idRisorsa, rendicontoAttivita.mese, rendicontoAttivita.anno);
+		String backPage = "search";
+		dettaglio(rendicontoAttivita.risorsa.idRisorsa, rendicontoAttivita.mese, rendicontoAttivita.anno,backPage);
 	}
 
 // Rapportini incompleti
@@ -249,7 +252,8 @@ public class RendicontoAttivitaController extends Controller {
     	List<Risorsa> listaAnomalie = RendicontoAttivita.listRapportiniIncompleti(mese, anno);
     	ValuePaginator paginator = new ValuePaginator(listaAnomalie);
 		paginator.setPageSize(100);
-		render(paginator, mese, anno);
+		String backPage = "incompleti";
+		render(paginator, mese, anno, backPage);
     }
     
     public static void rapportiniMancanti() {
