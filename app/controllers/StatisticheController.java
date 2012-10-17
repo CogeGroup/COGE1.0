@@ -385,53 +385,53 @@ public class StatisticheController extends Controller {
 	}
 	private static JasperPrint preparePDFCommesseAnno(String anno) {
 		JasperPrint jp = new JasperPrint();
+		List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
+		listaCommessa = moveToLastStraordinari(listaCommessa);
+		FastReportBuilder drb = new FastReportBuilder();
+		Style headerStyle = new Style();
+		headerStyle.setBorder(Border.PEN_1_POINT);
+		headerStyle.setBorderColor(Color.black);
+		headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
+		headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
+		drb.setHeaderHeight(100);
+		drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
+		headerStyle.setRotation(Rotation.LEFT);
+		headerStyle.setTransparency(Transparency.OPAQUE);
+		Style styleNome = new Style();
+		styleNome.setRotation(Rotation.NONE);
+		styleNome.setBorder(Border.PEN_1_POINT);
+		styleNome.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
+		Style style = new Style();
+		style.setBorder(Border.PEN_1_POINT);
+		style.setFont(new Font(5,Font._FONT_TIMES_NEW_ROMAN,true));
+		Style titleStyle = new Style();
+		titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
 		try {
-			List<Commessa> listaCommessa = Commessa.find("byCalcoloRicavi", false).fetch();
-			listaCommessa = moveToLastStraordinari(listaCommessa);
-			FastReportBuilder drb = new FastReportBuilder();
-			Style headerStyle = new Style();
-			headerStyle.setBorder(Border.PEN_1_POINT);
-			headerStyle.setBorderColor(Color.black);
-			headerStyle.setVerticalAlign(VerticalAlign.JUSTIFIED);
-			headerStyle.setFont(Font.TIMES_NEW_ROMAN_SMALL);
-			drb.setHeaderHeight(100);
-			drb.setPageSizeAndOrientation(Page.Page_A4_Landscape());
-			headerStyle.setRotation(Rotation.LEFT);
-			headerStyle.setTransparency(Transparency.OPAQUE);
-			Style styleNome = new Style();
-			styleNome.setRotation(Rotation.NONE);
-			styleNome.setBorder(Border.PEN_1_POINT);
-			Style style = new Style();
-			style.setBorder(Border.PEN_1_POINT);
-			style.setFont(new Font(5,Font._FONT_TIMES_NEW_ROMAN,true));
-			Style titleStyle = new Style();
-			titleStyle.setFont(new Font(8,Font._FONT_TIMES_NEW_ROMAN,true));
-			try {
-				drb.addColumn("nominativo", "risorsa", String.class.getName(), 70,styleNome, styleNome);
-				//drb.addColumn("Totale Giorni", "totaleGiorni", Double.class.getName(),30, styleNome, styleNome);
-				AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Double.class.getName())
-						.setTitle("Totale Giorni").setWidth(new Integer(35)).setHeaderStyle(styleNome).setStyle(styleNome).build();
-				drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
-				drb.addColumn(columnState2);
-				for (Commessa c : listaCommessa) {
-					AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Double.class.getName())
-							.setTitle(c.descrizione).setWidth(new Integer(16)).setStyle(style).build();
-					drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
-					drb.addColumn(columnState);
-				}
-			} catch (ColumnBuilderException e1) {
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
+			drb.addColumn("nominativo", "risorsa", String.class.getName(), 35,styleNome, styleNome);
+			AbstractColumn columnState2 = ColumnBuilder.getNew().setColumnProperty("totaleGiorni",Float.class.getName())
+						.setTitle("Totale Giorni").setWidth(new Integer(30)).setHeaderStyle(styleNome).setStyle(styleNome).build();
+			drb.addGlobalFooterVariable(columnState2, DJCalculation.SUM);
+			drb.addColumn(columnState2);
+			for (Commessa c : listaCommessa) {
+				AbstractColumn columnState = ColumnBuilder.getNew().setColumnProperty(c.idCommessa.toString(),Float.class.getName())
+						.setTitle(c.descrizione).setWidth(new Integer(10)).setStyle(style).build();
+				drb.addGlobalFooterVariable(columnState, DJCalculation.SUM);
+				drb.addColumn(columnState);
 			}
-			drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle(" ANNO: " + anno).setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
-					.setDetailHeight(5).setMargins(10, 10, 10, 28).setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
-			DynamicReport dr = drb.build();
-			Collection dummyCollection = new ArrayList();
-			dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliAnno(anno);
-			JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
-			Map param = new HashMap();
-			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr, new ClassicLayoutManager(), param);
+		} catch (ColumnBuilderException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		drb.setTitle("REPORT COMMESSE NON FATTURABILI DIPENDENTI").setSubtitle(" ANNO: " + anno).setDefaultStyles(titleStyle, titleStyle, headerStyle, titleStyle)
+				.setDetailHeight(15).setMargins(30, 20, 30, 15).setPrintBackgroundOnOddRows(true).setGrandTotalLegend("").setUseFullPageWidth(true);
+		DynamicReport dr = drb.build();
+		Collection dummyCollection = new ArrayList();
+		dummyCollection = RendicontoAttivita.statisticheCommesseNonFatturabiliAnno(anno);
+		JRDataSource ds = new JRBeanCollectionDataSource(dummyCollection);
+		Map param = new HashMap();
+		try {
+			JasperReport jr = DynamicJasperHelper.generateJasperReport(dr,new ClassicLayoutManager(), param);
 			jp = JasperFillManager.fillReport(jr, param, ds);
 		} catch (JRException e) {
 			e.printStackTrace();
