@@ -37,6 +37,22 @@ public class CommesseController extends Controller {
 		render(paginator);
     }
     
+    public static void order(String parametro, String ordinamento, String lastParametro) {
+		if(ordinamento == null || (lastParametro != null && !lastParametro.equals(parametro))){
+			ordinamento = "asc";
+		}
+		ValuePaginator paginator = null;
+		paginator = new ValuePaginator(Commessa.find("ORDER BY "+parametro+" "+ordinamento).fetch());
+    	if(ordinamento.equals("desc")){
+    		ordinamento = "asc";
+    	}else{
+    		ordinamento = "desc";
+    	}
+    	lastParametro = parametro;
+    	paginator.setPageSize(100);
+		render("CommesseController/list.html",paginator,ordinamento,lastParametro); 
+    }
+    
     public static void listFatturabili() {
     	ValuePaginator paginator = new ValuePaginator(Commessa.findCommesseFatturabili());
 		paginator.setPageSize(100);

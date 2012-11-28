@@ -26,6 +26,22 @@ public class ClientiController extends Controller {
 		render(paginator);
     }
     
+    public static void order(String parametro, String ordinamento, String lastParametro) {
+		if(ordinamento == null || (lastParametro != null && !lastParametro.equals(parametro))){
+			ordinamento = "asc";
+		}
+		ValuePaginator paginator = null;
+		paginator = new ValuePaginator(Cliente.find("ORDER BY "+parametro+" "+ordinamento).fetch());
+    	if(ordinamento.equals("desc")){
+    		ordinamento = "asc";
+    	}else{
+    		ordinamento = "desc";
+    	}
+    	lastParametro = parametro;
+    	paginator.setPageSize(100);
+		render("ClientiController/list.html",paginator,ordinamento,lastParametro); 
+    }
+    
     public static void search(Integer idCliente) {
     	if(idCliente == null || idCliente.equals("")){
     		list();

@@ -47,9 +47,9 @@
 	<table class="table_center">
 		<thead>
 			<tr>
-				<th scope="col">Codice cliente</th>
-				<th scope="col">Nominativo</th>
-				<th scope="col">Attivo</th>
+				<th scope="col"><a href="@{ClientiController.order('codice',ordinamento,lastParametro)}">Codice cliente</a></th>
+				<th scope="col"><a href="@{ClientiController.order('nominativo',ordinamento,lastParametro)}">Nominativo</a></th>
+				<th scope="col"><a href="@{ClientiController.order('attivo',ordinamento,lastParametro)}">Attivo</a></th>
 				<th scope="col">Modifica</th>
 				<th scope="col">Elimina</th>
 			</tr>

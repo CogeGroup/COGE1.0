@@ -59,15 +59,15 @@
 	<table class="table_center">
 	   <thead>
 			<tr>
-				<th scope="col">Codice</th>
-				<th scope="col">Descrizione</th>
-				<th scope="col">Tipo commessa</th>
-				<th scope="col">Cliente</th>
+				<th scope="col"><a href="@{CommesseController.order('codice',ordinamento,lastParametro)}">Codice</a></th>
+				<th scope="col"><a href="@{CommesseController.order('descrizione',ordinamento,lastParametro)}">Descrizione</a></th>
+				<th scope="col"><a href="@{CommesseController.order('tipoCommessa.descrizione',ordinamento,lastParametro)}">Tipo commessa</a></th>
+				<th scope="col"><a href="@{CommesseController.order('cliente.nominativo',ordinamento,lastParametro)}">Cliente</a></th>
 				<th scope="col">Commessa a corpo</th>
-				<th scope="col">Calcola costi</th>
-				<th scope="col">Calcola ricavi</th>
-				<th scope="col">Data inizio</th>
-				<th scope="col">Data fine</th>
+				<th scope="col"><a href="@{CommesseController.order('calcoloCosti',ordinamento,lastParametro)}">Calcola costi</a></th>
+				<th scope="col"><a href="@{CommesseController.order('calcoloRicavi',ordinamento,lastParametro)}">Calcola ricavi</a></th>
+				<th scope="col"><a href="@{CommesseController.order('dataInizioCommessa',ordinamento,lastParametro)}">Data inizio</a></th>
+				<th scope="col"><a href="@{CommesseController.order('dataFineCommessa',ordinamento,lastParametro)}">Data fine</a></th>
 				<th scope="col">Modifica</th>
 				<th scope="col">Chiudi</th>
 			</tr>
