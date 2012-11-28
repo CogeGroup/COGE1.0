@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="risorseCommesse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="RISORSA" class="java.lang.String"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="COMMESSA" class="java.lang.String"/>
+	<field name="COSTO" class="java.lang.String"/>
+	<field name="TARIFFA" class="java.lang.String"/>
+	<field name="DATA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="2" width="554" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA['Risorse ' + $F{DATA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="0" width="160" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="2" y="2" width="157" height="17" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RISORSA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="160" y="0" width="118" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="162" y="2" width="115" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="278" y="0" width="118" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="280" y="2" width="115" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMMESSA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="395" y="0" width="80" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="397" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COSTO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Opaque" x="475" y="0" width="80" height="20" backcolor="#99CCFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="477" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TARIFFA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="160" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="2" width="157" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{RISORSA}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="160" y="0" width="118" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="2" width="115" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="278" y="0" width="118" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="2" width="115" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{COMMESSA}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="395" y="0" width="80" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="397" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{COSTO}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="475" y="0" width="80" height="20" backcolor="#FFFFFF"/>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="477" y="2" width="77" height="17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TARIFFA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -756,4 +756,32 @@ public class StatisticheService {
 		}
 		return MyUtility.orderResultSet(resultSet, "CODICE");
 	}
+	
+	public static List<Map> prepareReportRisorseCommesse() {
+		List<Map> resultSet = new ArrayList<Map>();
+		List<Risorsa> listaRisorse = Risorsa.findAll();
+		for(Risorsa r : listaRisorse) {
+			Map result = new HashMap();
+			result.put("CODICE", r.codice);
+			result.put("RISORSA", r.cognome + " " + r.nome);
+			result.put("DATA", MyUtility.dateToString(new Date(), "dd/MM/yyyy"));
+			List<Costo> listaC = Costo.find("byRisorsa", r).fetch();
+			if(listaC.size() > 0){
+				Costo c = listaC.get(listaC.size() - 1);
+				if(c.importoMensile != null)
+					result.put("COSTO", c.importoMensile);
+				else
+					result.put("COSTO", c.importoGiornaliero);
+			}
+			List<Tariffa> listaT = Tariffa.find("byRisorsa", r).fetch();
+			if(listaT.size() > 0){
+				Tariffa t = listaT.get(listaT.size() - 1);
+				result.put("TARIFFA", t.importoGiornaliero);
+				result.put("CLIENTE", t.commessa.cliente.nominativo);
+				result.put("COMMESSA", t.commessa.descrizione);
+			}
+			resultSet.add(result);
+		}
+		return MyUtility.orderResultSet(resultSet, "RISORSA");
+	}
 }

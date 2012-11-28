@@ -37,10 +37,8 @@ public class Application extends Controller {
 			simpleEmail.setMsg(utente.password);
 			Mail.send(simpleEmail);
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		renderTemplate("Application/confirmRecuperaPasswordAccount.html", username, email);

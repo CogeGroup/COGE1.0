@@ -73,15 +73,15 @@ public class StatisticheController extends Controller {
 	}
 
 	public static void statisticaHTMLRisorseCommesse() {
-		List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
+		List<Map> resultSet = StatisticheService.prepareReportRisorseCommesse();
 		boolean result = true;
-		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
-		Map reportParams = new HashMap();
-		reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
-		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
+//		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+		Map reportParams = new HashMap(); // TODO metterlo dento fillReport
+//		reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
+//		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
 		JasperPrint jrprint;
 		try {
-			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorseCommesse.jasper");
 			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
 			if (jrprint.getPages().size() != 0) {
 				JRHtmlExporter exporter = new JRHtmlExporter();
@@ -103,18 +103,18 @@ public class StatisticheController extends Controller {
 	}
 	
 	public static void statisticaPDFRisorseCommesse() {
-		String nome = "reportRisorseTotali_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
-		exportPDF(preparePDFRisorseTotali(), nome);
+		String nome = "reportRisorseCommesse_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+		exportPDF(preparePDFRisorseCommesse(), nome);
 	}
 	private static JasperPrint preparePDFRisorseCommesse() {
 		JasperPrint jp = new JasperPrint();
 		try {
-			List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
-			VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
-			Map reportParams = new HashMap();
-			reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
-			reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
-			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
+			List<Map> resultSet = StatisticheService.prepareReportRisorseCommesse();
+//			VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+			Map reportParams = new HashMap(); // TODO metterlo dento fillReport
+//			reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
+//			reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorseCommesse.jasper");
 			jp = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
 		} catch (JRException e) {
 			e.printStackTrace();
