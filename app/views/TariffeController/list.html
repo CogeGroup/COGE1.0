@@ -45,8 +45,9 @@
 				<th scope="col">Commessa</th>
 				#{if !risorsa.dataOut}
 					<th scope="col">Modifica</th>
-					<th scope="col">Chiudi</th>
+					<!-- <th scope="col">Chiudi</th> -->
 				#{/if}
+				<th scope="col">Elimina</th>
 			</tr>
 		</thead>
 		#{paginate.list items:paginator, as:'tariffa'} 
@@ -59,12 +60,13 @@
 				#{if !risorsa.dataOut}
 					#{if !tariffa.commessa.dataFineCommessa}
 						<td><a href="@{TariffeController.edit(tariffa.idTariffa)}"><img src="@{'/public/images/edit.gif'}" alt="modifica" /></a></td>
-						<td><a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Sei sicuro di voler procedere?');"><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
+						<!-- <td><a class='modalbox' href="@{TariffeController.showDeleteTariffaModalBox(tariffa.idTariffa)}" ><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td> -->
 					#{/if}
 					#{else}
 						<td></td>
-						<td></td>
+						<!-- <td></td> -->
 					#{/else}
+					<td><a class='modalbox' href="@{TariffeController.showDeleteTariffaModalBox(tariffa.idTariffa)}" ><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 				#{/if}
 			</tr>
 		#{/paginate.list} 

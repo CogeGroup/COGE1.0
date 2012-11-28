@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import models.Commessa;
+import models.RapportoAttivita;
+import models.RendicontoAttivita;
 import models.Risorsa;
 import models.Tariffa;
 import play.data.validation.Valid;
@@ -130,6 +132,17 @@ public class TariffeController extends Controller {
     	
     	tariffa.save();
         list(tariffa.risorsa.idRisorsa);
+    }
+    public static void deleteFisico(Integer idTariffa) {
+    	Tariffa tariffa = Tariffa.findById(idTariffa);
+    	tariffa.delete();
+    	flash.success("tariffa cancellata con successo");
+        list(tariffa.risorsa.idRisorsa);
+    }
+    public static void showDeleteTariffaModalBox(Integer idTariffa) {
+    	Tariffa tariffa = Tariffa.findById(idTariffa);
+    	RendicontoAttivita rendicontoAttivita = RendicontoAttivita.find("commessa = ? and risorsa = ?", tariffa.commessa, tariffa.risorsa).first();
+        render(tariffa,rendicontoAttivita);
     }
     
 	private static boolean tariffaIsLast(Tariffa tariffa) {

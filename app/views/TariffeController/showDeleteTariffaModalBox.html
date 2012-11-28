@@ -1,0 +1,24 @@
+<!-- CSS -->
+#{stylesheet id:'style-css',media:'screen',src:'style.css'  /}
+
+<div id="edit">
+	<p>
+		<b>Risorsa:</b> ${tariffa.risorsa.cognome.toUpperCase()} ${tariffa.risorsa.nome}<BR />
+		<b>Commessa:</b> ${tariffa.commessa.descrizione}<BR />
+		<b>Data Inizio:</b> ${tariffa.dataInizio?.format('dd-MM-yyyy')}<BR />
+		<b>Data Fine:</b> ${tariffa.dataFine?.format('dd-MM-yyyy')}<BR />
+	</p>
+	#{if !tariffa.risorsa?.dataOut}
+		#{if !tariffa.commessa.dataFineCommessa}
+			<a href="@{TariffeController.delete(tariffa.idTariffa)}" onclick="return confirm('Sei sicuro di voler procedere?');" >
+				<input type="button" class="submitbutton" value="Chiudi Tariffa" /></a>
+		#{/if}
+		#{if rendicontoAttivita == null}
+			<a href="@{TariffeController.deleteFisico(tariffa.idTariffa)}" onclick="return confirm('Sei sicuro di voler procedere?');" >
+				<input type="button" class="submitbutton" value="Elimina Tariffa" /></a>
+		#{/if}
+	#{/if}
+	<a href="@{TariffeController.list(tariffa.risorsa.idRisorsa)}" >
+		<input type="button" class="submitbutton" value="Annulla" /></a>
+	<div class="clear"></div>
+</div>

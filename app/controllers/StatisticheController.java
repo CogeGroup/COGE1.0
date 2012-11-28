@@ -67,6 +67,60 @@ public class StatisticheController extends Controller {
 			e.printStackTrace();
 		}
 	}
+	/*RISORSE COMMESSE*/
+	public static void showRisorseCommesse() {
+		render();
+	}
+
+	public static void statisticaHTMLRisorseCommesse() {
+		List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
+		boolean result = true;
+		VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+		Map reportParams = new HashMap();
+		reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
+		reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
+		JasperPrint jrprint;
+		try {
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
+			jrprint = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
+			if (jrprint.getPages().size() != 0) {
+				JRHtmlExporter exporter = new JRHtmlExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jrprint);
+				exporter.setParameter(JRHtmlExporterParameter.IS_OUTPUT_IMAGES_TO_DIR,Boolean.TRUE);
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_DIR_NAME, "./images/");
+				exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "/images/");
+				exporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, response.out);
+				exporter.exportReport();
+			} else {
+				result = false;
+				response.status = 404;
+				render("StatisticheController/error.html", result);
+			}
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void statisticaPDFRisorseCommesse() {
+		String nome = "reportRisorseTotali_" + new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+		exportPDF(preparePDFRisorseTotali(), nome);
+	}
+	private static JasperPrint preparePDFRisorseCommesse() {
+		JasperPrint jp = new JasperPrint();
+		try {
+			List<Map> resultSet = StatisticheService.prepareReportRisorseTotali();
+			VirtualFile vf1 = VirtualFile.fromRelativePath("reports/");
+			Map reportParams = new HashMap();
+			reportParams.put("subreport", StatisticheService.prepareReportSubreportRisorseTotali());
+			reportParams.put("SUBREPORT_DIR", vf1.getRealFile().getAbsolutePath());
+			VirtualFile vf = VirtualFile.fromRelativePath("reports/risorse.jasper");
+			jp = JasperFillManager.fillReport(vf.getRealFile().getAbsolutePath(), reportParams, new JRBeanCollectionDataSource(resultSet));
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+		return jp;
+	}
 	
 	/*RISORSE TOTALI*/
 	public static void showRisorseTotali() {
