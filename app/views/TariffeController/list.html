@@ -66,8 +66,8 @@
 						<td></td>
 						<!-- <td></td> -->
 					#{/else}
-					<td><a class='modalbox' href="@{TariffeController.showDeleteTariffaModalBox(tariffa.idTariffa)}" ><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 				#{/if}
+				<td><a class='modalbox' href="@{TariffeController.showDeleteTariffaModalBox(tariffa.idTariffa)}" ><img src="@{'/public/images/delete.gif'}" alt="elimina" /></a></td>
 			</tr>
 		#{/paginate.list} 
 	</table>
